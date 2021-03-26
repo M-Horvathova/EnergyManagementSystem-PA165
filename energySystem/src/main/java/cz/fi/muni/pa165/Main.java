@@ -12,7 +12,9 @@ import org.springframework.context.annotation.AnnotationConfigApplicationContext
 
 public class Main {
 
-    // Playground method for very basic testing if the database works
+
+    // Playgroung method for very basic testing if the database works
+
     public static void playground() {
         EntityManagerFactory emf = null;
         EntityManager em = null;
