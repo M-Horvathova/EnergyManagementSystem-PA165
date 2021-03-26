@@ -7,9 +7,11 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="EnergyManagementSystem-PA165" />
+        <module name="currency-convertor" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
+      <module name="currency-convertor" target="11" />
       <module name="EnergyManagementSystem-PA165" target="11" />
     </bytecodeTargetLevel>
   </component>
