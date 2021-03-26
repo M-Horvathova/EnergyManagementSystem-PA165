@@ -1,7 +1,7 @@
 package cz.fi.muni.pa165.dao;
 
-import cz.fi.muni.pa165.entity.MeterLog;
 import cz.fi.muni.pa165.enums.dayTime;
+import cz.fi.muni.pa165.entity.MeterLog;
 
 import java.time.LocalDate;
 import java.util.List;
