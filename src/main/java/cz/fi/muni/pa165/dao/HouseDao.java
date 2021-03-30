@@ -16,6 +16,12 @@ public interface HouseDao {
     void create(House house);
 
     /**
+     * Updates the house in db
+     * @param house the house, which should be updated
+     */
+    void update(House house);
+
+    /**
      * Finds the house by the given id
      * @param id the id of the house
      * @return house with given id
