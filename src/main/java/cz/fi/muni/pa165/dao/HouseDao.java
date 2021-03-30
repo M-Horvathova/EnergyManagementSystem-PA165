@@ -9,6 +9,7 @@ import java.util.List;
  * @author Patrik Valo
  */
 public interface HouseDao {
+
     /**
      * Saves the house into db
      * @param house the house, which should be saved

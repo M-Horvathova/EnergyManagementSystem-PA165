@@ -18,8 +18,18 @@ public class House {
     @ManyToOne
     private Address address;
 
+    public House() {}
+
+    public House(String name) {
+        this.name = name;
+    }
+
     public Long getId() {
         return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getName() {

@@ -9,16 +9,16 @@ import java.util.Set;
  * @author Patrik Valo
  */
 @Entity
-@IdClass(AddressId.class)
 public class Address {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    private Long id;
+
     private String streetName;
 
-    @Id
     private String city;
 
-    @Id
     private String country;
 
     @OneToMany(mappedBy = "address")
@@ -30,6 +30,14 @@ public class Address {
         this.streetName = streetName;
         this.city = city;
         this.country = country;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getStreetName() {
@@ -74,9 +82,7 @@ public class Address {
         if (getStreetName() != null ? !getStreetName().equals(address.getStreetName()) : address.getStreetName() != null)
             return false;
         if (getCity() != null ? !getCity().equals(address.getCity()) : address.getCity() != null) return false;
-        if (getCountry() != null ? !getCountry().equals(address.getCountry()) : address.getCountry() != null)
-            return false;
-        return getHouses() != null ? getHouses().equals(address.getHouses()) : address.getHouses() == null;
+        return getCountry() != null ? getCountry().equals(address.getCountry()) : address.getCountry() == null;
     }
 
     @Override
@@ -84,7 +90,6 @@ public class Address {
         int result = getStreetName() != null ? getStreetName().hashCode() : 0;
         result = 31 * result + (getCity() != null ? getCity().hashCode() : 0);
         result = 31 * result + (getCountry() != null ? getCountry().hashCode() : 0);
-        result = 31 * result + (getHouses() != null ? getHouses().hashCode() : 0);
         return result;
     }
 }
