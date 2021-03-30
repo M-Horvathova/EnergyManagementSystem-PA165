@@ -36,17 +36,13 @@ public class Main {
             ml.setLogTime(LocalTime.of(15, 30));
             ml.setMeasure(123L);
             em.persist(ml);
-
             em.getTransaction().commit();
 
             em.getTransaction().begin();
-
-
             List<MeterLog> logs = em.createQuery(
                     "select l from MeterLog l order by l.logDate",
                     MeterLog.class).getResultList();
             System.out.println(logs.get(0).getLogDate());
-
 
             em.getTransaction().commit();
 
@@ -58,8 +54,6 @@ public class Main {
     }
 
     public static void main(String[] args) {
-
         playground();
-        System.out.println("Hello World");
     }
 }

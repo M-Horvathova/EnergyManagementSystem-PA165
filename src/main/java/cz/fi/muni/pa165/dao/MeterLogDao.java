@@ -4,7 +4,6 @@ import cz.fi.muni.pa165.enums.DayTime;
 import cz.fi.muni.pa165.entity.MeterLog;
 
 import java.time.LocalDate;
-import java.time.LocalTime;
 import java.util.List;
 
 
@@ -39,7 +38,7 @@ public interface MeterLogDao {
      * @param time New time to be saved
      * @param value New measurement value to be saved
      */
-    public void update(MeterLog ml, LocalDate date, LocalTime time, Long value);
+    public void update(MeterLog ml);
 
     /**
      *

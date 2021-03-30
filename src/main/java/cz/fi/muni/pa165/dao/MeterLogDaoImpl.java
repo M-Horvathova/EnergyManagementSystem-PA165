@@ -8,7 +8,6 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
 import java.time.LocalDate;
-import java.time.LocalTime;
 import java.util.List;
 
 /**
@@ -16,7 +15,7 @@ import java.util.List;
  */
 @Repository
 @Transactional
-public class MeterLogDaoImpl implements MeterLogDao{
+public class MeterLogDaoImpl implements MeterLogDao {
 
     @PersistenceContext
     private EntityManager em;
@@ -40,13 +39,9 @@ public class MeterLogDaoImpl implements MeterLogDao{
     }
 
     @Override
-    public void update(MeterLog ml, LocalDate date, LocalTime time, Long value) {
-        ml = em.find(MeterLog.class, ml.getId());
-        ml.setLogDate(date);
-        ml.setLogTime(time);
-        ml.setMeasure(value);
-        ml = em.merge(ml);
-        em.persist(ml);
+    public void update(MeterLog ml) {
+        em.merge(ml);
+
     }
 
 
@@ -57,7 +52,6 @@ public class MeterLogDaoImpl implements MeterLogDao{
     public List<MeterLog> findAll() {
         return null;
     }
-
 
 
     /*

@@ -1,10 +1,11 @@
 package cz.fi.muni.pa165.entity;
 
+import cz.fi.muni.pa165.enums.DayTime;
+
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.Objects;
-import cz.fi.muni.pa165.enums.DayTime;
 
 /**
  * @author Michaela Horváthová

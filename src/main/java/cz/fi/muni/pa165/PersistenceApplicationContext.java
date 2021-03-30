@@ -24,7 +24,7 @@ import javax.sql.DataSource;
 @Configuration
 @EnableTransactionManagement
 @EnableJpaRepositories
-@ComponentScan(basePackageClasses = {MeterLogDaoImpl.class}, basePackages = "cz.fi.muni.pa165")
+@ComponentScan(basePackageClasses = {MeterLogDao.class}, basePackages = "cz.fi.muni.pa165")
 public class PersistenceApplicationContext {
 
     /**
