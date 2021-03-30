@@ -20,8 +20,8 @@ public class HouseDaoImpl implements HouseDao {
     }
 
     @Override
-    public void update(House house) {
-        em.merge(house);
+    public House update(House house) {
+        return em.merge(house);
     }
 
     @Override
