@@ -2,6 +2,9 @@ package cz.fi.muni.pa165.entity;
 
 import java.io.Serializable;
 
+/**
+ * @author Patrik Valo
+ */
 public class AddressId implements Serializable {
 
     private String streetName;
