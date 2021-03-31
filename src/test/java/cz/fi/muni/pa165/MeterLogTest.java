@@ -17,6 +17,9 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
 
+/**
+ * @author Patrik Valo
+ */
 @ContextConfiguration(classes = PersistenceApplicationContext.class)
 public class MeterLogTest extends AbstractTestNGSpringContextTests {
 
