@@ -39,6 +39,7 @@ public class MeterLogDaoImpl implements MeterLogDao {
 
     @Override
     public void delete(MeterLog ml) {
+        ml = em.merge(ml);
         em.remove(ml);
     }
 
