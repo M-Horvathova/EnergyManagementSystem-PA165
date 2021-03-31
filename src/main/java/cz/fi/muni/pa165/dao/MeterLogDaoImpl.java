@@ -20,12 +20,16 @@ public class MeterLogDaoImpl implements MeterLogDao {
     @PersistenceContext
     private EntityManager em;
 
-    /*
-    Will be implemented in later milestone
-     */
+    @Override
+    public MeterLog findMeterLog(MeterLog ml) {
+        MeterLog found = em.find(MeterLog.class, ml.getId());
+        return found;
+    }
+
     @Override
     public MeterLog findById(Long id) {
-        return null;
+        MeterLog found = em.find(MeterLog.class, id);
+        return found;
     }
 
     @Override
@@ -44,15 +48,11 @@ public class MeterLogDaoImpl implements MeterLogDao {
 
     }
 
-
-    /*
-    Will be implemented in later milestone
-     */
     @Override
     public List<MeterLog> findAll() {
-        return null;
+        List<MeterLog> resultList = em.createQuery("select m from MeterLog m", MeterLog.class).getResultList();
+        return resultList;
     }
-
 
     /*
     Will be implemented in later milestone

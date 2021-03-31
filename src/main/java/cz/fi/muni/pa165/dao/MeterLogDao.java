@@ -12,6 +12,14 @@ import java.util.List;
  */
 public interface MeterLogDao {
     /**
+     * Finds the given object in the database
+     * @param ml MeterLog object to find in database
+     * @return MeterLog object found in the database
+     */
+    public MeterLog findMeterLog(MeterLog ml);
+
+
+    /**
      * Finds a MeterLog object that is connected to
      * @param id The id that should belong to the searched object
      * @return MeterLog object with the provided id or null
@@ -32,11 +40,8 @@ public interface MeterLogDao {
     public void delete(MeterLog ml) throws IllegalArgumentException;
 
     /**
-     *
+     * Updates the database entry of the given parameter
      * @param ml MeterLog to be updated
-     * @param date New date to be saved
-     * @param time New time to be saved
-     * @param value New measurement value to be saved
      */
     public void update(MeterLog ml);
 
