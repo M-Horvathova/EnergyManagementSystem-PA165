@@ -42,7 +42,7 @@ public class MeterLog {
     public MeterLog() {
     }
 
-    public MeterLog(Long id, LocalDate logDate, LocalTime logTime, Long measure) throws IllegalArgumentException{
+    public MeterLog(Long id, LocalDate logDate, LocalTime logTime, Long measure) {
         this.id = id;
         if (logDate.isAfter(LocalDate.now())) {
             throw new IllegalArgumentException("Future date is not allowed");
@@ -64,7 +64,7 @@ public class MeterLog {
         return logDate;
     }
 
-    public void setLogDate(LocalDate logDate) throws IllegalArgumentException{
+    public void setLogDate(LocalDate logDate) {
         if (logDate.isAfter(LocalDate.now())) {
             throw new IllegalArgumentException("Future date is not allowed");
         }
