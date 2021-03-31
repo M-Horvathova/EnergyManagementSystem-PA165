@@ -1,7 +1,7 @@
 package cz.fi.muni.pa165.dao;
 
 import cz.fi.muni.pa165.entity.MeterLog;
-import cz.fi.muni.pa165.enums.dayTime;
+import cz.fi.muni.pa165.enums.DayTime;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
@@ -53,7 +53,7 @@ public class MeterLogDaoImpl implements MeterLogDao{
         Will be implemented in later milestone
     */
     @Override
-    public List<MeterLog> findByTimeOfDay(LocalDate date, dayTime dayTime) {
+    public List<MeterLog> findByTimeOfDay(LocalDate date, DayTime dayTime) {
         return null;
     }
 }

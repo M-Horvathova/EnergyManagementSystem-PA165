@@ -5,9 +5,12 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.function.Consumer;
 
+import cz.fi.muni.pa165.dao.PortalUserDao;
 import cz.fi.muni.pa165.entity.MeterLog;
 
+import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 public class Main {
@@ -51,4 +54,19 @@ public class Main {
         playground();
         System.out.println("Hello World");
     }
+
+//    private void static initDBWithUsers() {
+//    }
+//
+//    private static void runInTransaction(Consumer<EntityManager> consumer) {
+//        EntityManagerFactory emf = Persistence.createEntityManagerFactory("default");
+//        EntityManager em = emf.createEntityManager();
+//        try {
+//            em.getTransaction().begin();
+//            consumer.accept(em);
+//            em.getTransaction().commit();
+//        } finally {
+//            em.close();
+//        }
+//    }
 }
