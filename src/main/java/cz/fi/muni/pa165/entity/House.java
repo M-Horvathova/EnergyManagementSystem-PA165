@@ -5,24 +5,18 @@ import javax.persistence.*;
 /**
  * @author Patrik Valo
  */
-
 @Entity
 public class House {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(nullable = false)
     private String name;
 
     @ManyToOne
     private Address address;
-
-    public House() {}
-
-    public House(String name) {
-        this.name = name;
-    }
 
     public Long getId() {
         return id;
@@ -56,14 +50,14 @@ public class House {
 
         House house = (House) o;
 
-        if (getName() != null ? !getName().equals(house.getName()) : house.getName() != null) return false;
-        return getAddress() != null ? getAddress().equals(house.getAddress()) : house.getAddress() == null;
+        if (!getName().equals(house.getName())) return false;
+        return getAddress().equals(house.getAddress());
     }
 
     @Override
     public int hashCode() {
-        int result = getName() != null ? getName().hashCode() : 0;
-        result = 31 * result + (getAddress() != null ? getAddress().hashCode() : 0);
+        int result = getName().hashCode();
+        result = 31 * result + getAddress().hashCode();
         return result;
     }
 }

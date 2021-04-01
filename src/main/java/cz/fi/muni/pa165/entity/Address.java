@@ -12,25 +12,20 @@ import java.util.Set;
 public class Address {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(nullable = false)
     private String streetName;
 
+    @Column(nullable = false)
     private String city;
 
+    @Column(nullable = false)
     private String country;
 
     @OneToMany(mappedBy = "address")
     private Set<House> houses = new HashSet<>();
-
-    public Address() {}
-
-    public Address(String streetName, String city, String country) {
-        this.streetName = streetName;
-        this.city = city;
-        this.country = country;
-    }
 
     public Long getId() {
         return id;
@@ -79,17 +74,16 @@ public class Address {
 
         Address address = (Address) o;
 
-        if (getStreetName() != null ? !getStreetName().equals(address.getStreetName()) : address.getStreetName() != null)
-            return false;
-        if (getCity() != null ? !getCity().equals(address.getCity()) : address.getCity() != null) return false;
-        return getCountry() != null ? getCountry().equals(address.getCountry()) : address.getCountry() == null;
+        if (!getStreetName().equals(address.getStreetName())) return false;
+        if (!getCity().equals(address.getCity())) return false;
+        return getCountry().equals(address.getCountry());
     }
 
     @Override
     public int hashCode() {
-        int result = getStreetName() != null ? getStreetName().hashCode() : 0;
-        result = 31 * result + (getCity() != null ? getCity().hashCode() : 0);
-        result = 31 * result + (getCountry() != null ? getCountry().hashCode() : 0);
+        int result = getStreetName().hashCode();
+        result = 31 * result + getCity().hashCode();
+        result = 31 * result + getCountry().hashCode();
         return result;
     }
 }
