@@ -8,6 +8,7 @@ import java.util.List;
 
 
 /**
+ * DAO for the Meter Log object
  * @author Michaela Horváthová
  */
 public interface MeterLogDao {
@@ -46,20 +47,20 @@ public interface MeterLogDao {
     public void update(MeterLog ml);
 
     /**
-     *
+     * Finds all records of the MeterLogs in the database and returns them
      * @return List of all MeterLogs stored
      */
     public List<MeterLog> findAll();
 
     /**
-     *
+     * Finds all MeterLog records that have the given date
      * @param date Date in the LocalDate format, at which the measurements were to be done
      * @return List of MeterLogs taken on a given date
      */
     public List<MeterLog> findByDate(LocalDate date);
 
     /**
-     *
+     *  Finds all MeterLogs that have the given date and were also taken within the given time of day
      * @param date Date in LocalDate format when the measurement was done
      * @param dayTime Time of the day, given as enumerated form, in which the measurement was done
      * @return List of MeterLogs of measurements taken on given day within given time of day
