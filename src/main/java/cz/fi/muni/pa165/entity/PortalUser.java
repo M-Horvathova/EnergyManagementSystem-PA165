@@ -8,6 +8,8 @@ import javax.validation.constraints.Pattern;
 import java.time.LocalDateTime;
 
 /**
+ * Class representing user entity in our portal
+ *
  * @author Martin Podhora
  */
 @Entity
@@ -37,7 +39,6 @@ public class PortalUser {
     private UserRole userRole;
 
     @NotNull
-    @Temporal(TemporalType.TIMESTAMP)
     private LocalDateTime createdTimestamp;
 
     public long getId() {
@@ -66,7 +67,7 @@ public class PortalUser {
     }
 
 
-    public void setGivenName(String firstName) {
+    public void setFirstName(String firstName) {
         this.firstName = firstName;
     }
 
@@ -76,7 +77,7 @@ public class PortalUser {
     }
 
 
-    public void setSurname(String surname) {
+    public void setLastName(String surname) {
         this.lastName = lastName;
     }
 
@@ -93,7 +94,7 @@ public class PortalUser {
         return createdTimestamp;
     }
 
-    public void setJoinedDate(LocalDateTime createdTimestamp) {
+    public void setCreatedTimestamp(LocalDateTime createdTimestamp) {
         this.createdTimestamp = createdTimestamp;
     }
 
@@ -123,17 +124,17 @@ public class PortalUser {
             return false;
         }
 
-        if (getClass() != obj.getClass()) {
+        if (!(obj instanceof PortalUser)) {
             return false;
         }
 
         PortalUser other = (PortalUser) obj;
         if (email == null) {
-            if (other.email != null) {
+            if (other.getEmail() != null) {
                 return false;
             }
         }
-        else if (!email.equals(other.email)) {
+        else if (!email.equals(other.getEmail())) {
             return false;
         }
 

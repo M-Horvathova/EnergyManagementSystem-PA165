@@ -8,14 +8,18 @@ import java.util.List;
 import java.util.function.Consumer;
 
 import cz.fi.muni.pa165.dao.PortalUserDao;
+import cz.fi.muni.pa165.dao.PortalUserDaoImpl;
 import cz.fi.muni.pa165.entity.MeterLog;
 
+import cz.fi.muni.pa165.entity.PortalUser;
+import cz.fi.muni.pa165.entity.generators.PortalUserGenerator;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import org.springframework.context.support.GenericApplicationContext;
+import org.springframework.data.repository.support.Repositories;
 
 public class Main {
-
-
     // Playgroung method for very basic testing if the database works
 
     public static void playground() {
@@ -55,18 +59,14 @@ public class Main {
         System.out.println("Hello World");
     }
 
-//    private void static initDBWithUsers() {
-//    }
+//    private static void initDBWithUsers() {
+//        PortalUserDao portalUserDao = new PortalUserDaoImpl();
+//        PortalUser pu1 = PortalUserGenerator.generateNewUser();
+//        PortalUser pu2 = PortalUserGenerator.generateNewUser();
 //
-//    private static void runInTransaction(Consumer<EntityManager> consumer) {
-//        EntityManagerFactory emf = Persistence.createEntityManagerFactory("default");
-//        EntityManager em = emf.createEntityManager();
-//        try {
-//            em.getTransaction().begin();
-//            consumer.accept(em);
-//            em.getTransaction().commit();
-//        } finally {
-//            em.close();
-//        }
+//        portalUserDao.create(pu1);
+//        portalUserDao.create(pu2);
+//        List<PortalUser> puList = portalUserDao.findAll();
+//        PortalUser pu1Retrieved = portalUserDao.findByUserName(pu1.getEmail());
 //    }
 }
