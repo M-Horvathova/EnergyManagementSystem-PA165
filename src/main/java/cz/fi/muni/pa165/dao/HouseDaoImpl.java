@@ -8,6 +8,9 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import java.util.List;
 
+/**
+ * @author Patrik Valo
+ */
 @Repository
 public class HouseDaoImpl implements HouseDao {
 
@@ -50,6 +53,7 @@ public class HouseDaoImpl implements HouseDao {
 
     @Override
     public void delete(House house) {
+        house = em.merge(house);
         em.remove(house);
     }
 }
