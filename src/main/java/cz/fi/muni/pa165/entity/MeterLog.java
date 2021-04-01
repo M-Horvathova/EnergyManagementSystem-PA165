@@ -1,7 +1,10 @@
 package cz.fi.muni.pa165.entity;
 
+import cz.fi.muni.pa165.enums.DayTime;
+
 import javax.persistence.*;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.Objects;
 
 /**
@@ -15,14 +18,20 @@ import java.util.Objects;
 public class MeterLog {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     /*
-        Date and time when the measurement was taken
+        Date when the measurement was taken
      */
     @Column(nullable = false)
-    private LocalDateTime logDate;
+    private LocalDate logDate;
+
+    /*
+        Time when the measurement was taken
+     */
+    @Column(nullable = false)
+    private LocalTime logTime;
 
     /*
         Measured value
@@ -33,9 +42,13 @@ public class MeterLog {
     public MeterLog() {
     }
 
-    public MeterLog(Long id, LocalDateTime logDate, Long measure) {
+    public MeterLog(Long id, LocalDate logDate, LocalTime logTime, Long measure) {
         this.id = id;
+        if (logDate.isAfter(LocalDate.now())) {
+            throw new IllegalArgumentException("Future date is not allowed");
+        }
         this.logDate = logDate;
+        this.logTime = logTime;
         this.measure = measure;
     }
 
@@ -47,11 +60,14 @@ public class MeterLog {
         this.id = id;
     }
 
-    public LocalDateTime getLogDate() {
+    public LocalDate getLogDate() {
         return logDate;
     }
 
-    public void setLogDate(LocalDateTime logDate) {
+    public void setLogDate(LocalDate logDate) {
+        if (logDate.isAfter(LocalDate.now())) {
+            throw new IllegalArgumentException("Future date is not allowed");
+        }
         this.logDate = logDate;
     }
 
@@ -61,6 +77,10 @@ public class MeterLog {
 
     public void setMeasure(Long measure) {
         this.measure = measure;
+    }
+
+    public boolean isWithinDayTime(DayTime dayTime) {
+        return !this.logTime.isAfter(dayTime.getEnd()) && !this.logTime.isBefore(dayTime.getStart());
     }
 
     @Override
@@ -74,5 +94,13 @@ public class MeterLog {
     @Override
     public int hashCode() {
         return Objects.hash(getLogDate(), getMeasure());
+    }
+
+    public LocalTime getLogTime() {
+        return logTime;
+    }
+
+    public void setLogTime(LocalTime logTime) {
+        this.logTime = logTime;
     }
 }

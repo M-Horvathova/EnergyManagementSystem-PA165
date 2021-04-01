@@ -1,11 +1,12 @@
 package cz.fi.muni.pa165.dao;
 
 import cz.fi.muni.pa165.entity.MeterLog;
-import cz.fi.muni.pa165.enums.dayTime;
+import cz.fi.muni.pa165.enums.DayTime;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.transaction.Transactional;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -13,32 +14,45 @@ import java.util.List;
  * @author Michaela Horváthová
  */
 @Repository
-public class MeterLogDaoImpl implements MeterLogDao{
+@Transactional
+public class MeterLogDaoImpl implements MeterLogDao {
 
     @PersistenceContext
     private EntityManager em;
 
     @Override
+    public MeterLog findMeterLog(MeterLog ml) {
+        MeterLog found = em.find(MeterLog.class, ml.getId());
+        return found;
+    }
+
+    @Override
     public MeterLog findById(Long id) {
-        return null;
+        MeterLog found = em.find(MeterLog.class, id);
+        return found;
     }
 
     @Override
     public void create(MeterLog ml) {
-    em.persist(ml);
+        em.persist(ml);
     }
 
     @Override
     public void delete(MeterLog ml) {
-    em.remove(ml);
+        ml = em.merge(ml);
+        em.remove(ml);
     }
 
-    /*
-    Will be implemented in later milestone
-     */
+    @Override
+    public void update(MeterLog ml) {
+        em.merge(ml);
+
+    }
+
     @Override
     public List<MeterLog> findAll() {
-        return null;
+        List<MeterLog> resultList = em.createQuery("select m from MeterLog m", MeterLog.class).getResultList();
+        return resultList;
     }
 
     /*
@@ -53,7 +67,7 @@ public class MeterLogDaoImpl implements MeterLogDao{
         Will be implemented in later milestone
     */
     @Override
-    public List<MeterLog> findByTimeOfDay(LocalDate date, dayTime dayTime) {
+    public List<MeterLog> findByTimeOfDay(LocalDate date, DayTime dayTime) {
         return null;
     }
 }
