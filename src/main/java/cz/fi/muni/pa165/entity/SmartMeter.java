@@ -26,7 +26,7 @@ public class SmartMeter {
     private double cumulativePowerConsumption;
 
     @Column(nullable = true)
-    @Temporal(TemporalType.TIMESTAMP)
+    //@Temporal(TemporalType.TIMESTAMP)
     private LocalDateTime lastLogTakenAt;
 
     public SmartMeter() {
