@@ -1,9 +1,6 @@
 package cz.fi.muni.pa165.entity;
 
 import javax.persistence.*;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.Set;
 
 /**
  * @author Patrik Valo
@@ -23,9 +20,6 @@ public class Address {
 
     @Column(nullable = false)
     private String country;
-
-    @OneToMany(mappedBy = "address")
-    private Set<House> houses = new HashSet<>();
 
     public Long getId() {
         return id;
@@ -57,14 +51,6 @@ public class Address {
 
     public void setCountry(String country) {
         this.country = country;
-    }
-
-    public Set<House> getHouses() {
-        return Collections.unmodifiableSet(houses);
-    }
-
-    public void addHouse(House house) {
-        houses.add(house);
     }
 
     @Override
