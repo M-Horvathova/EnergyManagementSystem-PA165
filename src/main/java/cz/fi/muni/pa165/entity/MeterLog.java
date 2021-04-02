@@ -39,11 +39,16 @@ public class MeterLog {
     @Column(nullable = false)
     private Long measure;
 
+    @ManyToOne
+    private SmartMeter smartMeter;
+
+
     public MeterLog() {
     }
 
-    public MeterLog(Long id, LocalDate logDate, LocalTime logTime, Long measure) {
+    public MeterLog(Long id, LocalDate logDate, LocalTime logTime, Long measure, SmartMeter smartMeter) {
         this.id = id;
+        this.smartMeter = smartMeter;
         if (logDate.isAfter(LocalDate.now())) {
             throw new IllegalArgumentException("Future date is not allowed");
         }
@@ -79,9 +84,19 @@ public class MeterLog {
         this.measure = measure;
     }
 
+    public SmartMeter getSmartMeter() {
+        return smartMeter;
+    }
+
+    public void setSmartMeter(SmartMeter smartMeter) {
+        this.smartMeter = smartMeter;
+    }
+
     public boolean isWithinDayTime(DayTime dayTime) {
         return !this.logTime.isAfter(dayTime.getEnd()) && !this.logTime.isBefore(dayTime.getStart());
     }
+
+
 
     @Override
     public boolean equals(Object o) {
