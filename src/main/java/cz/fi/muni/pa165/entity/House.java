@@ -1,6 +1,7 @@
 package cz.fi.muni.pa165.entity;
 
 import javax.persistence.*;
+import java.util.Set;
 
 /**
  * @author Patrik Valo
@@ -15,8 +16,14 @@ public class House {
     @Column(nullable = false)
     private String name;
 
-    @ManyToOne
+    @Column(nullable = false)
+    private Boolean isRunning;
+
+    @OneToOne
     private Address address;
+
+    @OneToMany
+    private Set<SmartMeter> smartMeters;
 
     public Long getId() {
         return id;
@@ -30,6 +37,14 @@ public class House {
         return name;
     }
 
+    public Boolean getRunning() {
+        return isRunning;
+    }
+
+    public void setRunning(Boolean running) {
+        isRunning = running;
+    }
+
     public void setName(String name) {
         this.name = name;
     }
@@ -40,7 +55,18 @@ public class House {
 
     public void setAddress(Address address) {
         this.address = address;
-        address.addHouse(this);
+    }
+
+    public Set<SmartMeter> getSmartMeters() {
+        return smartMeters;
+    }
+
+    public void addSmartMeter(SmartMeter smartMeter) {
+        smartMeters.add(smartMeter);
+    }
+
+    public void removeSmartMeter(SmartMeter smartMeter) {
+        smartMeters.remove(smartMeter);
     }
 
     @Override
@@ -51,12 +77,14 @@ public class House {
         House house = (House) o;
 
         if (!getName().equals(house.getName())) return false;
+        if (!isRunning.equals(house.isRunning)) return false;
         return getAddress().equals(house.getAddress());
     }
 
     @Override
     public int hashCode() {
         int result = getName().hashCode();
+        result = 31 * result + isRunning.hashCode();
         result = 31 * result + getAddress().hashCode();
         return result;
     }
