@@ -19,7 +19,7 @@ public class House {
     @Column(nullable = false)
     private Boolean isRunning;
 
-    @OneToOne
+    @ManyToOne
     private Address address;
 
     @OneToMany
