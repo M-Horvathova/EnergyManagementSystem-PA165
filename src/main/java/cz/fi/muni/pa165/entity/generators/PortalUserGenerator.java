@@ -80,7 +80,7 @@ public class PortalUserGenerator {
         Random rng = new Random(SEED);
         PortalUser pu = new PortalUser();
         pu.setFirstName(getRandomFirstName(rng));
-        pu.setLastName(getRandomLastName((rng)));
+        pu.setLastName(getRandomLastName(rng));
         pu.setEmail(getRandomEmail(pu.getFirstName(), pu.getLastName(), rng));
         pu.setPasswordHash(getRandomPassword(rng));
         pu.setPhone(getRandomPhone(rng));

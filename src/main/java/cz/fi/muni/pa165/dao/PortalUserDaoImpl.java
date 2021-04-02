@@ -5,12 +5,14 @@ import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.transaction.Transactional;
 import java.util.List;
 
 /**
  * @author Martin Podhora
  */
 @Repository
+@Transactional
 public class PortalUserDaoImpl implements PortalUserDao {
     @PersistenceContext
     private EntityManager em;
@@ -44,6 +46,7 @@ public class PortalUserDaoImpl implements PortalUserDao {
 
     @Override
     public void delete(PortalUser portalUser) {
+        portalUser = em.merge(portalUser);
         em.remove(portalUser);
     }
 }

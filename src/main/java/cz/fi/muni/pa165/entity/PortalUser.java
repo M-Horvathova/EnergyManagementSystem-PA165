@@ -18,27 +18,27 @@ public class PortalUser {
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     private long id;
 
-    @NotNull
+    @Column(nullable=false)
     private String passwordHash;
 
     @Column(nullable=false,unique=true)
     @Pattern(regexp=".+@.+\\....?")
-    @NotNull
     private String email;
 
-    @NotNull
+    @Column(nullable=false)
     private String firstName;
 
-    @NotNull
+    @Column(nullable=false)
     private String lastName;
 
     @Pattern(regexp="\\+?\\d+")
+    @Column(nullable=false)
     private String phone;
 
-    @NotNull
+    @Column(nullable=false)
     private UserRole userRole;
 
-    @NotNull
+    @Column(nullable=false)
     private LocalDateTime createdTimestamp;
 
     public long getId() {
@@ -77,7 +77,7 @@ public class PortalUser {
     }
 
 
-    public void setLastName(String surname) {
+    public void setLastName(String lastName) {
         this.lastName = lastName;
     }
 
