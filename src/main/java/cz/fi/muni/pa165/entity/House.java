@@ -1,6 +1,7 @@
 package cz.fi.muni.pa165.entity;
 
 import javax.persistence.*;
+import java.util.HashSet;
 import java.util.Set;
 
 /**
@@ -19,11 +20,11 @@ public class House {
     @Column(nullable = false)
     private Boolean isRunning;
 
-    @ManyToOne
+    @ManyToOne(optional = false)
     private Address address;
 
-    @OneToMany
-    private Set<SmartMeter> smartMeters;
+    @OneToMany(mappedBy = "house")
+    private Set<SmartMeter> smartMeters = new HashSet<>();
 
     public Long getId() {
         return id;
@@ -61,12 +62,13 @@ public class House {
         return smartMeters;
     }
 
-    public void addSmartMeter(SmartMeter smartMeter) {
-        smartMeters.add(smartMeter);
+    public void setSmartMeters(Set<SmartMeter> smartMeters) {
+        this.smartMeters = smartMeters;
     }
 
-    public void removeSmartMeter(SmartMeter smartMeter) {
-        smartMeters.remove(smartMeter);
+    public void addSmartMeter(SmartMeter smartMeter) {
+        smartMeters.add(smartMeter);
+        smartMeter.setHouse(this);
     }
 
     @Override

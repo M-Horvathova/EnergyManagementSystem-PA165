@@ -29,6 +29,9 @@ public class SmartMeter {
     //@Temporal(TemporalType.TIMESTAMP)
     private LocalDateTime lastLogTakenAt;
 
+    @ManyToOne
+    private House house;
+
     public SmartMeter() {
     }
 
@@ -74,6 +77,14 @@ public class SmartMeter {
 
     public Set<MeterLog> getMeterLogs() {
         return meterLogs;
+    }
+
+    public House getHouse() {
+        return house;
+    }
+
+    public void setHouse(House house) {
+        this.house = house;
     }
 
     @Override
