@@ -42,7 +42,7 @@ public class HouseTest extends AbstractTestNGSpringContextTests {
     @Test
     public void basicCreateTest() {
         Address address = new Address();
-        address.setStreetName("Botanická");
+        address.setStreet("Botanická");
         address.setCity("Brno");
         address.setCountry("Czech Republic");
     }

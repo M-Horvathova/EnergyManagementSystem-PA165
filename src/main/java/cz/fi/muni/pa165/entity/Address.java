@@ -12,11 +12,15 @@ public class Address {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
-    private String streetName;
+    private String street;
+
+    private String code;
 
     @Column(nullable = false)
     private String city;
+
+    @Column(nullable = false)
+    private String postCode;
 
     @Column(nullable = false)
     private String country;
@@ -29,12 +33,20 @@ public class Address {
         this.id = id;
     }
 
-    public String getStreetName() {
-        return streetName;
+    public String getStreet() {
+        return street;
     }
 
-    public void setStreetName(String streetName) {
-        this.streetName = streetName;
+    public void setStreet(String streetName) {
+        this.street = streetName;
+    }
+
+    public String getCode() {
+        return code;
+    }
+
+    public void setCode(String code) {
+        this.code = code;
     }
 
     public String getCity() {
@@ -43,6 +55,14 @@ public class Address {
 
     public void setCity(String city) {
         this.city = city;
+    }
+
+    public String getPostCode() {
+        return postCode;
+    }
+
+    public void setPostCode(String postCode) {
+        this.postCode = postCode;
     }
 
     public String getCountry() {
@@ -60,15 +80,19 @@ public class Address {
 
         Address address = (Address) o;
 
-        if (!getStreetName().equals(address.getStreetName())) return false;
+        if (getStreet() != null ? !getStreet().equals(address.getStreet()) : address.getStreet() != null) return false;
+        if (getCode() != null ? !getCode().equals(address.getCode()) : address.getCode() != null) return false;
         if (!getCity().equals(address.getCity())) return false;
+        if (!getPostCode().equals(address.getPostCode())) return false;
         return getCountry().equals(address.getCountry());
     }
 
     @Override
     public int hashCode() {
-        int result = getStreetName().hashCode();
+        int result = getStreet() != null ? getStreet().hashCode() : 0;
+        result = 31 * result + (getCode() != null ? getCode().hashCode() : 0);
         result = 31 * result + getCity().hashCode();
+        result = 31 * result + getPostCode().hashCode();
         result = 31 * result + getCountry().hashCode();
         return result;
     }
