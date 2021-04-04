@@ -48,7 +48,9 @@ public class SmartMeterTest extends AbstractTestNGSpringContextTests {
         a1 = new Address();
         a1.setCity("ABC");
         a1.setCountry("DEF");
-        a1.setStreetName("GHI");
+        a1.setStreet("GHI");
+        a1.setCode("ABC");
+        a1.setPostCode("ABC");
 
         h1 = new House();
         h1.setAddress(a1);
