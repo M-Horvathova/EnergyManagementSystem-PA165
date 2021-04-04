@@ -50,10 +50,14 @@ public class MeterLog {
     @PrePersist
     protected void onCreate() {
         this.createStamp=LocalDateTime.now();
-        this.logDate = LocalDate.of(this.createStamp.getYear(),
-                this.createStamp.getMonth(), this.createStamp.getDayOfMonth());
-        this.logTime = LocalTime.of(this.createStamp.getHour(),
-                this.createStamp.getMinute(), this.createStamp.getSecond());
+        if (this.logDate == null) {
+            this.logDate = LocalDate.of(this.createStamp.getYear(),
+                    this.createStamp.getMonth(), this.createStamp.getDayOfMonth());
+        }
+        if (this.logTime == null) {
+            this.logTime = LocalTime.of(this.createStamp.getHour(),
+                    this.createStamp.getMinute(), this.createStamp.getSecond());
+        }
     }
 
     public MeterLog() {
