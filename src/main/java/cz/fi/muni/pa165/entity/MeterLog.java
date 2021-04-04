@@ -49,7 +49,9 @@ public class MeterLog {
 
     @PrePersist
     protected void onCreate() {
-        this.createStamp=LocalDateTime.now();
+        if (this.createStamp == null) {
+            this.createStamp=LocalDateTime.now();
+        }
         if (this.logDate == null) {
             this.logDate = LocalDate.of(this.createStamp.getYear(),
                     this.createStamp.getMonth(), this.createStamp.getDayOfMonth());

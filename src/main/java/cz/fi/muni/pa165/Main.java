@@ -4,6 +4,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.List;
 
@@ -43,6 +44,30 @@ public class Main {
             System.out.println(logs.get(0).getLogTime());
 
             em.getTransaction().commit();
+
+            ml.setMeasure(1L);
+
+            em.getTransaction().begin();
+            System.out.println(ml.getCreateStamp());
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            ml = em.merge(ml);
+
+            System.out.println(ml.getCreateStamp());
+            System.out.println(LocalDateTime.now());
+            em.getTransaction().commit();
+
+            em.getTransaction().begin();
+            List<MeterLog> logs2 = em.createQuery(
+                    "select l from MeterLog l order by l.logDate",
+                    MeterLog.class).getResultList();
+            System.out.println(logs2.get(0).getCreateStamp());
+
+            em.getTransaction().commit();
+
 
         } finally {
             if (em != null) {
