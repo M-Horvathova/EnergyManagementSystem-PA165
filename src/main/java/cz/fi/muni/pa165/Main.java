@@ -30,8 +30,6 @@ public class Main {
         try {
             em.getTransaction().begin();
             MeterLog ml = new MeterLog();
-            ml.setLogDate(LocalDate.of(2021, 1, 23));
-            ml.setLogTime(LocalTime.of(15, 30));
             ml.setMeasure(123L);
             em.persist(ml);
             em.getTransaction().commit();
@@ -40,7 +38,9 @@ public class Main {
             List<MeterLog> logs = em.createQuery(
                     "select l from MeterLog l order by l.logDate",
                     MeterLog.class).getResultList();
+            System.out.println(logs.get(0).getCreateStamp());
             System.out.println(logs.get(0).getLogDate());
+            System.out.println(logs.get(0).getLogTime());
 
             em.getTransaction().commit();
 

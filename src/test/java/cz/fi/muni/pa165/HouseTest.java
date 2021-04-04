@@ -16,6 +16,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.PersistenceContext;
 import javax.persistence.PersistenceUnit;
+import java.time.LocalDateTime;
 import java.util.List;
 
 /**
@@ -94,6 +95,36 @@ public class HouseTest extends AbstractTestNGSpringContextTests {
     }
 
     @Test
+    public void updateWithSmartMeter() {
+        Address address = createValidAddress("Brno");
+        SmartMeter smartMeter = createValidSmartMeter();
+        House house = new House();
+        house.setAddress(address);
+        house.setName("Test house");
+        house.setRunning(true);
+        house.addSmartMeter(smartMeter);
+        houseDao.create(house);
+        updateSmartMeter(smartMeter);
+
+
+        smartMeter.setPowerConsumptionSinceLastLog(3D);
+        houseDao.update(house);
+        updateSmartMeter(smartMeter);
+
+        List<House> resultUpdate = emPers.createQuery("select h from House h left join fetch h.smartMeters where h.id=:id",
+                House.class).setParameter("id", house.getId()).getResultList();
+
+        Assert.assertNotNull(resultUpdate);
+        Assert.assertEquals(resultUpdate.size(), 1);
+        House resultHouse = resultUpdate.get(0);
+
+        Assert.assertNotNull(resultHouse);
+        Assert.assertNotNull(resultHouse.getSmartMeters());
+        Assert.assertEquals(resultHouse.getSmartMeters().size(), 1);
+        Assert.assertTrue(resultHouse.getSmartMeters().contains(smartMeter));
+    }
+
+    @Test
     public void updateHouseName() {
         Address address = createValidAddress("Brno");
         House house = new House();
@@ -124,6 +155,43 @@ public class HouseTest extends AbstractTestNGSpringContextTests {
         House result = findEntityInDb(house.getId());
         Assert.assertEquals(result.getName(), house.getName());
         Assert.assertEquals(result.getAddress(), addressNew);
+    }
+
+    @Test(expectedExceptions = JpaSystemException.class)
+    public void updateNullName() {
+        Address address = createValidAddress("Brno");
+        House house = new House();
+        house.setAddress(address);
+        house.setName("Test house");
+        house.setRunning(false);
+        houseDao.create(house);
+        house.setName(null);
+        houseDao.update(house);
+    }
+
+    @Test(expectedExceptions = JpaSystemException.class)
+    public void updateNullRunning() {
+        Address address = createValidAddress("Brno");
+        House house = new House();
+        house.setAddress(address);
+        house.setName("Test house");
+        house.setRunning(false);
+        houseDao.create(house);
+        house.setRunning(null);
+        houseDao.update(house);
+    }
+
+    @Test(expectedExceptions = JpaSystemException.class)
+    public void updateNullAddress() {
+        Address address = createValidAddress("Brno");
+        House house = new House();
+        house.setAddress(address);
+        house.setName("Test house");
+        house.setRunning(false);
+        houseDao.create(house);
+        Address newAddress = null;
+        house.setAddress(newAddress);
+        houseDao.update(house);
     }
 
     @Test
@@ -167,6 +235,20 @@ public class HouseTest extends AbstractTestNGSpringContextTests {
         house.setAddress(null);
 
         houseDao.create(house);
+    }
+
+    @Test
+    public void findByIdDeletedHouse() {
+        Address address = createValidAddress("Brno");
+        House house = new House();
+        house.setAddress(address);
+        house.setName("Test house");
+        house.setRunning(false);
+        houseDao.create(house);
+        houseDao.delete(house);
+
+        House result = houseDao.findById(house.getId());
+        Assert.assertNull(result);
     }
 
     @Test
@@ -220,6 +302,13 @@ public class HouseTest extends AbstractTestNGSpringContextTests {
         Assert.assertTrue(results.contains(house1) && results.contains(house2));
     }
 
+    @Test
+    public void findAllEmptyResult() {
+        List<House> results = houseDao.findAll();
+        Assert.assertNotNull(results);
+        Assert.assertEquals(results.size(), 0);
+    }
+
     private SmartMeter createValidSmartMeter() {
         EntityManager em = null;
         try {
@@ -228,6 +317,7 @@ public class HouseTest extends AbstractTestNGSpringContextTests {
             SmartMeter smartMeter = new SmartMeter();
             smartMeter.setCumulativePowerConsumption(123D);
             smartMeter.setRunning(false);
+            smartMeter.setLastLogTakenAt(LocalDateTime.of(2021, 1,12,7,32));
             smartMeter.setPowerConsumptionSinceLastLog(0);
             em.persist(smartMeter);
             em.getTransaction().commit();

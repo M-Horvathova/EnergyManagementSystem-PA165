@@ -1,10 +1,13 @@
 package cz.fi.muni.pa165.entity;
 
+import org.hibernate.annotations.CreationTimestamp;
+
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Objects;
 import java.util.Set;
+
 
 @Entity
 public class SmartMeter {
