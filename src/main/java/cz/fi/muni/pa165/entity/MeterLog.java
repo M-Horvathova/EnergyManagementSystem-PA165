@@ -1,9 +1,11 @@
 package cz.fi.muni.pa165.entity;
 
 import cz.fi.muni.pa165.enums.DayTime;
+import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.Objects;
 
@@ -42,6 +44,21 @@ public class MeterLog {
     @ManyToOne
     private SmartMeter smartMeter;
 
+    @Column
+    private LocalDateTime createStamp;
+
+    @PrePersist
+    protected void onCreate() {
+        this.createStamp=LocalDateTime.now();
+        if (this.logDate == null) {
+            this.logDate = LocalDate.of(this.createStamp.getYear(),
+                    this.createStamp.getMonth(), this.createStamp.getDayOfMonth());
+        }
+        if (this.logTime == null) {
+            this.logTime = LocalTime.of(this.createStamp.getHour(),
+                    this.createStamp.getMinute(), this.createStamp.getSecond());
+        }
+    }
 
     public MeterLog() {
     }
@@ -57,6 +74,14 @@ public class MeterLog {
         this.measure = measure;
     }
 
+    public LocalDateTime getCreateStamp() {
+        return createStamp;
+    }
+
+    public void setCreateStamp(LocalDateTime createStamp) {
+        this.createStamp = createStamp;
+    }
+
     public Long getId() {
         return id;
     }
@@ -66,6 +91,10 @@ public class MeterLog {
     }
 
     public LocalDate getLogDate() {
+        if (logDate == null) {
+            this.logDate = LocalDate.of(this.createStamp.getYear(),
+                    this.createStamp.getMonth(), this.createStamp.getDayOfMonth());
+        }
         return logDate;
     }
 
@@ -97,21 +126,26 @@ public class MeterLog {
     }
 
 
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof MeterLog)) return false;
         MeterLog meterLog = (MeterLog) o;
-        return getLogDate().equals(meterLog.getLogDate()) && getMeasure().equals(meterLog.getMeasure());
+        return Objects.equals(getLogDate(), meterLog.getLogDate()) && Objects.equals(getLogTime(),
+                meterLog.getLogTime()) && getMeasure().equals(meterLog.getMeasure()) &&
+                getSmartMeter().equals(meterLog.getSmartMeter()) && getCreateStamp().equals(meterLog.getCreateStamp());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getLogDate(), getMeasure());
+        return Objects.hash(getMeasure(), getSmartMeter(), getCreateStamp());
     }
 
     public LocalTime getLogTime() {
+        if (logTime == null) {
+            this.logTime = LocalTime.of(this.createStamp.getHour(),
+                    this.createStamp.getMinute(), this.createStamp.getSecond());
+        }
         return logTime;
     }
 

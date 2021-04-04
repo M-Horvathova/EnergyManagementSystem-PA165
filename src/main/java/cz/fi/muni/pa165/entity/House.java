@@ -1,6 +1,8 @@
 package cz.fi.muni.pa165.entity;
 
 import javax.persistence.*;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -59,7 +61,7 @@ public class House {
     }
 
     public Set<SmartMeter> getSmartMeters() {
-        return smartMeters;
+        return Collections.unmodifiableSet(smartMeters);
     }
 
     public void setSmartMeters(Set<SmartMeter> smartMeters) {
@@ -67,6 +69,7 @@ public class House {
     }
 
     public void addSmartMeter(SmartMeter smartMeter) {
+
         smartMeters.add(smartMeter);
         smartMeter.setHouse(this);
     }

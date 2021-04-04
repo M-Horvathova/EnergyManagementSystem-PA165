@@ -65,7 +65,8 @@ public class MeterLogTest extends AbstractTestNGSpringContextTests {
         Assert.assertEquals(result.getMeasure(), measure);
     }
 
-    @Test(expectedExceptions = JpaSystemException.class)
+
+    @Test
     public void nullableDateCreateTest() {
         var time = LocalTime.of(15, 30);
         Long measure = 123L;
@@ -77,7 +78,7 @@ public class MeterLogTest extends AbstractTestNGSpringContextTests {
         meterLogDao.create(meterLog);
     }
 
-    @Test(expectedExceptions = JpaSystemException.class)
+    @Test
     public void nullableTimeCreateTest() {
         var date = LocalDate.of(2021, 1, 23);
         Long measure = 123L;
