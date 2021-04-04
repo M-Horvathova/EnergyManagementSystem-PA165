@@ -18,7 +18,13 @@ import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 
+import javax.persistence.ValidationMode;
 import javax.sql.DataSource;
+import javax.validation.Validation;
+import javax.validation.Validator;
+import javax.validation.ValidatorFactory;
+import java.util.HashMap;
+import java.util.Map;
 
 
 @Configuration
@@ -28,7 +34,7 @@ import javax.sql.DataSource;
         AddressDao.class, Address.class,
         HouseDao.class, House.class,
         PortalUserDao.class, PortalUser.class,
-        SmartMeterDao.class, SmartMeter.class,
+        SmartMeterDao.class, SmartMeter.class
 }, basePackages = "cz.fi.muni.pa165")
 public class PersistenceApplicationContext {
 

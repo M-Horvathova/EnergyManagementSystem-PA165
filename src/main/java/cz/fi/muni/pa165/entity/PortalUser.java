@@ -3,9 +3,12 @@ package cz.fi.muni.pa165.entity;
 import cz.fi.muni.pa165.enums.UserRole;
 
 import javax.persistence.*;
+import javax.validation.Valid;
+import javax.validation.constraints.Future;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import java.time.LocalDateTime;
+import java.util.Set;
 
 /**
  * Class representing user entity in our portal
@@ -22,7 +25,6 @@ public class PortalUser {
     private String passwordHash;
 
     @Column(nullable=false,unique=true)
-    @Pattern(regexp=".+@.+\\....?")
     private String email;
 
     @Column(nullable=false)
@@ -31,15 +33,18 @@ public class PortalUser {
     @Column(nullable=false)
     private String lastName;
 
-    @Pattern(regexp="\\+?\\d+")
     @Column(nullable=false)
     private String phone;
 
     @Column(nullable=false)
     private UserRole userRole;
 
+    @Future
     @Column(nullable=false)
     private LocalDateTime createdTimestamp;
+
+    @OneToMany(mappedBy = "portalUser")
+    private Set<House> houses;
 
     public long getId() {
         return id;
@@ -104,6 +109,11 @@ public class PortalUser {
 
     public void setUserRole(UserRole userRole) {
         this.userRole = userRole;
+    }
+
+    public void addSmartMeter(House house) {
+        houses.add(house);
+        house.setPortalUser(this);
     }
 
     @Override

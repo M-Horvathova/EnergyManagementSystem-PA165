@@ -26,6 +26,9 @@ public class House {
     @OneToMany(mappedBy = "house")
     private Set<SmartMeter> smartMeters = new HashSet<>();
 
+    @ManyToOne
+    private PortalUser portalUser;
+
     public Long getId() {
         return id;
     }
@@ -69,6 +72,14 @@ public class House {
     public void addSmartMeter(SmartMeter smartMeter) {
         smartMeters.add(smartMeter);
         smartMeter.setHouse(this);
+    }
+
+    public PortalUser getPortalUser() {
+        return portalUser;
+    }
+
+    public void setPortalUser(PortalUser portalUser) {
+        this.portalUser = portalUser;
     }
 
     @Override
