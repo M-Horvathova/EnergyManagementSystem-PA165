@@ -55,19 +55,20 @@ public class MeterLogDaoImpl implements MeterLogDao {
         return resultList;
     }
 
-    /*
-    Will be implemented in later milestone
-     */
+
     @Override
     public List<MeterLog> findByDate(LocalDate date) {
-        return null;
+        List<MeterLog> resultList = em.createQuery("select m from MeterLog m where m.logDate=:date",
+                MeterLog.class).setParameter("date", date).getResultList();
+        return resultList;
     }
 
-    /*
-        Will be implemented in later milestone
-    */
+
     @Override
     public List<MeterLog> findByTimeOfDay(LocalDate date, DayTime dayTime) {
-        return null;
+        List<MeterLog> resultList = em.createQuery("select m from MeterLog m where m.logDate=:date",
+                MeterLog.class).setParameter("date", date).getResultList();
+        resultList.removeIf(m -> !(m.isWithinDayTime(dayTime)));
+        return resultList;
     }
 }
