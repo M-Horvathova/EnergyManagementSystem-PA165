@@ -2,6 +2,7 @@ package cz.fi.muni.pa165;
 
 import cz.fi.muni.pa165.dao.MeterLogDao;
 import cz.fi.muni.pa165.entity.MeterLog;
+import cz.fi.muni.pa165.enums.DayTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.orm.jpa.JpaSystemException;
 import org.springframework.test.context.ContextConfiguration;
@@ -15,6 +16,9 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.PersistenceUnit;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Comparator;
 import java.util.List;
 
 /**
@@ -204,6 +208,8 @@ public class MeterLogTest extends AbstractTestNGSpringContextTests {
         Long measure = 8L;
 
         MeterLog meterLog = createEntityMeterLog(date, time, measure);
+        // create another entity
+        createEntityMeterLog(LocalDate.of(2018, 12, 31), LocalTime.of(0, 30), 1L);
 
         MeterLog result = meterLogDao.findById(meterLog.getId());
         Assert.assertNotNull(result);
@@ -247,6 +253,123 @@ public class MeterLogTest extends AbstractTestNGSpringContextTests {
         Assert.assertEquals(list.size(), 0, "Length of the list should be same");
     }
 
+    @Test
+    public void findByDateSingleTest() {
+        List<MeterLog> list = createEntitiesForFindByDateTime();
+
+        MeterLog first = list.get(0);
+        List<MeterLog> result = meterLogDao.findByDate(first.getLogDate());
+        Assert.assertNotNull(result);
+        Assert.assertEquals(result.size(), 1, "Length of the list should be same");
+        Assert.assertEquals(result.get(0).getLogDate(), first.getLogDate());
+        Assert.assertEquals(result.get(0).getLogTime(), first.getLogTime());
+        Assert.assertEquals(result.get(0).getMeasure(), first.getMeasure());
+    }
+
+    @Test
+    public void findByDateMultipleTest() {
+        List<MeterLog> list = createEntitiesForFindByDateTime();
+
+        // these has same values of date
+        List<MeterLog> lastTwo = list.subList(list.size() - 2, list.size());
+
+        List<MeterLog> result = meterLogDao.findByDate(lastTwo.get(0).getLogDate());
+        result.sort(Comparator.comparing(MeterLog::getId));
+        Assert.assertNotNull(result);
+        Assert.assertEquals(result.size(), 2, "Length of the list should be same");
+        Assert.assertEquals(result.get(0).getLogDate(), lastTwo.get(0).getLogDate());
+        Assert.assertEquals(result.get(0).getLogTime(), lastTwo.get(0).getLogTime());
+        Assert.assertEquals(result.get(0).getMeasure(), lastTwo.get(0).getMeasure());
+        Assert.assertEquals(result.get(1).getLogDate(), lastTwo.get(1).getLogDate());
+        Assert.assertEquals(result.get(1).getLogTime(), lastTwo.get(1).getLogTime());
+        Assert.assertEquals(result.get(1).getMeasure(), lastTwo.get(1).getMeasure());
+    }
+
+    @Test
+    public void findByDateExtremeMultipleTest() {
+        List<MeterLog> list = createEntitiesForFindByDateTime();
+        list = list.subList(1, 7);
+
+        List<MeterLog> result = meterLogDao.findByDate(LocalDate.of(2021, 3, 5));
+        result.sort(Comparator.comparing(MeterLog::getId));
+        Assert.assertNotNull(result);
+        Assert.assertEquals(result.size(), 6, "Length of the list should be same");
+        for (int i = 0; i < 6; i++) {
+            Assert.assertEquals(result.get(i).getLogDate(), list.get(i).getLogDate());
+            Assert.assertEquals(result.get(i).getLogTime(), list.get(i).getLogTime());
+            Assert.assertEquals(result.get(i).getMeasure(), list.get(i).getMeasure());
+        }
+    }
+
+    @Test
+    public void findByDateEmptyTest() {
+        createEntitiesForFindByDateTime();
+
+        List<MeterLog> result = meterLogDao.findByDate(LocalDate.of(2021, 3, 11));
+
+        Assert.assertNotNull(result);
+        Assert.assertEquals(result.size(), 0, "Length of the list should be same");
+    }
+
+    @Test
+    public void findByTimeOfDayDayTest() {
+        List<MeterLog> list = createEntitiesForFindByDateTime();
+
+        // day cases which have same date
+        MeterLog[] dayArray = {list.get(2), list.get(3), list.get(4)};
+        List<MeterLog> dayList = new ArrayList<>(Arrays.asList(dayArray));
+
+        List<MeterLog> result = meterLogDao.findByTimeOfDay(dayList.get(0).getLogDate(), DayTime.Day);
+        result.sort(Comparator.comparing(MeterLog::getId));
+        Assert.assertNotNull(result);
+        Assert.assertEquals(result.size(), 3, "Length of the list should be same");
+        Assert.assertEquals(result.get(0).getLogDate(), dayList.get(0).getLogDate());
+        Assert.assertEquals(result.get(0).getLogTime(), dayList.get(0).getLogTime());
+        Assert.assertEquals(result.get(0).getMeasure(), dayList.get(0).getMeasure());
+        Assert.assertEquals(result.get(1).getLogDate(), dayList.get(1).getLogDate());
+        Assert.assertEquals(result.get(1).getLogTime(), dayList.get(1).getLogTime());
+        Assert.assertEquals(result.get(1).getMeasure(), dayList.get(1).getMeasure());
+        Assert.assertEquals(result.get(2).getLogDate(), dayList.get(2).getLogDate());
+        Assert.assertEquals(result.get(2).getLogTime(), dayList.get(2).getLogTime());
+        Assert.assertEquals(result.get(2).getMeasure(), dayList.get(2).getMeasure());
+    }
+
+    @Test
+    public void findByTimeOfDayNightTest() {
+        List<MeterLog> list = createEntitiesForFindByDateTime();
+
+        // night cases which have same date
+        MeterLog[] nightArray = {list.get(1), list.get(5), list.get(6)};
+        List<MeterLog> nightList = new ArrayList<>(Arrays.asList(nightArray));
+
+        List<MeterLog> result = meterLogDao.findByTimeOfDay(nightList.get(0).getLogDate(), DayTime.Night);
+        result.sort(Comparator.comparing(MeterLog::getId));
+        Assert.assertNotNull(result);
+        Assert.assertEquals(result.size(), 3, "Length of the list should be same");
+        Assert.assertEquals(result.get(0).getLogDate(), nightList.get(0).getLogDate());
+        Assert.assertEquals(result.get(0).getLogTime(), nightList.get(0).getLogTime());
+        Assert.assertEquals(result.get(0).getMeasure(), nightList.get(0).getMeasure());
+        Assert.assertEquals(result.get(1).getLogDate(), nightList.get(1).getLogDate());
+        Assert.assertEquals(result.get(1).getLogTime(), nightList.get(1).getLogTime());
+        Assert.assertEquals(result.get(1).getMeasure(), nightList.get(1).getMeasure());
+        Assert.assertEquals(result.get(2).getLogDate(), nightList.get(2).getLogDate());
+        Assert.assertEquals(result.get(2).getLogTime(), nightList.get(2).getLogTime());
+        Assert.assertEquals(result.get(2).getMeasure(), nightList.get(2).getMeasure());
+    }
+
+    @Test
+    public void findByTimeOfDayEmptyTest() {
+        createEntitiesForFindByDateTime();
+
+        List<MeterLog> resultDay = meterLogDao.findByTimeOfDay(LocalDate.of(2021, 3, 11), DayTime.Day);
+        List<MeterLog> resultNight = meterLogDao.findByTimeOfDay(LocalDate.of(2021, 3, 11), DayTime.Night);
+
+        Assert.assertNotNull(resultDay);
+        Assert.assertEquals(resultDay.size(), 0, "Length of the list should be same");
+        Assert.assertNotNull(resultNight);
+        Assert.assertEquals(resultNight.size(), 0, "Length of the list should be same");
+    }
+
     private MeterLog findEntityInDb(Long id) {
         EntityManager em = null;
         try {
@@ -282,5 +405,57 @@ public class MeterLogTest extends AbstractTestNGSpringContextTests {
                 em.close();
             }
         }
+    }
+
+    private List<MeterLog> createEntitiesForFindByDateTime() {
+        List<MeterLog> list = new ArrayList<>();
+
+        var date1 = LocalDate.of(2021, 1, 1);
+        var time1 = LocalTime.of(0, 0);
+        Long measure1 = 0L;
+        list.add(createEntityMeterLog(date1, time1, measure1));
+
+        var date2 = LocalDate.of(2021, 3, 5);
+        var time2 = LocalTime.of(7, 59);
+        Long measure2 = 1L;
+        list.add(createEntityMeterLog(date2, time2, measure2));
+
+        var date3 = LocalDate.of(2021, 3, 5);
+        var time3 = LocalTime.of(8, 0);
+        Long measure3 = 88L;
+        list.add(createEntityMeterLog(date3, time3, measure3));
+
+        var date4 = LocalDate.of(2021, 3, 5);
+        var time4 = LocalTime.of(13, 30);
+        Long measure4 = 20L;
+        list.add(createEntityMeterLog(date4, time4, measure4));
+
+        var date5 = LocalDate.of(2021, 3, 5);
+        var time5 = LocalTime.of(20, 59);
+        Long measure5 = 2L;
+        list.add(createEntityMeterLog(date5, time5, measure5));
+
+        var date6 = LocalDate.of(2021, 3, 5);
+        var time6 = LocalTime.of(21, 0);
+        Long measure6 = 4L;
+        list.add(createEntityMeterLog(date6, time6, measure6));
+
+        var date7 = LocalDate.of(2021, 3, 5);
+        var time7 = LocalTime.of(23, 0);
+        Long measure7 = 8L;
+        list.add(createEntityMeterLog(date7, time7, measure7));
+
+        var date8 = LocalDate.of(2021, 3, 10);
+        var time8 = LocalTime.of(23, 59);
+        Long measure8 = 3L;
+        list.add(createEntityMeterLog(date8, time8, measure8));
+
+
+        var date9 = LocalDate.of(2021, 3, 10);
+        var time9 = LocalTime.of(13, 0);
+        Long measure9 = 2L;
+        list.add(createEntityMeterLog(date9, time9, measure9));
+
+        return list;
     }
 }

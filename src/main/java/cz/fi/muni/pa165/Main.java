@@ -6,9 +6,12 @@ import javax.persistence.Persistence;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import cz.fi.muni.pa165.entity.MeterLog;
+import cz.fi.muni.pa165.enums.DayTime;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.test.context.ContextConfiguration;
 
@@ -32,42 +35,26 @@ public class Main {
             em.getTransaction().begin();
             MeterLog ml = new MeterLog();
             ml.setMeasure(123L);
+            ml.setCreateStamp(LocalDateTime.of(2021, 3, 12, 15, 15));
             em.persist(ml);
+            MeterLog ml1 = new MeterLog();
+            ml1.setMeasure(123L);
+            ml1.setCreateStamp(LocalDateTime.of(2021, 3, 12, 3, 15));
+            em.persist(ml1);
             em.getTransaction().commit();
 
             em.getTransaction().begin();
             List<MeterLog> logs = em.createQuery(
                     "select l from MeterLog l order by l.logDate",
                     MeterLog.class).getResultList();
-            System.out.println(logs.get(0).getCreateStamp());
-            System.out.println(logs.get(0).getLogDate());
+
+            logs.forEach(m-> System.out.println(m.isWithinDayTime(DayTime.Night)));
+
+            logs.removeIf(m -> !m.isWithinDayTime(DayTime.Day));
+            System.out.println(logs.size());
             System.out.println(logs.get(0).getLogTime());
 
             em.getTransaction().commit();
-
-            ml.setMeasure(1L);
-
-            em.getTransaction().begin();
-            System.out.println(ml.getCreateStamp());
-            try {
-                Thread.sleep(1000);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-            ml = em.merge(ml);
-
-            System.out.println(ml.getCreateStamp());
-            System.out.println(LocalDateTime.now());
-            em.getTransaction().commit();
-
-            em.getTransaction().begin();
-            List<MeterLog> logs2 = em.createQuery(
-                    "select l from MeterLog l order by l.logDate",
-                    MeterLog.class).getResultList();
-            System.out.println(logs2.get(0).getCreateStamp());
-
-            em.getTransaction().commit();
-
 
         } finally {
             if (em != null) {
