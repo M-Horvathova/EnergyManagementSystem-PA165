@@ -1,13 +1,12 @@
 package cz.fi.muni.pa165.entity;
 
-import org.hibernate.annotations.CreationTimestamp;
-
 import javax.persistence.*;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Objects;
 import java.util.Set;
-
+/**
+ * @author Matej Rišňovský
+ */
 
 @Entity
 public class SmartMeter {
@@ -29,10 +28,12 @@ public class SmartMeter {
     private double cumulativePowerConsumption;
 
     @Column(nullable = true)
-    //@Temporal(TemporalType.TIMESTAMP)
     private LocalDateTime lastLogTakenAt;
 
-    @ManyToOne
+    @Column(nullable = true)
+    private String smartMeterDescription;
+
+    @ManyToOne/*(optional = false)*/
     private House house;
 
     public SmartMeter() {
@@ -75,7 +76,18 @@ public class SmartMeter {
     }
 
     public void setLastLogTakenAt(LocalDateTime lastLogTakenAt) {
+        if (lastLogTakenAt.isAfter(LocalDateTime.now())) {
+            throw new IllegalArgumentException("Future dateTime is not allowed");
+        }
         this.lastLogTakenAt = lastLogTakenAt;
+    }
+
+    public String getSmartMeterDescription() {
+        return smartMeterDescription;
+    }
+
+    public void setSmartMeterDescription(String description) {
+        this.smartMeterDescription = description;
     }
 
     public Set<MeterLog> getMeterLogs() {
@@ -98,11 +110,12 @@ public class SmartMeter {
         SmartMeter sm = (SmartMeter) o;
         return isRunning() == sm.isRunning() && Double.compare(sm.getPowerConsumptionSinceLastLog(), getPowerConsumptionSinceLastLog()) == 0
                 && Double.compare(sm.getCumulativePowerConsumption(), getCumulativePowerConsumption()) == 0
-                && getLastLogTakenAt().equals(sm.getLastLogTakenAt());
+                && ((getHouse() == null && sm.getHouse() == null) || (getHouse() != null && getHouse().equals(sm.getHouse())))
+                && ((getSmartMeterDescription() == null && sm.getSmartMeterDescription() == null) || (getSmartMeterDescription() != null && getSmartMeterDescription().equals(sm.getSmartMeterDescription())));
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(isRunning(), getPowerConsumptionSinceLastLog(), getCumulativePowerConsumption(), getLastLogTakenAt());
+        return Objects.hash(isRunning(), getPowerConsumptionSinceLastLog(), getCumulativePowerConsumption(), getHouse(), getSmartMeterDescription());
     }
 }

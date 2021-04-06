@@ -41,7 +41,7 @@ public class MeterLog {
     @Column(nullable = false)
     private Long measure;
 
-    @ManyToOne
+    @ManyToOne/*(optional = false)*/
     private SmartMeter smartMeter;
 
     @Column
@@ -59,6 +59,10 @@ public class MeterLog {
         if (this.logTime == null) {
             this.logTime = LocalTime.of(this.createStamp.getHour(),
                     this.createStamp.getMinute(), this.createStamp.getSecond());
+        }
+
+        if (smartMeter != null) {
+            smartMeter.setLastLogTakenAt(LocalDateTime.now());
         }
     }
 

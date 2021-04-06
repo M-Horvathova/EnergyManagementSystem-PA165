@@ -110,7 +110,7 @@ public class SmartMeterTest extends AbstractTestNGSpringContextTests {
         }
     }
 
-    @Test(expectedExceptions = JpaSystemException.class)
+    /*@Test(expectedExceptions = JpaSystemException.class)
     public void basicCreateTestNoHouse() {
         SmartMeter smBCT = new SmartMeter();
         smBCT.setCumulativePowerConsumption(0);
@@ -119,7 +119,7 @@ public class SmartMeterTest extends AbstractTestNGSpringContextTests {
         smBCT.setRunning(false);
 
         smartMeterDao.create(smBCT);
-    }
+    }*/
 
     @Test
     public void advancedWithRelationshipsCreateTest() {
@@ -143,11 +143,11 @@ public class SmartMeterTest extends AbstractTestNGSpringContextTests {
         Assert.assertEquals(result.isRunning(), false);
     }
 
-    @Test(expectedExceptions = JpaSystemException.class)
+    /*@Test(expectedExceptions = JpaSystemException.class)
     public void updateNoHouseTest() {
         sm1.setHouse(null);
         smartMeterDao.update(sm1);
-    }
+    }*/
 
     @Test(expectedExceptions = IllegalArgumentException.class)
     public void setFutureDateTest() {

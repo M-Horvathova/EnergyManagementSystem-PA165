@@ -5,7 +5,9 @@ import cz.fi.muni.pa165.entity.House;
 import cz.fi.muni.pa165.entity.SmartMeter;
 
 import java.util.List;
-
+/**
+ * @author Matej Rišňovský
+ */
 public interface SmartMeterDao {
 
     /**

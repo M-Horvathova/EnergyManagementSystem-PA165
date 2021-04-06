@@ -8,7 +8,9 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
 import java.util.List;
-
+/**
+ * @author Matej Rišňovský
+ */
 @Transactional
 @Repository
 public class SmartMeterDaoImpl implements SmartMeterDao {
@@ -39,7 +41,9 @@ public class SmartMeterDaoImpl implements SmartMeterDao {
 
     @Override
     public List<SmartMeter> findByRunning(boolean running) {
-        List<SmartMeter> smartMeters = em.createQuery("select sm from SmartMeter sm where sm.isRunning = :running", SmartMeter.class).getResultList();
+        List<SmartMeter> smartMeters = em.createQuery("select sm from SmartMeter sm where sm.isRunning = :running", SmartMeter.class)
+                .setParameter("running", running)
+                .getResultList();
         return smartMeters;
     }
 

@@ -5,6 +5,7 @@ import cz.fi.muni.pa165.entity.PortalUser;
 import cz.fi.muni.pa165.enums.UserRole;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.InvalidDataAccessApiUsageException;
 import org.springframework.orm.jpa.JpaSystemException;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
@@ -22,8 +23,11 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.List;
 
+/**
+ * @author Matej Rišňovský
+ */
 @ContextConfiguration(classes = PersistenceApplicationContext.class)
-public class PortalUserDaoTest extends AbstractTestNGSpringContextTests {
+public class PortalUserTest extends AbstractTestNGSpringContextTests {
 
     @Autowired
     private PortalUserDao portalUserDao;
@@ -41,7 +45,7 @@ public class PortalUserDaoTest extends AbstractTestNGSpringContextTests {
 
     @BeforeClass
     public void Init() {
-        // TODO MRI  - refactor: use PortalUserGenerator to generate users
+        // For user generation use PortalUserGenerator if possible!
 
         dateTime = LocalDateTime.of(LocalDate.of(2021, 3, 31), LocalTime.of(23, 59,59));
         email = "test.user@muni.cz";
@@ -137,7 +141,7 @@ public class PortalUserDaoTest extends AbstractTestNGSpringContextTests {
         portalUserDao.create(user2);
     }
 
-    /*@Test(expectedExceptions = PatternSyntaxException.class)
+    @Test(expectedExceptions = InvalidDataAccessApiUsageException.class)
     public void createInvalidEmailTest() {
         PortalUser user = new PortalUser();
 
@@ -150,7 +154,8 @@ public class PortalUserDaoTest extends AbstractTestNGSpringContextTests {
         user.setPhone(phone);
 
         portalUserDao.create(user);
-    }*/
+    }
+
     @Test(expectedExceptions = JpaSystemException.class)
     public void createNullPhoneTest() {
         PortalUser user = new PortalUser();
@@ -179,8 +184,7 @@ public class PortalUserDaoTest extends AbstractTestNGSpringContextTests {
         Assert.assertEquals(dbUser.getPasswordHash(), passwordHash);
     }
 
-/*    // @Patter sa nevyhodnocuje spravne
-    @Test
+    @Test(expectedExceptions = InvalidDataAccessApiUsageException.class)
     public void createInvalidPhoneTest() {
         PortalUser user = new PortalUser();
 
@@ -193,7 +197,7 @@ public class PortalUserDaoTest extends AbstractTestNGSpringContextTests {
         user.setPhone("+999/111 999");
 
         portalUserDao.create(user);
-    }*/
+    }
 
     @Test(expectedExceptions = JpaSystemException.class)
     public void createNullPasswordHashTest() {
@@ -331,7 +335,7 @@ public class PortalUserDaoTest extends AbstractTestNGSpringContextTests {
         Assert.assertEquals(dbUser.getEmail(), "test.dbUser@muni.cz");
     }
 
-    /*@Test(expectedExceptions = JpaSystemException.class)
+    @Test(expectedExceptions = InvalidDataAccessApiUsageException.class)
     public void updateInvalidEmailTest() {
         PortalUser user = new PortalUser();
 
@@ -348,7 +352,7 @@ public class PortalUserDaoTest extends AbstractTestNGSpringContextTests {
         dbUser.setEmail("@muni.cz");
 
         portalUserDao.update(dbUser);
-    }*/
+    }
 
     @Test(expectedExceptions = JpaSystemException.class)
     public void updateNonUniqueEmailTest() {
@@ -404,7 +408,7 @@ public class PortalUserDaoTest extends AbstractTestNGSpringContextTests {
         Assert.assertEquals(dbUser.getPhone(), "111999111");
     }
 
-/*    @Test(expectedExceptions = JpaSystemException.class)
+    @Test(expectedExceptions = InvalidDataAccessApiUsageException.class)
     public void updateInvalidPhoneTest() {
         PortalUser user = new PortalUser();
 
@@ -421,7 +425,7 @@ public class PortalUserDaoTest extends AbstractTestNGSpringContextTests {
         dbUser.setPhone("++111999111");
 
         portalUserDao.update(dbUser);
-    }*/
+    }
 
     @Test
     public void updateFirstNameTest() {
