@@ -82,6 +82,8 @@ public class MeterLog {
 
     public void setCreateStamp(LocalDateTime createStamp) {
         this.createStamp = createStamp;
+        this.setLogDate(createStamp.toLocalDate());
+        this.setLogTime(createStamp.toLocalTime());
     }
 
     public Long getId() {
@@ -124,7 +126,14 @@ public class MeterLog {
     }
 
     public boolean isWithinDayTime(DayTime dayTime) {
-        return !this.logTime.isAfter(dayTime.getEnd()) && !this.logTime.isBefore(dayTime.getStart());
+       boolean inDay = true;
+       if (this.logTime.isBefore(DayTime.Day.getStart()) || this.logTime.isAfter(DayTime.Day.getEnd())) {
+           inDay = false;
+       }
+       if (dayTime == DayTime.Day) {
+           return inDay;
+       }
+       return !inDay;
     }
 
 
