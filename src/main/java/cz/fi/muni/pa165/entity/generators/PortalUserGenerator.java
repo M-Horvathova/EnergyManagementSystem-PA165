@@ -8,6 +8,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+/**
+ * @author Martin Podhora
+ */
 public class PortalUserGenerator {
     private static final int SEED = 1;
 
