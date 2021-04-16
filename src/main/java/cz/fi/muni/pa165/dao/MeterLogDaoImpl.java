@@ -2,6 +2,10 @@ package cz.fi.muni.pa165.dao;
 
 import cz.fi.muni.pa165.entity.MeterLog;
 import cz.fi.muni.pa165.enums.DayTime;
+import cz.fi.muni.pa165.service.MeterLogServiceImpl;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
@@ -20,15 +24,27 @@ public class MeterLogDaoImpl implements MeterLogDao {
     @PersistenceContext
     private EntityManager em;
 
+    private static Logger log = LoggerFactory.getLogger(MeterLogDaoImpl.class);
+
     @Override
     public MeterLog findMeterLog(MeterLog ml) {
-        MeterLog found = em.find(MeterLog.class, ml.getId());
+        MeterLog found = null;
+        try {
+            found = em.find(MeterLog.class, ml.getId());
+        } catch (DataAccessException e) {
+            log.error(e.getMessage());
+        }
         return found;
     }
 
     @Override
     public MeterLog findById(Long id) {
-        MeterLog found = em.find(MeterLog.class, id);
+        MeterLog found = null;
+        try {
+            found = em.find(MeterLog.class, id);
+        } catch (DataAccessException e) {
+            log.error(e.getMessage());
+        }
         return found;
     }
 
