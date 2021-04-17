@@ -37,6 +37,21 @@ public class AddressDaoImpl implements AddressDao {
     }
 
     @Override
+    public Address find(String street, String code, String city, String postCode, String country) {
+        return em.createQuery("select a from Address a " +
+                "where a.street = :street " +
+                "and a.code = :code " +
+                "and a.city = :city " +
+                "and a.postCode = :postCode " +
+                "and a.country = :country", Address.class)
+                .setParameter("street", street)
+                .setParameter("code", code)
+                .setParameter("city", city)
+                .setParameter("postCode", postCode)
+                .setParameter("country", country).getSingleResult();
+    }
+
+    @Override
     public void delete(Address address) {
         address = em.merge(address);
         em.remove(address);
