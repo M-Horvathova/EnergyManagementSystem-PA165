@@ -4,6 +4,7 @@ import cz.fi.muni.pa165.entity.Address;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import java.util.List;
 
@@ -38,17 +39,27 @@ public class AddressDaoImpl implements AddressDao {
 
     @Override
     public Address find(String street, String code, String city, String postCode, String country) {
-        return em.createQuery("select a from Address a " +
-                "where a.street = :street " +
-                "and a.code = :code " +
-                "and a.city = :city " +
+        String sqlQuery = "select a from Address a " +
+                "where a.city = :city " +
                 "and a.postCode = :postCode " +
-                "and a.country = :country", Address.class)
-                .setParameter("street", street)
-                .setParameter("code", code)
+                "and a.country = :country";
+
+        sqlQuery += street == null ? " and a.street is null" : " and a.street = :street";
+        sqlQuery += code == null ? " and a.code is null" : " and a.code = :code";
+
+        var query = em.createQuery(sqlQuery, Address.class)
                 .setParameter("city", city)
                 .setParameter("postCode", postCode)
-                .setParameter("country", country).getSingleResult();
+                .setParameter("country", country);
+
+        query = street != null ? query.setParameter("street", street) : query;
+        query = code != null ? query.setParameter("code", code) : query;
+
+        try {
+            return query.getSingleResult();
+        } catch (NoResultException e) {
+            return null;
+        }
     }
 
     @Override
