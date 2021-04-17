@@ -3,7 +3,6 @@ package cz.fi.muni.pa165.dao;
 import cz.fi.muni.pa165.entity.Address;
 import cz.fi.muni.pa165.entity.House;
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -13,7 +12,6 @@ import java.util.List;
  * @author Patrik Valo
  */
 @Repository
-@Transactional
 public class HouseDaoImpl implements HouseDao {
 
     @PersistenceContext

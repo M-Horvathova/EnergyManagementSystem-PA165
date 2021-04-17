@@ -1,8 +1,7 @@
 
 package cz.fi.muni.pa165;
 
-import cz.fi.muni.pa165.dao.*;
-import cz.fi.muni.pa165.entity.*;
+import cz.fi.muni.pa165.dao.MeterLogDao;
 import org.hibernate.jpa.HibernatePersistenceProvider;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -22,14 +21,8 @@ import javax.sql.DataSource;
 @Configuration
 @EnableTransactionManagement
 @EnableJpaRepositories
-@ComponentScan(basePackageClasses = {MeterLogDao.class, MeterLog.class,
-        AddressDao.class, Address.class,
-        HouseDao.class, House.class,
-        PortalUserDao.class, PortalUser.class,
-        SmartMeterDao.class, SmartMeter.class
-}, basePackages = "cz.fi.muni.pa165")
+@ComponentScan(basePackageClasses = {MeterLogDao.class}, basePackages = "cz.fi.muni.pa165")
 public class PersistenceApplicationContext {
-
     /**
      * Enables automatic translation of exceptions to DataAccessExceptions.
      */
@@ -54,7 +47,6 @@ public class PersistenceApplicationContext {
         jpaFactoryBean.setPersistenceProviderClass(HibernatePersistenceProvider.class);
         return jpaFactoryBean;
     }
-
 
     @Bean
     public LoadTimeWeaver instrumentationLoadTimeWeaver() {
