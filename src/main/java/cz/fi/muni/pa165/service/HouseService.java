@@ -2,6 +2,7 @@ package cz.fi.muni.pa165.service;
 
 import cz.fi.muni.pa165.entity.Address;
 import cz.fi.muni.pa165.entity.House;
+import cz.fi.muni.pa165.entity.PortalUser;
 
 import java.util.List;
 
@@ -62,6 +63,13 @@ public interface HouseService {
      * @return houses on the address
      */
     List<House> findByAddress(Address address);
+
+    /**
+     * Finds the houses by the user
+     * @param user user
+     * @return user's houses
+     */
+    List<House> findByUser(PortalUser user);
 
     /**
      * Finds all houses in db

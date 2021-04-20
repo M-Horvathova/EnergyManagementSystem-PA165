@@ -2,6 +2,7 @@ package cz.fi.muni.pa165.dao;
 
 import cz.fi.muni.pa165.entity.Address;
 import cz.fi.muni.pa165.entity.House;
+import cz.fi.muni.pa165.entity.PortalUser;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
@@ -43,6 +44,13 @@ public class HouseDaoImpl implements HouseDao {
     public List<House> findByAddress(Address address) {
         return em.createQuery("SELECT h FROM House h WHERE h.address = :address", House.class)
                 .setParameter("address", address)
+                .getResultList();
+    }
+
+    @Override
+    public List<House> findByUser(PortalUser user) {
+        return em.createQuery("SELECT h FROM House h WHERE h.portalUser = :user", House.class)
+                .setParameter("user", user)
                 .getResultList();
     }
 
