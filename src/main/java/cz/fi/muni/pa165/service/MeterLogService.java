@@ -43,6 +43,15 @@ public interface MeterLogService {
 
     /**
      *
+     * @param startDate
+     * @param endDate
+     * @param dayTime
+     * @return
+     */
+    public List<MeterLog> findInDateFrameWithDayTime(LocalDate startDate, LocalDate endDate, DayTime dayTime);
+
+    /**
+     *
      * @param ml
      */
     public void createMeterLog(MeterLog ml);

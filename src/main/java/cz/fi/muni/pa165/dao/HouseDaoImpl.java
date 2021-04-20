@@ -13,7 +13,6 @@ import java.util.List;
  * @author Patrik Valo
  */
 @Repository
-@Transactional
 public class HouseDaoImpl implements HouseDao {
 
     @PersistenceContext
