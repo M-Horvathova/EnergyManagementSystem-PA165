@@ -31,11 +31,11 @@ public interface HouseDao {
     House findById(Long id);
 
     /**
-     * Finds the house by the given name
+     * Finds the houses by the given name
      * @param name the name of the house
-     * @return house with the name
+     * @return houses with the name
      */
-    House findByName(String name);
+    List<House> findByName(String name);
 
     /**
      * Finds the houses on the address

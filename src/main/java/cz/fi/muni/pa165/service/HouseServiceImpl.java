@@ -57,7 +57,7 @@ public class HouseServiceImpl implements HouseService {
     }
 
     @Override
-    public House findByName(String name) {
+    public List<House> findByName(String name) {
         return houseDao.findByName(name);
     }
 

@@ -214,9 +214,10 @@ public class HouseTest extends AbstractTestNGSpringContextTests {
         house.setRunning(true);
         houseDao.create(house);
 
-        House result = houseDao.findByName(house.getName());
+        List<House> result = houseDao.findByName(house.getName());
         Assert.assertNotNull(result);
-        Assert.assertEquals(result, house);
+        Assert.assertEquals(result.size(), 1);
+        Assert.assertEquals(result.get(0), house);
     }
 
     @Test
