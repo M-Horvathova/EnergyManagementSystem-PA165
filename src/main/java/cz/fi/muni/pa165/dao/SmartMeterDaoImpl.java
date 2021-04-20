@@ -11,7 +11,6 @@ import java.util.List;
 /**
  * @author Matej Rišňovský
  */
-@Transactional
 @Repository
 public class SmartMeterDaoImpl implements SmartMeterDao {
     @PersistenceContext

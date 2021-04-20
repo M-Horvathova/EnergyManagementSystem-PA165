@@ -2,7 +2,7 @@ package cz.fi.muni.pa165;
 
 import cz.fi.muni.pa165.dao.PortalUserDao;
 import cz.fi.muni.pa165.entity.PortalUser;
-import cz.fi.muni.pa165.enums.UserRole;
+import cz.fi.muni.pa165.entity.UserRole;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.InvalidDataAccessApiUsageException;
@@ -14,6 +14,7 @@ import org.springframework.test.context.transaction.TransactionalTestExecutionLi
 import org.testng.Assert;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeClass;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import javax.persistence.*;
@@ -37,9 +38,6 @@ public class PortalUserTest extends AbstractTestNGSpringContextTests {
     @Autowired
     private PortalUserDao portalUserDao;
 
-/*    @PersistenceUnit
-    private EntityManagerFactory emf;*/
-
     @PersistenceContext
     private EntityManager em;
 
@@ -53,21 +51,28 @@ public class PortalUserTest extends AbstractTestNGSpringContextTests {
 
     @BeforeClass
     public void Init() {
-        // For user generation use PortalUserGenerator if possible!
-
         dateTime = LocalDateTime.of(LocalDate.of(2021, 3, 31), LocalTime.of(23, 59,59));
         email = "test.user@muni.cz";
-        userRole = UserRole.user;
         passwordHash = "#*##23e";
         firstName = "FirstName";
         lastName = "LastName";
         phone = "+999111999";
     }
 
-/*    @AfterMethod
+    @BeforeMethod
+    public void beforeTest() {
+        em.clear();
+        userRole = new UserRole();
+        userRole.setRoleName(UserRole.USER_ROLE_NAME);
+        em.persist(userRole);
+    }
+
+    @AfterMethod
     public void afterTest() {
+        em.clear();
         em.createQuery("delete from PortalUser").executeUpdate();
-    }*/
+        em.createQuery("delete from UserRole").executeUpdate();
+    }
 
     @Test
     public void createBasicTest() {
@@ -381,6 +386,7 @@ public class PortalUserTest extends AbstractTestNGSpringContextTests {
         user2.setEmail(email);
 
         portalUserDao.update(user2);
+        portalUserDao.findAll();
     }
 
     @Test
@@ -485,13 +491,16 @@ public class PortalUserTest extends AbstractTestNGSpringContextTests {
 
         PortalUser dbUser = createUserInDB(user);
 
-        dbUser.setUserRole(UserRole.administrator);
+        UserRole ur = new UserRole();
+        ur.setRoleName(UserRole.ADMINISTRATOR_ROLE_NAME);
+
+        dbUser.setUserRole(ur);
 
         portalUserDao.update(dbUser);
         dbUser = findUserInDB(dbUser.getId());
 
         Assert.assertNotEquals(dbUser.getUserRole(), userRole);
-        Assert.assertEquals(dbUser.getUserRole(), UserRole.administrator);
+        Assert.assertEquals(dbUser.getUserRole(), ur);
     }
 
     @Test
@@ -596,6 +605,7 @@ public class PortalUserTest extends AbstractTestNGSpringContextTests {
 
     private PortalUser createUserInDB(PortalUser user) {
         em.persist(user);
+        em.flush();
         return user;
     }
 }

@@ -1,24 +1,25 @@
 package cz.fi.muni.pa165;
 
-import cz.fi.muni.pa165.dao.PortalUserDao;
 import cz.fi.muni.pa165.dao.SmartMeterDao;
 import cz.fi.muni.pa165.entity.Address;
 import cz.fi.muni.pa165.entity.House;
 import cz.fi.muni.pa165.entity.MeterLog;
 import cz.fi.muni.pa165.entity.SmartMeter;
-import cz.fi.muni.pa165.enums.UserRole;
-import net.bytebuddy.asm.Advice;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.orm.jpa.JpaObjectRetrievalFailureException;
 import org.springframework.orm.jpa.JpaSystemException;
 import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.TestExecutionListeners;
 import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
+import org.springframework.test.context.transaction.TransactionalTestExecutionListener;
 import org.testng.Assert;
 import org.testng.annotations.*;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
+import javax.persistence.PersistenceContext;
 import javax.persistence.PersistenceUnit;
+import javax.transaction.Transactional;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -29,13 +30,15 @@ import java.util.List;
  * @author Martin Podhora
  */
 @ContextConfiguration(classes = PersistenceApplicationContext.class)
+@TestExecutionListeners(TransactionalTestExecutionListener.class)
+@Transactional
 public class SmartMeterTest extends AbstractTestNGSpringContextTests {
 
     @Autowired
     private SmartMeterDao smartMeterDao;
 
-    @PersistenceUnit
-    private EntityManagerFactory emf;
+    @PersistenceContext
+    private EntityManager em;
 
     private Address a1;
     private House h1;
@@ -45,6 +48,8 @@ public class SmartMeterTest extends AbstractTestNGSpringContextTests {
 
     @BeforeMethod
     public void Init() {
+        em.clear();
+
         a1 = new Address();
         a1.setCity("ABC");
         a1.setCountry("DEF");
@@ -76,38 +81,19 @@ public class SmartMeterTest extends AbstractTestNGSpringContextTests {
         ml2.setMeasure(123L);
         ml1.setSmartMeter(sm1);
 
-        EntityManager em = null;
-        try {
-            em = emf.createEntityManager();
-            em.getTransaction().begin();
-            em.persist(a1);
-            em.persist(h1);
-            em.persist(sm1);
-            em.persist(ml1);
-            em.persist(ml2);
-            em.getTransaction().commit();
-        } finally {
-            if (em != null) {
-                em.close();
-            }
-        }
+        em.persist(a1);
+        em.persist(h1);
+        em.persist(sm1);
+        em.persist(ml1);
+        em.persist(ml2);
     }
 
     @AfterMethod
     public void afterTest() {
-        EntityManager em = null;
-        try {
-            em = emf.createEntityManager();
-            em.getTransaction().begin();
-            em.createQuery("delete from MeterLog").executeUpdate();
-            em.createQuery("delete from SmartMeter").executeUpdate();
-            em.createQuery("delete from House").executeUpdate();
-            em.getTransaction().commit();
-        } finally {
-            if (em != null) {
-                em.close();
-            }
-        }
+        em.clear();
+        em.createQuery("delete from MeterLog").executeUpdate();
+        em.createQuery("delete from SmartMeter").executeUpdate();
+        em.createQuery("delete from House").executeUpdate();
     }
 
     /*@Test(expectedExceptions = JpaSystemException.class)
@@ -209,19 +195,9 @@ public class SmartMeterTest extends AbstractTestNGSpringContextTests {
 
     @Test
     public void findEmptyAllTest() {
-        EntityManager em = null;
-        try {
-            em = emf.createEntityManager();
-            em.getTransaction().begin();
-            em.createQuery("delete from MeterLog").executeUpdate();
-            em.createQuery("delete from SmartMeter").executeUpdate();
-            em.createQuery("delete from House").executeUpdate();
-            em.getTransaction().commit();
-        } finally {
-            if (em != null) {
-                em.close();
-            }
-        }
+        em.createQuery("delete from MeterLog").executeUpdate();
+        em.createQuery("delete from SmartMeter").executeUpdate();
+        em.createQuery("delete from House").executeUpdate();
 
         List<SmartMeter> smGot = smartMeterDao.findAll();
 
@@ -249,21 +225,12 @@ public class SmartMeterTest extends AbstractTestNGSpringContextTests {
     @Test(expectedExceptions = JpaSystemException.class)
     public void deleteExistingFKValidation() {
         smartMeterDao.delete(sm1);
+        smartMeterDao.findAll();
     }
 
     @Test
     public void deleteExistingNoFKValidation() {
-        EntityManager em = null;
-        try {
-            em = emf.createEntityManager();
-            em.getTransaction().begin();
-            em.createQuery("delete from MeterLog").executeUpdate();
-            em.getTransaction().commit();
-        } finally {
-            if (em != null) {
-                em.close();
-            }
-        }
+        em.createQuery("delete from MeterLog").executeUpdate();
 
         smartMeterDao.delete(sm1);
 
@@ -273,59 +240,32 @@ public class SmartMeterTest extends AbstractTestNGSpringContextTests {
 
     @Test(expectedExceptions = JpaObjectRetrievalFailureException.class)
     public void deleteNonExisting() {
-        EntityManager em = null;
-        try {
-            em = emf.createEntityManager();
-            em.getTransaction().begin();
-            em.createQuery("delete from MeterLog").executeUpdate();
-            em.createQuery("delete from SmartMeter").executeUpdate();
-            em.createQuery("delete from House").executeUpdate();
-            em.getTransaction().commit();
-        } finally {
-            if (em != null) {
-                em.close();
-            }
-        }
+        em.createQuery("delete from MeterLog").executeUpdate();
+        em.createQuery("delete from SmartMeter").executeUpdate();
+        em.createQuery("delete from House").executeUpdate();
+        smartMeterDao.findAll();
+        em.clear();
 
         smartMeterDao.delete(sm1);
+
+        smartMeterDao.findAll();
     }
 
     private SmartMeter findEntityInDb(Long id) {
-        EntityManager em = null;
-        try {
-            em = emf.createEntityManager();
-            em.getTransaction().begin();
-            SmartMeter result = em.find(SmartMeter.class, id);
-            em.getTransaction().commit();
-
-            return result;
-        } finally {
-            if (em != null) {
-                em.close();
-            }
-        }
+        SmartMeter result = em.find(SmartMeter.class, id);
+        return result;
     }
 
     private SmartMeter createEntitySmartMeter() {
-        EntityManager em = null;
-        try {
-            em = emf.createEntityManager();
-            em.getTransaction().begin();
-            SmartMeter sm = new SmartMeter();
-            sm.setHouse(h1);
-            sm.setCumulativePowerConsumption(0);
-            sm.setLastLogTakenAt(LocalDateTime.of(LocalDate.of(2021, 1, 15), LocalTime.of(5, 00)));
-            sm.setPowerConsumptionSinceLastLog(0);
-            sm.setRunning(false);
-            em.persist(sm);
+        SmartMeter sm = new SmartMeter();
+        sm.setHouse(h1);
+        sm.setCumulativePowerConsumption(0);
+        sm.setLastLogTakenAt(LocalDateTime.of(LocalDate.of(2021, 1, 15), LocalTime.of(5, 00)));
+        sm.setPowerConsumptionSinceLastLog(0);
+        sm.setRunning(false);
+        em.persist(sm);
 
-            em.getTransaction().commit();
-            return sm;
-        } finally {
-            if (em != null) {
-                em.close();
-            }
-        }
+        return sm;
     }
 
 }

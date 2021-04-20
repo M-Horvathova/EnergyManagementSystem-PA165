@@ -1,13 +1,12 @@
 package cz.fi.muni.pa165.entity;
 
-import cz.fi.muni.pa165.enums.UserRole;
+import com.google.gson.Gson;
 
 import javax.persistence.*;
-import javax.validation.Valid;
 import javax.validation.constraints.Future;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Pattern;
+import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.Objects;
 import java.util.Set;
 
 /**
@@ -16,7 +15,7 @@ import java.util.Set;
  * @author Martin Podhora
  */
 @Entity
-public class PortalUser {
+public class PortalUser implements Serializable {
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     private long id;
@@ -36,19 +35,32 @@ public class PortalUser {
     @Column(nullable=false)
     private String phone;
 
-    @Column(nullable=false)
+    @ManyToOne(optional = false)
     private UserRole userRole;
+
+    @Column(nullable=false)
+    private boolean isActive;
 
     @Future
     @Column(nullable=false)
     private LocalDateTime createdTimestamp;
 
+    @Future
+    @Column(nullable=true)
+    private LocalDateTime lastLoginTimestamp;
+
     @OneToMany(mappedBy = "portalUser")
     private Set<House> houses;
+
 
     public long getId() {
         return id;
     }
+
+    public void setId(long id) {
+        this.id = id;
+    }
+
 
     public String getPasswordHash() {
         return passwordHash;
@@ -57,6 +69,7 @@ public class PortalUser {
     public void setPasswordHash(String passwordHash) {
         this.passwordHash = passwordHash;
     }
+
 
     public String getEmail() {
         return email;
@@ -71,7 +84,6 @@ public class PortalUser {
         return firstName;
     }
 
-
     public void setFirstName(String firstName) {
         this.firstName = firstName;
     }
@@ -80,7 +92,6 @@ public class PortalUser {
     public String getLastName() {
         return lastName;
     }
-
 
     public void setLastName(String lastName) {
         this.lastName = lastName;
@@ -95,13 +106,6 @@ public class PortalUser {
         this.phone = phone;
     }
 
-    public LocalDateTime getCreatedTimestamp() {
-        return createdTimestamp;
-    }
-
-    public void setCreatedTimestamp(LocalDateTime createdTimestamp) {
-        this.createdTimestamp = createdTimestamp;
-    }
 
     public UserRole getUserRole() {
         return userRole;
@@ -111,43 +115,69 @@ public class PortalUser {
         this.userRole = userRole;
     }
 
-    public void addSmartMeter(House house) {
-        houses.add(house);
-        house.setPortalUser(this);
+
+    public LocalDateTime getCreatedTimestamp() {
+        return createdTimestamp;
+    }
+
+    public void setCreatedTimestamp(LocalDateTime createdTimestamp) {
+        this.createdTimestamp = createdTimestamp;
+    }
+
+
+    public LocalDateTime getLastLoginTimestamp() {
+        return lastLoginTimestamp;
+    }
+
+    public void setLastLoginTimestamp(LocalDateTime lastLoginTimestamp) {
+        this.lastLoginTimestamp = lastLoginTimestamp;
+    }
+
+    public void setHouses(Set<House> houses) {
+        houses.forEach(house -> house.setPortalUser(this));
+        this.houses = houses;
+    }
+
+    public Set<House> getHouses() {
+        return houses;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || !(o instanceof PortalUser)) return false;
+        PortalUser that = (PortalUser) o;
+        return getId() == that.getId()
+                && isActive == that.isActive
+                && getPasswordHash().equals(that.getPasswordHash())
+                && getEmail().equals(that.getEmail())
+                && getFirstName().equals(that.getFirstName())
+                && getLastName().equals(that.getLastName())
+                && getPhone().equals(that.getPhone())
+                && getUserRole().equals(that.getUserRole())
+                && getCreatedTimestamp().equals(that.getCreatedTimestamp())
+                && Objects.equals(getLastLoginTimestamp(), that.getLastLoginTimestamp())
+                && Objects.equals(getHouses(), that.getHouses());
     }
 
     @Override
     public int hashCode() {
-        final int prime = 23;
-        int result = 1;
-        result = prime * result + ((email == null) ? 0 : email.hashCode());
-        return result;
+        return Objects.hash(
+                getId(),
+                getPasswordHash(),
+                getEmail(),
+                getFirstName(),
+                getLastName(),
+                getPhone(),
+                getUserRole(),
+                isActive,
+                getCreatedTimestamp(),
+                getLastLoginTimestamp(),
+                getHouses());
     }
 
     @Override
-    public boolean equals(Object obj) {
-        if (this == obj) {
-            return true;
-        }
-
-        if (obj == null) {
-            return false;
-        }
-
-        if (!(obj instanceof PortalUser)) {
-            return false;
-        }
-
-        PortalUser other = (PortalUser) obj;
-        if (email == null) {
-            if (other.getEmail() != null) {
-                return false;
-            }
-        }
-        else if (!email.equals(other.getEmail())) {
-            return false;
-        }
-
-        return true;
+    public String toString() {
+        return new Gson().toJson(this);
     }
 }
