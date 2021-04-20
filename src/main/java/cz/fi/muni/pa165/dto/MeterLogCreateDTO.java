@@ -1,16 +1,21 @@
 package cz.fi.muni.pa165.dto;
-
-import cz.fi.muni.pa165.entity.SmartMeter;
-
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.Objects;
 
 public class MeterLogCreateDTO {
     private Long measure;
-    private SmartMeter smartMeter;
     private LocalDate logDate;
+    private Long smartMeterId;
     private LocalTime logTime;
+
+    public Long getSmartMeterId() {
+        return smartMeterId;
+    }
+
+    public void setSmartMeterId(Long smartMeterId) {
+        this.smartMeterId = smartMeterId;
+    }
 
     public Long getMeasure() {
         return measure;
@@ -18,14 +23,6 @@ public class MeterLogCreateDTO {
 
     public void setMeasure(Long measure) {
         this.measure = measure;
-    }
-
-    public SmartMeter getSmartMeter() {
-        return smartMeter;
-    }
-
-    public void setSmartMeter(SmartMeter smartMeter) {
-        this.smartMeter = smartMeter;
     }
 
     public LocalDate getLogDate() {
@@ -49,19 +46,20 @@ public class MeterLogCreateDTO {
         if (this == o) return true;
         if (!(o instanceof MeterLogCreateDTO)) return false;
         MeterLogCreateDTO that = (MeterLogCreateDTO) o;
-        return getMeasure().equals(that.getMeasure()) && getSmartMeter().equals(that.getSmartMeter()) && Objects.equals(getLogDate(), that.getLogDate()) && Objects.equals(getLogTime(), that.getLogTime());
+        return getMeasure().equals(that.getMeasure()) && getSmartMeterId().equals(that.getSmartMeterId())
+                && Objects.equals(getLogDate(), that.getLogDate()) && Objects.equals(getLogTime(), that.getLogTime());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getMeasure(), getSmartMeter(), getLogDate(), getLogTime());
+        return Objects.hash(getMeasure(), getSmartMeterId(), getLogDate(), getLogTime());
     }
 
     @Override
     public String toString() {
         return "MeterLogCreateDTO{" +
                 "measure=" + measure +
-                ", smartMeter=" + smartMeter +
+                ", smartMeter=" + smartMeterId +
                 ", logDate=" + logDate +
                 ", logTime=" + logTime +
                 '}';
