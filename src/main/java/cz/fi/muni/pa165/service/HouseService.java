@@ -11,15 +11,35 @@ import java.util.List;
 public interface HouseService {
 
     /**
-     * Saves the house into db
-     * @param house the house, which should be saved
+     * Creates the house
+     * @param house the house, which should be created
      */
-    void createHouse(House house);
+    House createHouse(House house);
 
+    /**
+     * Changes the address of the house. The old address is deleted
+     * if there isn't house with same address. If there are more than one house
+     * with that address, it is only changed.
+     * @param house House, whose address should be changed
+     * @param newAddress Address, which should be assigned to the house
+     * @return house with the new address
+     */
     House changeAddress(House house, Address newAddress);
 
+    /**
+     * Changes the name of the house
+     * @param house House, whose name should be changed
+     * @param newName Name, which should be assigned to the house
+     * @return house with the new name
+     */
     House changeName(House house, String newName);
 
+    /**
+     * Changes the running status
+     * @param house House, whose status should be changed
+     * @param isRunning Status, which should be changed in the house
+     * @return house with the new status
+     */
     House changeRunning(House house, Boolean isRunning);
 
     /**
@@ -50,7 +70,9 @@ public interface HouseService {
     List<House> findAll();
 
     /**
-     * Deletes the house
+     * Deletes the house. The old address is also deleted
+     * if there isn't house with same address. If there are more than one house
+     * with that address, only house is deleted.
      * @param house the house, which should be deleted
      */
     void deleteHouse(House house);

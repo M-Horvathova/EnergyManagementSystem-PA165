@@ -1,5 +1,6 @@
 package cz.fi.muni.pa165.service;
 
+import cz.fi.muni.pa165.dao.AddressDao;
 import cz.fi.muni.pa165.dao.HouseDao;
 import cz.fi.muni.pa165.entity.Address;
 import cz.fi.muni.pa165.entity.House;
@@ -12,19 +13,28 @@ import java.util.List;
 public class HouseServiceImpl implements HouseService {
 
     private final HouseDao houseDao;
+    private final AddressDao addressDao;
 
     @Autowired
-    public HouseServiceImpl(HouseDao houseDao) {
+    public HouseServiceImpl(HouseDao houseDao, AddressDao addressDao) {
         this.houseDao = houseDao;
+        this.addressDao = addressDao;
     }
 
     @Override
-    public void createHouse(House house) {
+    public House createHouse(House house) {
         houseDao.create(house);
+        return house;
     }
 
     @Override
     public House changeAddress(House house, Address newAddress) {
+        List<House> houses = houseDao.findByAddress(house.getAddress());
+
+        if (houses.size() <= 1) {
+            addressDao.delete(house.getAddress());
+        }
+
         house.setAddress(newAddress);
         return houseDao.update(house);
     }
@@ -63,6 +73,12 @@ public class HouseServiceImpl implements HouseService {
 
     @Override
     public void deleteHouse(House house) {
+        List<House> houses = houseDao.findByAddress(house.getAddress());
+
+        if (houses.size() <= 1) {
+            addressDao.delete(house.getAddress());
+        }
+
         houseDao.delete(house);
     }
 }
