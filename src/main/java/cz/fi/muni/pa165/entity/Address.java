@@ -1,12 +1,13 @@
 package cz.fi.muni.pa165.entity;
 
 import javax.persistence.*;
+import java.io.Serializable;
 
 /**
  * @author Patrik Valo
  */
 @Entity
-public class Address {
+public class Address implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
