@@ -1,6 +1,7 @@
 package cz.fi.muni.pa165.entity;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
@@ -10,7 +11,7 @@ import java.util.Set;
  * @author Patrik Valo
  */
 @Entity
-public class House {
+public class House implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -103,5 +104,14 @@ public class House {
         result = 31 * result + isRunning.hashCode();
         result = 31 * result + getAddress().hashCode();
         return result;
+    }
+
+    @Override
+    public String toString() {
+        return "House{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", isRunning=" + isRunning +
+                '}';
     }
 }

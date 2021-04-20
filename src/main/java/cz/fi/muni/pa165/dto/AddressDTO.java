@@ -1,29 +1,17 @@
-package cz.fi.muni.pa165.entity;
+package cz.fi.muni.pa165.dto;
 
-import javax.persistence.*;
-import java.io.Serializable;
+import java.util.Objects;
 
 /**
  * @author Patrik Valo
  */
-@Entity
-public class Address implements Serializable {
+public class AddressDTO {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
     private String street;
-
     private String code;
-
-    @Column(nullable = false)
     private String city;
-
-    @Column(nullable = false)
     private String postCode;
-
-    @Column(nullable = false)
     private String country;
 
     public Long getId() {
@@ -38,8 +26,8 @@ public class Address implements Serializable {
         return street;
     }
 
-    public void setStreet(String streetName) {
-        this.street = streetName;
+    public void setStreet(String street) {
+        this.street = street;
     }
 
     public String getCode() {
@@ -77,30 +65,32 @@ public class Address implements Serializable {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof Address)) return false;
+        if (o == null || getClass() != o.getClass()) return false;
 
-        Address address = (Address) o;
+        AddressDTO that = (AddressDTO) o;
 
-        if (getStreet() != null ? !getStreet().equals(address.getStreet()) : address.getStreet() != null) return false;
-        if (getCode() != null ? !getCode().equals(address.getCode()) : address.getCode() != null) return false;
-        if (!getCity().equals(address.getCity())) return false;
-        if (!getPostCode().equals(address.getPostCode())) return false;
-        return getCountry().equals(address.getCountry());
+        if (!Objects.equals(id, that.id)) return false;
+        if (!Objects.equals(street, that.street)) return false;
+        if (!Objects.equals(code, that.code)) return false;
+        if (!Objects.equals(city, that.city)) return false;
+        if (!Objects.equals(postCode, that.postCode)) return false;
+        return Objects.equals(country, that.country);
     }
 
     @Override
     public int hashCode() {
-        int result = getStreet() != null ? getStreet().hashCode() : 0;
-        result = 31 * result + (getCode() != null ? getCode().hashCode() : 0);
-        result = 31 * result + getCity().hashCode();
-        result = 31 * result + getPostCode().hashCode();
-        result = 31 * result + getCountry().hashCode();
+        int result = id != null ? id.hashCode() : 0;
+        result = 31 * result + (street != null ? street.hashCode() : 0);
+        result = 31 * result + (code != null ? code.hashCode() : 0);
+        result = 31 * result + (city != null ? city.hashCode() : 0);
+        result = 31 * result + (postCode != null ? postCode.hashCode() : 0);
+        result = 31 * result + (country != null ? country.hashCode() : 0);
         return result;
     }
 
     @Override
     public String toString() {
-        return "Address{" +
+        return "AddressDTO{" +
                 "id=" + id +
                 ", street='" + street + '\'' +
                 ", code='" + code + '\'' +
