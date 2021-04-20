@@ -54,6 +54,17 @@ public class MeterLogServiceImpl implements MeterLogService{
     }
 
     @Override
+    public List<MeterLog> findInDateFrameWithDayTime(LocalDate startDate, LocalDate endDate, DayTime dayTime) {
+        List<MeterLog> results = new ArrayList<>();
+        for (LocalDate date = startDate; date.isBefore(endDate); date = date.plusDays(1)) {
+            List<MeterLog> inDate = findByDate(date);
+            inDate.removeIf(m -> !isInDayTime(m, dayTime));
+            results.addAll(findByDate(date));
+        }
+        return results;
+    }
+
+    @Override
     public void createMeterLog(MeterLog ml) {
         meterLogDao.create(ml);
     }

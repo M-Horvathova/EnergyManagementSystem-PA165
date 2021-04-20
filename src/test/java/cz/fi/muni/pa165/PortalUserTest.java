@@ -8,13 +8,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.InvalidDataAccessApiUsageException;
 import org.springframework.orm.jpa.JpaSystemException;
 import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.TestExecutionListeners;
 import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
+import org.springframework.test.context.transaction.TransactionalTestExecutionListener;
 import org.testng.Assert;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import javax.persistence.*;
+import javax.transaction.Transactional;
 import javax.validation.Validation;
 import javax.validation.Validator;
 import javax.validation.ValidatorFactory;
@@ -27,13 +30,18 @@ import java.util.List;
  * @author Matej Rišňovský
  */
 @ContextConfiguration(classes = PersistenceApplicationContext.class)
+@TestExecutionListeners(TransactionalTestExecutionListener.class)
+@Transactional
 public class PortalUserTest extends AbstractTestNGSpringContextTests {
 
     @Autowired
     private PortalUserDao portalUserDao;
 
-    @PersistenceUnit
-    private EntityManagerFactory emf;
+/*    @PersistenceUnit
+    private EntityManagerFactory emf;*/
+
+    @PersistenceContext
+    private EntityManager em;
 
     private LocalDateTime dateTime;
     private String email;
@@ -56,20 +64,10 @@ public class PortalUserTest extends AbstractTestNGSpringContextTests {
         phone = "+999111999";
     }
 
-    @AfterMethod
+/*    @AfterMethod
     public void afterTest() {
-        EntityManager em = null;
-        try {
-            em = emf.createEntityManager();
-            em.getTransaction().begin();
-            em.createQuery("delete from PortalUser").executeUpdate();
-            em.getTransaction().commit();
-        } finally {
-            if (em != null) {
-                em.close();
-            }
-        }
-    }
+        em.createQuery("delete from PortalUser").executeUpdate();
+    }*/
 
     @Test
     public void createBasicTest() {
@@ -593,32 +591,11 @@ public class PortalUserTest extends AbstractTestNGSpringContextTests {
     }
 
     private PortalUser findUserInDB(Long id) {
-        EntityManager em = null;
-        try {
-            em = emf.createEntityManager();
-            em.getTransaction().begin();
-            PortalUser result = em.find(PortalUser.class, id);
-            em.getTransaction().commit();
-            return result;
-        } finally {
-            if (em != null) {
-                em.close();
-            }
-        }
+        return em.find(PortalUser.class, id);
     }
 
     private PortalUser createUserInDB(PortalUser user) {
-        EntityManager em = null;
-        try {
-            em = emf.createEntityManager();
-            em.getTransaction().begin();
-            em.persist(user);
-            em.getTransaction().commit();
-            return user;
-        } finally {
-            if (em != null) {
-                em.close();
-            }
-        }
+        em.persist(user);
+        return user;
     }
 }

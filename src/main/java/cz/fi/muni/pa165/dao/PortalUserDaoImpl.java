@@ -15,7 +15,7 @@ import java.util.List;
  * @author Martin Podhora
  */
 @Repository
-@Transactional
+//@Transactional
 public class PortalUserDaoImpl implements PortalUserDao {
     private static final String EMAIL_PATTERN = ".+@.+\\....?";
     private static final String PHONE_PATTERN = "\\+?\\d+";
