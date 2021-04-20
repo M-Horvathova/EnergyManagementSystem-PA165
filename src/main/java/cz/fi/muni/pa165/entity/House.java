@@ -105,4 +105,13 @@ public class House implements Serializable {
         result = 31 * result + getAddress().hashCode();
         return result;
     }
+
+    @Override
+    public String toString() {
+        return "House{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", isRunning=" + isRunning +
+                '}';
+    }
 }

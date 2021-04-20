@@ -97,4 +97,16 @@ public class Address implements Serializable {
         result = 31 * result + getCountry().hashCode();
         return result;
     }
+
+    @Override
+    public String toString() {
+        return "Address{" +
+                "id=" + id +
+                ", street='" + street + '\'' +
+                ", code='" + code + '\'' +
+                ", city='" + city + '\'' +
+                ", postCode='" + postCode + '\'' +
+                ", country='" + country + '\'' +
+                '}';
+    }
 }
