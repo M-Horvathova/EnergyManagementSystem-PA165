@@ -7,7 +7,6 @@ import cz.fi.muni.pa165.entity.House;
 import cz.fi.muni.pa165.entity.PortalUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -15,7 +14,6 @@ import java.util.List;
  * @author Patrik Valo
  */
 @Service
-@Transactional
 public class HouseServiceImpl implements HouseService {
 
     private final HouseDao houseDao;
