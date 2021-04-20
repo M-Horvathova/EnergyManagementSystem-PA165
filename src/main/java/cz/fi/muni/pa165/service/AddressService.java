@@ -9,13 +9,11 @@ import java.util.List;
  */
 public interface AddressService {
 
-    void create(Address address);
-
-    Address findById(Long id);
-
-    List<Address> findAll();
-
-    Address find(String street, String code, String city, String postCode, String country);
-
-    void delete(Address address);
+    /**
+     * Creates thee address or if there exists a address with same parameters
+     * it returns the existing address
+     * @param address Address, which should be create
+     * @return created or existing address
+     */
+    Address createAddress(Address address);
 }

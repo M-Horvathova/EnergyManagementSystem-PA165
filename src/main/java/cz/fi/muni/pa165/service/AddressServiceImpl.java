@@ -5,8 +5,6 @@ import cz.fi.muni.pa165.entity.Address;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-
 @Service
 public class AddressServiceImpl implements AddressService {
 
@@ -18,27 +16,15 @@ public class AddressServiceImpl implements AddressService {
     }
 
     @Override
-    public void create(Address address) {
+    public Address createAddress(Address address) {
+        Address existingAddress = addressDao.find(address.getStreet(), address.getCode(),
+                address.getCity(), address.getPostCode(), address.getCountry());
+
+        if (existingAddress != null) {
+            return existingAddress;
+        }
+
         addressDao.create(address);
-    }
-
-    @Override
-    public Address findById(Long id) {
-        return addressDao.findById(id);
-    }
-
-    @Override
-    public List<Address> findAll() {
-        return addressDao.findAll();
-    }
-
-    @Override
-    public Address find(String street, String code, String city, String postCode, String country) {
-        return addressDao.find(street, code, city, postCode, country);
-    }
-
-    @Override
-    public void delete(Address address) {
-        addressDao.delete(address);
+        return address;
     }
 }
