@@ -4,8 +4,13 @@ import cz.fi.muni.pa165.dao.AddressDao;
 import cz.fi.muni.pa165.entity.Address;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+/**
+ * @author Patrik Valo
+ */
 @Service
+@Transactional
 public class AddressServiceImpl implements AddressService {
 
     private final AddressDao addressDao;
@@ -26,5 +31,10 @@ public class AddressServiceImpl implements AddressService {
 
         addressDao.create(address);
         return address;
+    }
+
+    @Override
+    public Address findById(Long id) {
+        return addressDao.findById(id);
     }
 }

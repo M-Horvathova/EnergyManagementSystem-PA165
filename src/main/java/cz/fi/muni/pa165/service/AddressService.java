@@ -16,4 +16,11 @@ public interface AddressService {
      * @return created or existing address
      */
     Address createAddress(Address address);
+
+    /**
+     * Finds the address by the given id
+     * @param id the id of the address
+     * @return address with given id
+     */
+    Address findById(Long id);
 }
