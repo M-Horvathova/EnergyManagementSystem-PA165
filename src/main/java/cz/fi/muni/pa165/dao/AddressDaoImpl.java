@@ -34,18 +34,18 @@ public class AddressDaoImpl implements AddressDao {
 
     @Override
     public List<Address> findAll() {
-        return em.createQuery("select a from Address a", Address.class).getResultList();
+        return em.createQuery("SELECT a FROM Address a", Address.class).getResultList();
     }
 
     @Override
     public Address find(String street, String code, String city, String postCode, String country) {
-        String sqlQuery = "select a from Address a " +
-                "where a.city = :city " +
-                "and a.postCode = :postCode " +
-                "and a.country = :country";
+        String sqlQuery = "SELECT a FROM Address a " +
+                "WHERE a.city = :city " +
+                "AND a.postCode = :postCode " +
+                "AND a.country = :country";
 
-        sqlQuery += street == null ? " and a.street is null" : " and a.street = :street";
-        sqlQuery += code == null ? " and a.code is null" : " and a.code = :code";
+        sqlQuery += street == null ? " AND a.street IS NULL" : " AND a.street = :street";
+        sqlQuery += code == null ? " AND a.code IS NULL" : " AND a.code = :code";
 
         var query = em.createQuery(sqlQuery, Address.class)
                 .setParameter("city", city)

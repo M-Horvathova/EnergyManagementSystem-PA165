@@ -36,21 +36,21 @@ public class HouseDaoImpl implements HouseDao {
 
     @Override
     public House findByName(String name) {
-        return em.createQuery("select h from House h where h.name = :name", House.class)
+        return em.createQuery("SELECT h FROM House h WHERE h.name = :name", House.class)
                 .setParameter("name", name)
                 .getSingleResult();
     }
 
     @Override
     public List<House> findByAddress(Address address) {
-        return em.createQuery("select h from House h where h.address = :address", House.class)
+        return em.createQuery("SELECT h FROM House h WHERE h.address = :address", House.class)
                 .setParameter("address", address)
                 .getResultList();
     }
 
     @Override
     public List<House> findAll() {
-        return em.createQuery("select h from House h", House.class).getResultList();
+        return em.createQuery("SELECT h FROM House h", House.class).getResultList();
     }
 
     @Override
