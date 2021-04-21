@@ -15,6 +15,8 @@ import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseBuilder;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType;
 import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
+import org.springframework.security.crypto.argon2.Argon2PasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import javax.sql.DataSource;
 
@@ -26,7 +28,8 @@ import javax.sql.DataSource;
         AddressDao.class, Address.class,
         HouseDao.class, House.class,
         PortalUserDao.class, PortalUser.class,
-        SmartMeterDao.class, SmartMeter.class
+        SmartMeterDao.class, SmartMeter.class,
+        UserRoleDao.class, UserRole.class
 }, basePackages = "cz.fi.muni.pa165")
 public class PersistenceApplicationContext {
 
@@ -65,6 +68,11 @@ public class PersistenceApplicationContext {
     public DataSource db() {
         EmbeddedDatabaseBuilder builder = new EmbeddedDatabaseBuilder();
         return builder.setType(EmbeddedDatabaseType.DERBY).build();
+    }
+
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+        return new Argon2PasswordEncoder();
     }
 }
 

@@ -6,8 +6,6 @@ import org.springframework.stereotype.Repository;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
-import javax.transaction.Transactional;
-import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.List;
 
@@ -15,7 +13,6 @@ import java.util.List;
  * @author Martin Podhora
  */
 @Repository
-//@Transactional
 public class PortalUserDaoImpl implements PortalUserDao {
     private static final String EMAIL_PATTERN = ".+@.+\\....?";
     private static final String PHONE_PATTERN = "\\+?\\d+";
@@ -25,7 +22,7 @@ public class PortalUserDaoImpl implements PortalUserDao {
 
     @Override
     public void create(PortalUser portalUser) {
-        UserValidation(portalUser);
+        userValidation(portalUser);
         em.persist(portalUser);
     }
 
@@ -52,7 +49,7 @@ public class PortalUserDaoImpl implements PortalUserDao {
 
     @Override
     public void update(PortalUser portalUser) {
-        UserValidation(portalUser);
+        userValidation(portalUser);
         em.merge(portalUser);
     }
 
@@ -62,7 +59,7 @@ public class PortalUserDaoImpl implements PortalUserDao {
         em.remove(portalUser);
     }
 
-    private void UserValidation(PortalUser pu) {
+    private void userValidation(PortalUser pu) {
         if (pu.getEmail() != null && !Pattern.matches(EMAIL_PATTERN, pu.getEmail()))  {
             throw new IllegalArgumentException("Email is not in correct format");
         }

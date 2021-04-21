@@ -1,57 +1,37 @@
-package cz.fi.muni.pa165.entity;
+package cz.fi.muni.pa165.dto.PortalUser;
 
 import com.google.gson.Gson;
+import cz.fi.muni.pa165.entity.House;
 
-import javax.persistence.*;
-import javax.validation.constraints.Future;
-import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.Objects;
 import java.util.Set;
 
 /**
- * Class representing user entity in our portal
- *
  * @author Martin Podhora
  */
-@Entity
-public class PortalUser implements Serializable {
-    @Id
-    @GeneratedValue(strategy=GenerationType.IDENTITY)
+public class PortalUserDTO {
     private long id;
 
-    @Column(nullable=false)
     private String passwordHash;
 
-    @Column(nullable=false,unique=true)
     private String email;
 
-    @Column(nullable=false)
     private String firstName;
 
-    @Column(nullable=false)
     private String lastName;
 
-    @Column(nullable=false)
     private String phone;
 
-    @ManyToOne(optional = false)
-    private UserRole userRole;
+    private boolean isAdmin;
 
-    @Column(nullable=false)
     private boolean isActive;
 
-    @Future
-    @Column(nullable=false)
     private LocalDateTime createdTimestamp;
 
-    @Future
-    @Column(nullable=true)
     private LocalDateTime lastLoginTimestamp;
 
-    @OneToMany(mappedBy = "portalUser")
     private Set<House> houses;
-
 
     public long getId() {
         return id;
@@ -61,7 +41,6 @@ public class PortalUser implements Serializable {
         this.id = id;
     }
 
-
     public String getPasswordHash() {
         return passwordHash;
     }
@@ -69,7 +48,6 @@ public class PortalUser implements Serializable {
     public void setPasswordHash(String passwordHash) {
         this.passwordHash = passwordHash;
     }
-
 
     public String getEmail() {
         return email;
@@ -79,7 +57,6 @@ public class PortalUser implements Serializable {
         this.email = email;
     }
 
-
     public String getFirstName() {
         return firstName;
     }
@@ -87,7 +64,6 @@ public class PortalUser implements Serializable {
     public void setFirstName(String firstName) {
         this.firstName = firstName;
     }
-
 
     public String getLastName() {
         return lastName;
@@ -97,7 +73,6 @@ public class PortalUser implements Serializable {
         this.lastName = lastName;
     }
 
-
     public String getPhone() {
         return phone;
     }
@@ -106,15 +81,21 @@ public class PortalUser implements Serializable {
         this.phone = phone;
     }
 
-
-    public UserRole getUserRole() {
-        return userRole;
+    public boolean isAdmin() {
+        return isAdmin;
     }
 
-    public void setUserRole(UserRole userRole) {
-        this.userRole = userRole;
+    public void setAdmin(boolean admin) {
+        isAdmin = admin;
     }
 
+    public boolean isActive() {
+        return isActive;
+    }
+
+    public void setActive(boolean active) {
+        isActive = active;
+    }
 
     public LocalDateTime getCreatedTimestamp() {
         return createdTimestamp;
@@ -124,7 +105,6 @@ public class PortalUser implements Serializable {
         this.createdTimestamp = createdTimestamp;
     }
 
-
     public LocalDateTime getLastLoginTimestamp() {
         return lastLoginTimestamp;
     }
@@ -133,39 +113,28 @@ public class PortalUser implements Serializable {
         this.lastLoginTimestamp = lastLoginTimestamp;
     }
 
-
-    public boolean isActive() {
-        return isActive;
-    }
-
-    public void setActive(boolean isActive) {
-        this.isActive = isActive;
-    }
-
-
     public Set<House> getHouses() {
         return houses;
     }
 
     public void setHouses(Set<House> houses) {
-        houses.forEach(house -> house.setPortalUser(this));
         this.houses = houses;
     }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (o == null || !(o instanceof PortalUser)) return false;
-        PortalUser that = (PortalUser) o;
+        if (o == null || getClass() != o.getClass()) return false;
+        PortalUserDTO that = (PortalUserDTO) o;
         return getId() == that.getId()
-                && isActive == that.isActive
-                && getPasswordHash().equals(that.getPasswordHash())
-                && getEmail().equals(that.getEmail())
-                && getFirstName().equals(that.getFirstName())
-                && getLastName().equals(that.getLastName())
-                && getPhone().equals(that.getPhone())
-                && getUserRole().equals(that.getUserRole())
-                && getCreatedTimestamp().equals(that.getCreatedTimestamp())
+                && isAdmin() == that.isAdmin()
+                && isActive() == that.isActive()
+                && Objects.equals(getPasswordHash(), that.getPasswordHash())
+                && Objects.equals(getEmail(), that.getEmail())
+                && Objects.equals(getFirstName(), that.getFirstName())
+                && Objects.equals(getLastName(), that.getLastName())
+                && Objects.equals(getPhone(), that.getPhone())
+                && Objects.equals(getCreatedTimestamp(), that.getCreatedTimestamp())
                 && Objects.equals(getLastLoginTimestamp(), that.getLastLoginTimestamp())
                 && Objects.equals(getHouses(), that.getHouses());
     }
@@ -179,15 +148,14 @@ public class PortalUser implements Serializable {
                 getFirstName(),
                 getLastName(),
                 getPhone(),
-                getUserRole(),
-                isActive,
+                isAdmin(),
+                isActive(),
                 getCreatedTimestamp(),
                 getLastLoginTimestamp(),
                 getHouses());
     }
 
-    @Override
-    public String toString() {
+    public String toString(){
         return new Gson().toJson(this);
     }
 }
