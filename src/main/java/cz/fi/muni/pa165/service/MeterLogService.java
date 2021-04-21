@@ -14,125 +14,129 @@ import java.util.List;
  */
 public interface MeterLogService {
     /**
-     *
-     * @param id
-     * @return
+     * Finds the meter log with given id
+     * @param id Id of the object to be found
+     * @return Found object or null
      */
     public MeterLog findById(Long id);
 
     /**
-     *
-     * @return
+     * Finds all meter logs
+     * @return list of all meter log objects
      */
     public List<MeterLog> findAll();
 
     /**
-     *
-     * @param date
-     * @return
+     * Finds all meter logs taken on given day
+     * @param date Date in which the searched for logs were taken
+     * @return List of meter logs taken on specified date
      */
     public List<MeterLog> findByDate(LocalDate date);
 
     /**
-     *
-     * @param startDate
-     * @param endDate
-     * @return
+     * Finds all meter logs given within time frame (including on edge days)
+     * @param startDate  starting date of the time frame
+     * @param endDate ending date of the time frame
+     * @return List of meter logs taken within given timeframe
      */
     public List<MeterLog> findInDateFrame(LocalDate startDate, LocalDate endDate);
 
     /**
-     *
-     * @param startDate
-     * @param endDate
-     * @param dayTime
-     * @return
+     * Finds all meter logs given within time frame (including on edge days) and in given time of day
+     * @param startDate starting date of the time frame
+     * @param endDate ending date of the time frame
+     * @param dayTime time of the day where logs were taken
+     * @return List of meter logs given within time frame and in given time of day
      */
     public List<MeterLog> findInDateFrameWithDayTime(LocalDate startDate, LocalDate endDate, DayTime dayTime);
 
     /**
-     *
-     * @param ml
+     * Creates meter log in database
+     * @param ml meter log to be created
      */
     public void createMeterLog(MeterLog ml);
 
     /**
-     *
-     * @param ml
+     * Deletes a meter log
+     * @param ml meter log to be deleted
      */
     public void deleteMeterLog(MeterLog ml);
 
     /**
-     *
-     * @param ml
-     * @param newMeasurement
+     * Changes the measurement value of the given meter log to the given value
+     * @param ml meter log to be updated
+     * @param newMeasurement new measurement value
+     * @return meter log with the updated value
      */
-    public void changeMeasurement(MeterLog ml, Long newMeasurement);
+    public MeterLog changeMeasurement(MeterLog ml, Long newMeasurement);
 
     /**
-     *
-     * @param ml
-     * @param newDate
+     * Changes the date taken of the given meter log to the given value
+     * @param ml meter log to be updated
+     * @param newDate new date value
+     * @return meter log with the updated value
      */
-    public void changeDate(MeterLog ml, LocalDate newDate);
+    public MeterLog changeDate(MeterLog ml, LocalDate newDate);
 
     /**
-     *
-     * @param ml
-     * @param newTme
+     * Changes the time taken of the given meter log to the given value
+     * @param ml meter log to be updated
+     * @param newTme new time value
+     * @return meter log with the updated value
      */
-    public void changeTime(MeterLog ml, LocalTime newTme);
+    public MeterLog changeTime(MeterLog ml, LocalTime newTme);
 
     /**
-     *
-     * @param ml
-     * @param startDate
-     * @param endDate
-     * @return
+     * Checks if given meter log was taken in given time frame
+     * @param ml meter log to be checked
+     * @param startDate start date of the time frame
+     * @param endDate end date of the time frame
+     * @return true if meter log was taken in given time frame (edge days included), false otherwise
      */
     public boolean isInDateFrame(MeterLog ml, LocalDate startDate, LocalDate endDate);
 
     /**
-     *
-     * @param ml
-     * @param dayTime
-     * @return
+     * Checks if given meter log was taken in given time of day
+     * @param ml meter log to be checked
+     * @param dayTime time of day to be checked against
+     * @return true if meter log was taken in given time of day, false otherwise
      */
     public boolean isInDayTime(MeterLog ml, DayTime dayTime);
 
     /**
-     *
-     * @param ml
-     * @param startDate
-     * @param endDate
-     * @param dayTime
-     * @return
+     * Checks if given meter log was taken in given time frame and daytime
+     * @param ml meter log to be checked
+     * @param startDate start date of the time frame
+     * @param endDate end date of the time frame
+     * @param dayTime time of day to be checked against
+     * @return true if meter log was taken in given time frame (edge days included) and time of day, false otherwise
      */
     public boolean isInDateFrameWithDayTime(MeterLog ml, LocalDate startDate, LocalDate endDate, DayTime dayTime);
 
     /**
-     *
-     * @param meterLogs
-     * @param startDate
-     * @param endDate
-     * @return
+     * Removes all entries from given list that were not taken within given date frame (edge days included)
+     * @param meterLogs list of logs to be filtered
+     * @param startDate start date of the time frame
+     * @param endDate end date of the time frame
+     * @return list of only those frames from the parameter that were taken in given time frame
      */
     public List<MeterLog> filterInDateFrame(List<MeterLog> meterLogs, LocalDate startDate, LocalDate endDate);
 
     /**
-     *
-     * @param meterLogs
-     * @param dayTime
-     * @return
+     * Removes all entries from given list that were not taken within given time of day
+     * @param meterLogs list of logs to be filtered
+     * @param dayTime time of day to be included
+     * @return list of only those frames from the parameter that were taken in given time of day
      */
     public List<MeterLog> filterInDayTime(List<MeterLog> meterLogs, DayTime dayTime);
 
     /**
-     *
-     * @param startDate
-     * @param endDate
-     * @param dayTime
-     * @return
+     * Removes all entries from given list that were not taken within given date frame (edge days included) and time of day
+     * @param meterLogs list of logs to be filtered
+     * @param startDate start date of the time frame
+     * @param endDate end date of the time frame
+     * @param dayTime time of day to be included
+     * @return list of only those frames from the parameter that were taken in given time frame and time of day
      */
     public List<MeterLog> filterInDateFrameWithTimeDay(List<MeterLog> meterLogs, LocalDate startDate, LocalDate endDate, DayTime dayTime);
 }

@@ -15,6 +15,10 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDate;
 import java.util.List;
 
+
+/**
+ * @author Michaela Horváthová
+ */
 @Service
 @Transactional
 public class MeterLogFacadeImpl implements MeterLogFacade{
@@ -37,8 +41,6 @@ public class MeterLogFacadeImpl implements MeterLogFacade{
 
         return null;
     }
-
-
 
     @Override
     public void deleteMeterLog(Long meterLogId) {
@@ -63,7 +65,9 @@ public class MeterLogFacadeImpl implements MeterLogFacade{
         LocalDate sDate = LocalDate.parse(startDate);
         LocalDate eDate = LocalDate.parse(endDate);
         if (sDate == null || eDate == null) {
-            return null;
+            log.error("MeterLogFacade method getLogsInTimeFrame with start date: "
+                    + startDate + " end date: " + endDate + " - not able to process dates correctly.");
+            throw new IllegalArgumentException("Dates cannot be converted properly");
         }
         List<MeterLog> res = meterLogService.findInDateFrame(sDate, eDate);
         return beanMappingService.mapTo(res, MeterLogDTO.class);
@@ -77,10 +81,14 @@ public class MeterLogFacadeImpl implements MeterLogFacade{
         try {
             dTime = DayTime.valueOf(dayTime);
         } catch (Exception e) {
-            return null;
+            log.error("MeterLogFacade method getLogsInTimeFrameWithDaytime with time of day: "
+                    + dayTime + " - is not correct time of day.");
+            throw new IllegalArgumentException("Cannot convert time of day to enum");
         }
         if (sDate == null || eDate == null) {
-            return null;
+            log.error("MeterLogFacade method getLogsInTimeFrameWithDaytime with start date: "
+                    + startDate + " end date: " + endDate + " - not able to process dates correctly.");
+            throw new IllegalArgumentException("Dates cannot be converted properly");
         }
         List<MeterLog> res = meterLogService.findInDateFrameWithDayTime(sDate, eDate, dTime);
         return beanMappingService.mapTo(res, MeterLogDTO.class);
