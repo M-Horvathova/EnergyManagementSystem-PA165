@@ -133,13 +133,23 @@ public class PortalUser implements Serializable {
         this.lastLoginTimestamp = lastLoginTimestamp;
     }
 
-    public void setHouses(Set<House> houses) {
-        houses.forEach(house -> house.setPortalUser(this));
-        this.houses = houses;
+
+    public boolean isActive() {
+        return isActive;
     }
+
+    public void setActive(boolean isActive) {
+        this.isActive = isActive;
+    }
+
 
     public Set<House> getHouses() {
         return houses;
+    }
+
+    public void setHouses(Set<House> houses) {
+        houses.forEach(house -> house.setPortalUser(this));
+        this.houses = houses;
     }
 
     @Override
