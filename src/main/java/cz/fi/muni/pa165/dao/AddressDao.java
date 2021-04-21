@@ -36,6 +36,12 @@ public interface AddressDao {
     List<Address> findAll();
 
     /**
+     * Try to find address with given params
+     * @return address if exists, null otherwise
+     */
+    Address find(String street, String code, String city, String postCode, String country);
+
+    /**
      * Deletes the address
      * @param address the address, which should be deleted
      */

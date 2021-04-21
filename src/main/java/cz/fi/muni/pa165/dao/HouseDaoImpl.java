@@ -2,8 +2,8 @@ package cz.fi.muni.pa165.dao;
 
 import cz.fi.muni.pa165.entity.Address;
 import cz.fi.muni.pa165.entity.House;
+import cz.fi.muni.pa165.entity.PortalUser;
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -13,7 +13,6 @@ import java.util.List;
  * @author Patrik Valo
  */
 @Repository
-@Transactional
 public class HouseDaoImpl implements HouseDao {
 
     @PersistenceContext
@@ -35,22 +34,29 @@ public class HouseDaoImpl implements HouseDao {
     }
 
     @Override
-    public House findByName(String name) {
-        return em.createQuery("select h from House h where h.name = :name", House.class)
+    public List<House> findByName(String name) {
+        return em.createQuery("SELECT h FROM House h WHERE h.name = :name", House.class)
                 .setParameter("name", name)
-                .getSingleResult();
+                .getResultList();
     }
 
     @Override
     public List<House> findByAddress(Address address) {
-        return em.createQuery("select h from House h where h.address = :address", House.class)
+        return em.createQuery("SELECT h FROM House h WHERE h.address = :address", House.class)
                 .setParameter("address", address)
                 .getResultList();
     }
 
     @Override
+    public List<House> findByUser(PortalUser user) {
+        return em.createQuery("SELECT h FROM House h WHERE h.portalUser = :user", House.class)
+                .setParameter("user", user)
+                .getResultList();
+    }
+
+    @Override
     public List<House> findAll() {
-        return em.createQuery("select h from House h", House.class).getResultList();
+        return em.createQuery("SELECT h FROM House h", House.class).getResultList();
     }
 
     @Override

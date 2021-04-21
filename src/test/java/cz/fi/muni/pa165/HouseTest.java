@@ -7,15 +7,15 @@ import cz.fi.muni.pa165.entity.SmartMeter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.orm.jpa.JpaSystemException;
 import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.TestExecutionListeners;
 import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
+import org.springframework.test.context.transaction.TransactionalTestExecutionListener;
+import org.springframework.transaction.annotation.Transactional;
 import org.testng.Assert;
-import org.testng.annotations.AfterMethod;
 import org.testng.annotations.Test;
 
 import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
 import javax.persistence.PersistenceContext;
-import javax.persistence.PersistenceUnit;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -23,33 +23,22 @@ import java.util.List;
  * @author Michaela Horváthová
  */
 @ContextConfiguration(classes = PersistenceApplicationContext.class)
+@TestExecutionListeners(TransactionalTestExecutionListener.class)
+@Transactional
 public class HouseTest extends AbstractTestNGSpringContextTests {
 
     @Autowired
     private HouseDao houseDao;
 
-    @PersistenceUnit
-    private EntityManagerFactory emf;
-
     @PersistenceContext
-    private EntityManager emPers;
+    private EntityManager em;
 
 
-    @AfterMethod
+    //@AfterMethod
     public void afterTest() {
-        EntityManager em = null;
-        try {
-            em = emf.createEntityManager();
-            em.getTransaction().begin();
-            em.createQuery("delete from SmartMeter").executeUpdate();
-            em.createQuery("delete from House ").executeUpdate();
-            em.createQuery("delete from Address").executeUpdate();
-            em.getTransaction().commit();
-        } finally {
-            if (em != null) {
-                em.close();
-            }
-        }
+        em.createQuery("delete from SmartMeter").executeUpdate();
+        em.createQuery("delete from House ").executeUpdate();
+        em.createQuery("delete from Address").executeUpdate();
     }
 
     @Test
@@ -81,7 +70,7 @@ public class HouseTest extends AbstractTestNGSpringContextTests {
         houseDao.create(house);
         updateSmartMeter(smartMeter);
 
-        List<House> result = emPers.createQuery("select h from House h left join fetch h.smartMeters where h.id=:id",
+        List<House> result = em.createQuery("select h from House h left join fetch h.smartMeters where h.id=:id",
                 House.class).setParameter("id", house.getId()).getResultList();
 
         Assert.assertNotNull(result);
@@ -111,7 +100,7 @@ public class HouseTest extends AbstractTestNGSpringContextTests {
         houseDao.update(house);
         updateSmartMeter(smartMeter);
 
-        List<House> resultUpdate = emPers.createQuery("select h from House h left join fetch h.smartMeters where h.id=:id",
+        List<House> resultUpdate = em.createQuery("select h from House h left join fetch h.smartMeters where h.id=:id",
                 House.class).setParameter("id", house.getId()).getResultList();
 
         Assert.assertNotNull(resultUpdate);
@@ -157,42 +146,7 @@ public class HouseTest extends AbstractTestNGSpringContextTests {
         Assert.assertEquals(result.getAddress(), addressNew);
     }
 
-    @Test(expectedExceptions = JpaSystemException.class)
-    public void updateNullName() {
-        Address address = createValidAddress("Brno");
-        House house = new House();
-        house.setAddress(address);
-        house.setName("Test house");
-        house.setRunning(false);
-        houseDao.create(house);
-        house.setName(null);
-        houseDao.update(house);
-    }
 
-    @Test(expectedExceptions = JpaSystemException.class)
-    public void updateNullRunning() {
-        Address address = createValidAddress("Brno");
-        House house = new House();
-        house.setAddress(address);
-        house.setName("Test house");
-        house.setRunning(false);
-        houseDao.create(house);
-        house.setRunning(null);
-        houseDao.update(house);
-    }
-
-    @Test(expectedExceptions = JpaSystemException.class)
-    public void updateNullAddress() {
-        Address address = createValidAddress("Brno");
-        House house = new House();
-        house.setAddress(address);
-        house.setName("Test house");
-        house.setRunning(false);
-        houseDao.create(house);
-        Address newAddress = null;
-        house.setAddress(newAddress);
-        houseDao.update(house);
-    }
 
     @Test
     public void deleteHouse() {
@@ -260,9 +214,10 @@ public class HouseTest extends AbstractTestNGSpringContextTests {
         house.setRunning(true);
         houseDao.create(house);
 
-        House result = houseDao.findByName(house.getName());
+        List<House> result = houseDao.findByName(house.getName());
         Assert.assertNotNull(result);
-        Assert.assertEquals(result, house);
+        Assert.assertEquals(result.size(), 1);
+        Assert.assertEquals(result.get(0), house);
     }
 
     @Test
@@ -310,31 +265,20 @@ public class HouseTest extends AbstractTestNGSpringContextTests {
     }
 
     private SmartMeter createValidSmartMeter() {
-        EntityManager em = null;
-        try {
-            em = emf.createEntityManager();
-            em.getTransaction().begin();
+
             SmartMeter smartMeter = new SmartMeter();
             smartMeter.setCumulativePowerConsumption(123D);
             smartMeter.setRunning(false);
             smartMeter.setLastLogTakenAt(LocalDateTime.of(2021, 1,12,7,32));
             smartMeter.setPowerConsumptionSinceLastLog(0);
             em.persist(smartMeter);
-            em.getTransaction().commit();
+
             return smartMeter;
-        } finally {
-            if (em != null) {
-                em.close();
-            }
-        }
+
     }
 
 
     private Address createValidAddress(String city) {
-        EntityManager em = null;
-        em = emf.createEntityManager();
-        try {
-            em.getTransaction().begin();
             Address address = new Address();
             address.setStreet("Botanická");
             address.setCode("15");
@@ -342,42 +286,20 @@ public class HouseTest extends AbstractTestNGSpringContextTests {
             address.setCountry("Czech Republic");
             address.setPostCode("123456");
             em.persist(address);
-            em.getTransaction().commit();
             return address;
-        } finally {
-            if (em != null) {
-                em.close();
-            }
-        }
     }
 
     private House findEntityInDb(Long id) {
-        EntityManager em = null;
-        em = emf.createEntityManager();
-        try {
-            em.getTransaction().begin();
+
             House result = em.find(House.class, id);
-            em.getTransaction().commit();
             return result;
-        } finally {
-            if (em != null) {
-                em.close();
-            }
-        }
+
     }
 
     private SmartMeter updateSmartMeter(SmartMeter smartMeter) {
-        EntityManager em = emf.createEntityManager();
-        try {
-            em.getTransaction().begin();
             smartMeter = em.merge(smartMeter);
-            em.getTransaction().commit();
-            em.close();
+
             return smartMeter;
-        } finally {
-            if (em != null) {
-                em.close();
-            }
-        }
+
     }
 }

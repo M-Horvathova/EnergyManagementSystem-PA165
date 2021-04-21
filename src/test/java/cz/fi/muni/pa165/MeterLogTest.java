@@ -6,14 +6,15 @@ import cz.fi.muni.pa165.enums.DayTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.orm.jpa.JpaSystemException;
 import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.TestExecutionListeners;
 import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
+import org.springframework.test.context.transaction.TransactionalTestExecutionListener;
 import org.testng.Assert;
-import org.testng.annotations.AfterMethod;
 import org.testng.annotations.Test;
 
 import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.PersistenceUnit;
+import javax.persistence.PersistenceContext;
+import javax.transaction.Transactional;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
@@ -25,28 +26,15 @@ import java.util.List;
  * @author Patrik Valo
  */
 @ContextConfiguration(classes = PersistenceApplicationContext.class)
+@TestExecutionListeners(TransactionalTestExecutionListener.class)
+@Transactional
 public class MeterLogTest extends AbstractTestNGSpringContextTests {
 
     @Autowired
     private MeterLogDao meterLogDao;
 
-    @PersistenceUnit
-    private EntityManagerFactory emf;
-
-    @AfterMethod
-    public void afterTest() {
-        EntityManager em = null;
-        try {
-            em = emf.createEntityManager();
-            em.getTransaction().begin();
-            em.createQuery("delete from MeterLog").executeUpdate();
-            em.getTransaction().commit();
-        } finally {
-            if (em != null) {
-                em.close();
-            }
-        }
-    }
+    @PersistenceContext
+    private EntityManager em;
 
     @Test
     public void basicCreateTest() {
@@ -371,40 +359,16 @@ public class MeterLogTest extends AbstractTestNGSpringContextTests {
     }
 
     private MeterLog findEntityInDb(Long id) {
-        EntityManager em = null;
-        try {
-            em = emf.createEntityManager();
-            em.getTransaction().begin();
-            MeterLog result = em.find(MeterLog.class, id);
-            em.getTransaction().commit();
-
-            return result;
-        } finally {
-            if (em != null) {
-                em.close();
-            }
-        }
+        return em.find(MeterLog.class, id);
     }
 
     private MeterLog createEntityMeterLog(LocalDate date, LocalTime time, Long measure) {
-        EntityManager em = null;
-        try {
-            em = emf.createEntityManager();
-            em.getTransaction().begin();
-
-            MeterLog meterLog = new MeterLog();
-            meterLog.setLogDate(date);
-            meterLog.setLogTime(time);
-            meterLog.setMeasure(measure);
-            em.persist(meterLog);
-
-            em.getTransaction().commit();
-            return meterLog;
-        } finally {
-            if (em != null) {
-                em.close();
-            }
-        }
+        MeterLog meterLog = new MeterLog();
+        meterLog.setLogDate(date);
+        meterLog.setLogTime(time);
+        meterLog.setMeasure(measure);
+        em.persist(meterLog);
+        return meterLog;
     }
 
     private List<MeterLog> createEntitiesForFindByDateTime() {

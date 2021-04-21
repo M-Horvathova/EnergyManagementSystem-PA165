@@ -2,6 +2,7 @@ package cz.fi.muni.pa165.dao;
 
 import cz.fi.muni.pa165.entity.Address;
 import cz.fi.muni.pa165.entity.House;
+import cz.fi.muni.pa165.entity.PortalUser;
 
 import java.util.List;
 
@@ -31,11 +32,11 @@ public interface HouseDao {
     House findById(Long id);
 
     /**
-     * Finds the house by the given name
+     * Finds the houses by the given name
      * @param name the name of the house
-     * @return house with the name
+     * @return houses with the name
      */
-    House findByName(String name);
+    List<House> findByName(String name);
 
     /**
      * Finds the houses on the address
@@ -43,6 +44,14 @@ public interface HouseDao {
      * @return houses on the address
      */
     List<House> findByAddress(Address address);
+
+    /**
+     * Finds the houses by the user
+     * @param user user
+     * @return user's houses
+     */
+    List<House> findByUser(PortalUser user);
+
 
     /**
      * Finds all houses in db
