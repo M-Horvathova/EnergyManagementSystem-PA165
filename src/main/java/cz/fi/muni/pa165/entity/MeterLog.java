@@ -4,6 +4,7 @@ import cz.fi.muni.pa165.enums.DayTime;
 import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -17,7 +18,8 @@ import java.util.Objects;
   This class represents a single measurement of a particular smart meter
  */
 @Entity
-public class MeterLog {
+@Table(name = "meterlog")
+public class MeterLog implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -166,5 +168,14 @@ public class MeterLog {
 
     public void setLogTime(LocalTime logTime) {
         this.logTime = logTime;
+    }
+
+    @Override
+    public String toString() {
+        return "MeterLog{" +
+                "logDate=" + logDate +
+                ", logTime=" + logTime +
+                ", measure=" + measure +
+                '}';
     }
 }

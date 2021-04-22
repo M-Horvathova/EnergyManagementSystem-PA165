@@ -33,14 +33,6 @@ public class HouseTest extends AbstractTestNGSpringContextTests {
     @PersistenceContext
     private EntityManager em;
 
-
-    //@AfterMethod
-    public void afterTest() {
-        em.createQuery("delete from SmartMeter").executeUpdate();
-        em.createQuery("delete from House ").executeUpdate();
-        em.createQuery("delete from Address").executeUpdate();
-    }
-
     @Test
     public void basicCreateTest() {
         Address address = createValidAddress("Brno");
@@ -70,7 +62,7 @@ public class HouseTest extends AbstractTestNGSpringContextTests {
         houseDao.create(house);
         updateSmartMeter(smartMeter);
 
-        List<House> result = em.createQuery("select h from House h left join fetch h.smartMeters where h.id=:id",
+        List<House> result = em.createQuery("SELECT h FROM House h LEFT JOIN FETCH h.smartMeters WHERE h.id=:id",
                 House.class).setParameter("id", house.getId()).getResultList();
 
         Assert.assertNotNull(result);
@@ -100,7 +92,7 @@ public class HouseTest extends AbstractTestNGSpringContextTests {
         houseDao.update(house);
         updateSmartMeter(smartMeter);
 
-        List<House> resultUpdate = em.createQuery("select h from House h left join fetch h.smartMeters where h.id=:id",
+        List<House> resultUpdate = em.createQuery("SELECT h FROM House h LEFT JOIN FETCH h.smartMeters WHERE h.id=:id",
                 House.class).setParameter("id", house.getId()).getResultList();
 
         Assert.assertNotNull(resultUpdate);
@@ -265,16 +257,13 @@ public class HouseTest extends AbstractTestNGSpringContextTests {
     }
 
     private SmartMeter createValidSmartMeter() {
-
             SmartMeter smartMeter = new SmartMeter();
             smartMeter.setCumulativePowerConsumption(123D);
             smartMeter.setRunning(false);
             smartMeter.setLastLogTakenAt(LocalDateTime.of(2021, 1,12,7,32));
             smartMeter.setPowerConsumptionSinceLastLog(0);
             em.persist(smartMeter);
-
             return smartMeter;
-
     }
 
 
@@ -290,16 +279,10 @@ public class HouseTest extends AbstractTestNGSpringContextTests {
     }
 
     private House findEntityInDb(Long id) {
-
-            House result = em.find(House.class, id);
-            return result;
-
+        return em.find(House.class, id);
     }
 
-    private SmartMeter updateSmartMeter(SmartMeter smartMeter) {
-            smartMeter = em.merge(smartMeter);
-
-            return smartMeter;
-
+    private void updateSmartMeter(SmartMeter smartMeter) {
+            em.merge(smartMeter);
     }
 }

@@ -75,30 +75,35 @@ public class MeterLogServiceImpl implements MeterLogService{
     }
 
     @Override
-    public void changeMeasurement(MeterLog ml, Long newMeasurement) {
+    public MeterLog changeMeasurement(MeterLog ml, Long newMeasurement) {
             ml.setMeasure(newMeasurement);
             meterLogDao.update(ml);
+            return ml;
     }
 
     @Override
-    public void changeDate(MeterLog ml, LocalDate newDate) {
+    public MeterLog changeDate(MeterLog ml, LocalDate newDate) {
        try {
            ml.setLogDate(newDate);
        } catch (IllegalArgumentException e) {
            throw new IllegalArgumentException(e.getMessage());
        }
        meterLogDao.update(ml);
+       return ml;
     }
 
     @Override
-    public void changeTime(MeterLog ml, LocalTime newTme) {
+    public MeterLog changeTime(MeterLog ml, LocalTime newTme) {
         ml.setLogTime(newTme);
         meterLogDao.update(ml);
+        return ml;
     }
 
     @Override
     public boolean isInDateFrame(MeterLog ml, LocalDate startDate, LocalDate endDate) {
         if (startDate.isAfter(endDate)) {
+            log.error("MeterLogService error, called isInDateFrame with  start date: "
+                    +  startDate.toString() + " after end date: "+ endDate.toString());
             throw new IllegalArgumentException("Start date of the time frame cannot be after end date");
         }
         return !ml.getLogDate().isBefore(startDate) && !ml.getLogDate().isAfter(endDate);
