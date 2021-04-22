@@ -38,7 +38,7 @@ public class MeterLogFacadeImpl implements MeterLogFacade{
     @Override
     public Long createMeterLog(MeterLogCreateDTO ml) {
         MeterLog mappedLog = beanMappingService.mapTo(ml, MeterLog.class);
-
+        
         return null;
     }
 
