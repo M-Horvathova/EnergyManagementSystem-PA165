@@ -2,13 +2,21 @@ package cz.fi.muni.pa165.service;
 
 import cz.fi.muni.pa165.dao.MeterLogDao;
 import cz.fi.muni.pa165.dao.SmartMeterDao;
+import cz.fi.muni.pa165.entity.MeterLog;
 import cz.fi.muni.pa165.entity.SmartMeter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
+
+/**
+ * @author Matej Rišňovský
+ */
 
 @Service
 public class SmartMeterServiceImpl implements SmartMeterService {
@@ -43,8 +51,8 @@ public class SmartMeterServiceImpl implements SmartMeterService {
     }
 
     @Override
-    public List<SmartMeter> findByRunning(boolean running) {
-        return smartMeterDao.findByRunning(running);
+    public List<SmartMeter> getRunningSmartMeters() {
+        return smartMeterDao.findByRunning(true);
     }
 
     @Override
@@ -52,5 +60,15 @@ public class SmartMeterServiceImpl implements SmartMeterService {
         smartMeterDao.delete(smartMeter);
     }
 
-    //TODO vymysliet pokrocile metody, ktore budu davat zmysel
+    @Override
+    public double getPowerSpentForDateForSmartMeter(LocalDate date, SmartMeter smartMeter) {
+        List<MeterLog> meterLogsForDate = new ArrayList<MeterLog>(smartMeter.getMeterLogs());
+        meterLogsForDate.removeIf(meterLog -> meterLog.getLogDate() != date);
+        return meterLogsForDate.stream().mapToDouble(meterLog -> (double)meterLog.getMeasure()).sum();
+    }
+
+    @Override
+    public double getAllPowerSpent() {
+        return findAll().stream().mapToDouble(sm -> sm.getCumulativePowerConsumption()).sum();
+    }
 }

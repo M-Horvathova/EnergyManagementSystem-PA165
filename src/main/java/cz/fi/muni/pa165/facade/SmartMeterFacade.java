@@ -3,14 +3,20 @@ package cz.fi.muni.pa165.facade;
 import cz.fi.muni.pa165.dto.SmartMeterCreateDTO;
 import cz.fi.muni.pa165.dto.SmartMeterDTO;
 import cz.fi.muni.pa165.entity.SmartMeter;
-
+/**
+ * @author Matej Rišňovský
+ */
+import java.time.LocalDate;
 import java.util.List;
 
 public interface SmartMeterFacade {
-    void create(SmartMeterCreateDTO smartMeter);
-    SmartMeterDTO update(SmartMeterDTO smartMeter);
-    SmartMeterDTO findById(Long id);
-    List<SmartMeterDTO> findAll();
-    List<SmartMeterDTO> findByRunning(boolean running);
-    void delete(SmartMeterDTO smartMeter);
+    void createSmartMeter(SmartMeterCreateDTO smartMeter);
+    SmartMeterDTO updateSmartMeter(SmartMeterDTO smartMeter);
+    SmartMeterDTO getSmartMeter(Long id);
+    List<SmartMeterDTO> getAllSmartMeters();
+    List<SmartMeterDTO> getRunningSmartMetes();
+    void deleteSmartMeter(SmartMeterDTO smartMeter);
+    double getPowerSpentForDateForSmartMeter(LocalDate date, SmartMeterDTO smartMeter);
+    double getAllPowerSpent();
+
 }
