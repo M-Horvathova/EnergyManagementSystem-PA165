@@ -40,6 +40,9 @@ public class MeterLogTest extends AbstractTestNGSpringContextTests {
     private MeterLogService meterLogService;
 
     private List<MeterLog> meterLogs;
+    private List<MeterLog> sameDateMeterLogs1;
+    private List<MeterLog> sameDateMeterLogs2;
+    private List<MeterLog> meterLogAlone;
 
     @BeforeClass
     public void setup() throws ServiceException  {
@@ -62,6 +65,7 @@ public class MeterLogTest extends AbstractTestNGSpringContextTests {
         meterLog1.setLogDate(LocalDate.of(2020, 1, 1));
         meterLog1.setLogTime(LocalTime.of(15, 30));
         meterLog1.setMeasure(1L);
+        sameDateMeterLogs1 = new ArrayList<>(Arrays.asList(meterLog0, meterLog1));
 
         // 2.1.2020
         // night
@@ -77,6 +81,7 @@ public class MeterLogTest extends AbstractTestNGSpringContextTests {
         meterLog3.setLogDate(LocalDate.of(2020, 1, 2));
         meterLog3.setLogTime(LocalTime.of(12, 0));
         meterLog3.setMeasure(2L);
+        sameDateMeterLogs2 = new ArrayList<>(Arrays.asList(meterLog2, meterLog3));
 
         // 3.1.2020
         // day
@@ -85,8 +90,9 @@ public class MeterLogTest extends AbstractTestNGSpringContextTests {
         meterLog4.setLogDate(LocalDate.of(2020, 1, 3));
         meterLog4.setLogTime(LocalTime.of(12, 0));
         meterLog4.setMeasure(15L);
+        meterLogAlone = new ArrayList<>(Collections.singletonList(meterLog4));
 
-        meterLogs = Arrays.asList(meterLog0, meterLog1, meterLog2, meterLog3, meterLog4);
+        meterLogs = new ArrayList<>(Arrays.asList(meterLog0, meterLog1, meterLog2, meterLog3, meterLog4));
     }
 
     @AfterMethod
@@ -118,12 +124,11 @@ public class MeterLogTest extends AbstractTestNGSpringContextTests {
 
     @Test
     public void findAllTest() {
-        when(meterLogDao.findAll()).thenReturn(meterLogs);
+        when(meterLogDao.findAll()).thenReturn(new ArrayList<>(meterLogs));
 
         List<MeterLog> list = meterLogDao.findAll();
         Assert.assertNotNull(list);
         Assert.assertEquals(list.size(), 5, "Length of the list should be same");
-        Assert.assertNotNull(list);
         verify(meterLogDao, times(1)).findAll();
     }
 
@@ -138,100 +143,93 @@ public class MeterLogTest extends AbstractTestNGSpringContextTests {
 
     @Test
     public void findByDateSingleTest() {
-        MeterLog meterLog = meterLogs.get(4);
-        when(meterLogDao.findByDate(meterLog.getLogDate())).thenReturn(Collections.singletonList(meterLog));
+        MeterLog meterLog = meterLogAlone.get(0);
+        when(meterLogDao.findByDate(meterLog.getLogDate())).thenReturn(new ArrayList<>(meterLogAlone));
 
         List<MeterLog> result = meterLogService.findByDate(meterLog.getLogDate());
         Assert.assertNotNull(result);
         Assert.assertEquals(result.size(), 1, "Length of the list should be same");
-        Assert.assertEquals(result.get(0).getLogDate(), meterLog.getLogDate());
-        Assert.assertEquals(result.get(0).getLogTime(), meterLog.getLogTime());
-        Assert.assertEquals(result.get(0).getMeasure(), meterLog.getMeasure());
+        Assert.assertEquals(result.get(0), meterLog);
         verify(meterLogDao, times(1)).findByDate(meterLog.getLogDate());
     }
 
     @Test
     public void findByDateMultipleTest() {
-        List<MeterLog> sameDateMeterLogs = Arrays.asList(meterLogs.get(0), meterLogs.get(1));
-        when(meterLogDao.findByDate(sameDateMeterLogs.get(0).getLogDate())).thenReturn(sameDateMeterLogs);
+        when(meterLogDao.findByDate(sameDateMeterLogs1.get(0).getLogDate()))
+                .thenReturn(new ArrayList<>(sameDateMeterLogs1));
 
-        List<MeterLog> result = meterLogService.findByDate(sameDateMeterLogs.get(0).getLogDate());
+        List<MeterLog> result = meterLogService.findByDate(sameDateMeterLogs1.get(0).getLogDate());
         Assert.assertNotNull(result);
         Assert.assertEquals(result.size(), 2, "Length of the list should be same");
-        Assert.assertEquals(result.get(0).getLogDate(), sameDateMeterLogs.get(0).getLogDate());
-        Assert.assertEquals(result.get(0).getLogTime(), sameDateMeterLogs.get(0).getLogTime());
-        Assert.assertEquals(result.get(0).getMeasure(), sameDateMeterLogs.get(0).getMeasure());
-        Assert.assertEquals(result.get(1).getLogDate(), sameDateMeterLogs.get(1).getLogDate());
-        Assert.assertEquals(result.get(1).getLogTime(), sameDateMeterLogs.get(1).getLogTime());
-        Assert.assertEquals(result.get(1).getMeasure(), sameDateMeterLogs.get(1).getMeasure());
-        verify(meterLogDao, times(1)).findByDate(sameDateMeterLogs.get(0).getLogDate());
+        Assert.assertEquals(result.get(0), sameDateMeterLogs1.get(0));
+        Assert.assertEquals(result.get(1), sameDateMeterLogs1.get(1));
+        verify(meterLogDao, times(1)).findByDate(sameDateMeterLogs1.get(0).getLogDate());
     }
 
     @Test
     public void findInDateFrameAllTest() {
         when(meterLogDao.findByDate(meterLogs.get(0).getLogDate()))
-                .thenReturn(Arrays.asList(meterLogs.get(0), meterLogs.get(1)));
+                .thenReturn(new ArrayList<>(sameDateMeterLogs1));
         when(meterLogDao.findByDate(meterLogs.get(2).getLogDate()))
-                .thenReturn(Arrays.asList(meterLogs.get(2), meterLogs.get(3)));
+                .thenReturn(new ArrayList<>(sameDateMeterLogs2));
         when(meterLogDao.findByDate(meterLogs.get(4).getLogDate()))
-                .thenReturn(Collections.singletonList(meterLogs.get(4)));
+                .thenReturn(new ArrayList<>(meterLogAlone));
 
         var startDate = meterLogs.get(0).getLogDate();
         var endDate = meterLogs.get(4).getLogDate().plusDays(1);
         List<MeterLog> result = meterLogService.findInDateFrame(startDate, endDate);
         Assert.assertNotNull(result);
         Assert.assertEquals(result.size(), 5, "Length of the list should be same");
+        Assert.assertEquals(result.get(0), meterLogs.get(0));
+        Assert.assertEquals(result.get(1), meterLogs.get(1));
+        Assert.assertEquals(result.get(2), meterLogs.get(2));
+        Assert.assertEquals(result.get(3), meterLogs.get(3));
+        Assert.assertEquals(result.get(4), meterLogs.get(4));
     }
 
     @Test
     public void findInDateFramePartTest() {
         when(meterLogDao.findByDate(meterLogs.get(0).getLogDate()))
-                .thenReturn(Arrays.asList(meterLogs.get(0), meterLogs.get(1)));
+                .thenReturn(new ArrayList<>(sameDateMeterLogs1));
         when(meterLogDao.findByDate(meterLogs.get(2).getLogDate()))
-                .thenReturn(Arrays.asList(meterLogs.get(2), meterLogs.get(3)));
+                .thenReturn(new ArrayList<>(sameDateMeterLogs2));
         when(meterLogDao.findByDate(meterLogs.get(4).getLogDate()))
-                .thenReturn(Collections.singletonList(meterLogs.get(4)));
+                .thenReturn(new ArrayList<>(meterLogAlone));
 
         var startDate = meterLogs.get(0).getLogDate();
         var endDate = meterLogs.get(1).getLogDate().plusDays(1);
         List<MeterLog> result = meterLogService.findInDateFrame(startDate, endDate);
         Assert.assertNotNull(result);
         Assert.assertEquals(result.size(), 2, "Length of the list should be same");
-        Assert.assertEquals(result.get(0).getLogDate(), meterLogs.get(0).getLogDate());
-        Assert.assertEquals(result.get(0).getLogTime(), meterLogs.get(0).getLogTime());
-        Assert.assertEquals(result.get(0).getMeasure(), meterLogs.get(0).getMeasure());
-        Assert.assertEquals(result.get(1).getLogDate(), meterLogs.get(1).getLogDate());
-        Assert.assertEquals(result.get(1).getLogTime(), meterLogs.get(1).getLogTime());
-        Assert.assertEquals(result.get(1).getMeasure(), meterLogs.get(1).getMeasure());
+        Assert.assertEquals(result.get(0), sameDateMeterLogs1.get(0));
+        Assert.assertEquals(result.get(1), sameDateMeterLogs1.get(1));
     }
 
     @Test
     public void findInDateFrameOneTest() {
         when(meterLogDao.findByDate(meterLogs.get(0).getLogDate()))
-                .thenReturn(Arrays.asList(meterLogs.get(0), meterLogs.get(1)));
+                .thenReturn(new ArrayList<>(sameDateMeterLogs1));
         when(meterLogDao.findByDate(meterLogs.get(2).getLogDate()))
-                .thenReturn(Arrays.asList(meterLogs.get(2), meterLogs.get(3)));
+                .thenReturn(new ArrayList<>(sameDateMeterLogs2));
         when(meterLogDao.findByDate(meterLogs.get(4).getLogDate()))
-                .thenReturn(Collections.singletonList(meterLogs.get(4)));
+                .thenReturn(new ArrayList<>(meterLogAlone));
 
         var startDate = meterLogs.get(4).getLogDate();
         var endDate = meterLogs.get(4).getLogDate().plusDays(1);
         List<MeterLog> result = meterLogService.findInDateFrame(startDate, endDate);
         Assert.assertNotNull(result);
         Assert.assertEquals(result.size(), 1, "Length of the list should be same");
-        Assert.assertEquals(result.get(0).getLogDate(), meterLogs.get(4).getLogDate());
-        Assert.assertEquals(result.get(0).getLogTime(), meterLogs.get(4).getLogTime());
-        Assert.assertEquals(result.get(0).getMeasure(), meterLogs.get(4).getMeasure());
+        Assert.assertEquals(result.get(0), meterLogAlone.get(0));
     }
 
     @Test
     public void findInDateFrameEmptyTest() {
         when(meterLogDao.findByDate(meterLogs.get(0).getLogDate()))
-                .thenReturn(Arrays.asList(meterLogs.get(0), meterLogs.get(1)));
+                .thenReturn(new ArrayList<>(sameDateMeterLogs1));
         when(meterLogDao.findByDate(meterLogs.get(2).getLogDate()))
-                .thenReturn(Arrays.asList(meterLogs.get(2), meterLogs.get(3)));
+                .thenReturn(new ArrayList<>(sameDateMeterLogs2));
         when(meterLogDao.findByDate(meterLogs.get(4).getLogDate()))
-                .thenReturn(Collections.singletonList(meterLogs.get(4)));
+                .thenReturn(new ArrayList<>(meterLogAlone));
 
         var startDate = meterLogs.get(4).getLogDate().plusDays(1);
         var endDate = meterLogs.get(4).getLogDate().plusDays(15);
@@ -243,69 +241,74 @@ public class MeterLogTest extends AbstractTestNGSpringContextTests {
     @Test
     public void findInDateFrameWithDayTimeAllDayTest() {
         when(meterLogDao.findByDate(meterLogs.get(0).getLogDate()))
-                .thenReturn(Arrays.asList(meterLogs.get(0), meterLogs.get(1)));
+                .thenReturn(new ArrayList<>(sameDateMeterLogs1));
         when(meterLogDao.findByDate(meterLogs.get(2).getLogDate()))
-                .thenReturn(Arrays.asList(meterLogs.get(2), meterLogs.get(3)));
+                .thenReturn(new ArrayList<>(sameDateMeterLogs2));
         when(meterLogDao.findByDate(meterLogs.get(4).getLogDate()))
-                .thenReturn(Collections.singletonList(meterLogs.get(4)));
+                .thenReturn(new ArrayList<>(meterLogAlone));
 
         var startDate = meterLogs.get(0).getLogDate();
         var endDate = meterLogs.get(4).getLogDate().plusDays(1);
         List<MeterLog> result = meterLogService.findInDateFrameWithDayTime(startDate, endDate, DayTime.Day);
         Assert.assertNotNull(result);
         Assert.assertEquals(result.size(), 3, "Length of the list should be same");
+        Assert.assertEquals(result.get(0), sameDateMeterLogs1.get(1));
+        Assert.assertEquals(result.get(1), sameDateMeterLogs2.get(1));
+        Assert.assertEquals(result.get(2), meterLogAlone.get(0));
     }
 
 
     @Test
     public void findInDateFrameWithDayTimeAllNightTest() {
         when(meterLogDao.findByDate(meterLogs.get(0).getLogDate()))
-                .thenReturn(Arrays.asList(meterLogs.get(0), meterLogs.get(1)));
+                .thenReturn(new ArrayList<>(sameDateMeterLogs1));
         when(meterLogDao.findByDate(meterLogs.get(2).getLogDate()))
-                .thenReturn(Arrays.asList(meterLogs.get(2), meterLogs.get(3)));
+                .thenReturn(new ArrayList<>(sameDateMeterLogs2));
         when(meterLogDao.findByDate(meterLogs.get(4).getLogDate()))
-                .thenReturn(Collections.singletonList(meterLogs.get(4)));
+                .thenReturn(new ArrayList<>(meterLogAlone));
 
         var startDate = meterLogs.get(0).getLogDate();
         var endDate = meterLogs.get(4).getLogDate().plusDays(1);
         List<MeterLog> result = meterLogService.findInDateFrameWithDayTime(startDate, endDate, DayTime.Night);
         Assert.assertNotNull(result);
         Assert.assertEquals(result.size(), 2, "Length of the list should be same");
+        Assert.assertEquals(result.get(0), sameDateMeterLogs1.get(0));
+        Assert.assertEquals(result.get(1), sameDateMeterLogs2.get(0));
     }
 
     @Test
     public void findInDateFrameWithDayTimePartDayTest() {
         when(meterLogDao.findByDate(meterLogs.get(0).getLogDate()))
-                .thenReturn(Arrays.asList(meterLogs.get(0), meterLogs.get(1)));
+                .thenReturn(new ArrayList<>(sameDateMeterLogs1));
         when(meterLogDao.findByDate(meterLogs.get(2).getLogDate()))
-                .thenReturn(Arrays.asList(meterLogs.get(2), meterLogs.get(3)));
+                .thenReturn(new ArrayList<>(sameDateMeterLogs2));
         when(meterLogDao.findByDate(meterLogs.get(4).getLogDate()))
-                .thenReturn(Collections.singletonList(meterLogs.get(4)));
+                .thenReturn(new ArrayList<>(meterLogAlone));
 
         var startDate = meterLogs.get(0).getLogDate();
         var endDate = meterLogs.get(3).getLogDate().plusDays(1);
         List<MeterLog> result = meterLogService.findInDateFrameWithDayTime(startDate, endDate, DayTime.Day);
         Assert.assertNotNull(result);
         Assert.assertEquals(result.size(), 2, "Length of the list should be same");
+        Assert.assertEquals(result.get(0), sameDateMeterLogs1.get(1));
+        Assert.assertEquals(result.get(1), sameDateMeterLogs2.get(1));
     }
 
     @Test
     public void findInDateFrameWithDayTimePartNightTest() {
         when(meterLogDao.findByDate(meterLogs.get(0).getLogDate()))
-                .thenReturn(Arrays.asList(meterLogs.get(0), meterLogs.get(1)));
+                .thenReturn(new ArrayList<>(sameDateMeterLogs1));
         when(meterLogDao.findByDate(meterLogs.get(2).getLogDate()))
-                .thenReturn(Arrays.asList(meterLogs.get(2), meterLogs.get(3)));
+                .thenReturn(new ArrayList<>(sameDateMeterLogs2));
         when(meterLogDao.findByDate(meterLogs.get(4).getLogDate()))
-                .thenReturn(Collections.singletonList(meterLogs.get(4)));
+                .thenReturn(new ArrayList<>(meterLogAlone));
 
         var startDate = meterLogs.get(0).getLogDate();
         var endDate = meterLogs.get(1).getLogDate().plusDays(1);
         List<MeterLog> result = meterLogService.findInDateFrameWithDayTime(startDate, endDate, DayTime.Night);
         Assert.assertNotNull(result);
         Assert.assertEquals(result.size(), 1, "Length of the list should be same");
-        Assert.assertEquals(result.get(0).getLogDate(), meterLogs.get(0).getLogDate());
-        Assert.assertEquals(result.get(0).getLogTime(), meterLogs.get(0).getLogTime());
-        Assert.assertEquals(result.get(0).getMeasure(), meterLogs.get(0).getMeasure());
+        Assert.assertEquals(result.get(0), sameDateMeterLogs1.get(0));
     }
 
     @Test
@@ -404,8 +407,8 @@ public class MeterLogTest extends AbstractTestNGSpringContextTests {
         meterLog.setLogTime(LocalTime.of(0, 30));
         meterLog.setMeasure(123L);
 
-        var start = LocalDate.of(2020, 1, 1).minusDays(1);
-        var end = LocalDate.of(2020, 1, 1).plusDays(1);
+        var start = LocalDate.of(2020, 1, 1);
+        var end = LocalDate.of(2020, 1, 1);
 
         boolean result = meterLogService.isInDateFrame(meterLog, start, end);
         Assert.assertTrue(result);
@@ -548,8 +551,8 @@ public class MeterLogTest extends AbstractTestNGSpringContextTests {
         meterLog.setLogTime(LocalTime.of(7, 59));
         meterLog.setMeasure(123L);
 
-        var start = LocalDate.of(2020, 1, 1).minusDays(1);
-        var end = LocalDate.of(2020, 1, 1).plusDays(1);
+        var start = LocalDate.of(2020, 1, 1);
+        var end = LocalDate.of(2020, 1, 1);
         boolean result = meterLogService.isInDateFrameWithDayTime(meterLog, start, end, DayTime.Night);
         Assert.assertTrue(result);
         result = meterLogService.isInDateFrameWithDayTime(meterLog, start, end, DayTime.Day);
@@ -587,8 +590,8 @@ public class MeterLogTest extends AbstractTestNGSpringContextTests {
 
     @Test
     public void filterInDateFrameAllTest() {
-        var start = meterLogs.get(0).getLogDate().minusDays(1);
-        var end = meterLogs.get(4).getLogDate().plusDays(1);
+        var start = meterLogs.get(0).getLogDate();
+        var end = meterLogs.get(4).getLogDate();
         List<MeterLog> result = meterLogService.filterInDateFrame(meterLogs, start, end);
         Assert.assertNotNull(result);
         Assert.assertEquals(result.size(), 5, "Length of the list should be same");
@@ -597,10 +600,24 @@ public class MeterLogTest extends AbstractTestNGSpringContextTests {
     @Test
     public void filterInDateFramePartTest() {
         var start = meterLogs.get(0).getLogDate().minusDays(1);
-        var end = meterLogs.get(1).getLogDate().plusDays(1);
-        List<MeterLog> result = meterLogService.filterInDateFrame(meterLogs, start, end);
+        var end = meterLogs.get(1).getLogDate();
+        List<MeterLog> result = meterLogService.filterInDateFrame(new ArrayList<>(meterLogs), start, end);
         Assert.assertNotNull(result);
         Assert.assertEquals(result.size(), 2, "Length of the list should be same");
+        Assert.assertEquals(result.get(0), meterLogs.get(0));
+        Assert.assertEquals(result.get(1), meterLogs.get(1));
+    }
+
+    @Test
+    public void filterInDateFramePart2Test() {
+        var start = meterLogs.get(2).getLogDate();
+        var end = meterLogs.get(4).getLogDate();
+        List<MeterLog> result = meterLogService.filterInDateFrame(new ArrayList<>(meterLogs), start, end);
+        Assert.assertNotNull(result);
+        Assert.assertEquals(result.size(), 3, "Length of the list should be same");
+        Assert.assertEquals(result.get(0), meterLogs.get(2));
+        Assert.assertEquals(result.get(1), meterLogs.get(3));
+        Assert.assertEquals(result.get(2), meterLogs.get(4));
     }
 
     @Test
@@ -614,47 +631,48 @@ public class MeterLogTest extends AbstractTestNGSpringContextTests {
 
     @Test
     public void filterInDayTimeDayTest() {
-        List<MeterLog> result = meterLogService.filterInDayTime(meterLogs, DayTime.Day);
+        List<MeterLog> result = meterLogService.filterInDayTime(new ArrayList<>(meterLogs), DayTime.Day);
         Assert.assertNotNull(result);
         Assert.assertEquals(result.size(), 3, "Length of the list should be same");
+        Assert.assertEquals(result.get(0), meterLogs.get(1));
+        Assert.assertEquals(result.get(1), meterLogs.get(3));
+        Assert.assertEquals(result.get(2), meterLogs.get(4));
     }
 
     @Test
     public void filterInDayTimeNightTest() {
-        List<MeterLog> result = meterLogService.filterInDayTime(meterLogs, DayTime.Night);
+        List<MeterLog> result = meterLogService.filterInDayTime(new ArrayList<>(meterLogs), DayTime.Night);
         Assert.assertNotNull(result);
         Assert.assertEquals(result.size(), 2, "Length of the list should be same");
+        Assert.assertEquals(result.get(0), meterLogs.get(0));
+        Assert.assertEquals(result.get(1), meterLogs.get(2));
     }
 
     @Test
     public void filterInDateFrameWithTimeDayPartDayTest() {
-        var start = meterLogs.get(2).getLogDate().minusDays(1);
-        var end = meterLogs.get(3).getLogDate().plusDays(1);
-        List<MeterLog> result = meterLogService.filterInDateFrameWithTimeDay(meterLogs, start, end, DayTime.Day);
+        var start = meterLogs.get(2).getLogDate();
+        var end = meterLogs.get(3).getLogDate();
+        List<MeterLog> result = meterLogService.filterInDateFrameWithTimeDay(new ArrayList<>(meterLogs), start, end, DayTime.Day);
         Assert.assertNotNull(result);
         Assert.assertEquals(result.size(), 1, "Length of the list should be same");
-        Assert.assertEquals(result.get(0).getLogDate(), meterLogs.get(3).getLogDate());
-        Assert.assertEquals(result.get(0).getLogTime(), meterLogs.get(3).getLogTime());
-        Assert.assertEquals(result.get(0).getMeasure(), meterLogs.get(3).getMeasure());
+        Assert.assertEquals(result.get(0), meterLogs.get(3));
     }
 
     @Test
     public void filterInDateFrameWithTimeDayPartNightTest() {
-        var start = meterLogs.get(0).getLogDate().minusDays(1);
-        var end = meterLogs.get(1).getLogDate().plusDays(1);
-        List<MeterLog> result = meterLogService.filterInDateFrameWithTimeDay(meterLogs, start, end, DayTime.Night);
+        var start = meterLogs.get(0).getLogDate();
+        var end = meterLogs.get(1).getLogDate();
+        List<MeterLog> result = meterLogService.filterInDateFrameWithTimeDay(new ArrayList<>(meterLogs), start, end, DayTime.Night);
         Assert.assertNotNull(result);
         Assert.assertEquals(result.size(), 1, "Length of the list should be same");
-        Assert.assertEquals(result.get(0).getLogDate(), meterLogs.get(0).getLogDate());
-        Assert.assertEquals(result.get(0).getLogTime(), meterLogs.get(0).getLogTime());
-        Assert.assertEquals(result.get(0).getMeasure(), meterLogs.get(0).getMeasure());
+        Assert.assertEquals(result.get(0), meterLogs.get(0));
     }
 
     @Test
     public void filterInDateFrameWithTimeDayEmptyTest() {
         var start = meterLogs.get(4).getLogDate().plusDays(5);
         var end = meterLogs.get(4).getLogDate().plusDays(8);
-        List<MeterLog> result = meterLogService.filterInDateFrameWithTimeDay(meterLogs, start, end, DayTime.Day);
+        List<MeterLog> result = meterLogService.filterInDateFrameWithTimeDay(new ArrayList<>(meterLogs), start, end, DayTime.Day);
         Assert.assertNotNull(result);
         Assert.assertEquals(result.size(), 0, "Length of the list should be same");
     }

@@ -58,7 +58,7 @@ public class MeterLogServiceImpl implements MeterLogService{
         for (LocalDate date = startDate; date.isBefore(endDate); date = date.plusDays(1)) {
             List<MeterLog> inDate = findByDate(date);
             inDate.removeIf(m -> !isInDayTime(m, dayTime));
-            results.addAll(findByDate(date));
+            results.addAll(inDate);
         }
         return results;
     }
