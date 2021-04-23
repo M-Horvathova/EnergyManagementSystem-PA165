@@ -16,8 +16,8 @@ import java.util.List;
 @Service
 public class HouseServiceImpl implements HouseService {
 
-    private final HouseDao houseDao;
-    private final AddressDao addressDao;
+    private HouseDao houseDao;
+    private AddressDao addressDao;
 
     @Autowired
     public HouseServiceImpl(HouseDao houseDao, AddressDao addressDao) {

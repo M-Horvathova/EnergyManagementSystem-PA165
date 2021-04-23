@@ -2,12 +2,17 @@ package cz.fi.muni.pa165.dao;
 
 import cz.fi.muni.pa165.entity.PortalUser;
 import cz.fi.muni.pa165.entity.UserRole;
+import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import java.util.List;
 
+/**
+ * @author Martin Podhora
+ */
+@Repository
 public class UserRoleDaoImpl implements UserRoleDao {
     @PersistenceContext
     private EntityManager em;
