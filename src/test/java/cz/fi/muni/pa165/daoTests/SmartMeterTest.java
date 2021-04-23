@@ -1,5 +1,6 @@
-package cz.fi.muni.pa165;
+package cz.fi.muni.pa165.daoTests;
 
+import cz.fi.muni.pa165.PersistenceApplicationContext;
 import cz.fi.muni.pa165.dao.SmartMeterDao;
 import cz.fi.muni.pa165.entity.Address;
 import cz.fi.muni.pa165.entity.House;
