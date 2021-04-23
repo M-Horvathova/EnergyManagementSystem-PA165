@@ -17,7 +17,6 @@ import org.slf4j.Logger;
  * @author Michaela Horváthová
  */
 @Service
-@Transactional
 public class MeterLogServiceImpl implements MeterLogService{
 
 
