@@ -4,6 +4,7 @@ import cz.fi.muni.pa165.PersistenceApplicationContext;
 import cz.fi.muni.pa165.dao.AddressDao;
 import cz.fi.muni.pa165.entity.Address;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
 import org.springframework.orm.jpa.JpaSystemException;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestExecutionListeners;
@@ -73,7 +74,7 @@ public class AddressTest extends AbstractTestNGSpringContextTests {
         addressDao.create(address);
     }
 
-    @Test(expectedExceptions = JpaSystemException.class)
+    @Test(expectedExceptions = DataAccessException.class)
     public void nullableCityCreateTest() {
         Address address = new Address();
         address.setStreet("Botanická");
@@ -85,7 +86,7 @@ public class AddressTest extends AbstractTestNGSpringContextTests {
         addressDao.create(address);
     }
 
-    @Test(expectedExceptions = JpaSystemException.class)
+    @Test(expectedExceptions = DataAccessException.class)
     public void nullableCountryCreateTest() {
         Address address = new Address();
         address.setStreet("Botanická");
@@ -97,7 +98,7 @@ public class AddressTest extends AbstractTestNGSpringContextTests {
         addressDao.create(address);
     }
 
-    @Test(expectedExceptions = JpaSystemException.class)
+    @Test(expectedExceptions = DataAccessException.class)
     public void nullablePostCodeTest() {
         Address address = new Address();
         address.setStreet("Botanická");

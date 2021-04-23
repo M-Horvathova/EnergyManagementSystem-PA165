@@ -5,6 +5,7 @@ import cz.fi.muni.pa165.dao.MeterLogDao;
 import cz.fi.muni.pa165.entity.MeterLog;
 import cz.fi.muni.pa165.enums.DayTime;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
 import org.springframework.orm.jpa.JpaSystemException;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestExecutionListeners;
@@ -83,7 +84,7 @@ public class MeterLogTest extends AbstractTestNGSpringContextTests {
         meterLogDao.create(meterLog);
     }
 
-    @Test(expectedExceptions = JpaSystemException.class)
+    @Test(expectedExceptions = DataAccessException.class)
     public void nullableMeasureCreateTest() {
         var date = LocalDate.of(2021, 1, 23);
         var time = LocalTime.of(15, 30);

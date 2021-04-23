@@ -6,6 +6,7 @@ import cz.fi.muni.pa165.entity.Address;
 import cz.fi.muni.pa165.entity.House;
 import cz.fi.muni.pa165.entity.SmartMeter;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
 import org.springframework.orm.jpa.JpaSystemException;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestExecutionListeners;
@@ -154,7 +155,7 @@ public class HouseTest extends AbstractTestNGSpringContextTests {
         Assert.assertNull(result);
     }
 
-    @Test(expectedExceptions = JpaSystemException.class)
+    @Test(expectedExceptions = DataAccessException.class)
     public void createWithNullName() {
         Address address = createValidAddress("Brno");
         House house = new House();
@@ -164,7 +165,7 @@ public class HouseTest extends AbstractTestNGSpringContextTests {
         houseDao.create(house);
     }
 
-    @Test(expectedExceptions = JpaSystemException.class)
+    @Test(expectedExceptions = DataAccessException.class)
     public void createWithNullRunning() {
         Address address = createValidAddress("Brno");
         House house = new House();
@@ -174,7 +175,7 @@ public class HouseTest extends AbstractTestNGSpringContextTests {
         houseDao.create(house);
     }
 
-    @Test(expectedExceptions = JpaSystemException.class)
+    @Test(expectedExceptions = DataAccessException.class)
     public void createWithNullAddress() {
         House house = new House();
         house.setRunning(false);
