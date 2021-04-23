@@ -2,8 +2,11 @@ package cz.fi.muni.pa165.service.config;
 
 import cz.fi.muni.pa165.PersistenceApplicationContext;
 import cz.fi.muni.pa165.dto.MeterLogDTO;
+import cz.fi.muni.pa165.dto.SmartMeterDTO;
 import cz.fi.muni.pa165.entity.MeterLog;
+import cz.fi.muni.pa165.entity.SmartMeter;
 import cz.fi.muni.pa165.facade.MeterLogFacadeImpl;
+import cz.fi.muni.pa165.facade.SmartMeterFacadeImpl;
 import org.dozer.DozerBeanMapper;
 import org.dozer.Mapper;
 import org.dozer.loader.api.BeanMappingBuilder;
@@ -14,7 +17,7 @@ import org.springframework.context.annotation.Import;
 
 @Configuration
 @Import(PersistenceApplicationContext.class)
-@ComponentScan(basePackageClasses={MeterLogFacadeImpl.class, MeterLogFacadeImpl.class})
+@ComponentScan(basePackageClasses={MeterLogFacadeImpl.class, SmartMeterFacadeImpl.class})
 public class ServiceConfiguration {
 
 
@@ -34,6 +37,7 @@ public class ServiceConfiguration {
         @Override
         protected void configure() {
             mapping(MeterLog.class, MeterLogDTO.class);
+            mapping(SmartMeter.class, SmartMeterDTO.class);
         }
     }
 
