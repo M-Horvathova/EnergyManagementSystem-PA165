@@ -176,7 +176,7 @@ public class MeterLogTest extends AbstractTestNGSpringContextTests {
                 .thenReturn(new ArrayList<>(meterLogAlone));
 
         var startDate = meterLogs.get(0).getLogDate();
-        var endDate = meterLogs.get(4).getLogDate().plusDays(1);
+        var endDate = meterLogs.get(4).getLogDate();
         List<MeterLog> result = meterLogService.findInDateFrame(startDate, endDate);
         Assert.assertNotNull(result);
         Assert.assertEquals(result.size(), 5, "Length of the list should be same");
@@ -197,7 +197,7 @@ public class MeterLogTest extends AbstractTestNGSpringContextTests {
                 .thenReturn(new ArrayList<>(meterLogAlone));
 
         var startDate = meterLogs.get(0).getLogDate();
-        var endDate = meterLogs.get(1).getLogDate().plusDays(1);
+        var endDate = meterLogs.get(1).getLogDate();
         List<MeterLog> result = meterLogService.findInDateFrame(startDate, endDate);
         Assert.assertNotNull(result);
         Assert.assertEquals(result.size(), 2, "Length of the list should be same");
@@ -215,7 +215,7 @@ public class MeterLogTest extends AbstractTestNGSpringContextTests {
                 .thenReturn(new ArrayList<>(meterLogAlone));
 
         var startDate = meterLogs.get(4).getLogDate();
-        var endDate = meterLogs.get(4).getLogDate().plusDays(1);
+        var endDate = meterLogs.get(4).getLogDate();
         List<MeterLog> result = meterLogService.findInDateFrame(startDate, endDate);
         Assert.assertNotNull(result);
         Assert.assertEquals(result.size(), 1, "Length of the list should be same");
@@ -248,7 +248,7 @@ public class MeterLogTest extends AbstractTestNGSpringContextTests {
                 .thenReturn(new ArrayList<>(meterLogAlone));
 
         var startDate = meterLogs.get(0).getLogDate();
-        var endDate = meterLogs.get(4).getLogDate().plusDays(1);
+        var endDate = meterLogs.get(4).getLogDate();
         List<MeterLog> result = meterLogService.findInDateFrameWithDayTime(startDate, endDate, DayTime.Day);
         Assert.assertNotNull(result);
         Assert.assertEquals(result.size(), 3, "Length of the list should be same");
@@ -268,7 +268,7 @@ public class MeterLogTest extends AbstractTestNGSpringContextTests {
                 .thenReturn(new ArrayList<>(meterLogAlone));
 
         var startDate = meterLogs.get(0).getLogDate();
-        var endDate = meterLogs.get(4).getLogDate().plusDays(1);
+        var endDate = meterLogs.get(4).getLogDate();
         List<MeterLog> result = meterLogService.findInDateFrameWithDayTime(startDate, endDate, DayTime.Night);
         Assert.assertNotNull(result);
         Assert.assertEquals(result.size(), 2, "Length of the list should be same");
@@ -286,7 +286,7 @@ public class MeterLogTest extends AbstractTestNGSpringContextTests {
                 .thenReturn(new ArrayList<>(meterLogAlone));
 
         var startDate = meterLogs.get(0).getLogDate();
-        var endDate = meterLogs.get(3).getLogDate().plusDays(1);
+        var endDate = meterLogs.get(3).getLogDate();
         List<MeterLog> result = meterLogService.findInDateFrameWithDayTime(startDate, endDate, DayTime.Day);
         Assert.assertNotNull(result);
         Assert.assertEquals(result.size(), 2, "Length of the list should be same");
@@ -304,7 +304,7 @@ public class MeterLogTest extends AbstractTestNGSpringContextTests {
                 .thenReturn(new ArrayList<>(meterLogAlone));
 
         var startDate = meterLogs.get(0).getLogDate();
-        var endDate = meterLogs.get(1).getLogDate().plusDays(1);
+        var endDate = meterLogs.get(1).getLogDate();
         List<MeterLog> result = meterLogService.findInDateFrameWithDayTime(startDate, endDate, DayTime.Night);
         Assert.assertNotNull(result);
         Assert.assertEquals(result.size(), 1, "Length of the list should be same");
