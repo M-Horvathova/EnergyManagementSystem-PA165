@@ -2,12 +2,9 @@ package cz.fi.muni.pa165.daoTests;
 
 import cz.fi.muni.pa165.PersistenceApplicationContext;
 import cz.fi.muni.pa165.dao.HouseDao;
-import cz.fi.muni.pa165.entity.Address;
-import cz.fi.muni.pa165.entity.House;
-import cz.fi.muni.pa165.entity.SmartMeter;
+import cz.fi.muni.pa165.entity.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
-import org.springframework.orm.jpa.JpaSystemException;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestExecutionListeners;
 import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
@@ -18,7 +15,9 @@ import org.testng.annotations.Test;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.List;
 
 /**
@@ -227,6 +226,74 @@ public class HouseTest extends AbstractTestNGSpringContextTests {
         Assert.assertNotNull(results);
         Assert.assertEquals(results.size(), 1);
         Assert.assertEquals(results.get(0), house);
+    }
+
+    @Test
+    public void findByUserBasicTest() {
+        UserRole userRole = new UserRole();
+        userRole.setRoleName(UserRole.USER_ROLE_NAME);
+        em.persist(userRole);
+
+        PortalUser user = new PortalUser();
+        user.setFirstName("Steve");
+        user.setLastName("Jobs");
+        user.setUserRole(userRole);
+        user.setCreatedTimestamp(LocalDateTime.of(LocalDate.of(2021, 3, 31), LocalTime.of(23, 59,59)));
+        user.setPasswordHash("#*##23e");
+        user.setEmail("steve.jobs@gmail.com");
+        user.setPhone("+999111999");
+        em.persist(user);
+
+        PortalUser user2 = new PortalUser();
+        user2.setFirstName("Bill");
+        user2.setLastName("Gates");
+        user2.setUserRole(userRole);
+        user2.setCreatedTimestamp(LocalDateTime.of(LocalDate.of(2021, 3, 31), LocalTime.of(23, 59,59)));
+        user2.setPasswordHash("#*##23e");
+        user2.setEmail("bill.gates@gmail.com");
+        user2.setPhone("+999111885");
+        em.persist(user2);
+
+        Address address = createValidAddress("Brno");
+        House house = new House();
+        house.setAddress(address);
+        house.setName("Test house");
+        house.setRunning(true);
+        house.setPortalUser(user);
+        houseDao.create(house);
+
+        House house2 = new House();
+        house2.setAddress(address);
+        house2.setName("Test house2");
+        house2.setRunning(true);
+        house2.setPortalUser(user2);
+        houseDao.create(house2);
+
+        List<House> results = houseDao.findByUser(user);
+        Assert.assertNotNull(results);
+        Assert.assertEquals(results.size(), 1);
+        Assert.assertEquals(results.get(0), house);
+    }
+
+    @Test
+    public void findByUserEmptyTest() {
+        UserRole userRole = new UserRole();
+        userRole.setRoleName(UserRole.USER_ROLE_NAME);
+        em.persist(userRole);
+
+        PortalUser user = new PortalUser();
+        user.setFirstName("Steve");
+        user.setLastName("Jobs");
+        user.setUserRole(userRole);
+        user.setCreatedTimestamp(LocalDateTime.of(LocalDate.of(2021, 3, 31), LocalTime.of(23, 59,59)));
+        user.setPasswordHash("#*##23e");
+        user.setEmail("steve.jobs@gmail.com");
+        user.setPhone("+999111999");
+        em.persist(user);
+
+        List<House> results = houseDao.findByUser(user);
+        Assert.assertNotNull(results);
+        Assert.assertEquals(results.size(), 0);
     }
 
     @Test
