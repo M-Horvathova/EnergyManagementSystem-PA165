@@ -6,8 +6,10 @@ import cz.fi.muni.pa165.dto.HouseDTO;
 import cz.fi.muni.pa165.dto.NewAddressDTO;
 import cz.fi.muni.pa165.entity.Address;
 import cz.fi.muni.pa165.entity.House;
+import cz.fi.muni.pa165.entity.PortalUser;
 import cz.fi.muni.pa165.service.AddressService;
 import cz.fi.muni.pa165.service.HouseService;
+import cz.fi.muni.pa165.service.PortalUser.PortalUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -21,14 +23,16 @@ import java.util.List;
 @Transactional
 public class HouseFacadeImpl implements HouseFacade {
 
-    private final HouseService houseService;
-    private final AddressService addressService;
+    private HouseService houseService;
+    private AddressService addressService;
+    private PortalUserService portalUserService;
     private final BeanMappingService beanMappingService;
 
     @Autowired
-    public HouseFacadeImpl(HouseService houseService, AddressService addressService, BeanMappingService beanMappingService) {
+    public HouseFacadeImpl(HouseService houseService, AddressService addressService, PortalUserService portalUserService, BeanMappingService beanMappingService) {
         this.houseService = houseService;
         this.addressService = addressService;
+        this.portalUserService = portalUserService;
         this.beanMappingService = beanMappingService;
     }
 
@@ -47,7 +51,7 @@ public class HouseFacadeImpl implements HouseFacade {
         house.setName(h.getName());
         house.setRunning(h.getRunning());
         house.setAddress(createdAddress);
-        // TODO house.setPortalUser();
+        house.setPortalUser(portalUserService.findUserById(h.getPortalUserId()));
 
         House createdHouse = houseService.createHouse(house);
         return createdHouse.getId();
@@ -78,9 +82,8 @@ public class HouseFacadeImpl implements HouseFacade {
 
     @Override
     public List<HouseDTO> getHousesByUser(Long userId) {
-        // TODO add tests findByUser to houseTests
-        // TODO return houseService.findByUser();
-        return null;
+        List<House> houses = houseService.findByUser(portalUserService.findUserById(userId));
+        return beanMappingService.mapTo(houses, HouseDTO.class);
     }
 
     @Override
