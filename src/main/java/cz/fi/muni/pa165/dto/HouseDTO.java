@@ -1,6 +1,10 @@
 package cz.fi.muni.pa165.dto;
 
+import cz.fi.muni.pa165.dto.PortalUser.PortalUserDTO;
+
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 
 /**
  * @author Patrik Valo
@@ -11,9 +15,8 @@ public class HouseDTO {
     private String name;
     private Boolean isRunning;
     private AddressDTO address;
-    // TODO private Set<SmartMeterDTO> smartMeters = new HashSet<>();
-    // TODO private PortalUserDTO portalUser;
-
+    private Set<SmartMeterDTO> smartMeters = new HashSet<>();
+    private PortalUserDTO portalUser;
 
     public Long getId() {
         return id;
@@ -47,6 +50,22 @@ public class HouseDTO {
         this.address = address;
     }
 
+    public Set<SmartMeterDTO> getSmartMeters() {
+        return smartMeters;
+    }
+
+    public void setSmartMeters(Set<SmartMeterDTO> smartMeters) {
+        this.smartMeters = smartMeters;
+    }
+
+    public PortalUserDTO getPortalUser() {
+        return portalUser;
+    }
+
+    public void setPortalUser(PortalUserDTO portalUser) {
+        this.portalUser = portalUser;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -76,6 +95,8 @@ public class HouseDTO {
                 ", name='" + name + '\'' +
                 ", isRunning=" + isRunning +
                 ", address=" + address +
+                ", smartMeters=" + smartMeters +
+                ", portalUser=" + portalUser +
                 '}';
     }
 }
