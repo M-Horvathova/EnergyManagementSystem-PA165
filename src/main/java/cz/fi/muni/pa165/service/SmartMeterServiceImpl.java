@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -53,6 +54,19 @@ public class SmartMeterServiceImpl implements SmartMeterService {
     @Override
     public List<SmartMeter> getRunningSmartMeters() {
         return smartMeterDao.findByRunning(true);
+    }
+
+    @Override
+    public void addMeterLog(SmartMeter sm, double measure) {
+        MeterLog meterLog = new MeterLog();
+        meterLog.setSmartMeter(sm);
+        meterLog.setLogDate(LocalDate.now());
+        meterLog.setLogTime(LocalTime.now());
+        meterLog.setMeasure((long)measure); //double?
+
+        meterLogDao.create(meterLog);
+
+        //treba to priradit aj k SmartMeter alebo to spravi uz persistenceContext?
     }
 
     @Override

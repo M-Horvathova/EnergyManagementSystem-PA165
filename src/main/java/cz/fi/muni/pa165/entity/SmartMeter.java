@@ -1,6 +1,7 @@
 package cz.fi.muni.pa165.entity;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.Objects;
 import java.util.Set;
@@ -9,7 +10,7 @@ import java.util.Set;
  */
 
 @Entity
-public class SmartMeter {
+public class SmartMeter implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

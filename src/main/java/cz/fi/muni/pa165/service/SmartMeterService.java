@@ -14,6 +14,7 @@ public interface SmartMeterService {
     SmartMeter findById(Long id);
     List<SmartMeter> findAll();
     List<SmartMeter> getRunningSmartMeters();
+    void addMeterLog(SmartMeter smartMeter, double measure);
     void delete(SmartMeter smartMeter);
     double getPowerSpentForDateForSmartMeter(LocalDate date, SmartMeter smartMeter);
     double getAllPowerSpent();

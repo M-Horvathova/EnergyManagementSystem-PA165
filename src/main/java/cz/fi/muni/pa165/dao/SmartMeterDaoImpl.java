@@ -1,5 +1,6 @@
 package cz.fi.muni.pa165.dao;
 
+import cz.fi.muni.pa165.entity.House;
 import cz.fi.muni.pa165.entity.MeterLog;
 import cz.fi.muni.pa165.entity.SmartMeter;
 import org.springframework.stereotype.Repository;
@@ -44,6 +45,13 @@ public class SmartMeterDaoImpl implements SmartMeterDao {
                 .setParameter("running", running)
                 .getResultList();
         return smartMeters;
+    }
+
+    @Override
+    public List<SmartMeter> findByHouse(House house) {
+        return em.createQuery("select sm from SmartMeter sm where sm.house = :house", SmartMeter.class)
+                .setParameter("house", house)
+                .getResultList();
     }
 
     @Override
