@@ -88,11 +88,16 @@ public class PortalUserServiceImpl implements PortalUserService {
     }
 
     @Override
-    public void changePassword(long id, String oldPassword, String newPassword) {
+    public boolean changePassword(long id, String oldPassword, String newPassword) {
         PortalUser user = portalUserDao.findById(id);
         boolean doPasswordsMatch = authenticate(user, oldPassword);
+        if (!doPasswordsMatch) {
+            return false;
+        }
+
         user.setPasswordHash(passwordEncoder.encode(newPassword));
         portalUserDao.update(user);
+        return true;
     }
 
     @Override
