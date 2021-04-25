@@ -44,6 +44,12 @@ public interface SmartMeterDao {
     List<SmartMeter> findByRunning(boolean running);
 
     /**
+     * Finds all smart meters assigned to particular House
+     * @return all smart meters belonging to particular house
+     */
+    List<SmartMeter> findByHouse(House house);
+
+    /**
      * Deletes given smart meter
      * @param smartMeter to be deleted
      */

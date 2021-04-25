@@ -54,7 +54,7 @@ public interface MeterLogService {
      * Creates meter log in database
      * @param ml meter log to be created
      */
-    public void createMeterLog(MeterLog ml);
+    public MeterLog createMeterLog(MeterLog ml);
 
     /**
      * Deletes a meter log

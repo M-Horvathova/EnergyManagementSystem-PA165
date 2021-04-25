@@ -5,9 +5,11 @@ import static org.mockito.Mockito.*;
 
 import cz.fi.muni.pa165.dao.AddressDao;
 import cz.fi.muni.pa165.dao.HouseDao;
+import cz.fi.muni.pa165.dao.SmartMeterDao;
 import cz.fi.muni.pa165.entity.Address;
 import cz.fi.muni.pa165.entity.House;
 import cz.fi.muni.pa165.entity.PortalUser;
+import cz.fi.muni.pa165.entity.SmartMeter;
 import cz.fi.muni.pa165.service.HouseService;
 import cz.fi.muni.pa165.service.config.ServiceConfiguration;
 import org.hibernate.service.spi.ServiceException;
@@ -21,20 +23,25 @@ import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.util.*;
 
 /**
  * @author Michaela Horváthová
  */
 @ContextConfiguration(classes= ServiceConfiguration.class)
-public class houseTest extends AbstractTransactionalTestNGSpringContextTests {
+public class HouseServiceTest extends AbstractTransactionalTestNGSpringContextTests {
 
     @Mock
     private HouseDao houseDao;
 
     @Mock
     private AddressDao addressDao;
+
+    @Mock
+    private SmartMeterDao smartMeterDao;
 
     @Autowired
     @InjectMocks
@@ -60,12 +67,12 @@ public class houseTest extends AbstractTransactionalTestNGSpringContextTests {
     }
 
     public Address prepareAddress() {
-       Address testAddress = new Address();
-       testAddress.setCity("Test City");
-       testAddress.setPostCode("12345");
-       testAddress.setCountry("CZ");
-       this.testAddress = testAddress;
-       return  testAddress;
+        Address testAddress = new Address();
+        testAddress.setCity("Test City");
+        testAddress.setPostCode("12345");
+        testAddress.setCountry("CZ");
+        this.testAddress = testAddress;
+        return  testAddress;
     }
 
     @Test
@@ -134,6 +141,30 @@ public class houseTest extends AbstractTransactionalTestNGSpringContextTests {
     }
 
     @Test
+    public void deleteHouseSmartMeters() {
+        SmartMeter smartMeter = new SmartMeter();
+        smartMeter.setCumulativePowerConsumption(100);
+        smartMeter.setLastLogTakenAt(LocalDateTime.of(LocalDate.of(2021, 1, 23), LocalTime.of(16, 30)));
+        smartMeter.setPowerConsumptionSinceLastLog(100);
+        smartMeter.setRunning(true);
+
+        House house = new House();
+        house.setId(5L);
+        house.setRunning(false);
+        house.setName("Test house");
+        house.setAddress(prepareAddress());
+        house.setSmartMeters(new HashSet<>(Collections.singletonList(smartMeter)));
+
+        when(houseDao.findByAddress(any(Address.class))).thenReturn(new ArrayList<>(Collections.singletonList(house)));
+        when(smartMeterDao.findByHouse(house)).thenReturn(new ArrayList<>(Collections.singletonList(smartMeter)));
+
+        houseService.deleteHouse(house);
+
+        verify(houseDao, times(1)).delete(house);
+        verify(addressDao, times(1)).delete(any(Address.class));
+    }
+
+    @Test
     public void createValidHouse() {
         houseService.createHouse(testHouse);
         verify(houseDao, times(1)).create(testHouse);
@@ -159,6 +190,28 @@ public class houseTest extends AbstractTransactionalTestNGSpringContextTests {
         houseService.changeRunning(testHouse, true);
         Assert.assertTrue(testHouse.getRunning());
         verify(houseDao).update(testHouse);
+    }
+
+    @Test
+    public void changeRunningWithSmartMeters() {
+        SmartMeter smartMeter = new SmartMeter();
+        smartMeter.setCumulativePowerConsumption(100);
+        smartMeter.setLastLogTakenAt(LocalDateTime.of(LocalDate.of(2021, 1, 23), LocalTime.of(16, 30)));
+        smartMeter.setPowerConsumptionSinceLastLog(100);
+        smartMeter.setRunning(true);
+
+        House house = new House();
+        house.setId(5L);
+        house.setRunning(true);
+        house.setName("Test house");
+        house.setAddress(prepareAddress());
+        house.setSmartMeters(new HashSet<>(Collections.singletonList(smartMeter)));
+
+        when(smartMeterDao.findByHouse(house)).thenReturn(new ArrayList<>(Collections.singletonList(smartMeter)));
+
+        houseService.changeRunning(house, false);
+
+        verify(houseDao, times(1)).update(house);
     }
 
     @Test
