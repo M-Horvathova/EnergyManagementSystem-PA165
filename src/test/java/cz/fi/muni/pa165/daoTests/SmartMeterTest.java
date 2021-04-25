@@ -7,6 +7,7 @@ import cz.fi.muni.pa165.entity.House;
 import cz.fi.muni.pa165.entity.MeterLog;
 import cz.fi.muni.pa165.entity.SmartMeter;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
 import org.springframework.orm.jpa.JpaObjectRetrievalFailureException;
 import org.springframework.orm.jpa.JpaSystemException;
 import org.springframework.test.context.ContextConfiguration;
@@ -223,7 +224,7 @@ public class SmartMeterTest extends AbstractTestNGSpringContextTests {
         Assert.assertTrue(!smGot.get(0).isRunning());
     }
 
-    @Test(expectedExceptions = JpaSystemException.class)
+    @Test(expectedExceptions = DataAccessException.class)
     public void deleteExistingFKValidation() {
         smartMeterDao.delete(sm1);
         smartMeterDao.findAll();
@@ -239,7 +240,7 @@ public class SmartMeterTest extends AbstractTestNGSpringContextTests {
         Assert.assertNull(smGot);
     }
 
-    @Test(expectedExceptions = JpaObjectRetrievalFailureException.class)
+    @Test(expectedExceptions = DataAccessException.class)
     public void deleteNonExisting() {
         em.createQuery("delete from MeterLog").executeUpdate();
         em.createQuery("delete from SmartMeter").executeUpdate();

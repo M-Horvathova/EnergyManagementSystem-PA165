@@ -17,7 +17,6 @@ import org.slf4j.Logger;
  * @author Michaela Horváthová
  */
 @Service
-@Transactional
 public class MeterLogServiceImpl implements MeterLogService{
 
 
@@ -47,7 +46,7 @@ public class MeterLogServiceImpl implements MeterLogService{
     @Override
     public List<MeterLog> findInDateFrame(LocalDate startDate, LocalDate endDate) {
         List<MeterLog> results = new ArrayList<>();
-        for (LocalDate date = startDate; date.isBefore(endDate); date = date.plusDays(1)) {
+        for (LocalDate date = startDate; date.isBefore(endDate.plusDays(1)); date = date.plusDays(1)) {
             results.addAll(findByDate(date));
         }
         return results;
@@ -56,10 +55,10 @@ public class MeterLogServiceImpl implements MeterLogService{
     @Override
     public List<MeterLog> findInDateFrameWithDayTime(LocalDate startDate, LocalDate endDate, DayTime dayTime) {
         List<MeterLog> results = new ArrayList<>();
-        for (LocalDate date = startDate; date.isBefore(endDate); date = date.plusDays(1)) {
+        for (LocalDate date = startDate; date.isBefore(endDate.plusDays(1)); date = date.plusDays(1)) {
             List<MeterLog> inDate = findByDate(date);
             inDate.removeIf(m -> !isInDayTime(m, dayTime));
-            results.addAll(findByDate(date));
+            results.addAll(inDate);
         }
         return results;
     }
