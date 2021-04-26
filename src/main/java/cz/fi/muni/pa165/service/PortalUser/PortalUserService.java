@@ -1,5 +1,6 @@
 package cz.fi.muni.pa165.service.PortalUser;
 
+import cz.fi.muni.pa165.entity.House;
 import cz.fi.muni.pa165.entity.PortalUser;
 import cz.fi.muni.pa165.entity.UserRole;
 
@@ -63,6 +64,22 @@ public interface PortalUserService {
      * @param portalUser portal user
      */
     void updateBasicUserInfo(PortalUser portalUser);
+
+    /**
+     * Method for adding house to user
+     *
+     * @param portalUser user
+     * @param house house
+     */
+    void addHouse(PortalUser portalUser, House house);
+
+    /**
+     * Method for removing house from user
+     *
+     * @param portalUser user
+     * @param house house
+     */
+    void removeHouse(PortalUser portalUser, House house);
 
     /**
      * Method used to deactivate user by id
