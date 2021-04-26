@@ -3,6 +3,7 @@ package cz.fi.muni.pa165.entity;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 /**
@@ -89,6 +90,13 @@ public class SmartMeter implements Serializable {
 
     public void setSmartMeterDescription(String description) {
         this.smartMeterDescription = description;
+    }
+
+    public void addMeterLog(MeterLog ml) {
+        if (this.meterLogs == null) {
+            this.meterLogs = new HashSet<>();
+        }
+        this.meterLogs.add(ml);
     }
 
     public Set<MeterLog> getMeterLogs() {

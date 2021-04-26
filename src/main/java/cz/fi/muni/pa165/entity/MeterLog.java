@@ -128,6 +128,7 @@ public class MeterLog implements Serializable {
     }
 
     public void setSmartMeter(SmartMeter smartMeter) {
+        smartMeter.addMeterLog(this);
         this.smartMeter = smartMeter;
     }
 

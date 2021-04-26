@@ -2,6 +2,7 @@ package cz.fi.muni.pa165.service.PortalUser;
 
 import cz.fi.muni.pa165.dao.PortalUserDao;
 import cz.fi.muni.pa165.dao.UserRoleDao;
+import cz.fi.muni.pa165.entity.House;
 import cz.fi.muni.pa165.entity.PortalUser;
 import cz.fi.muni.pa165.entity.UserRole;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -71,6 +72,16 @@ public class PortalUserServiceImpl implements PortalUserService {
     @Override
     public void updateBasicUserInfo(PortalUser portalUser) {
         portalUserDao.update(portalUser);
+    }
+
+    @Override
+    public void addHouse(PortalUser portalUser, House house) {
+        portalUser.addHouse(house);
+    }
+
+    @Override
+    public void removeHouse(PortalUser portalUser, House house) {
+        portalUser.removeHouse(house);
     }
 
     @Override
