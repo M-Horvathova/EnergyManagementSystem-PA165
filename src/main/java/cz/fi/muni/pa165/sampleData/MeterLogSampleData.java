@@ -1,11 +1,32 @@
 package cz.fi.muni.pa165.sampleData;
 
+import cz.fi.muni.pa165.PersistenceApplicationContext;
+import cz.fi.muni.pa165.dao.MeterLogDao;
+import cz.fi.muni.pa165.dao.SmartMeterDao;
 import cz.fi.muni.pa165.entity.MeterLog;
+import cz.fi.muni.pa165.entity.SmartMeter;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
 
+@Transactional
+@Service
+@ContextConfiguration(classes = PersistenceApplicationContext.class)
 public class MeterLogSampleData {
+    @Autowired
+    private MeterLogDao meterLogDao;
+
+    @Autowired
+    private SmartMeterDao smartMeterDao;
+
+    @Autowired
+    private SmartMeterSampleData smartMeterSampleData;
+
+
     private MeterLog meterLog100;
     private MeterLog meterLog101;
     private MeterLog meterLog102;
@@ -49,7 +70,10 @@ public class MeterLogSampleData {
         meterLog0.setLogDate(LocalDate.of(2020, 1, 1));
         meterLog0.setLogTime(LocalTime.of(0, 30));
         meterLog0.setMeasure(123L);
+        SmartMeter sm = smartMeterSampleData.generateSmartMeter50();
+        meterLog0.setSmartMeter(sm);
         this.meterLog100 = meterLog0;
+        meterLogDao.create(meterLog0);
         return meterLog0;
     }
 

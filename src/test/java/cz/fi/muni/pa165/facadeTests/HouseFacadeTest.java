@@ -1,15 +1,20 @@
 package cz.fi.muni.pa165.facadeTests;
 
+import cz.fi.muni.pa165.dao.SmartMeterDao;
 import cz.fi.muni.pa165.dto.HouseDTO;
 import cz.fi.muni.pa165.entity.House;
+import cz.fi.muni.pa165.entity.MeterLog;
 import cz.fi.muni.pa165.entity.PortalUser;
+import cz.fi.muni.pa165.entity.SmartMeter;
 import cz.fi.muni.pa165.facade.HouseFacade;
 import cz.fi.muni.pa165.sampleData.HouseSampleData;
+import cz.fi.muni.pa165.sampleData.MeterLogSampleData;
 import cz.fi.muni.pa165.sampleData.UserSampleData;
 import cz.fi.muni.pa165.service.config.ServiceConfiguration;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.testng.AbstractTransactionalTestNGSpringContextTests;
+import org.testng.annotations.Test;
 
 /**
  * @author Michaela Horváthová
@@ -20,16 +25,21 @@ public class HouseFacadeTest extends AbstractTransactionalTestNGSpringContextTes
     @Autowired
     private HouseFacade houseFacade;
 
-    private PortalUser user;
-    private House house;
+    @Autowired
+    private MeterLogSampleData meterLogSampleData;
+
+    @Autowired
+    private SmartMeterDao smartMeterDao;
+
+
     private HouseDTO houseDTO;
 
+    @Test
     public void prepareData() {
-        UserSampleData userSampleData = new UserSampleData();
-        HouseSampleData houseSampleData = new HouseSampleData();
-        this.user = userSampleData.getUser1();
-        this.house = houseSampleData.generateHouse10();
-
+        MeterLog m1 = meterLogSampleData.generateMeterLog100();
+        SmartMeter sm1 = m1.getSmartMeter();
+        System.out.println(sm1.getId());
+        System.out.println(sm1.getMeterLogs());
 
     }
 
