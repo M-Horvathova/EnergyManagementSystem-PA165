@@ -14,7 +14,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 /**
  * @author Patrik Valo
@@ -51,7 +53,15 @@ public class HouseFacadeImpl implements HouseFacade {
         house.setName(h.getName());
         house.setRunning(h.getRunning());
         house.setAddress(createdAddress);
-        house.setPortalUser(portalUserService.findUserById(h.getPortalUserId()));
+
+        PortalUser user = portalUserService.findUserById(h.getPortalUserId());
+        Set<House> houses = user.getHouses();
+        if (houses == null) {
+            houses = new HashSet<>();
+        }
+        houses.add(house);
+        user.setHouses(houses);
+        house.setPortalUser(user);
 
         House createdHouse = houseService.createHouse(house);
         return createdHouse.getId();
