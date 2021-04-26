@@ -1,9 +1,11 @@
 package cz.fi.muni.pa165.dto.PortalUser;
 
 import com.google.gson.Gson;
+import cz.fi.muni.pa165.dto.HouseDTO;
 import cz.fi.muni.pa165.entity.House;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 
@@ -31,7 +33,7 @@ public class PortalUserDTO {
 
     private LocalDateTime lastLoginTimestamp;
 
-    private Set<House> houses;
+    private List<HouseDTO> houses;
 
     public long getId() {
         return id;
@@ -113,11 +115,11 @@ public class PortalUserDTO {
         this.lastLoginTimestamp = lastLoginTimestamp;
     }
 
-    public Set<House> getHouses() {
+    public List<HouseDTO> getHouses() {
         return houses;
     }
 
-    public void setHouses(Set<House> houses) {
+    public void setHouses(List<HouseDTO> houses) {
         this.houses = houses;
     }
 
@@ -155,6 +157,7 @@ public class PortalUserDTO {
                 getHouses());
     }
 
+    @Override
     public String toString(){
         return new Gson().toJson(this);
     }

@@ -10,7 +10,7 @@ import java.util.Set;
  */
 
 @Entity
-public class SmartMeter implements Serializable{
+public class SmartMeter implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

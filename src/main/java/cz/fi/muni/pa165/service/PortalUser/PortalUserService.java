@@ -84,8 +84,9 @@ public interface PortalUserService {
      * @param id user id
      * @param oldPassword old password
      * @param newPassword new password
+     * @return true if change was successfull false otherwise
      */
-    void changePassword(long id, String oldPassword, String newPassword);
+    boolean changePassword(long id, String oldPassword, String newPassword);
 
     /**
      * Method used for deleting user

@@ -2,9 +2,11 @@ package cz.fi.muni.pa165.service;
 
 import cz.fi.muni.pa165.dao.AddressDao;
 import cz.fi.muni.pa165.dao.HouseDao;
+import cz.fi.muni.pa165.dao.SmartMeterDao;
 import cz.fi.muni.pa165.entity.Address;
 import cz.fi.muni.pa165.entity.House;
 import cz.fi.muni.pa165.entity.PortalUser;
+import cz.fi.muni.pa165.entity.SmartMeter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -18,11 +20,13 @@ public class HouseServiceImpl implements HouseService {
 
     private HouseDao houseDao;
     private AddressDao addressDao;
+    private SmartMeterDao smartMeterDao;
 
     @Autowired
-    public HouseServiceImpl(HouseDao houseDao, AddressDao addressDao) {
+    public HouseServiceImpl(HouseDao houseDao, AddressDao addressDao, SmartMeterDao smartMeterDao) {
         this.houseDao = houseDao;
         this.addressDao = addressDao;
+        this.smartMeterDao = smartMeterDao;
     }
 
     @Override
@@ -52,6 +56,14 @@ public class HouseServiceImpl implements HouseService {
     @Override
     public House changeRunning(House house, Boolean isRunning) {
         house.setRunning(isRunning);
+
+        List<SmartMeter> smartMeters = smartMeterDao.findByHouse(house);
+
+        for (SmartMeter smartMeter : smartMeters) {
+            smartMeter.setRunning(isRunning);
+            smartMeterDao.update(smartMeter);
+        }
+
         return houseDao.update(house);
     }
 
@@ -86,6 +98,12 @@ public class HouseServiceImpl implements HouseService {
 
         if (houses.size() <= 1) {
             addressDao.delete(house.getAddress());
+        }
+
+        List<SmartMeter> smartMeters = smartMeterDao.findByHouse(house);
+
+        for (SmartMeter smartMeter : smartMeters) {
+            smartMeterDao.delete(smartMeter);
         }
 
         houseDao.delete(house);

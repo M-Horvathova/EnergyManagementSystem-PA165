@@ -115,6 +115,10 @@ public class PortalUser implements Serializable {
         this.userRole = userRole;
     }
 
+    public boolean isAdmin() {
+        return userRole.getRoleName().equals(UserRole.ADMINISTRATOR_ROLE_NAME);
+    }
+
 
     public LocalDateTime getCreatedTimestamp() {
         return createdTimestamp;

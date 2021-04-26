@@ -23,7 +23,7 @@ import java.util.List;
  */
 @Service
 @Transactional
-public class MeterLogFacadeImpl implements MeterLogFacade{
+public class MeterLogFacadeImpl implements MeterLogFacade {
     final static Logger log = LoggerFactory.getLogger(MeterLogFacadeImpl.class);
 
     private MeterLogService meterLogService;
