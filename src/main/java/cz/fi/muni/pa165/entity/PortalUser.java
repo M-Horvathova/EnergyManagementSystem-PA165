@@ -6,6 +6,7 @@ import javax.persistence.*;
 import javax.validation.constraints.Future;
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
@@ -50,7 +51,7 @@ public class PortalUser implements Serializable {
     private LocalDateTime lastLoginTimestamp;
 
     @OneToMany(mappedBy = "portalUser")
-    private Set<House> houses;
+    private Set<House> houses = new HashSet<House>();;
 
 
     public long getId() {
@@ -154,6 +155,15 @@ public class PortalUser implements Serializable {
     public void setHouses(Set<House> houses) {
         houses.forEach(house -> house.setPortalUser(this));
         this.houses = houses;
+    }
+
+    public void addHouse(House house) {
+        houses.add(house);
+        house.setPortalUser(this);
+    }
+
+    public void removeHouse(House house) {
+        houses.remove(house);
     }
 
     @Override
