@@ -21,7 +21,6 @@ import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.testng.AbstractTransactionalTestNGSpringContextTests;
-import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
@@ -35,9 +34,16 @@ public class HouseFacadeTest extends AbstractTransactionalTestNGSpringContextTes
     private HouseService houseService;
 
     @Mock
-    private House testHouse;
-    private AddressService addressService;
     private PortalUserService portalUserService;
+
+    @Mock
+    private  AddressService addressService;
+
+    @Mock
+    private BeanMappingService beanMappingService;
+
+
+    private House testHouse;
 
 
     @Autowired
@@ -48,7 +54,6 @@ public class HouseFacadeTest extends AbstractTransactionalTestNGSpringContextTes
     public void setup() throws ServiceException  {
         MockitoAnnotations.initMocks(this);
     }
-
 
     public HouseCreateDTO prepareHouseCreateDto() {
         HouseCreateDTO houseCreateDTO = new HouseCreateDTO();
@@ -85,12 +90,14 @@ public class HouseFacadeTest extends AbstractTransactionalTestNGSpringContextTes
         return  testAddress;
     }
 
+    @BeforeMethod
     public House prepareTestHouseObject() {
         House testHouse = new House();
         testHouse.setId(1L);
-        testHouse.setRunning(false);
+        testHouse.setRunning(true);
         testHouse.setName("Test house");
         testHouse.setAddress(prepareAddress());
+        this.testHouse = testHouse;
         return testHouse;
     }
 
@@ -103,10 +110,10 @@ public class HouseFacadeTest extends AbstractTransactionalTestNGSpringContextTes
 
     @Test
     public void isRunning() {
-        when(houseService.findById(1L)).thenReturn(prepareTestHouseObject());
-        when(testHouse.getRunning()).thenReturn(prepareTestHouseObject().getRunning());
+        when(houseService.findById(any())).thenReturn(testHouse);
+        Boolean res = houseFacade.isRunning(testHouse.getId());
 
-        houseFacade.isRunning(1L);
+        verify(houseService).findById(any(Long.class));
     }
 
 
