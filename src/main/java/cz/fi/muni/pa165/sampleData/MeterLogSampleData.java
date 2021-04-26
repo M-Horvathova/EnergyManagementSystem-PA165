@@ -5,6 +5,7 @@ import cz.fi.muni.pa165.dao.MeterLogDao;
 import cz.fi.muni.pa165.dao.SmartMeterDao;
 import cz.fi.muni.pa165.entity.MeterLog;
 import cz.fi.muni.pa165.entity.SmartMeter;
+import cz.fi.muni.pa165.service.MeterLogService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.test.context.ContextConfiguration;
@@ -35,6 +36,7 @@ public class MeterLogSampleData {
         if (meterLog100 == null) {
             return generateMeterLog100();
         }
+        meterLog100 = meterLogDao.findById(meterLog100.getId());
         return meterLog100;
     }
 
@@ -70,7 +72,7 @@ public class MeterLogSampleData {
         meterLog0.setLogDate(LocalDate.of(2020, 1, 1));
         meterLog0.setLogTime(LocalTime.of(0, 30));
         meterLog0.setMeasure(123L);
-        SmartMeter sm = smartMeterSampleData.generateSmartMeter50();
+        SmartMeter sm = smartMeterSampleData.getSmartMeter50();
         meterLog0.setSmartMeter(sm);
         this.meterLog100 = meterLog0;
         meterLogDao.create(meterLog0);

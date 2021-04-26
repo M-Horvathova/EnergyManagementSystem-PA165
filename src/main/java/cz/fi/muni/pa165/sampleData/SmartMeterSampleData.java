@@ -26,6 +26,7 @@ public class SmartMeterSampleData {
         if (smartMeter50 == null) {
             return generateSmartMeter50();
         }
+        smartMeter50 = smartMeterDao.findById(smartMeter50.getId());
         return smartMeter50;
     }
 

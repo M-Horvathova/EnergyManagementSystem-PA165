@@ -36,8 +36,8 @@ public class HouseFacadeTest extends AbstractTransactionalTestNGSpringContextTes
 
     @Test
     public void prepareData() {
-        MeterLog m1 = meterLogSampleData.generateMeterLog100();
-        SmartMeter sm1 = m1.getSmartMeter();
+        MeterLog m1 = meterLogSampleData.getMeterLog100();
+        SmartMeter sm1 = smartMeterDao.findById(1L);
         System.out.println(sm1.getId());
         System.out.println(sm1.getMeterLogs());
 
