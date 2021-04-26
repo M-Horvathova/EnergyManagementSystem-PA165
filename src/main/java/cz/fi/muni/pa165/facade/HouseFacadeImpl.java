@@ -54,14 +54,7 @@ public class HouseFacadeImpl implements HouseFacade {
         house.setRunning(h.getRunning());
         house.setAddress(createdAddress);
 
-        PortalUser user = portalUserService.findUserById(h.getPortalUserId());
-        Set<House> houses = user.getHouses();
-        if (houses == null) {
-            houses = new HashSet<>();
-        }
-        houses.add(house);
-        user.setHouses(houses);
-        house.setPortalUser(user);
+        portalUserService.addHouse(portalUserService.findUserById(h.getPortalUserId()), house);
 
         House createdHouse = houseService.createHouse(house);
         return createdHouse.getId();
@@ -69,7 +62,10 @@ public class HouseFacadeImpl implements HouseFacade {
 
     @Override
     public void deleteHouse(Long houseId) {
-        houseService.deleteHouse(houseService.findById(houseId));
+        House house = houseService.findById(houseId);
+
+        portalUserService.removeHouse(house.getPortalUser(), house);
+        houseService.deleteHouse(house);
     }
 
     @Override

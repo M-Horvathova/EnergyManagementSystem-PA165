@@ -11,7 +11,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Set;
 
 /**
  * @author Patrik Valo
@@ -106,13 +105,8 @@ public class HouseServiceImpl implements HouseService {
     @Override
     public void deleteHouse(House house) {
         List<House> houses = houseDao.findByAddress(house.getAddress());
-        Address address = house.getAddress();
-
         List<SmartMeter> smartMeters = smartMeterDao.findByHouse(house);
-        PortalUser user = house.getPortalUser();
-        Set<House> userHouses = user.getHouses();
-        userHouses.remove(house);
-        user.setHouses(userHouses);
+        Address address = house.getAddress();
 
         houseDao.delete(house);
 
