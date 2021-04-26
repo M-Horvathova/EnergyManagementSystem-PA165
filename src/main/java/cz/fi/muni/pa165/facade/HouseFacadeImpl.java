@@ -26,7 +26,7 @@ public class HouseFacadeImpl implements HouseFacade {
     private HouseService houseService;
     private AddressService addressService;
     private PortalUserService portalUserService;
-    private final BeanMappingService beanMappingService;
+    private BeanMappingService beanMappingService;
 
     @Autowired
     public HouseFacadeImpl(HouseService houseService, AddressService addressService, PortalUserService portalUserService, BeanMappingService beanMappingService) {

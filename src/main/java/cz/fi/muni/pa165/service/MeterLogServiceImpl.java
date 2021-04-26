@@ -64,8 +64,9 @@ public class MeterLogServiceImpl implements MeterLogService{
     }
 
     @Override
-    public void createMeterLog(MeterLog ml) {
+    public MeterLog createMeterLog(MeterLog ml) {
         meterLogDao.create(ml);
+        return ml;
     }
 
     @Override
