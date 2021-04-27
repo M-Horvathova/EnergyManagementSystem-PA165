@@ -68,6 +68,16 @@ public class HouseServiceImpl implements HouseService {
     }
 
     @Override
+    public void addSmartMeter(House house, SmartMeter smartMeter) {
+        house.addSmartMeter(smartMeter);
+    }
+
+    @Override
+    public void removeSmartMeter(House house, SmartMeter smartMeter) {
+        house.removeSmartMeter(smartMeter);
+    }
+
+    @Override
     public House findById(Long id) {
         return houseDao.findById(id);
     }
@@ -95,17 +105,18 @@ public class HouseServiceImpl implements HouseService {
     @Override
     public void deleteHouse(House house) {
         List<House> houses = houseDao.findByAddress(house.getAddress());
+        List<SmartMeter> smartMeters = smartMeterDao.findByHouse(house);
+        Address address = house.getAddress();
+
+        houseDao.delete(house);
 
         if (houses.size() <= 1) {
-            addressDao.delete(house.getAddress());
+            addressDao.delete(address);
         }
 
-        List<SmartMeter> smartMeters = smartMeterDao.findByHouse(house);
 
         for (SmartMeter smartMeter : smartMeters) {
             smartMeterDao.delete(smartMeter);
         }
-
-        houseDao.delete(house);
     }
 }

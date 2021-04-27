@@ -3,6 +3,7 @@ package cz.fi.muni.pa165.service;
 import cz.fi.muni.pa165.entity.Address;
 import cz.fi.muni.pa165.entity.House;
 import cz.fi.muni.pa165.entity.PortalUser;
+import cz.fi.muni.pa165.entity.SmartMeter;
 
 import java.util.List;
 
@@ -42,6 +43,20 @@ public interface HouseService {
      * @return house with the new status
      */
     House changeRunning(House house, Boolean isRunning);
+
+    /**
+     * Add the smartMeter to house
+     * @param house House, where smartMeter should be placed
+     * @param smartMeter SmartMeter, which should be placed to House
+     */
+    void addSmartMeter(House house, SmartMeter smartMeter);
+
+    /**
+     * Remove the smartMeter from the house
+     * @param house House, where smartMeter should be removed
+     * @param smartMeter SmartMeter, which should be removed
+     */
+    void removeSmartMeter(House house, SmartMeter smartMeter);
 
     /**
      * Finds the house by the given id
