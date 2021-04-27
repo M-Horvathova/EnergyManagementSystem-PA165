@@ -1,6 +1,7 @@
 package cz.fi.muni.pa165.dto;
 
 import cz.fi.muni.pa165.dto.PortalUser.PortalUserDTO;
+import cz.fi.muni.pa165.dto.PortalUser.PortalUserHouseDTO;
 
 import java.util.HashSet;
 import java.util.Objects;
@@ -16,7 +17,7 @@ public class HouseDTO {
     private Boolean isRunning;
     private AddressDTO address;
     private Set<SmartMeterDTO> smartMeters = new HashSet<>();
-    private PortalUserDTO portalUser;
+    private PortalUserHouseDTO portalUser;
 
     public Long getId() {
         return id;
@@ -58,11 +59,11 @@ public class HouseDTO {
         this.smartMeters = smartMeters;
     }
 
-    public PortalUserDTO getPortalUser() {
+    public PortalUserHouseDTO getPortalUser() {
         return portalUser;
     }
 
-    public void setPortalUser(PortalUserDTO portalUser) {
+    public void setPortalUser(PortalUserHouseDTO portalUser) {
         this.portalUser = portalUser;
     }
 
