@@ -6,6 +6,7 @@ import cz.fi.muni.pa165.dto.SmartMeterDTO;
 import cz.fi.muni.pa165.entity.MeterLog;
 import cz.fi.muni.pa165.entity.SmartMeter;
 import cz.fi.muni.pa165.facade.MeterLogFacadeImpl;
+import cz.fi.muni.pa165.facade.PortalUser.PortalUserFacadeImpl;
 import cz.fi.muni.pa165.facade.SmartMeterFacadeImpl;
 import org.dozer.DozerBeanMapper;
 import org.dozer.Mapper;
@@ -17,7 +18,7 @@ import org.springframework.context.annotation.Import;
 
 @Configuration
 @Import(PersistenceApplicationContext.class)
-@ComponentScan(basePackageClasses={MeterLogFacadeImpl.class, SmartMeterFacadeImpl.class})
+@ComponentScan(basePackageClasses={MeterLogFacadeImpl.class, SmartMeterFacadeImpl.class, PortalUserFacadeImpl.class })
 public class ServiceConfiguration {
 
 

@@ -18,9 +18,9 @@ import java.util.List;
 @Transactional
 public class SmartMeterFacadeImpl implements SmartMeterFacade {
 
-    private final SmartMeterService smartMeterService;
+    private SmartMeterService smartMeterService;
 
-    private final BeanMappingService beanMappingService;
+    private BeanMappingService beanMappingService;
 
     @Autowired
     public SmartMeterFacadeImpl(SmartMeterService smartMeterService, BeanMappingService beanMappingService) {

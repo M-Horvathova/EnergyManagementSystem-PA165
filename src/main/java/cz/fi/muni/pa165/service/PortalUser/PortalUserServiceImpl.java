@@ -33,20 +33,22 @@ public class PortalUserServiceImpl implements PortalUserService {
     }
 
     @Override
-    public void registerUser(PortalUser portalUser, String unencryptedPassword) {
+    public PortalUser registerUser(PortalUser portalUser, String unencryptedPassword) {
         UserRole userRole = userRoleDao.findByName(UserRole.USER_ROLE_NAME);
         portalUser.setUserRole(userRole);
         portalUser.setPasswordHash(passwordEncoder.encode(unencryptedPassword));
 
         portalUserDao.create(portalUser);
+        return portalUser;
     }
 
     @Override
-    public void registerAdministrator(PortalUser portalUser, String unencryptedPassword) {
+    public PortalUser registerAdministrator(PortalUser portalUser, String unencryptedPassword) {
         UserRole userRole = userRoleDao.findByName(UserRole.ADMINISTRATOR_ROLE_NAME);
         portalUser.setPasswordHash(passwordEncoder.encode(unencryptedPassword));
 
         portalUserDao.create(portalUser);
+        return portalUser;
     }
 
     @Override
