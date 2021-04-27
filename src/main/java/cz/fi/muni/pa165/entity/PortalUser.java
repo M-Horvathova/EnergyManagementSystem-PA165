@@ -36,7 +36,7 @@ public class PortalUser implements Serializable {
     @Column(nullable=false)
     private String phone;
 
-    @ManyToOne(optional = false)
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private UserRole userRole;
 
     @Column(nullable=false)
@@ -50,7 +50,7 @@ public class PortalUser implements Serializable {
     @Column(nullable=true)
     private LocalDateTime lastLoginTimestamp;
 
-    @OneToMany(mappedBy = "portalUser")
+    @OneToMany(mappedBy = "portalUser", fetch = FetchType.LAZY)
     private Set<House> houses = new HashSet<House>();;
 
 

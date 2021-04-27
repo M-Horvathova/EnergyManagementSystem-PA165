@@ -30,6 +30,9 @@ import java.util.List;
 
 import static org.mockito.Mockito.*;
 
+/**
+ * @author Martin Podhora
+ */
 @ContextConfiguration(classes = ServiceConfiguration.class)
 public class SmartMeterServiceTest {
     @Mock
