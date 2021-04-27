@@ -49,7 +49,7 @@ public interface PortalUserFacade {
      * @param id user id
      * @return user
      */
-    PortalUserDTO findUserById(long id);
+    PortalUserDTO findUserById(Long id);
 
     /**
      * Finds user by email
@@ -71,14 +71,14 @@ public interface PortalUserFacade {
      *
      * @param id user's id
      */
-    void deactivateUser(long id);
+    void deactivateUser(Long id);
 
     /**
      * Reactivates given user
      *
      * @param id user's id
      */
-    void reactivateUser(long id);
+    void reactivateUser(Long id);
 
     /**
      * Changes password for given user
@@ -93,5 +93,5 @@ public interface PortalUserFacade {
      *
      * @param id user's id
      */
-    void delete(long id);
+    void delete(Long id);
 }

@@ -23,7 +23,7 @@ public class UserRoleDaoImpl implements UserRoleDao {
     }
 
     @Override
-    public UserRole findById(long id) {
+    public UserRole findById(Long id) {
         return em.find(UserRole.class, id);
     }
 

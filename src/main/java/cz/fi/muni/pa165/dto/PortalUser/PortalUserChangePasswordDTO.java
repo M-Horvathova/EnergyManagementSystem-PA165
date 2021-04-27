@@ -5,17 +5,17 @@ import com.google.gson.Gson;
 import java.util.Objects;
 
 public class PortalUserChangePasswordDTO {
-    private int id;
+    private Long id;
 
     private String oldPassword;
 
     private String newPassword;
 
-    public int getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -40,12 +40,12 @@ public class PortalUserChangePasswordDTO {
         if (this == o) return true;
         if (o == null || !(o instanceof PortalUserChangePasswordDTO)) return false;
         PortalUserChangePasswordDTO that = (PortalUserChangePasswordDTO) o;
-        return getId() == that.getId() && Objects.equals(getOldPassword(), that.getOldPassword()) && Objects.equals(getNewPassword(), that.getNewPassword());
+        return Objects.equals(getOldPassword(), that.getOldPassword()) && Objects.equals(getNewPassword(), that.getNewPassword());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getId(), getOldPassword(), getNewPassword());
+        return Objects.hash(getOldPassword(), getNewPassword());
     }
 
     @Override

@@ -27,7 +27,7 @@ public class PortalUserDaoImpl implements PortalUserDao {
     }
 
     @Override
-    public PortalUser findById(long id) {
+    public PortalUser findById(Long id) {
         return em.find(PortalUser.class, id);
     }
 

@@ -33,20 +33,22 @@ public class PortalUserServiceImpl implements PortalUserService {
     }
 
     @Override
-    public void registerUser(PortalUser portalUser, String unencryptedPassword) {
+    public PortalUser registerUser(PortalUser portalUser, String unencryptedPassword) {
         UserRole userRole = userRoleDao.findByName(UserRole.USER_ROLE_NAME);
         portalUser.setUserRole(userRole);
         portalUser.setPasswordHash(passwordEncoder.encode(unencryptedPassword));
 
         portalUserDao.create(portalUser);
+        return portalUser;
     }
 
     @Override
-    public void registerAdministrator(PortalUser portalUser, String unencryptedPassword) {
+    public PortalUser registerAdministrator(PortalUser portalUser, String unencryptedPassword) {
         UserRole userRole = userRoleDao.findByName(UserRole.ADMINISTRATOR_ROLE_NAME);
         portalUser.setPasswordHash(passwordEncoder.encode(unencryptedPassword));
 
         portalUserDao.create(portalUser);
+        return portalUser;
     }
 
     @Override
@@ -60,7 +62,7 @@ public class PortalUserServiceImpl implements PortalUserService {
     }
 
     @Override
-    public PortalUser findUserById(long id) {
+    public PortalUser findUserById(Long id) {
         return portalUserDao.findById(id);
     }
 
@@ -85,21 +87,21 @@ public class PortalUserServiceImpl implements PortalUserService {
     }
 
     @Override
-    public void deactivateUser(long id) {
+    public void deactivateUser(Long id) {
         PortalUser user = portalUserDao.findById(id);
         user.setActive(false);
         portalUserDao.update(user);
     }
 
     @Override
-    public void reactivateUser(long id) {
+    public void reactivateUser(Long id) {
         PortalUser user = portalUserDao.findById(id);
         user.setActive(true);
         portalUserDao.update(user);
     }
 
     @Override
-    public boolean changePassword(long id, String oldPassword, String newPassword) {
+    public boolean changePassword(Long id, String oldPassword, String newPassword) {
         PortalUser user = portalUserDao.findById(id);
         boolean doPasswordsMatch = authenticate(user, oldPassword);
         if (!doPasswordsMatch) {

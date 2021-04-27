@@ -9,6 +9,8 @@ import cz.fi.muni.pa165.dto.PortalUser.PortalUserDTO;
 import cz.fi.muni.pa165.entity.PortalUser;
 import cz.fi.muni.pa165.service.PortalUser.PortalUserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,6 +19,8 @@ import java.util.stream.Collectors;
 /**
  * @author Martin Podhora
  */
+@Service
+@Transactional
 public class PortalUserFacadeImpl implements PortalUserFacade {
     private final PortalUserService portalUserService;
     private final BeanMappingService beanMappingService;
@@ -54,7 +58,7 @@ public class PortalUserFacadeImpl implements PortalUserFacade {
     }
 
     @Override
-    public PortalUserDTO findUserById(long id)
+    public PortalUserDTO findUserById(Long id)
     {
         return portalUserToPortalUserDTO(portalUserService.findUserById(id));
     }
@@ -72,12 +76,12 @@ public class PortalUserFacadeImpl implements PortalUserFacade {
     }
 
     @Override
-    public void deactivateUser(long id) {
+    public void deactivateUser(Long id) {
         portalUserService.deactivateUser(id);
     }
 
     @Override
-    public void reactivateUser(long id) {
+    public void reactivateUser(Long id) {
         portalUserService.reactivateUser(id);
     }
 
@@ -90,7 +94,7 @@ public class PortalUserFacadeImpl implements PortalUserFacade {
     }
 
     @Override
-    public void delete(long id) {
+    public void delete(Long id) {
         portalUserService.delete(portalUserService.findUserById(id));
     }
 
