@@ -11,7 +11,6 @@ import java.util.Objects;
  * @author Michaela Horváthová
  */
 public class MeterLogDTO {
-    private Long id;
     private LocalDate logDate;
     private LocalTime logTime;
     private Long measure;
@@ -58,12 +57,18 @@ public class MeterLogDTO {
         this.createStamp = createStamp;
     }
 
+
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof MeterLogDTO)) return false;
         MeterLogDTO that = (MeterLogDTO) o;
-        return getLogDate().equals(that.getLogDate()) && getLogTime().equals(that.getLogTime()) && getMeasure().equals(that.getMeasure()) && getSmartMeter().equals(that.getSmartMeter()) && Objects.equals(getCreateStamp(), that.getCreateStamp());
+        return getLogDate().equals(that.getLogDate())
+                && getLogTime().equals(that.getLogTime())
+                && getMeasure().equals(that.getMeasure())
+                && getSmartMeter().equals(that.getSmartMeter())
+                && Objects.equals(getCreateStamp(), that.getCreateStamp());
     }
 
     @Override
