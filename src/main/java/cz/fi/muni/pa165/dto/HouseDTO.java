@@ -1,6 +1,5 @@
 package cz.fi.muni.pa165.dto;
 
-import cz.fi.muni.pa165.dto.PortalUser.PortalUserDTO;
 import cz.fi.muni.pa165.dto.PortalUser.PortalUserHouseDTO;
 
 import java.util.HashSet;
