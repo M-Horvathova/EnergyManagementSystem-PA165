@@ -62,7 +62,7 @@ public class PortalUserServiceImpl implements PortalUserService {
     }
 
     @Override
-    public PortalUser findUserById(long id) {
+    public PortalUser findUserById(Long id) {
         return portalUserDao.findById(id);
     }
 
@@ -87,21 +87,21 @@ public class PortalUserServiceImpl implements PortalUserService {
     }
 
     @Override
-    public void deactivateUser(long id) {
+    public void deactivateUser(Long id) {
         PortalUser user = portalUserDao.findById(id);
         user.setActive(false);
         portalUserDao.update(user);
     }
 
     @Override
-    public void reactivateUser(long id) {
+    public void reactivateUser(Long id) {
         PortalUser user = portalUserDao.findById(id);
         user.setActive(true);
         portalUserDao.update(user);
     }
 
     @Override
-    public boolean changePassword(long id, String oldPassword, String newPassword) {
+    public boolean changePassword(Long id, String oldPassword, String newPassword) {
         PortalUser user = portalUserDao.findById(id);
         boolean doPasswordsMatch = authenticate(user, oldPassword);
         if (!doPasswordsMatch) {

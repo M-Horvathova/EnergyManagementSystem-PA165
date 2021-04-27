@@ -48,7 +48,7 @@ public interface PortalUserService {
      * @param id user id
      * @return portal user
      */
-    PortalUser findUserById(long id);
+    PortalUser findUserById(Long id);
 
     /**
      * Method for finding user by email
@@ -86,14 +86,14 @@ public interface PortalUserService {
      *
      * @param id user id
      */
-    void deactivateUser(long id);
+    void deactivateUser(Long id);
 
     /**
      * Method used to reactivate user
      *
      * @param id user id
      */
-    void reactivateUser(long id);
+    void reactivateUser(Long id);
 
     /**
      * Method used to change password
@@ -103,7 +103,7 @@ public interface PortalUserService {
      * @param newPassword new password
      * @return true if change was successfull false otherwise
      */
-    boolean changePassword(long id, String oldPassword, String newPassword);
+    boolean changePassword(Long id, String oldPassword, String newPassword);
 
     /**
      * Method used for deleting user

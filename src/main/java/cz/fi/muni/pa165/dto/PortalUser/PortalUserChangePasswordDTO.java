@@ -5,17 +5,17 @@ import com.google.gson.Gson;
 import java.util.Objects;
 
 public class PortalUserChangePasswordDTO {
-    private int id;
+    private Long id;
 
     private String oldPassword;
 
     private String newPassword;
 
-    public int getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

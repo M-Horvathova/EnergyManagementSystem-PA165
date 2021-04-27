@@ -25,7 +25,7 @@ public interface UserRoleDao {
      * @param id numeric unique identifier of role
      * @return role with specified id or null in case no user with specified id exists
      */
-    UserRole findById(long id);
+    UserRole findById(Long id);
 
     /**
      * Retrieves all user in the database

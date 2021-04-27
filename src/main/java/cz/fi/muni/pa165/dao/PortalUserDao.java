@@ -24,7 +24,7 @@ public interface PortalUserDao {
      * @param id numeric unique identifier of user
      * @return user with specified id or null in case no user with specified id exists
      */
-    PortalUser findById(long id);
+    PortalUser findById(Long id);
 
     /**
      * Retrieves all user in the database

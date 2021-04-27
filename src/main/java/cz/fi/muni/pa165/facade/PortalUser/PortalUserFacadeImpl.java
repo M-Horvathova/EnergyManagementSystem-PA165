@@ -58,7 +58,7 @@ public class PortalUserFacadeImpl implements PortalUserFacade {
     }
 
     @Override
-    public PortalUserDTO findUserById(long id)
+    public PortalUserDTO findUserById(Long id)
     {
         return portalUserToPortalUserDTO(portalUserService.findUserById(id));
     }
@@ -76,12 +76,12 @@ public class PortalUserFacadeImpl implements PortalUserFacade {
     }
 
     @Override
-    public void deactivateUser(long id) {
+    public void deactivateUser(Long id) {
         portalUserService.deactivateUser(id);
     }
 
     @Override
-    public void reactivateUser(long id) {
+    public void reactivateUser(Long id) {
         portalUserService.reactivateUser(id);
     }
 
@@ -94,7 +94,7 @@ public class PortalUserFacadeImpl implements PortalUserFacade {
     }
 
     @Override
-    public void delete(long id) {
+    public void delete(Long id) {
         portalUserService.delete(portalUserService.findUserById(id));
     }
 
