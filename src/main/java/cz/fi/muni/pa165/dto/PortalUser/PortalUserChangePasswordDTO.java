@@ -40,12 +40,12 @@ public class PortalUserChangePasswordDTO {
         if (this == o) return true;
         if (o == null || !(o instanceof PortalUserChangePasswordDTO)) return false;
         PortalUserChangePasswordDTO that = (PortalUserChangePasswordDTO) o;
-        return getId() == that.getId() && Objects.equals(getOldPassword(), that.getOldPassword()) && Objects.equals(getNewPassword(), that.getNewPassword());
+        return Objects.equals(getOldPassword(), that.getOldPassword()) && Objects.equals(getNewPassword(), that.getNewPassword());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getId(), getOldPassword(), getNewPassword());
+        return Objects.hash(getOldPassword(), getNewPassword());
     }
 
     @Override

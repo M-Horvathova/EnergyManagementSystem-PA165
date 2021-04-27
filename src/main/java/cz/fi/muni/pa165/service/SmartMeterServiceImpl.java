@@ -22,8 +22,8 @@ import java.util.stream.Collectors;
 @Service
 public class SmartMeterServiceImpl implements SmartMeterService {
 
-    private final SmartMeterDao smartMeterDao;
-    private final MeterLogDao meterLogDao;
+    private SmartMeterDao smartMeterDao;
+    private MeterLogDao meterLogDao;
 
     @Autowired
     public SmartMeterServiceImpl(SmartMeterDao smartMeterDao, MeterLogDao meterLogDao) {

@@ -128,33 +128,12 @@ public class PortalUserDTO {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         PortalUserDTO that = (PortalUserDTO) o;
-        return getId() == that.getId()
-                && isAdmin() == that.isAdmin()
-                && isActive() == that.isActive()
-                && Objects.equals(getPasswordHash(), that.getPasswordHash())
-                && Objects.equals(getEmail(), that.getEmail())
-                && Objects.equals(getFirstName(), that.getFirstName())
-                && Objects.equals(getLastName(), that.getLastName())
-                && Objects.equals(getPhone(), that.getPhone())
-                && Objects.equals(getCreatedTimestamp(), that.getCreatedTimestamp())
-                && Objects.equals(getLastLoginTimestamp(), that.getLastLoginTimestamp())
-                && Objects.equals(getHouses(), that.getHouses());
+        return Objects.equals(getEmail(), that.getEmail());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(
-                getId(),
-                getPasswordHash(),
-                getEmail(),
-                getFirstName(),
-                getLastName(),
-                getPhone(),
-                isAdmin(),
-                isActive(),
-                getCreatedTimestamp(),
-                getLastLoginTimestamp(),
-                getHouses());
+        return Objects.hash(getEmail());
     }
 
     @Override
