@@ -45,6 +45,10 @@ public class SmartMeter implements Serializable {
         this.isRunning = isRunning;
     }
 
+    public void setId(Long id) {
+        this.id = id;
+    }
+
     public Long getId() {
         return id;
     }
