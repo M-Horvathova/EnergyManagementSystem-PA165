@@ -2,6 +2,7 @@ package cz.fi.muni.pa165.sampleData;
 
 import cz.fi.muni.pa165.PersistenceApplicationContext;
 import cz.fi.muni.pa165.dao.PortalUserDao;
+import cz.fi.muni.pa165.dao.UserRoleDao;
 import cz.fi.muni.pa165.entity.PortalUser;
 import cz.fi.muni.pa165.entity.UserRole;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +20,7 @@ public class UserSampleData {
     private PortalUserDao portalUserDao;
 
     @Autowired
-    private UserRoleSampleData userRoleSampleData;
+    private UserRoleDao userRoleDao;
 
     private PortalUser user1;
 
@@ -54,7 +55,7 @@ public class UserSampleData {
         String firstName = "FirstName";
         String lastName = "LastName";
         String phone = "+999111999";
-        UserRole role = userRoleSampleData.getUser();
+        UserRole role = userRoleDao.findByName(UserRole.USER_ROLE_NAME);
         PortalUser user = new PortalUser();
         user.setUserRole(role);
         user.setActive(true);
@@ -76,8 +77,7 @@ public class UserSampleData {
         String firstName = "FirstName2";
         String lastName = "LastName2";
         String phone = "+999111999";
-        UserRole role = new UserRole();
-        role.setRoleName(UserRole.ADMINISTRATOR_ROLE_NAME);
+        UserRole role = userRoleDao.findByName(UserRole.ADMINISTRATOR_ROLE_NAME);
         PortalUser user = new PortalUser();
         user.setUserRole(role);
         user.setCreatedTimestamp(dateTime);
@@ -90,5 +90,10 @@ public class UserSampleData {
         this.user2 = user;
         portalUserDao.create(user);
         return user;
+    }
+
+    public void generateUsers() {
+        generateUser1();
+        generateUser2();
     }
 }

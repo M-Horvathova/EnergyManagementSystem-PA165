@@ -19,7 +19,6 @@ public class UserRoleDaoImpl implements UserRoleDao {
 
     @Override
     public void create(UserRole userRole) {
-        userRole = em.merge(userRole);
         em.persist(userRole);
     }
 

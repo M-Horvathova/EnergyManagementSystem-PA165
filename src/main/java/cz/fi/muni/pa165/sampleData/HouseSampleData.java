@@ -1,7 +1,9 @@
 package cz.fi.muni.pa165.sampleData;
 
 import cz.fi.muni.pa165.PersistenceApplicationContext;
+import cz.fi.muni.pa165.dao.AddressDao;
 import cz.fi.muni.pa165.dao.HouseDao;
+import cz.fi.muni.pa165.dao.PortalUserDao;
 import cz.fi.muni.pa165.entity.Address;
 import cz.fi.muni.pa165.entity.House;
 import cz.fi.muni.pa165.entity.PortalUser;
@@ -14,12 +16,11 @@ import org.springframework.test.context.ContextConfiguration;
 public class HouseSampleData {
     @Autowired
     private HouseDao houseDao;
-
     @Autowired
-    private UserSampleData userSampleData;
-
+    private AddressDao addressDao;
     @Autowired
-    private AddressSampleData addressSampleData;
+    private PortalUserDao portalUserDao;
+
 
     private House house10;
     private House house20;
@@ -28,9 +29,9 @@ public class HouseSampleData {
         House house = new House();
         house.setName("Test house");
         house.setRunning(true);
-        PortalUser u = userSampleData.getUser1();
+        PortalUser u = portalUserDao.findByUserName("test.user@muni.cz");
         house.setPortalUser(u);
-        Address address = addressSampleData.getAddress10();
+        Address address = addressDao.find("Hrázní", "35", "Brno", "Czech Republic", "654321");
         house.setAddress(address);
         this.house10 = house;
         houseDao.create(house);
@@ -41,9 +42,9 @@ public class HouseSampleData {
         House house = new House();
         house.setName("Test house2");
         house.setRunning(false);
-        PortalUser u = userSampleData.getUser2();
+        PortalUser u = portalUserDao.findByUserName("user2.myemail@gmail.com");
         house.setPortalUser(u);
-        Address address = addressSampleData.getAddress20();
+        Address address = addressDao.find("Botanická", "15", "Brno", "Czech Republic", "123456");
         house.setAddress(address);
         this.house20 = house;
         houseDao.create(house);
@@ -70,5 +71,10 @@ public class HouseSampleData {
 
     public void setHouse20(House house20) {
         this.house20 = house20;
+    }
+
+    public void generateHouses() {
+        generateHouse10();
+        generateHouse20();
     }
 }

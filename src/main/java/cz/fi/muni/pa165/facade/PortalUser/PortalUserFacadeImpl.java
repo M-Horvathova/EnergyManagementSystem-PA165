@@ -9,6 +9,8 @@ import cz.fi.muni.pa165.dto.PortalUser.PortalUserDTO;
 import cz.fi.muni.pa165.entity.PortalUser;
 import cz.fi.muni.pa165.service.PortalUser.PortalUserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,6 +19,8 @@ import java.util.stream.Collectors;
 /**
  * @author Martin Podhora
  */
+@Service
+@Transactional
 public class PortalUserFacadeImpl implements PortalUserFacade {
     private final PortalUserService portalUserService;
     private final BeanMappingService beanMappingService;

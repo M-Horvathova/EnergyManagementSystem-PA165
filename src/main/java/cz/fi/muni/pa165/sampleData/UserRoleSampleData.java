@@ -17,12 +17,19 @@ public class UserRoleSampleData {
 
     private UserRole admin;
 
+    public void generateRoles() {
+        UserRole user = new UserRole();
+        user.setRoleName(UserRole.USER_ROLE_NAME);
+        userRoleDao.create(user);
+        this.user = user;
+
+        UserRole admin = new UserRole();
+        admin.setRoleName(UserRole.ADMINISTRATOR_ROLE_NAME);
+        userRoleDao.create(admin);
+        this.admin = admin;
+    }
+
     public UserRole getUser() {
-        if (this.user == null) {
-            UserRole user = new UserRole();
-            user.setRoleName(UserRole.USER_ROLE_NAME);
-            userRoleDao.create(user);
-        }
         return user;
     }
 
@@ -31,11 +38,6 @@ public class UserRoleSampleData {
     }
 
     public UserRole getAdmin() {
-        if (this.user == null) {
-            UserRole admin = new UserRole();
-            admin.setRoleName(UserRole.ADMINISTRATOR_ROLE_NAME);
-            userRoleDao.create(admin);
-        }
         return admin;
     }
 

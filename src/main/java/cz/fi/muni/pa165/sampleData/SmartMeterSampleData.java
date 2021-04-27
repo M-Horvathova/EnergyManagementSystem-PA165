@@ -1,27 +1,26 @@
 package cz.fi.muni.pa165.sampleData;
 
 import cz.fi.muni.pa165.PersistenceApplicationContext;
+import cz.fi.muni.pa165.dao.HouseDao;
 import cz.fi.muni.pa165.dao.SmartMeterDao;
 import cz.fi.muni.pa165.entity.House;
 import cz.fi.muni.pa165.entity.SmartMeter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.test.context.ContextConfiguration;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 
-//@Transactional
+
 @Service
 @ContextConfiguration(classes = PersistenceApplicationContext.class)
 public class SmartMeterSampleData {
     @Autowired
     private SmartMeterDao smartMeterDao;
-
     @Autowired
-    private HouseSampleData houseSampleData;
+    private HouseDao houseDao;
 
     private SmartMeter smartMeter50;
 
@@ -44,7 +43,7 @@ public class SmartMeterSampleData {
         sm1.setLastLogTakenAt(LocalDateTime.of(LocalDate.of(2021, 1, 23), LocalTime.of(16, 30)));
         sm1.setPowerConsumptionSinceLastLog(100);
         sm1.setRunning(true);
-        House h = houseSampleData.getHouse10();
+        House h = houseDao.findByName("Test house").get(0);
         sm1.setHouse(h);
         this.smartMeter50 = sm1;
         smartMeterDao.create(smartMeter50);

@@ -20,9 +20,6 @@ public class HouseDaoImpl implements HouseDao {
 
     @Override
     public void create(House house) {
-        house.setAddress(em.merge(house.getAddress()));
-        house.setPortalUser(em.merge(house.getPortalUser()));
-        house = em.merge(house);
         em.persist(house);
     }
 

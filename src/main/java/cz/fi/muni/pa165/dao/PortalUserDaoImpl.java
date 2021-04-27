@@ -22,9 +22,6 @@ public class PortalUserDaoImpl implements PortalUserDao {
 
     @Override
     public void create(PortalUser portalUser) {
-        System.out.println(portalUser.getEmail());
-        userValidation(portalUser);
-        portalUser = em.merge(portalUser);
         em.persist(portalUser);
     }
 

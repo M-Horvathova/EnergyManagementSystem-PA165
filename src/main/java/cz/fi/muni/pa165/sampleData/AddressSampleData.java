@@ -62,4 +62,9 @@ public class AddressSampleData {
         return address;
     }
 
+    public void generateAddresses() {
+        generateAddress10();
+        generateAddress20();
+    }
+
 }
