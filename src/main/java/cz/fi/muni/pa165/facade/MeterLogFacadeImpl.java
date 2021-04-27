@@ -28,12 +28,12 @@ public class MeterLogFacadeImpl implements MeterLogFacade {
 
     private MeterLogService meterLogService;
     private SmartMeterService smartMeterService;
-
     private BeanMappingService beanMappingService;
 
     @Autowired
-    public MeterLogFacadeImpl(MeterLogService meterLogService, BeanMappingService beanMappingService) {
+    public MeterLogFacadeImpl(MeterLogService meterLogService, SmartMeterService smartMeterService, BeanMappingService beanMappingService) {
         this.meterLogService = meterLogService;
+        this.smartMeterService = smartMeterService;
         this.beanMappingService = beanMappingService;
     }
 

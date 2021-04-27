@@ -73,9 +73,12 @@ public class House implements Serializable {
     }
 
     public void addSmartMeter(SmartMeter smartMeter) {
-
         smartMeters.add(smartMeter);
         smartMeter.setHouse(this);
+    }
+
+    public void removeSmartMeter(SmartMeter smartMeter) {
+        smartMeters.remove(smartMeter);
     }
 
     public PortalUser getPortalUser() {
