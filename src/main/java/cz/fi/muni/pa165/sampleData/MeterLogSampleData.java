@@ -22,9 +22,6 @@ public class MeterLogSampleData {
     private MeterLogDao meterLogDao;
 
     @Autowired
-    private SmartMeterDao smartMeterDao;
-
-    @Autowired
     private SmartMeterSampleData smartMeterSampleData;
 
 
@@ -68,7 +65,6 @@ public class MeterLogSampleData {
 
     public MeterLog generateMeterLog100() {
         MeterLog meterLog0 = new MeterLog();
-        meterLog0.setId(100L);
         meterLog0.setLogDate(LocalDate.of(2020, 1, 1));
         meterLog0.setLogTime(LocalTime.of(0, 30));
         meterLog0.setMeasure(123L);
@@ -81,21 +77,31 @@ public class MeterLogSampleData {
 
     public  MeterLog generateMeterLog101() {
         MeterLog meterLog1 = new MeterLog();
-        meterLog1.setId(101L);
         meterLog1.setLogDate(LocalDate.of(2020, 1, 1));
         meterLog1.setLogTime(LocalTime.of(15, 30));
         meterLog1.setMeasure(1L);
+        SmartMeter sm = smartMeterSampleData.generateSmartMeter50();
+        meterLog1.setSmartMeter(sm);
         this.meterLog101 = meterLog1;
+        meterLogDao.create(meterLog1);
         return meterLog1;
     }
 
     public  MeterLog generateMeterLog102() {
         MeterLog meterLog2 = new MeterLog();
-        meterLog2.setId(102L);
         meterLog2.setLogDate(LocalDate.of(2020, 1, 2));
         meterLog2.setLogTime(LocalTime.of(1, 0));
         meterLog2.setMeasure(21L);
+        SmartMeter sm = smartMeterSampleData.generateSmartMeter50();
+        meterLog2.setSmartMeter(sm);
         this.meterLog102 = meterLog2;
+        meterLogDao.create(meterLog2);
         return meterLog2;
+    }
+
+    public void generateData() {
+        generateMeterLog100();
+        generateMeterLog101();
+        generateMeterLog102();
     }
 }

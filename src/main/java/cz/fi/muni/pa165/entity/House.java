@@ -23,7 +23,7 @@ public class House implements Serializable {
     @Column(nullable = false)
     private Boolean isRunning;
 
-    @ManyToOne(optional = false)
+    @ManyToOne(fetch = FetchType.LAZY)
     private Address address;
 
     @OneToMany(mappedBy = "house")

@@ -1,8 +1,18 @@
 package cz.fi.muni.pa165.sampleData;
 
+import cz.fi.muni.pa165.PersistenceApplicationContext;
+import cz.fi.muni.pa165.dao.AddressDao;
 import cz.fi.muni.pa165.entity.Address;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.test.context.ContextConfiguration;
 
+@Service
+@ContextConfiguration(classes = PersistenceApplicationContext.class)
 public class AddressSampleData {
+    @Autowired
+    private AddressDao addressDao;
+
     private Address address10;
     private Address address20;
 
@@ -30,25 +40,25 @@ public class AddressSampleData {
 
     public Address generateAddress10() {
         Address address = new Address();
-        address.setId(10L);
         address.setStreet("Botanická");
         address.setCode("15");
         address.setCity("Brno");
         address.setCountry("Czech Republic");
         address.setPostCode("123456");
         this.address10 = address;
+        addressDao.create(address);
         return address;
     }
 
     public Address generateAddress20() {
         Address address = new Address();
-        address.setId(20L);
         address.setStreet("Hrázní");
         address.setCode("35");
         address.setCity("Brno");
         address.setCountry("Czech Republic");
         address.setPostCode("654321");
         this.address20 = address;
+        addressDao.create(address);
         return address;
     }
 

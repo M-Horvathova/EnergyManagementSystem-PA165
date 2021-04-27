@@ -35,7 +35,7 @@ public class SmartMeter implements Serializable {
     @Column(nullable = true)
     private String smartMeterDescription;
 
-    @ManyToOne/*(optional = false)*/
+    @ManyToOne(fetch = FetchType.LAZY)
     private House house;
 
     public SmartMeter() {

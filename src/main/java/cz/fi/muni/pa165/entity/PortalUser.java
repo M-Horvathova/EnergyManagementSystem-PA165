@@ -18,47 +18,48 @@ import java.util.Set;
 @Entity
 public class PortalUser implements Serializable {
     @Id
-    @GeneratedValue(strategy=GenerationType.IDENTITY)
-    private long id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
-    @Column(nullable=false)
+    @Column(nullable = false)
     private String passwordHash;
 
-    @Column(nullable=false,unique=true)
+    @Column(nullable = false, unique = true)
     private String email;
 
-    @Column(nullable=false)
+    @Column(nullable = false)
     private String firstName;
 
-    @Column(nullable=false)
+    @Column(nullable = false)
     private String lastName;
 
-    @Column(nullable=false)
+    @Column(nullable = false)
     private String phone;
 
-    @ManyToOne(optional = false)
+    @ManyToOne(fetch = FetchType.LAZY)
     private UserRole userRole;
 
-    @Column(nullable=false)
+    @Column(nullable = false)
     private boolean isActive;
 
     @Future
-    @Column(nullable=false)
+    @Column(nullable = false)
     private LocalDateTime createdTimestamp;
 
     @Future
-    @Column(nullable=true)
+    @Column(nullable = true)
     private LocalDateTime lastLoginTimestamp;
 
     @OneToMany(mappedBy = "portalUser")
-    private Set<House> houses = new HashSet<House>();;
+    private Set<House> houses = new HashSet<House>();
+    ;
 
 
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -166,38 +167,22 @@ public class PortalUser implements Serializable {
         houses.remove(house);
     }
 
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (o == null || !(o instanceof PortalUser)) return false;
-        PortalUser that = (PortalUser) o;
-        return getId() == that.getId()
-                && isActive == that.isActive
-                && getPasswordHash().equals(that.getPasswordHash())
-                && getEmail().equals(that.getEmail())
-                && getFirstName().equals(that.getFirstName())
-                && getLastName().equals(that.getLastName())
-                && getPhone().equals(that.getPhone())
-                && getUserRole().equals(that.getUserRole())
-                && getCreatedTimestamp().equals(that.getCreatedTimestamp())
-                && Objects.equals(getLastLoginTimestamp(), that.getLastLoginTimestamp())
-                && Objects.equals(getHouses(), that.getHouses());
+        if (!(o instanceof PortalUser)) return false;
+        PortalUser user = (PortalUser) o;
+        return getEmail().equals(user.getEmail()) && getFirstName().equals(user.getFirstName()) && getLastName().equals(user.getLastName()) && getUserRole().equals(user.getUserRole());
     }
 
     @Override
     public int hashCode() {
         return Objects.hash(
-                getId(),
-                getPasswordHash(),
                 getEmail(),
                 getFirstName(),
                 getLastName(),
-                getPhone(),
-                getUserRole(),
-                isActive,
-                getCreatedTimestamp(),
-                getLastLoginTimestamp(),
-                getHouses());
+                getUserRole());
     }
 
     @Override

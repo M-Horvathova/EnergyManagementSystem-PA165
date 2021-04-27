@@ -19,6 +19,7 @@ public class AddressDaoImpl implements AddressDao {
 
     @Override
     public void create(Address address) {
+        address = em.merge(address);
         em.persist(address);
     }
 
