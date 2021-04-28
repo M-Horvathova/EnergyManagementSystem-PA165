@@ -1,8 +1,8 @@
 package cz.fi.muni.pa165.facadeTests;
 
 import cz.fi.muni.pa165.BeanMappingService;
-import cz.fi.muni.pa165.dto.MeterLogCreateDTO;
-import cz.fi.muni.pa165.dto.MeterLogDTO;
+import cz.fi.muni.pa165.dto.*;
+
 import cz.fi.muni.pa165.entity.*;
 import cz.fi.muni.pa165.enums.DayTime;
 import cz.fi.muni.pa165.facade.MeterLogFacade;
