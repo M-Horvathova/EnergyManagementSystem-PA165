@@ -258,14 +258,14 @@ public class SmartMeterServiceTest {
     @Test
     public void addMeterLogToNonemptySmartMeterTest() {
         int initialSize = testSmartMeter1.getMeterLogs().size();
-        smartMeterService.addMeterLog(testSmartMeter1, 100);
+        smartMeterService.addMeterLog(testSmartMeter1, testMeterLog11);
         Assert.assertEquals(testSmartMeter1.getMeterLogs().size(), initialSize + 1);
     }
 
     @Test
     public void addMeterLogToEmptySmartMeterTest() {
         int initialSize = testSmartMeter3.getMeterLogs().size();
-        smartMeterService.addMeterLog(testSmartMeter3, 100);
+        smartMeterService.addMeterLog(testSmartMeter3, testMeterLog11);
         Assert.assertEquals(testSmartMeter3.getMeterLogs().size(), initialSize + 1);
     }
 
