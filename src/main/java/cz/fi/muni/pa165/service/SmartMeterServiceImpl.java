@@ -32,8 +32,8 @@ public class SmartMeterServiceImpl implements SmartMeterService {
     }
 
     @Override
-    public void create(SmartMeter smartMeter) {
-        smartMeterDao.create(smartMeter);
+    public SmartMeter create(SmartMeter smartMeter) {
+        return smartMeterDao.create(smartMeter);
     }
 
     @Override
@@ -57,19 +57,6 @@ public class SmartMeterServiceImpl implements SmartMeterService {
     }
 
     @Override
-    public void addMeterLog(SmartMeter sm, double measure) {
-        MeterLog meterLog = new MeterLog();
-        meterLog.setSmartMeter(sm);
-        meterLog.setLogDate(LocalDate.now());
-        meterLog.setLogTime(LocalTime.now());
-        meterLog.setMeasure((long)measure); //double?
-
-        meterLogDao.create(meterLog);
-
-        //treba to priradit aj k SmartMeter alebo to spravi uz persistenceContext?
-    }
-
-    @Override
     public void delete(SmartMeter smartMeter) {
         smartMeterDao.delete(smartMeter);
     }
@@ -84,5 +71,15 @@ public class SmartMeterServiceImpl implements SmartMeterService {
     @Override
     public double getAllPowerSpent() {
         return findAll().stream().mapToDouble(sm -> sm.getCumulativePowerConsumption()).sum();
+    }
+
+    @Override
+    public void addMeterLog(SmartMeter smartMeter, MeterLog meterLog) {
+        smartMeter.addMeterLog(meterLog);
+    }
+
+    @Override
+    public void removeMeterLog(SmartMeter smartMeter, MeterLog meterLog) {
+        smartMeter.removeMeterLog(meterLog);
     }
 }

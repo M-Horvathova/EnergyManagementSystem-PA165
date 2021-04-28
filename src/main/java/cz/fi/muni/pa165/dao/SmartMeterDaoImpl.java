@@ -18,8 +18,9 @@ public class SmartMeterDaoImpl implements SmartMeterDao {
     private EntityManager em;
 
     @Override
-    public void create(SmartMeter smartMeter) {
+    public SmartMeter create(SmartMeter smartMeter) {
         em.persist(smartMeter);
+        return smartMeter;
     }
 
     @Override

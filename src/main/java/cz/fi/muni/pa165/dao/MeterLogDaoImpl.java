@@ -46,9 +46,10 @@ public class MeterLogDaoImpl implements MeterLogDao {
     }
 
     @Override
-    public void create(MeterLog ml) {
+    public MeterLog create(MeterLog ml) {
         ml = em.merge(ml);
         em.persist(ml);
+        return ml;
     }
 
     @Override
