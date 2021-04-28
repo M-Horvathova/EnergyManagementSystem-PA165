@@ -8,7 +8,9 @@ import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.Objects;
 import java.util.Set;
-
+/**
+ * @author Matej Rišňovský
+ */
 public class SmartMeterDTO {
     private Long id;
     private Set<MeterLog> meterLogs;

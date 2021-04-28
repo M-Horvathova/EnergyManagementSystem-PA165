@@ -33,14 +33,14 @@ public class PortalUserFacadeImpl implements PortalUserFacade {
     @Override
     public void registerUser(PortalUserDTO portalUserDTO, String unencryptedPassword) {
         PortalUser portalUser = portalUserDTOToPortalUser(portalUserDTO);
-        portalUserService.registerUser(portalUser, unencryptedPassword);
+        portalUser = portalUserService.registerUser(portalUser, unencryptedPassword);
         portalUserDTO.setId(portalUser.getId());
     }
 
     @Override
     public void registerAdministrator(PortalUserDTO portalUserDTO, String unencryptedPassword) {
         PortalUser portalUser = portalUserDTOToPortalUser(portalUserDTO);
-        portalUserService.registerAdministrator(portalUser, unencryptedPassword);
+        portalUser = portalUserService.registerAdministrator(portalUser, unencryptedPassword);
         portalUserDTO.setId(portalUser.getId());
     }
 
@@ -65,7 +65,7 @@ public class PortalUserFacadeImpl implements PortalUserFacade {
 
     @Override
     public PortalUserDTO findUserByEmail(String email) {
-        return null;
+        return portalUserToPortalUserDTO(portalUserService.findUserByEmail(email));
     }
 
     @Override

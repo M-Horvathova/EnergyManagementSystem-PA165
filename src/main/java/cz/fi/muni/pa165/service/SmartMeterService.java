@@ -9,7 +9,9 @@ import cz.fi.muni.pa165.entity.SmartMeter;
 
 import java.time.LocalDate;
 import java.util.List;
-
+/**
+ * @author Matej Rišňovský
+ */
 public interface SmartMeterService {
     SmartMeter create(SmartMeter smartMeter);
     SmartMeter update(SmartMeter smartMeter);

@@ -8,7 +8,9 @@ import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.Objects;
 import java.util.Set;
-
+/**
+ * @author Matej Rišňovský
+ */
 public class SmartMeterCreateDTO {
     private boolean isRunning;
     private double cumulativePowerConsumption;
