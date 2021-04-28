@@ -10,7 +10,7 @@ import java.time.LocalDate;
 import java.util.List;
 
 public interface SmartMeterFacade {
-    void createSmartMeter(SmartMeterCreateDTO smartMeter);
+    Long createSmartMeter(SmartMeterCreateDTO smartMeter);
     SmartMeterDTO updateSmartMeter(SmartMeterDTO smartMeter);
     SmartMeterDTO getSmartMeter(Long id);
     List<SmartMeterDTO> getAllSmartMeters();

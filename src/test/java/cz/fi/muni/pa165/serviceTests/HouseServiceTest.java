@@ -162,6 +162,7 @@ public class HouseServiceTest extends AbstractTransactionalTestNGSpringContextTe
 
         verify(houseDao, times(1)).delete(house);
         verify(addressDao, times(1)).delete(any(Address.class));
+        verify(smartMeterDao, times(1)).delete(any(SmartMeter.class));
     }
 
     @Test
@@ -344,5 +345,88 @@ public class HouseServiceTest extends AbstractTransactionalTestNGSpringContextTe
 
         Assert.assertEquals(houseService.findAll(), testHouses);
     }
+
+    @Test
+    public void addSmartMeter() {
+        SmartMeter smartMeter = new SmartMeter();
+        smartMeter.setId(1L);
+        smartMeter.setCumulativePowerConsumption(100);
+        smartMeter.setLastLogTakenAt(LocalDateTime.of(LocalDate.of(2021, 1, 23), LocalTime.of(16, 30)));
+        smartMeter.setPowerConsumptionSinceLastLog(100);
+        smartMeter.setRunning(true);
+        House house = new House();
+        house.setId(5L);
+        house.setRunning(true);
+        house.setName("Test house");
+        house.setAddress(prepareAddress());
+        houseService.addSmartMeter(house, smartMeter);
+        Set<SmartMeter> set = house.getSmartMeters();
+        Assert.assertNotNull(set);
+        Assert.assertEquals(set.size(), 1);
+    }
+
+    @Test(expectedExceptions = RuntimeException.class)
+    public void addNullSmartMeter() {
+        SmartMeter smartMeter = null;
+        House house = new House();
+        house.setId(5L);
+        house.setRunning(true);
+        house.setName("Test house");
+        house.setAddress(prepareAddress());
+        houseService.addSmartMeter(house, smartMeter);
+    }
+
+    @Test
+    public void removeSmartMeter() {
+        SmartMeter smartMeter = new SmartMeter();
+        smartMeter.setId(1L);
+        smartMeter.setCumulativePowerConsumption(100);
+        smartMeter.setLastLogTakenAt(LocalDateTime.of(LocalDate.of(2021, 1, 23), LocalTime.of(16, 30)));
+        smartMeter.setPowerConsumptionSinceLastLog(100);
+        smartMeter.setRunning(true);
+        House house = new House();
+        house.setId(5L);
+        house.setRunning(true);
+        house.setName("Test house");
+        house.setAddress(prepareAddress());
+        smartMeter.setHouse(house);
+        Set<SmartMeter> smartMeters = new HashSet<>();
+        smartMeters.add(smartMeter);
+        house.setSmartMeters(smartMeters);
+        houseService.removeSmartMeter(house, smartMeter);
+        Set<SmartMeter> set = house.getSmartMeters();
+        Assert.assertNotNull(set);
+        Assert.assertEquals(set.size(), 0);
+    }
+
+    @Test
+    public void removeNotAddedSmartMeter() {
+        SmartMeter smartMeter = new SmartMeter();
+        smartMeter.setId(1L);
+        smartMeter.setCumulativePowerConsumption(100);
+        smartMeter.setLastLogTakenAt(LocalDateTime.of(LocalDate.of(2021, 1, 23), LocalTime.of(16, 30)));
+        smartMeter.setPowerConsumptionSinceLastLog(100);
+        smartMeter.setRunning(true);
+        SmartMeter smartMete2 = new SmartMeter();
+        smartMeter.setId(2L);
+        smartMeter.setCumulativePowerConsumption(200);
+        smartMeter.setLastLogTakenAt(LocalDateTime.of(LocalDate.of(2001, 1, 23), LocalTime.of(16, 30)));
+        smartMeter.setPowerConsumptionSinceLastLog(120);
+        smartMeter.setRunning(true);
+        House house = new House();
+        house.setId(5L);
+        house.setRunning(true);
+        house.setName("Test house");
+        house.setAddress(prepareAddress());
+        Set<SmartMeter> smartMeters = new HashSet<>();
+        smartMeters.add(smartMete2);
+        house.setSmartMeters(smartMeters);
+        houseService.removeSmartMeter(house, smartMeter);
+        Set<SmartMeter> set = house.getSmartMeters();
+        Assert.assertNotNull(set);
+        Assert.assertEquals(set.size(), 1);
+        Assert.assertTrue(set.contains(smartMete2));
+    }
+
 
 }

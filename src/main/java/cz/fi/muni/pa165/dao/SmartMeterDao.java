@@ -14,7 +14,7 @@ public interface SmartMeterDao {
      * Inserts given smart meter to db
      * @param smartMeter to be inserted
      */
-    void create(SmartMeter smartMeter);
+    SmartMeter create(SmartMeter smartMeter);
 
     /**
      * Updates given smart meter in db

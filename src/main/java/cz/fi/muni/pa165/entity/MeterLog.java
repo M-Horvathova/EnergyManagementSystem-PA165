@@ -43,7 +43,7 @@ public class MeterLog implements Serializable {
     @Column(nullable = false)
     private Long measure;
 
-    @ManyToOne/*(optional = false)*/
+    @ManyToOne(fetch = FetchType.LAZY)
     private SmartMeter smartMeter;
 
     @Column
@@ -128,7 +128,6 @@ public class MeterLog implements Serializable {
     }
 
     public void setSmartMeter(SmartMeter smartMeter) {
-        smartMeter.addMeterLog(this);
         this.smartMeter = smartMeter;
     }
 

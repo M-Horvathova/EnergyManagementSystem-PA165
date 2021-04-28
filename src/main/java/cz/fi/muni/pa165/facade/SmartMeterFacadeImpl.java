@@ -4,6 +4,7 @@ import cz.fi.muni.pa165.BeanMappingService;
 import cz.fi.muni.pa165.dto.SmartMeterCreateDTO;
 import cz.fi.muni.pa165.dto.SmartMeterDTO;
 import cz.fi.muni.pa165.entity.SmartMeter;
+import cz.fi.muni.pa165.service.HouseService;
 import cz.fi.muni.pa165.service.SmartMeterService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,6 +20,7 @@ import java.util.List;
 public class SmartMeterFacadeImpl implements SmartMeterFacade {
 
     private SmartMeterService smartMeterService;
+    private HouseService houseService;
 
     private BeanMappingService beanMappingService;
 
@@ -29,9 +31,12 @@ public class SmartMeterFacadeImpl implements SmartMeterFacade {
     }
 
     @Override
-    public void createSmartMeter(SmartMeterCreateDTO smartMeter) {
+    public Long createSmartMeter(SmartMeterCreateDTO smartMeter) {
         SmartMeter sm = beanMappingService.mapTo(smartMeter, SmartMeter.class);
-        smartMeterService.create(sm);
+        sm = smartMeterService.create(sm);
+
+        houseService.addSmartMeter(sm.getHouse(), sm);
+        return sm.getId();
     }
 
     @Override
@@ -59,6 +64,7 @@ public class SmartMeterFacadeImpl implements SmartMeterFacade {
     @Override
     public void deleteSmartMeter(SmartMeterDTO smartMeter) {
         SmartMeter sm = beanMappingService.mapTo(smartMeter, SmartMeter.class);
+        houseService.removeSmartMeter(sm.getHouse(), sm);
         smartMeterService.delete(sm);
     }
 

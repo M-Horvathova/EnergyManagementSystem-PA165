@@ -3,6 +3,9 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.Objects;
 
+/**
+ * @author Michaela Hrováthová
+ */
 public class MeterLogCreateDTO {
     private Long measure;
     private LocalDate logDate;

@@ -2,7 +2,6 @@ package cz.fi.muni.pa165.entity;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
@@ -11,6 +10,7 @@ import java.util.Set;
  * @author Patrik Valo
  */
 @Entity
+@Table(name = "house")
 public class House implements Serializable {
 
     @Id
@@ -23,13 +23,13 @@ public class House implements Serializable {
     @Column(nullable = false)
     private Boolean isRunning;
 
-    @ManyToOne(optional = false)
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private Address address;
 
-    @OneToMany(mappedBy = "house")
+    @OneToMany(mappedBy = "house", fetch = FetchType.LAZY)
     private Set<SmartMeter> smartMeters = new HashSet<>();
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     private PortalUser portalUser;
 
     public Long getId() {
@@ -74,7 +74,6 @@ public class House implements Serializable {
 
     public void addSmartMeter(SmartMeter smartMeter) {
         smartMeters.add(smartMeter);
-        smartMeter.setHouse(this);
     }
 
     public void removeSmartMeter(SmartMeter smartMeter) {

@@ -31,7 +31,7 @@ public interface MeterLogDao {
      * Persists the provided MeterLog object in the database
      * @param ml MeterLog object to create in database
      */
-    public void create(MeterLog ml);
+    public MeterLog create(MeterLog ml);
 
     /**
      * Deletes the provided MeterLog object from the database

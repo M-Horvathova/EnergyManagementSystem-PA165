@@ -6,7 +6,6 @@ import cz.fi.muni.pa165.dto.HouseDTO;
 import cz.fi.muni.pa165.dto.NewAddressDTO;
 import cz.fi.muni.pa165.entity.Address;
 import cz.fi.muni.pa165.entity.House;
-import cz.fi.muni.pa165.entity.PortalUser;
 import cz.fi.muni.pa165.service.AddressService;
 import cz.fi.muni.pa165.service.HouseService;
 import cz.fi.muni.pa165.service.PortalUser.PortalUserService;
@@ -14,9 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 /**
  * @author Patrik Valo
