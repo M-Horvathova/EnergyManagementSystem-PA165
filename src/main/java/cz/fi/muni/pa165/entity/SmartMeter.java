@@ -18,7 +18,7 @@ public class SmartMeter implements Serializable {
     private Long id;
 
     @OneToMany(mappedBy = "smartMeter", fetch = FetchType.LAZY)
-    private Set<MeterLog> meterLogs;
+    private Set<MeterLog> meterLogs = new HashSet<>();
 
     @Column(nullable = false)
     private boolean isRunning;

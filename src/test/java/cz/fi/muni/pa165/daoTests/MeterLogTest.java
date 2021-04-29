@@ -48,7 +48,6 @@ public class MeterLogTest extends AbstractTestNGSpringContextTests {
         meterLog.setLogDate(date);
         meterLog.setLogTime(time);
         meterLog.setMeasure(measure);
-        meterLog.setId(1L);
 
         meterLogDao.create(meterLog);
 
