@@ -45,6 +45,7 @@ public class PortalUserServiceImpl implements PortalUserService {
     @Override
     public Long registerAdministrator(PortalUser portalUser, String unencryptedPassword) {
         UserRole userRole = userRoleDao.findByName(UserRole.ADMINISTRATOR_ROLE_NAME);
+        portalUser.setUserRole(userRole);
         portalUser.setPasswordHash(passwordEncoder.encode(unencryptedPassword));
 
         portalUserDao.create(portalUser);

@@ -1,10 +1,7 @@
 package cz.fi.muni.pa165.facadeTests;
 
 import cz.fi.muni.pa165.BeanMappingService;
-import cz.fi.muni.pa165.dto.MeterLogCreateDTO;
-import cz.fi.muni.pa165.dto.MeterLogDTO;
-import cz.fi.muni.pa165.dto.SmartMeterCreateDTO;
-import cz.fi.muni.pa165.dto.SmartMeterDTO;
+import cz.fi.muni.pa165.dto.*;
 import cz.fi.muni.pa165.entity.Address;
 import cz.fi.muni.pa165.entity.House;
 import cz.fi.muni.pa165.entity.MeterLog;
@@ -13,6 +10,7 @@ import cz.fi.muni.pa165.enums.DayTime;
 import cz.fi.muni.pa165.facade.MeterLogFacadeImpl;
 import cz.fi.muni.pa165.facade.SmartMeterFacade;
 import cz.fi.muni.pa165.facade.SmartMeterFacadeImpl;
+import cz.fi.muni.pa165.service.HouseService;
 import cz.fi.muni.pa165.service.SmartMeterService;
 import cz.fi.muni.pa165.service.config.BeanMappingConfiguration;
 import org.mockito.Mock;
@@ -48,6 +46,9 @@ public class SmartMeterFacadeTest extends AbstractTestNGSpringContextTests {
     private SmartMeterService smartMeterService;
 
     @Mock
+    private HouseService houseService;
+
+    @Mock
     private BeanMappingService beanMappingService;
 
     private SmartMeterFacade smartMeterFacade;
@@ -70,12 +71,17 @@ public class SmartMeterFacadeTest extends AbstractTestNGSpringContextTests {
         MockitoAnnotations.openMocks(this);
         initEntitiesAndDTOs();
 
+        when(smartMeterService.create(any(SmartMeter.class))).thenReturn(testSmartMeter1);
         when(smartMeterService.update(any(SmartMeter.class))).thenReturn(testSmartMeter1);
         when(smartMeterService.findById(any(Long.class))).thenReturn(testSmartMeter1);
         when(smartMeterService.findAll()).thenReturn(allSmartMeters);
         when(smartMeterService.getRunningSmartMeters()).thenReturn(allRunningSmartMeters);
+        when(beanMappingService.mapTo(any(SmartMeterCreateDTO.class), eq(SmartMeter.class))).thenReturn(testSmartMeter1);
+        when(beanMappingService.mapTo(any(SmartMeterDTO.class), eq(SmartMeter.class))).thenReturn(testSmartMeter1);
+        when(beanMappingService.mapTo(any(SmartMeter.class), eq(SmartMeterCreateDTO.class))).thenReturn(testSmartMeterCreateDTO);
+        when(beanMappingService.mapTo(any(SmartMeter.class), eq(SmartMeterDTO.class))).thenReturn(testSmartMeterDTO);
 
-        smartMeterFacade = new SmartMeterFacadeImpl(smartMeterService, beanMappingService);
+        smartMeterFacade = new SmartMeterFacadeImpl(smartMeterService, houseService, beanMappingService);
     }
 
     private void initEntitiesAndDTOs() {
@@ -150,6 +156,7 @@ public class SmartMeterFacadeTest extends AbstractTestNGSpringContextTests {
         testSmartMeterCreateDTO.setCumulativePowerConsumption(100);
         testSmartMeterCreateDTO.setSmartMeterDescription("TEST");
         testSmartMeterCreateDTO.setRunning(true);
+        testSmartMeterCreateDTO.setHouseId(1);
     }
 
 
@@ -198,7 +205,7 @@ public class SmartMeterFacadeTest extends AbstractTestNGSpringContextTests {
 
     @Test
     public void getAllPowerSpentTest() {
-        smartMeterFacade.getAllSmartMeters();
+        smartMeterFacade.getAllPowerSpent();
         verify(smartMeterService, times(1)).getAllPowerSpent();
     }
 }
