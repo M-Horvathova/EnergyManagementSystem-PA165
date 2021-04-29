@@ -22,6 +22,7 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -99,12 +100,14 @@ public class SmartMeterServiceTest {
         testMeterLog12.setLogTime(LocalTime.of(0, 0));
         testMeterLog12.setMeasure(100L);
         testMeterLog12.setSmartMeter(testSmartMeter1);
+        testSmartMeter1.addMeterLog(testMeterLog12);
 
         testMeterLog21 = new MeterLog();
         testMeterLog21.setLogDate(LocalDate.of(2021, 1, 30));
         testMeterLog21.setLogTime(LocalTime.of(0, 0));
         testMeterLog21.setMeasure(100L);
         testMeterLog21.setSmartMeter(testSmartMeter2);
+        testSmartMeter2.addMeterLog(testMeterLog21);
     }
 
     @BeforeClass
@@ -277,6 +280,7 @@ public class SmartMeterServiceTest {
 
     @Test
     public void getPowerSpentForDateForSmartMeterTest() {
+        testSmartMeter1.addMeterLog(testMeterLog11);
         var result = smartMeterService.getPowerSpentForDateForSmartMeter(testMeterLog11.getLogDate(), testSmartMeter1);
         Assert.assertEquals(result, (double)testMeterLog11.getMeasure());
         result = smartMeterService.getPowerSpentForDateForSmartMeter(testMeterLog12.getLogDate(), testSmartMeter1);
@@ -286,13 +290,13 @@ public class SmartMeterServiceTest {
     @Test
     public void getPowerSpentForDateForOneLogSmartMeterTest() {
         var result = smartMeterService.getPowerSpentForDateForSmartMeter(testMeterLog21.getLogDate(), testSmartMeter2);
-        Assert.assertEquals(result, (double)testMeterLog21.getMeasure());
+        Assert.assertEquals(0.0, (double)testMeterLog21.getMeasure() - result);
     }
 
     @Test
     public void getPowerSpentForDateForNoLogSmartMeterTest() {
         var result = smartMeterService.getPowerSpentForDateForSmartMeter(LocalDate.now(), testSmartMeter3);
-        Assert.assertEquals(result, 0);
+        Assert.assertEquals(result, 0.0);
     }
 
     @Test

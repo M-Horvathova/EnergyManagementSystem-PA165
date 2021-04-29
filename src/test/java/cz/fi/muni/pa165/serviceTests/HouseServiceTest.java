@@ -365,16 +365,6 @@ public class HouseServiceTest extends AbstractTransactionalTestNGSpringContextTe
         Assert.assertEquals(set.size(), 1);
     }
 
-    @Test(expectedExceptions = RuntimeException.class)
-    public void addNullSmartMeter() {
-        SmartMeter smartMeter = null;
-        House house = new House();
-        house.setId(5L);
-        house.setRunning(true);
-        house.setName("Test house");
-        house.setAddress(prepareAddress());
-        houseService.addSmartMeter(house, smartMeter);
-    }
 
     @Test
     public void removeSmartMeter() {

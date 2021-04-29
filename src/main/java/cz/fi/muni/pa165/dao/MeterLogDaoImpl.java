@@ -47,7 +47,6 @@ public class MeterLogDaoImpl implements MeterLogDao {
 
     @Override
     public MeterLog create(MeterLog ml) {
-        ml = em.merge(ml);
         em.persist(ml);
         return ml;
     }
