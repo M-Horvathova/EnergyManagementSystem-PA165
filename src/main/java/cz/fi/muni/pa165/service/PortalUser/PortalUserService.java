@@ -16,7 +16,7 @@ public interface PortalUserService {
      * @param portalUser portal user
      * @param unencryptedPassword plaintext password
      */
-    PortalUser registerUser(PortalUser portalUser, String unencryptedPassword);
+    Long registerUser(PortalUser portalUser, String unencryptedPassword);
 
     /**
      * Method for registering administrator user
@@ -24,7 +24,7 @@ public interface PortalUserService {
      * @param portalUser portal user
      * @param unencryptedPassword plaintext password
      */
-    PortalUser registerAdministrator(PortalUser portalUser, String unencryptedPassword);
+    Long registerAdministrator(PortalUser portalUser, String unencryptedPassword);
 
     /**
      * Method for getting all users

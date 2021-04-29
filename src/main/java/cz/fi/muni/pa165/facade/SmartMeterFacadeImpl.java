@@ -25,8 +25,12 @@ public class SmartMeterFacadeImpl implements SmartMeterFacade {
     private BeanMappingService beanMappingService;
 
     @Autowired
-    public SmartMeterFacadeImpl(SmartMeterService smartMeterService, BeanMappingService beanMappingService) {
+    public SmartMeterFacadeImpl(
+            SmartMeterService smartMeterService,
+            HouseService houseService,
+            BeanMappingService beanMappingService) {
         this.smartMeterService = smartMeterService;
+        this.houseService = houseService;
         this.beanMappingService = beanMappingService;
     }
 

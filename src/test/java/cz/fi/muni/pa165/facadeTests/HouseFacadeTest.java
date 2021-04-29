@@ -2,7 +2,6 @@ package cz.fi.muni.pa165.facadeTests;
 
 import cz.fi.muni.pa165.BeanMappingService;
 import cz.fi.muni.pa165.dto.*;
-import cz.fi.muni.pa165.dto.PortalUser.PortalUserDTO;
 import cz.fi.muni.pa165.dto.PortalUser.PortalUserHouseDTO;
 import cz.fi.muni.pa165.entity.Address;
 import cz.fi.muni.pa165.entity.House;
@@ -15,19 +14,14 @@ import cz.fi.muni.pa165.service.PortalUser.PortalUserService;
 import cz.fi.muni.pa165.service.config.BeanMappingConfiguration;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestExecutionListeners;
 import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
 import org.springframework.test.context.transaction.TransactionalTestExecutionListener;
 import org.springframework.transaction.annotation.Transactional;
 import org.testng.Assert;
-import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
-
-import java.util.HashSet;
-import java.util.Set;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
