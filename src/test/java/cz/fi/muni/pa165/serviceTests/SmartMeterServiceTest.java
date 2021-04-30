@@ -26,9 +26,7 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 import static org.mockito.Mockito.*;
 
@@ -357,4 +355,41 @@ public class SmartMeterServiceTest {
         double result = smartMeterService.sumPowerFromLogs(mlList);
         Assert.assertEquals(result, 0.0);
     }
+
+    @Test
+    public void removeMeterLog() {
+        when(smartMeterDao.findById(1L)).thenReturn(testSmartMeter1);
+
+        testSmartMeter1.addMeterLog(testMeterLog11);
+        smartMeterService.removeMeterLog(testSmartMeter1, testMeterLog11);
+        Set<MeterLog> res = smartMeterService.findById(1L).getMeterLogs();
+        Assert.assertNotNull(res);
+        Assert.assertEquals(1, res.size());
+        Assert.assertFalse(res.contains(testMeterLog11));
+        Assert.assertTrue(res.contains(testMeterLog12));
+    }
+
+    @Test
+    public void removeLastMeterLog() {
+        when(smartMeterDao.findById(1L)).thenReturn(testSmartMeter1);
+
+         smartMeterService.removeMeterLog(testSmartMeter1, testMeterLog12);
+        Set<MeterLog> res = smartMeterService.findById(1L).getMeterLogs();
+        Assert.assertNotNull(res);
+        Assert.assertEquals(0, res.size());
+        Assert.assertFalse(res.contains(testMeterLog12));
+    }
+
+    @Test
+    public void removeNotAddedMeterLog() {
+        when(smartMeterDao.findById(1L)).thenReturn(testSmartMeter1);
+
+        smartMeterService.removeMeterLog(testSmartMeter1, testMeterLog11);
+        Set<MeterLog> res = smartMeterService.findById(1L).getMeterLogs();
+        Assert.assertNotNull(res);
+        Assert.assertEquals(1, res.size());
+        Assert.assertTrue(res.contains(testMeterLog12));
+    }
+
+
 }
