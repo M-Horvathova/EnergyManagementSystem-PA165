@@ -88,7 +88,7 @@ public class SmartMeterFacadeImpl implements SmartMeterFacade {
     @Override
     public double getPowerSpentForSmartMeterInTimeRange(LocalDateTime from, LocalDateTime to, SmartMeterDTO smartMeter) {
         SmartMeter sm =  beanMappingService.mapTo(smartMeter, SmartMeter.class);
-        return smartMeterService.getPowerSpentForSmartMeterInTimeRange(from, to, sm);
+        return smartMeterService.sumPowerFromLogs(meterLogService.filterInDateFrame(new ArrayList<>(sm.getMeterLogs()), from.toLocalDate(), to.toLocalDate()));
     }
 
     @Override

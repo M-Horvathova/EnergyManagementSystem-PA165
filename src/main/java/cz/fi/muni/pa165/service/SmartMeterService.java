@@ -55,15 +55,7 @@ public interface SmartMeterService {
      */
     double getPowerSpentForDateForSmartMeter(LocalDate date, SmartMeter smartMeter);
 
-    /**
-     * Get power spent for smart meter in time range
-     * @param from start of time range
-     * @param to end of time range
-     * @param smartMeter Smart meter to get power spent for
-     */
-    double getPowerSpentForSmartMeterInTimeRange(LocalDateTime from, LocalDateTime to, SmartMeter smartMeter);
-
-    /**
+     /**
      * Get power spent across all smart meters
      */
     double getAllPowerSpent();

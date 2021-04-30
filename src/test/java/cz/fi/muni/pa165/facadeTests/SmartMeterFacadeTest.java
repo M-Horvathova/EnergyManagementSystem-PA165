@@ -208,6 +208,13 @@ public class SmartMeterFacadeTest extends AbstractTestNGSpringContextTests {
     }
 
     @Test
+    public void getPowerSpentForSmartMeterInTimeRangeTest() {
+        smartMeterFacade.getPowerSpentForSmartMeterInTimeRange(testSmartMeterDTO.getLastLogTakenAt().minusDays(20),
+                testSmartMeterDTO.getLastLogTakenAt(), testSmartMeterDTO);
+        verify(meterLogService, times(1)).filterInDateFrame(any(List.class), any(LocalDate.class), any(LocalDate.class));
+    }
+
+    @Test
     public void getAllPowerSpentTest() {
         smartMeterFacade.getAllPowerSpent();
         verify(smartMeterService, times(1)).getAllPowerSpent();

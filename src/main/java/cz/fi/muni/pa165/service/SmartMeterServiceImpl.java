@@ -69,26 +69,6 @@ public class SmartMeterServiceImpl implements SmartMeterService {
         return meterLogs.stream().mapToDouble(meterLog -> (double)meterLog.getMeasure()).sum();
     }
 
-    @Override
-    public double getPowerSpentForSmartMeterInTimeRange(LocalDateTime from, LocalDateTime to, SmartMeter smartMeter) {
-        if (from.isAfter(to)) {
-            throw new IllegalArgumentException("From cannot be after to!");
-        }
-
-        LocalDateTime date = from;
-        List<MeterLog> meterLogs = new ArrayList<MeterLog>();
-
-        while (date.toLocalDate() != to.toLocalDate()) {
-            meterLogs.addAll(meterLogDao.findByDate(date.toLocalDate()));
-            date = date.plusDays(1);
-        }
-
-        meterLogs.removeIf(meterLog -> !meterLog.getSmartMeter().equals(smartMeter));
-        meterLogs.removeIf(meterLog -> meterLog.getLogDate().isEqual(from.toLocalDate()) && meterLog.getLogTime().isBefore(from.toLocalTime()));
-        meterLogs.removeIf(meterLog -> meterLog.getLogDate().isEqual(to.toLocalDate()) && meterLog.getLogTime().isAfter(to.toLocalTime()));
-
-        return meterLogs.stream().mapToDouble(meterLog -> (double)meterLog.getMeasure()).sum();
-    }
 
     @Override
     public double getAllPowerSpent() {
