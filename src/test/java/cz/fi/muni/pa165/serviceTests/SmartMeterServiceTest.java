@@ -27,6 +27,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import static org.mockito.Mockito.*;
@@ -118,7 +119,7 @@ public class SmartMeterServiceTest {
 
     @AfterMethod
     void clearInvocations() {
-        Mockito.clearInvocations(smartMeterDao);
+        Mockito.clearInvocations(smartMeterDao, meterLogDao);
     }
 
     @Test
@@ -280,23 +281,30 @@ public class SmartMeterServiceTest {
 
     @Test
     public void getPowerSpentForDateForSmartMeterTest() {
+        when(meterLogDao.findByDate(testMeterLog11.getLogDate())).thenReturn(new ArrayList<MeterLog>(Arrays.asList(testMeterLog11)));
+        when(meterLogDao.findByDate(testMeterLog12.getLogDate())).thenReturn(new ArrayList<MeterLog>(Arrays.asList(testMeterLog12)));
+
         testSmartMeter1.addMeterLog(testMeterLog11);
         var result = smartMeterService.getPowerSpentForDateForSmartMeter(testMeterLog11.getLogDate(), testSmartMeter1);
         Assert.assertEquals(result, (double)testMeterLog11.getMeasure());
         result = smartMeterService.getPowerSpentForDateForSmartMeter(testMeterLog12.getLogDate(), testSmartMeter1);
         Assert.assertEquals(result, (double)testMeterLog12.getMeasure());
+        verify(meterLogDao, times(2)).findByDate(any(LocalDate.class));
     }
 
     @Test
     public void getPowerSpentForDateForOneLogSmartMeterTest() {
+        when(meterLogDao.findByDate(any(LocalDate.class))).thenReturn(new ArrayList<MeterLog>(testSmartMeter2.getMeterLogs()));
         var result = smartMeterService.getPowerSpentForDateForSmartMeter(testMeterLog21.getLogDate(), testSmartMeter2);
         Assert.assertEquals(0.0, (double)testMeterLog21.getMeasure() - result);
+        verify(meterLogDao, times(1)).findByDate(any(LocalDate.class));
     }
 
     @Test
     public void getPowerSpentForDateForNoLogSmartMeterTest() {
         var result = smartMeterService.getPowerSpentForDateForSmartMeter(LocalDate.now(), testSmartMeter3);
         Assert.assertEquals(result, 0.0);
+        verify(meterLogDao, times(1)).findByDate(any(LocalDate.class));
     }
 
     @Test

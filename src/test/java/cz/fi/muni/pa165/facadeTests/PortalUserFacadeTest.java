@@ -128,7 +128,7 @@ public class PortalUserFacadeTest extends AbstractTestNGSpringContextTests
 
     @Test
     public void registerUserTest() {
-        when(portalUserService.registerUser(any(PortalUser.class), any(String.class))).thenReturn(user1);
+        when(portalUserService.registerUser(any(PortalUser.class), any(String.class))).thenReturn(user1.getId());
         portalUserFacade.registerUser(portalUserDTO1, "12345678");
 
         Assert.assertEquals(portalUserDTO1.getId(), user1.getId());
@@ -137,7 +137,7 @@ public class PortalUserFacadeTest extends AbstractTestNGSpringContextTests
 
     @Test
     public void registerAdminTest() {
-        when(portalUserService.registerAdministrator(any(PortalUser.class), any(String.class))).thenReturn(user2);
+        when(portalUserService.registerAdministrator(any(PortalUser.class), any(String.class))).thenReturn(user2.getId());
         portalUserFacade.registerAdministrator(portalUserDTO2, "12345678");
 
         Assert.assertEquals(portalUserDTO2.getId(), user2.getId());

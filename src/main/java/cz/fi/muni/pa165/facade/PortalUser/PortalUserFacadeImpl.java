@@ -33,15 +33,15 @@ public class PortalUserFacadeImpl implements PortalUserFacade {
     @Override
     public void registerUser(PortalUserDTO portalUserDTO, String unencryptedPassword) {
         PortalUser portalUser = portalUserDTOToPortalUser(portalUserDTO);
-        portalUser = portalUserService.registerUser(portalUser, unencryptedPassword);
-        portalUserDTO.setId(portalUser.getId());
+        Long id = portalUserService.registerUser(portalUser, unencryptedPassword);
+        portalUserDTO.setId(id);
     }
 
     @Override
     public void registerAdministrator(PortalUserDTO portalUserDTO, String unencryptedPassword) {
         PortalUser portalUser = portalUserDTOToPortalUser(portalUserDTO);
-        portalUser = portalUserService.registerAdministrator(portalUser, unencryptedPassword);
-        portalUserDTO.setId(portalUser.getId());
+        Long id = portalUserService.registerAdministrator(portalUser, unencryptedPassword);
+        portalUserDTO.setId(id);
     }
 
     @Override

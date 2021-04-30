@@ -65,4 +65,14 @@ public class SmartMeterCreateDTO {
     public int hashCode() {
         return Objects.hash(isRunning(), getCumulativePowerConsumption(), getHouseId(), getSmartMeterDescription());
     }
+
+    @Override
+    public String toString() {
+        return "SmartMeterCreateDTO{" +
+                "isRunning=" + isRunning +
+                ", cumulativePowerConsumption=" + cumulativePowerConsumption +
+                ", smartMeterDescription='" + smartMeterDescription + '\'' +
+                ", houseId=" + houseId +
+                '}';
+    }
 }

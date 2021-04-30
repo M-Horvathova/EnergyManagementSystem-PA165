@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -63,9 +64,30 @@ public class SmartMeterServiceImpl implements SmartMeterService {
 
     @Override
     public double getPowerSpentForDateForSmartMeter(LocalDate date, SmartMeter smartMeter) {
-        List<MeterLog> meterLogsForDate = new ArrayList<MeterLog>(smartMeter.getMeterLogs());
-        meterLogsForDate.removeIf(meterLog -> meterLog.getLogDate() != date);
-        return meterLogsForDate.stream().mapToDouble(meterLog -> (double)meterLog.getMeasure()).sum();
+        List<MeterLog> meterLogs = meterLogDao.findByDate(date);
+        meterLogs.removeIf(meterLog -> !meterLog.getSmartMeter().equals(smartMeter));
+        return meterLogs.stream().mapToDouble(meterLog -> (double)meterLog.getMeasure()).sum();
+    }
+
+    @Override
+    public double getPowerSpentForSmartMeterInTimeRange(LocalDateTime from, LocalDateTime to, SmartMeter smartMeter) {
+        if (from.isAfter(to)) {
+            throw new IllegalArgumentException("From cannot be after to!");
+        }
+
+        LocalDateTime date = from;
+        List<MeterLog> meterLogs = new ArrayList<MeterLog>();
+
+        while (date.toLocalDate() != to.toLocalDate()) {
+            meterLogs.addAll(meterLogDao.findByDate(date.toLocalDate()));
+            date = date.plusDays(1);
+        }
+
+        meterLogs.removeIf(meterLog -> !meterLog.getSmartMeter().equals(smartMeter));
+        meterLogs.removeIf(meterLog -> meterLog.getLogDate().isEqual(from.toLocalDate()) && meterLog.getLogTime().isBefore(from.toLocalTime()));
+        meterLogs.removeIf(meterLog -> meterLog.getLogDate().isEqual(to.toLocalDate()) && meterLog.getLogTime().isAfter(to.toLocalTime()));
+
+        return meterLogs.stream().mapToDouble(meterLog -> (double)meterLog.getMeasure()).sum();
     }
 
     @Override

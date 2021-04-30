@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 /**
  * @author Matej Rišňovský
@@ -76,6 +77,12 @@ public class SmartMeterFacadeImpl implements SmartMeterFacade {
     public double getPowerSpentForDateForSmartMeter(LocalDate date, SmartMeterDTO smartMeter) {
         SmartMeter sm =  beanMappingService.mapTo(smartMeter, SmartMeter.class);
         return smartMeterService.getPowerSpentForDateForSmartMeter(date, sm);
+    }
+
+    @Override
+    public double getPowerSpentForSmartMeterInTimeRange(LocalDateTime from, LocalDateTime to, SmartMeterDTO smartMeter) {
+        SmartMeter sm =  beanMappingService.mapTo(smartMeter, SmartMeter.class);
+        return smartMeterService.getPowerSpentForSmartMeterInTimeRange(from, to, sm);
     }
 
     @Override

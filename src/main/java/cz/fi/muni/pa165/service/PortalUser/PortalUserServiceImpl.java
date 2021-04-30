@@ -34,6 +34,9 @@ public class PortalUserServiceImpl implements PortalUserService {
 
     @Override
     public Long registerUser(PortalUser portalUser, String unencryptedPassword) {
+        if (unencryptedPassword.isEmpty()) {
+            throw new IllegalArgumentException("Password cannot be empty!");
+        }
         UserRole userRole = userRoleDao.findByName(UserRole.USER_ROLE_NAME);
         portalUser.setUserRole(userRole);
         portalUser.setPasswordHash(passwordEncoder.encode(unencryptedPassword));
@@ -44,6 +47,9 @@ public class PortalUserServiceImpl implements PortalUserService {
 
     @Override
     public Long registerAdministrator(PortalUser portalUser, String unencryptedPassword) {
+        if (unencryptedPassword.isEmpty()) {
+            throw new IllegalArgumentException("Password cannot be empty!");
+        }
         UserRole userRole = userRoleDao.findByName(UserRole.ADMINISTRATOR_ROLE_NAME);
         portalUser.setUserRole(userRole);
         portalUser.setPasswordHash(passwordEncoder.encode(unencryptedPassword));
@@ -103,6 +109,9 @@ public class PortalUserServiceImpl implements PortalUserService {
 
     @Override
     public boolean changePassword(Long id, String oldPassword, String newPassword) {
+        if (newPassword.isEmpty()) {
+            throw new IllegalArgumentException("New password cannot be empty!");
+        }
         PortalUser user = portalUserDao.findById(id);
         boolean doPasswordsMatch = authenticate(user, oldPassword);
         if (!doPasswordsMatch) {

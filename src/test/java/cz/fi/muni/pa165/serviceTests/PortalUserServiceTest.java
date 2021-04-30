@@ -7,6 +7,7 @@ import cz.fi.muni.pa165.dao.UserRoleDao;
 import cz.fi.muni.pa165.entity.*;
 import cz.fi.muni.pa165.service.PortalUser.PortalUserService;
 import cz.fi.muni.pa165.service.config.ServiceConfiguration;
+import org.apache.commons.collections.ArrayStack;
 import org.hibernate.service.spi.ServiceException;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
@@ -26,6 +27,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import static org.mockito.ArgumentMatchers.any;
@@ -134,8 +136,27 @@ public class PortalUserServiceTest extends AbstractTestNGSpringContextTests {
 
         Assert.assertEquals(user1.getUserRole(), userRoleUser);
         Assert.assertEquals(user1.getPasswordHash(), PASSWORD_HASH);
+
+        verify(passwordEncoder, times(1)).encode(any(String.class));
         verify(userRoleDao, times(1)).findByName(UserRole.USER_ROLE_NAME);
         verify(portalUserDao, times(1)).create(any(PortalUser.class));
+    }
+
+    @Test(expectedExceptions = NullPointerException.class)
+    public void registerNullUserTest() {
+        portalUserService.registerUser(null, "12345678");
+        verify(portalUserDao, times(0)).create(any(PortalUser.class));
+        verify(passwordEncoder, times(0)).encode(any(String.class));
+    }
+
+    @Test(expectedExceptions = IllegalArgumentException.class)
+    public void registerUserEmptyPasswordTest() {
+        when(userRoleDao.findByName(UserRole.USER_ROLE_NAME)).thenReturn(userRoleUser);
+        portalUserService.registerUser(user1, "");
+
+        verify(userRoleDao, times(0)).findByName(UserRole.USER_ROLE_NAME);
+        verify(portalUserDao, times(0)).create(any(PortalUser.class));
+        verify(passwordEncoder, times(0)).encode(any(String.class));
     }
 
     @Test
@@ -147,6 +168,23 @@ public class PortalUserServiceTest extends AbstractTestNGSpringContextTests {
         Assert.assertEquals(user2.getPasswordHash(), PASSWORD_HASH);
         verify(userRoleDao, times(1)).findByName(UserRole.ADMINISTRATOR_ROLE_NAME);
         verify(portalUserDao, times(1)).create(any(PortalUser.class));
+        verify(passwordEncoder, times(1)).encode(any(String.class));
+    }
+
+    @Test(expectedExceptions = NullPointerException.class)
+    public void registerNullAdminTest() {
+        portalUserService.registerAdministrator(null, "12345678");
+        verify(portalUserDao, times(0)).create(any(PortalUser.class));
+        verify(passwordEncoder, times(0)).encode(any(String.class));
+    }
+
+    @Test(expectedExceptions = IllegalArgumentException.class)
+    public void registerAdminEmptyPasswordTest() {
+        portalUserService.registerUser(user2, "");
+
+        verify(userRoleDao, times(0)).findByName(UserRole.ADMINISTRATOR_ROLE_NAME);
+        verify(portalUserDao, times(0)).create(any(PortalUser.class));
+        verify(passwordEncoder, times(0)).encode(any(String.class));
     }
 
     @Test
@@ -155,7 +193,28 @@ public class PortalUserServiceTest extends AbstractTestNGSpringContextTests {
         List<PortalUser> users = portalUserService.getAllUsers();
 
         Assert.assertTrue(users.size() == userList.size());
-        Assert.assertTrue(users.get(0).getId() == user1.getId() && users.get(1).getId() == user2.getId());
+        Assert.assertTrue(users.get(0).getId().equals(user1.getId()) && users.get(1).getId().equals(user2.getId()));
+        verify(portalUserDao, times(1)).findAll();
+    }
+
+    @Test
+    public void getAllUsersOneUserTest() {
+        when(portalUserDao.findAll()).thenReturn(Arrays.asList(user1));
+
+        List<PortalUser> users = portalUserService.getAllUsers();
+
+        Assert.assertTrue(users.size() == 1);
+        Assert.assertTrue(users.get(0).getId().equals(user1.getId()));
+        verify(portalUserDao, times(1)).findAll();
+    }
+
+    @Test
+    public void getAllUsersNoneUserTest() {
+        when(portalUserDao.findAll()).thenReturn(new ArrayList<>());
+
+        List<PortalUser> users = portalUserService.getAllUsers();
+
+        Assert.assertTrue(users.size() == 0);
         verify(portalUserDao, times(1)).findAll();
     }
 
@@ -189,11 +248,29 @@ public class PortalUserServiceTest extends AbstractTestNGSpringContextTests {
     }
 
     @Test
+    public void findByIdNotFoundTest() {
+        when(portalUserDao.findById(any(Long.class))).thenReturn(null);
+        PortalUser user = portalUserService.findUserById(Long.valueOf(1L));
+
+        Assert.assertEquals(user, null);
+        verify(portalUserDao, times(1)).findById(any(Long.class));
+    }
+
+    @Test
     public void findByEmailTest() {
         when(portalUserDao.findByUserName(any(String.class))).thenReturn(user1);
         PortalUser user = portalUserService.findUserByEmail("test@muni.cz");
 
         Assert.assertEquals(user.getEmail(), user1.getEmail());
+        verify(portalUserDao, times(1)).findByUserName(any(String.class));
+    }
+
+    @Test
+    public void findByEmailNotFoundTest() {
+        when(portalUserDao.findByUserName(any(String.class))).thenReturn(null);
+        PortalUser user = portalUserService.findUserByEmail("test@muni.cz");
+
+        Assert.assertEquals(user, null);
         verify(portalUserDao, times(1)).findByUserName(any(String.class));
     }
 
@@ -238,6 +315,17 @@ public class PortalUserServiceTest extends AbstractTestNGSpringContextTests {
     @Test
     public void deactiveUserTest() {
         when(portalUserDao.findById(1L)).thenReturn(user1);
+        user1.setActive(true);
+        portalUserService.deactivateUser(1L);
+
+        Assert.assertFalse(user1.isActive());
+        verify(portalUserDao, times(1)).update(user1);
+    }
+
+    @Test
+    public void deactiveUserAlreadyDeactivatedTest() {
+        when(portalUserDao.findById(1L)).thenReturn(user1);
+        user1.setActive(false);
         portalUserService.deactivateUser(1L);
 
         Assert.assertFalse(user1.isActive());
@@ -247,6 +335,18 @@ public class PortalUserServiceTest extends AbstractTestNGSpringContextTests {
     @Test
     public void activateUserTest() {
         when(portalUserDao.findById(1L)).thenReturn(user1);
+        user1.setActive(false);
+        portalUserService.reactivateUser(1L);
+
+        Assert.assertTrue(user1.isActive());
+        verify(portalUserDao, times(1)).update(user1);
+        verify(portalUserDao, times(1)).findById(1L);
+    }
+
+    @Test
+    public void activateUserAlreadyActivatedTest() {
+        when(portalUserDao.findById(1L)).thenReturn(user1);
+        user1.setActive(true);
         portalUserService.reactivateUser(1L);
 
         Assert.assertTrue(user1.isActive());
@@ -281,5 +381,14 @@ public class PortalUserServiceTest extends AbstractTestNGSpringContextTests {
         Assert.assertEquals(user1.getPasswordHash(), PASSWORD_HASH);
         verify(portalUserDao, times(0)).update(user1);
         verify(portalUserDao, times(1)).findById(1L);
+    }
+
+    @Test(expectedExceptions = IllegalArgumentException.class)
+    public void changePasswordEmptyPasswordTest() {
+        boolean success = portalUserService.changePassword(1L, "12345678", "");
+
+        Assert.assertFalse(success);
+        verify(portalUserDao, times(0)).update(any(PortalUser.class));
+        verify(portalUserDao, times(0)).findById(any(Long.class));
     }
 }
