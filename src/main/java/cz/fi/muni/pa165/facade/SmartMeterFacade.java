@@ -3,6 +3,7 @@ package cz.fi.muni.pa165.facade;
 import cz.fi.muni.pa165.dto.SmartMeterCreateDTO;
 import cz.fi.muni.pa165.dto.SmartMeterDTO;
 import cz.fi.muni.pa165.entity.SmartMeter;
+import cz.fi.muni.pa165.enums.DayTime;
 /**
  * @author Matej Rišňovský
  */
@@ -66,5 +67,14 @@ public interface SmartMeterFacade {
      * Get power spent across all smart meters
      */
     double getAllPowerSpent();
+
+    /**
+     * Gets power spent for smart meter in time range and time of day
+     * @param from start of time range
+     * @param to end of time range
+     * @param smartMeter Smart meter to get power spent for
+     * @param dayTime Time of day to sum power for
+     */
+    double getPowerSpentForDateFrameWithDayTime(LocalDate from, LocalDate to, SmartMeterDTO smartMeter, DayTime dayTime);
 
 }

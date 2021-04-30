@@ -340,4 +340,21 @@ public class SmartMeterServiceTest {
         Assert.assertEquals(0.0, result);
         verify(smartMeterDao, times(1)).findAll();
     }
+
+    @Test
+    public void sumPowerFromLogs() {
+        List<MeterLog> mlList = new ArrayList<>();
+        mlList.add(testMeterLog11);
+        mlList.add(testMeterLog12);
+
+        double result = smartMeterService.sumPowerFromLogs(mlList);
+        Assert.assertEquals(result, 150.0);
+    }
+
+    @Test
+    public void sumPowerFromNoLogs() {
+        List<MeterLog> mlList = new ArrayList<>();
+        double result = smartMeterService.sumPowerFromLogs(mlList);
+        Assert.assertEquals(result, 0.0);
+    }
 }

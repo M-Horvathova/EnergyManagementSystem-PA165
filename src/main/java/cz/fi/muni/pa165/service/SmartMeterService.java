@@ -80,4 +80,10 @@ public interface SmartMeterService {
      * @param meterLog MeterLog, which should be removed
      */
     void removeMeterLog(SmartMeter smartMeter, MeterLog meterLog);
+
+    /**
+     * Sums the measurements from given logs
+     * @param logs List of Meter Logs, whose measures will be summed
+     */
+    double sumPowerFromLogs(List<MeterLog> logs);
 }

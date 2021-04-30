@@ -104,4 +104,11 @@ public class SmartMeterServiceImpl implements SmartMeterService {
     public void removeMeterLog(SmartMeter smartMeter, MeterLog meterLog) {
         smartMeter.removeMeterLog(meterLog);
     }
+
+    @Override
+    public double sumPowerFromLogs(List<MeterLog> logs) {
+        return logs.stream().mapToDouble(lg -> lg.getMeasure()).sum();
+    }
+
+
 }

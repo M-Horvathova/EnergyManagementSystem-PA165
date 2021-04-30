@@ -11,6 +11,7 @@ import cz.fi.muni.pa165.facade.MeterLogFacadeImpl;
 import cz.fi.muni.pa165.facade.SmartMeterFacade;
 import cz.fi.muni.pa165.facade.SmartMeterFacadeImpl;
 import cz.fi.muni.pa165.service.HouseService;
+import cz.fi.muni.pa165.service.MeterLogService;
 import cz.fi.muni.pa165.service.SmartMeterService;
 import cz.fi.muni.pa165.service.config.BeanMappingConfiguration;
 import org.mockito.Mock;
@@ -49,6 +50,9 @@ public class SmartMeterFacadeTest extends AbstractTestNGSpringContextTests {
     private HouseService houseService;
 
     @Mock
+    private MeterLogService meterLogService;
+
+    @Mock
     private BeanMappingService beanMappingService;
 
     private SmartMeterFacade smartMeterFacade;
@@ -81,7 +85,7 @@ public class SmartMeterFacadeTest extends AbstractTestNGSpringContextTests {
         when(beanMappingService.mapTo(any(SmartMeter.class), eq(SmartMeterCreateDTO.class))).thenReturn(testSmartMeterCreateDTO);
         when(beanMappingService.mapTo(any(SmartMeter.class), eq(SmartMeterDTO.class))).thenReturn(testSmartMeterDTO);
 
-        smartMeterFacade = new SmartMeterFacadeImpl(smartMeterService, houseService, beanMappingService);
+        smartMeterFacade = new SmartMeterFacadeImpl(smartMeterService, houseService, beanMappingService, meterLogService);
     }
 
     private void initEntitiesAndDTOs() {
@@ -207,5 +211,12 @@ public class SmartMeterFacadeTest extends AbstractTestNGSpringContextTests {
     public void getAllPowerSpentTest() {
         smartMeterFacade.getAllPowerSpent();
         verify(smartMeterService, times(1)).getAllPowerSpent();
+    }
+
+    @Test
+    public void getPowerSpentForDateFrameWithDayTime() {
+        double result = smartMeterFacade.getPowerSpentForDateFrameWithDayTime(testSmartMeterDTO.getLastLogTakenAt().toLocalDate(),
+                testSmartMeterDTO.getLastLogTakenAt().toLocalDate().plusDays(20), testSmartMeterDTO, DayTime.Day);
+        verify(smartMeterService, times(1)).sumPowerFromLogs(any(List.class));
     }
 }
