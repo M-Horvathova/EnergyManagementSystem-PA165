@@ -65,4 +65,24 @@ public class AddressServiceTest extends AbstractTransactionalTestNGSpringContext
         verify(addressDao, times(1)).find(any(String.class), any(String.class), any(String.class), any(String.class), any(String.class));
         verify(addressDao, times(1)).create(any(Address.class));
     }
+
+    @Test
+    public void createExistingAddress() {
+        when(addressDao.find(any(String.class), any(String.class), any(String.class), any(String.class), any(String.class)))
+                .thenReturn(existingAddress);
+
+        Address result = addressService.createAddress(address);
+        Assert.assertNotNull(result);
+        verify(addressDao, times(1)).find(any(String.class), any(String.class), any(String.class), any(String.class), any(String.class));
+        verify(addressDao, times(0)).create(any(Address.class));
+    }
+
+    @Test
+    public void findById() {
+        when(addressDao.findById(any(Long.class))).thenReturn(existingAddress);
+        Address result = addressService.findById(existingAddress.getId());
+        Assert.assertNotNull(result);
+        Assert.assertEquals(result, existingAddress);
+        verify(addressDao, times(1)).findById(1L);
+    }
 }
