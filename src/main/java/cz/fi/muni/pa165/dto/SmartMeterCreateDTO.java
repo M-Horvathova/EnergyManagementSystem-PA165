@@ -8,7 +8,9 @@ import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.Objects;
 import java.util.Set;
-
+/**
+ * @author Matej Rišňovský
+ */
 public class SmartMeterCreateDTO {
     private boolean isRunning;
     private double cumulativePowerConsumption;
@@ -62,5 +64,15 @@ public class SmartMeterCreateDTO {
     @Override
     public int hashCode() {
         return Objects.hash(isRunning(), getCumulativePowerConsumption(), getHouseId(), getSmartMeterDescription());
+    }
+
+    @Override
+    public String toString() {
+        return "SmartMeterCreateDTO{" +
+                "isRunning=" + isRunning +
+                ", cumulativePowerConsumption=" + cumulativePowerConsumption +
+                ", smartMeterDescription='" + smartMeterDescription + '\'' +
+                ", houseId=" + houseId +
+                '}';
     }
 }

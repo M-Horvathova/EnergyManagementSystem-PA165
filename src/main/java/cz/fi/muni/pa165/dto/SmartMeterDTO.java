@@ -8,7 +8,9 @@ import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.Objects;
 import java.util.Set;
-
+/**
+ * @author Matej Rišňovský
+ */
 public class SmartMeterDTO {
     private Long id;
     private Set<MeterLog> meterLogs;
@@ -93,5 +95,16 @@ public class SmartMeterDTO {
     @Override
     public int hashCode() {
         return Objects.hash(isRunning(), getPowerConsumptionSinceLastLog(), getCumulativePowerConsumption(), getHouse(), getSmartMeterDescription());
+    }
+
+    @Override
+    public String toString() {
+        return "SmartMeterDTO{" +
+                "id=" + id +
+                ", isRunning=" + isRunning +
+                ", cumulativePowerConsumption=" + cumulativePowerConsumption +
+                ", smartMeterDescription='" + smartMeterDescription + '\'' +
+                ", house=" + house +
+                '}';
     }
 }

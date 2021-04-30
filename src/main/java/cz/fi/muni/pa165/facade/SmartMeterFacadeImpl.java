@@ -3,14 +3,19 @@ package cz.fi.muni.pa165.facade;
 import cz.fi.muni.pa165.BeanMappingService;
 import cz.fi.muni.pa165.dto.SmartMeterCreateDTO;
 import cz.fi.muni.pa165.dto.SmartMeterDTO;
+import cz.fi.muni.pa165.entity.MeterLog;
 import cz.fi.muni.pa165.entity.SmartMeter;
+import cz.fi.muni.pa165.enums.DayTime;
 import cz.fi.muni.pa165.service.HouseService;
+import cz.fi.muni.pa165.service.MeterLogService;
 import cz.fi.muni.pa165.service.SmartMeterService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 /**
  * @author Matej Rišňovský
@@ -20,6 +25,7 @@ import java.util.List;
 public class SmartMeterFacadeImpl implements SmartMeterFacade {
 
     private SmartMeterService smartMeterService;
+    private MeterLogService meterLogService;
     private HouseService houseService;
 
     private BeanMappingService beanMappingService;
@@ -28,10 +34,11 @@ public class SmartMeterFacadeImpl implements SmartMeterFacade {
     public SmartMeterFacadeImpl(
             SmartMeterService smartMeterService,
             HouseService houseService,
-            BeanMappingService beanMappingService) {
+            BeanMappingService beanMappingService, MeterLogService meterLogService) {
         this.smartMeterService = smartMeterService;
         this.houseService = houseService;
         this.beanMappingService = beanMappingService;
+        this.meterLogService = meterLogService;
     }
 
     @Override
@@ -76,6 +83,18 @@ public class SmartMeterFacadeImpl implements SmartMeterFacade {
     public double getPowerSpentForDateForSmartMeter(LocalDate date, SmartMeterDTO smartMeter) {
         SmartMeter sm =  beanMappingService.mapTo(smartMeter, SmartMeter.class);
         return smartMeterService.getPowerSpentForDateForSmartMeter(date, sm);
+    }
+
+    @Override
+    public double getPowerSpentForSmartMeterInTimeRange(LocalDateTime from, LocalDateTime to, SmartMeterDTO smartMeter) {
+        SmartMeter sm =  beanMappingService.mapTo(smartMeter, SmartMeter.class);
+        return smartMeterService.getPowerSpentForSmartMeterInTimeRange(from, to, sm);
+    }
+
+    @Override
+    public double getPowerSpentForDateFrameWithDayTime(LocalDate from, LocalDate to, SmartMeterDTO smartMeter, DayTime dayTime) {
+        SmartMeter sm =  beanMappingService.mapTo(smartMeter, SmartMeter.class);
+        return smartMeterService.sumPowerFromLogs(meterLogService.filterInDateFrameWithTimeDay(new ArrayList<>(sm.getMeterLogs()), from, to, dayTime));
     }
 
     @Override

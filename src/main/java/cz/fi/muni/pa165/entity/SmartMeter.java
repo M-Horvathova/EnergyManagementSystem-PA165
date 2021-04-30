@@ -29,10 +29,10 @@ public class SmartMeter implements Serializable {
     @Column(nullable = false)
     private double cumulativePowerConsumption;
 
-    @Column(nullable = true)
+    @Column
     private LocalDateTime lastLogTakenAt;
 
-    @Column(nullable = true)
+    @Column
     private String smartMeterDescription;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -130,12 +130,13 @@ public class SmartMeter implements Serializable {
         SmartMeter sm = (SmartMeter) o;
         return isRunning() == sm.isRunning() && Double.compare(sm.getPowerConsumptionSinceLastLog(), getPowerConsumptionSinceLastLog()) == 0
                 && Double.compare(sm.getCumulativePowerConsumption(), getCumulativePowerConsumption()) == 0
+                && ((getHouse() == null && sm.getHouse() == null) || (getHouse() != null && getHouse().equals(sm.getHouse())))
                 && ((getSmartMeterDescription() == null && sm.getSmartMeterDescription() == null) || (getSmartMeterDescription() != null && getSmartMeterDescription().equals(sm.getSmartMeterDescription())));
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(isRunning(), getPowerConsumptionSinceLastLog(), getCumulativePowerConsumption(), getSmartMeterDescription());
+        return Objects.hash(isRunning(), getPowerConsumptionSinceLastLog(), getCumulativePowerConsumption(), getHouse(), getSmartMeterDescription());
     }
 
     @Override
