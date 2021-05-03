@@ -6,3 +6,10 @@ test-output
 *.iml
 *~
 target
+/web/src/main/frontend/node/
+/web/yarn.lock
+/web/node_modules/
+/web/src/react-app-env.d.ts
+/web/build/
+/web/nodesource_setup.sh
+/web/node/
