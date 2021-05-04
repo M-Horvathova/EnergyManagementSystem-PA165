@@ -13,7 +13,7 @@ public class TestController {
     @RequestMapping(method = RequestMethod.GET)
     public JSONObject HelloWorld() {
         JSONObject res = new JSONObject();
-        res.put("data", "Neznášam javu");
+        res.put("data", "Juhuuuuuuuuuuuu");
         res.put("errCode", 0);
         return res;
     }

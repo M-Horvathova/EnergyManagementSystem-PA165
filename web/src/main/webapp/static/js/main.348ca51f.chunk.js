@@ -1,2 +1,2 @@
 (this.webpackJsonpundefined=this.webpackJsonpundefined||[]).push([[0],{10:function(e,t,n){"use strict";n.r(t);var c=n(0),r=n(3),o=n(4),s=n(1);var u=function(){var e=Object(c.useState)(),t=Object(o.a)(e,2),n=t[0],r=t[1];return Object(c.useEffect)((function(){fetch("http://localhost:8080/pa165/api/v1/hello").then((function(e){return e.json()})).then((function(e){return r(e.data)}))}),[]),Object(s.jsxs)("h1",{children:["Hello!",n]})};r.render(Object(s.jsx)(c.StrictMode,{children:Object(s.jsx)(u,{})}),document.getElementById("root"))}},[[10,1,2]]]);
-//# sourceMappingURL=main.07f6105a.chunk.js.map
+//# sourceMappingURL=main.348ca51f.chunk.js.map
