@@ -11,8 +11,11 @@ import org.springframework.http.converter.HttpMessageConverter;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.method.HandlerTypePredicate;
 import org.springframework.web.servlet.config.annotation.ContentNegotiationConfigurer;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
+import org.springframework.web.servlet.config.annotation.PathMatchConfigurer;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import javax.validation.Validator;
 import java.text.SimpleDateFormat;
@@ -23,7 +26,7 @@ import java.util.Locale;
 @EnableWebMvc
 @Import({ServiceConfiguration.class})
 @ComponentScan(basePackages = {"cz.fi.muni.pa165.restapi.*"})
-public class RestSpringReact implements WebMvcConfigurer{
+public class RestSpringMvcConfig implements WebMvcConfigurer{
 
     @Bean
     public MappingJackson2HttpMessageConverter customJackson2HttpMessageConverter() {

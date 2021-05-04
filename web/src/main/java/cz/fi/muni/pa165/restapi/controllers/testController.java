@@ -5,6 +5,7 @@ import net.minidev.json.JSONObject;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -14,7 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @RestController
-@RequestMapping(path = "/*")
+@RequestMapping(path = "/hello")
 public class testController {
 
     @RequestMapping(method = RequestMethod.GET)
@@ -24,4 +25,6 @@ public class testController {
         res.put("errCode", 0);
         return res;
     }
+
+
 }

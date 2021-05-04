@@ -13,3 +13,4 @@ target
 /web/build/
 /web/nodesource_setup.sh
 /web/node/
+/web/src/main/resources/static/built/
