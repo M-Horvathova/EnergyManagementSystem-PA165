@@ -6,7 +6,7 @@ import './utils/i18';
 
 ReactDOM.render(
   <React.StrictMode>
-    <App header={"Hello!"}/>
+    <App />
   </React.StrictMode>,
   document.getElementById('root')
 );
