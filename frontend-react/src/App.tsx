@@ -10,6 +10,7 @@ import {
 
 import About from "./pages/About";
 import BasicMenu from "./components/BasicMenu";
+import Home from "./pages/Home";
 
 
 interface AppProps {
@@ -27,13 +28,14 @@ const App: FunctionComponent<AppProps> = ({header}) => {
 
   return (
       <Router>
-        <p>{message}</p>
-        <p>{header}</p>
           <BasicMenu />
         <main className="App">
           <Container maxWidth="lg">
             <Switch>
               <Route exact path="/pa165/about/" component={About} />
+              <Route exact path="/pa165/" render={(props) =>(
+                  <Home {...props} header={"Hello!"} />
+              )} />
             </Switch>
           </Container>
         </main>

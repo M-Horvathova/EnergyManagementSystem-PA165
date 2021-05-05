@@ -16,7 +16,9 @@ import Divider from '@material-ui/core/Divider';
 import { useTranslation } from 'react-i18next';
 import LocMenu from "./LocMenu";
 
-
+{/*
+ author: Michaela Horváthová
+*/}
 const useStyles = makeStyles((theme) => ({
     menuButton: {
         marginRight: theme.spacing(2),
@@ -48,7 +50,7 @@ const BasicMenu: FC = () => {
             <Toolbar>
                 { <>
                     <Button className={classes.menuButton}>
-                        <Link className={classes.link} to="/"><b>{t('menu.home')}</b></Link>
+                        <Link className={classes.link} to="/pa165"><b>{t('menu.home')}</b></Link>
                     </Button>
                 </>}
                 <Button className={classes.menuButton}>
