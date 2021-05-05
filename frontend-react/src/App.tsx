@@ -1,5 +1,16 @@
 import React from "react";
 import {useEffect, useState, FunctionComponent} from "react";
+import Container from "@material-ui/core/Container";
+import {
+  BrowserRouter as Router,
+  Route,
+  Redirect,
+  Switch,
+} from "react-router-dom";
+
+import About from "./pages/About";
+import BasicMenu from "./components/BasicMenu";
+
 
 interface AppProps {
   header: string;
@@ -15,10 +26,18 @@ const App: FunctionComponent<AppProps> = ({header}) => {
   }, []);
 
   return (
-    <div className="App">
-      <h1>{header}</h1>
-      {message}
-    </div>
+      <Router>
+        <p>{message}</p>
+        <p>{header}</p>
+          <BasicMenu />
+        <main className="App">
+          <Container maxWidth="lg">
+            <Switch>
+              <Route exact path="/pa165/about/" component={About} />
+            </Switch>
+          </Container>
+        </main>
+      </Router>
   );
 }
 
