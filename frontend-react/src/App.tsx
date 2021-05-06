@@ -16,6 +16,8 @@ import About from "./pages/About";
 import BasicMenu from "./components/BasicMenu";
 import Home from "./pages/Home";
 import MenuDrawerLeft from "./components/MenuDrawerLeft";
+import Login from "./pages/Login";
+import Register from "./pages/Register";
 
 {/*
   author: Michaela Horváthová
@@ -128,6 +130,8 @@ const App: FC = () => {
               <Route exact path="/pa165/" render={(props) =>(
                   <Home {...props} header={"Hello!"} />
               )} />
+              <Route exact path="/pa165/login/" component={Login} />
+              <Route exact path="/pa165/register/" component={Register} />
             </Switch>
           </Container>
         </main>
