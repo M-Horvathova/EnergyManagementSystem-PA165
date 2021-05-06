@@ -18,6 +18,7 @@ import Home from "./pages/Home";
 import MenuDrawerLeft from "./components/MenuDrawerLeft";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
+import UserContext, {User} from "./context/UserContext";
 
 {/*
   author: Michaela Horváthová
@@ -113,7 +114,6 @@ const ourTheme = createMuiTheme({
 
 });
 const App: FC = () => {
-
   return (
       <MuiThemeProvider theme={ourTheme}>
       <Router>

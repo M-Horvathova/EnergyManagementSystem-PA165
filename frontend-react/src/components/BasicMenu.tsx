@@ -60,7 +60,7 @@ const BasicMenu: FC = () => {
                 { <>
                     <Box display='flex' flexGrow={1}>
                         <Button className={classes.menuButton}>
-                            <Link className={classes.link} to="/list/"><b>{t('menu.houses')}</b></Link>
+                            <Link className={classes.link} to="/pa165/houses/"><b>{t('menu.houses')}</b></Link>
                         </Button>
                         <Box display="flex"
                              m='auto'
