@@ -1,9 +1,11 @@
 package cz.fi.muni.pa165.restapi.config;
 
+import cz.muni.fi.pa165.sampledata.*;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Import;
 import org.springframework.hateoas.MediaTypes;
 import org.springframework.hateoas.config.EnableHypermediaSupport;
 import org.springframework.http.converter.HttpMessageConverter;
@@ -19,22 +21,11 @@ import java.util.Locale;
 
 import static org.springframework.hateoas.config.EnableHypermediaSupport.HypermediaType;
 
-/**
- * Configures a REST application with HATEOAS responses using HAL format. See
- * <ul>
- * <li><a href="http://docs.spring.io/spring-hateoas/docs/current/reference/html/">Spring HATEOAS</a></li>
- * <li><a href="https://apigility.org/documentation/api-primer/halprimer">Hypertext Application Language (HAL)</a></li>
- * <li><a href="https://en.wikipedia.org/wiki/Hypertext_Application_Language">Hypertext Application Language (Wikipedia)</a></li>
- * </ul>
- * Controllers responses use the content-type "application/hal+json", the response is a JSON object
- * with "_links" property for entities, or with "_links" and "_embedded" properties for collections.
- *
- * @author Martin Kuba makub@ics.muni.cz
- */
 
 @EnableHypermediaSupport(type = HypermediaType.HAL)
 @EnableWebMvc
 @Configuration
+@Import({SampleDataConfiguration.class})
 @ComponentScan(basePackages = {"cz.fi.muni.pa165.restapi.controllers"})
 public class RestSpringMvcConfig implements WebMvcConfigurer {
 
