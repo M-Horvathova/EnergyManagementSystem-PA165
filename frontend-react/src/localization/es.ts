@@ -25,6 +25,15 @@ const en = {
             add: "Añadir casa",
             nothing: "Nada que mostrar",
         },
+        houseForm: {
+            name: "Nombre",
+            street: "Calle",
+            code: "Código",
+            city: "Ciudad",
+            postCode: "Código postal",
+            country: "País",
+            confirm: "Confirmar",
+        },
         login: {
             email: "Correo Electrónico",
             login: "Entrar",
@@ -49,6 +58,6 @@ const en = {
             sign_in: "Iniciar sesión",
         },
     },
-}
+};
 
-export default en
+export default en;

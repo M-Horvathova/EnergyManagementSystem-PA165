@@ -25,6 +25,15 @@ const en = {
             add: "Přidat dům",
             nothing: "Žiadny záznam",
         },
+        houseForm: {
+            name: "Meno",
+            street: "Ulice",
+            code: "Číslo",
+            city: "Město",
+            postCode: "Směrovací číslo",
+            country: "Krajina",
+            confirm: "Potvrdit",
+        },
         login: {
             email: "E-mail",
             login: "Přihlásit se",

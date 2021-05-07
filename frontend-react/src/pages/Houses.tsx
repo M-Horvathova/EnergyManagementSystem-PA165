@@ -5,11 +5,11 @@ import House from "../interfaces/House";
 import { Button, Grid, Typography } from "@material-ui/core";
 import { useTranslation } from "react-i18next";
 
-export interface HomesProps {
+export interface HousesProps {
     user: User;
 }
 
-const Houses: FunctionComponent<HomesProps> = ({ user }) => {
+const Houses: FunctionComponent<HousesProps> = ({ user }) => {
     const [houses, setHouses] = useState<Array<House>>([]);
     const { t } = useTranslation();
 

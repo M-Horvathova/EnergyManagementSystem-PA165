@@ -1,17 +1,17 @@
-import React, { FunctionComponent } from "react"
-import { makeStyles } from "@material-ui/core/styles"
-import Card from "@material-ui/core/Card"
-import CardActions from "@material-ui/core/CardActions"
-import CardContent from "@material-ui/core/CardContent"
-import Button from "@material-ui/core/Button"
-import Typography from "@material-ui/core/Typography"
-import House from "../interfaces/House"
-import { useHistory } from "react-router"
-import { useTranslation } from "react-i18next"
+import React, { FunctionComponent } from "react";
+import { makeStyles } from "@material-ui/core/styles";
+import Card from "@material-ui/core/Card";
+import CardActions from "@material-ui/core/CardActions";
+import CardContent from "@material-ui/core/CardContent";
+import Button from "@material-ui/core/Button";
+import Typography from "@material-ui/core/Typography";
+import House from "../interfaces/House";
+import { useHistory } from "react-router";
+import { useTranslation } from "react-i18next";
 
 export interface HouseTileProps {
-    house: House
-    onRemove(id: number): void
+    house: House;
+    onRemove(id: number): void;
 }
 
 const useStyles = makeStyles({
@@ -19,14 +19,14 @@ const useStyles = makeStyles({
         minWidth: 300,
         maxWidth: 345,
     },
-})
+});
 
 const HouseTile: FunctionComponent<HouseTileProps> = ({ house, onRemove }) => {
-    const classes = useStyles()
-    const history = useHistory()
-    const { address } = house
-    const { t } = useTranslation()
-    const { id } = house
+    const classes = useStyles();
+    const history = useHistory();
+    const { address } = house;
+    const { t } = useTranslation();
+    const { id } = house;
 
     return (
         <Card className={classes.root} variant="outlined">
@@ -71,7 +71,7 @@ const HouseTile: FunctionComponent<HouseTileProps> = ({ house, onRemove }) => {
                 </Button>
             </CardActions>
         </Card>
-    )
-}
+    );
+};
 
-export default HouseTile
+export default HouseTile;

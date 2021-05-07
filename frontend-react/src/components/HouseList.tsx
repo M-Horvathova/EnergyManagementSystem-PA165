@@ -1,16 +1,16 @@
-import { Grid } from "@material-ui/core"
-import React, { FunctionComponent, Fragment } from "react"
-import House from "../interfaces/House"
-import HouseTile from "./HouseTile"
-import { useTranslation } from "react-i18next"
+import { Grid } from "@material-ui/core";
+import React, { FunctionComponent, Fragment } from "react";
+import House from "../interfaces/House";
+import HouseTile from "./HouseTile";
+import { useTranslation } from "react-i18next";
 
 export interface HouseListProps {
-    houses: Array<House>
-    onRemove(id: number): void
+    houses: Array<House>;
+    onRemove(id: number): void;
 }
 
 const HouseList: FunctionComponent<HouseListProps> = ({ houses, onRemove }) => {
-    const { t } = useTranslation()
+    const { t } = useTranslation();
     return (
         <Fragment>
             <Grid container direction="row" alignItems="flex-start" spacing={3}>
@@ -24,11 +24,11 @@ const HouseList: FunctionComponent<HouseListProps> = ({ houses, onRemove }) => {
                         <Grid key={house.id} item>
                             <HouseTile house={house} onRemove={onRemove} />
                         </Grid>
-                    )
+                    );
                 })}
             </Grid>
         </Fragment>
-    )
-}
+    );
+};
 
-export default HouseList
+export default HouseList;

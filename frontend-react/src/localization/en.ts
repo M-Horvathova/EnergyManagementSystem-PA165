@@ -31,6 +31,15 @@ const en = {
             add: "Add house",
             nothing: "Nothing to show",
         },
+        houseForm: {
+            name: "Name",
+            street: "Street",
+            code: "Code",
+            city: "City",
+            postCode: "Post Code",
+            country: "Country",
+            confirm: "Confirm",
+        },
         register: {
             register: "Register",
             email: "Email",
@@ -49,6 +58,6 @@ const en = {
             register: "Register here",
         },
     },
-}
+};
 
-export default en
+export default en;

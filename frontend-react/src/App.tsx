@@ -18,6 +18,7 @@ import MenuDrawerLeft from "./components/MenuDrawerLeft";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import HousePage from "./pages/HousePage";
+import EditHouse from "./pages/EditHouse";
 
 /*
   author: Michaela Horváthová
@@ -35,7 +36,7 @@ const App: FC = () => {
                 <Hidden smUp>
                     <MenuDrawerLeft />
                 </Hidden>
-                <main className="App">
+                <main className="App" style={{ marginTop: 50 }}>
                     <Container maxWidth="lg">
                         <Switch>
                             <Route
@@ -59,6 +60,38 @@ const App: FC = () => {
                                 render={(props) =>
                                     user != null ? (
                                         <Houses {...props} user={user} />
+                                    ) : (
+                                        <Redirect
+                                            to={{
+                                                pathname: "/pa165/login",
+                                                state: { from: props.location },
+                                            }}
+                                        />
+                                    )
+                                }
+                            />
+                            <Route
+                                exact
+                                path="/pa165/house/edit/:id"
+                                render={(props) =>
+                                    user != null ? (
+                                        <EditHouse {...props} />
+                                    ) : (
+                                        <Redirect
+                                            to={{
+                                                pathname: "/pa165/login",
+                                                state: { from: props.location },
+                                            }}
+                                        />
+                                    )
+                                }
+                            />
+                            <Route
+                                exact
+                                path="/pa165/house/create/:id"
+                                render={(props) =>
+                                    user != null ? (
+                                        <EditHouse {...props} />
                                     ) : (
                                         <Redirect
                                             to={{

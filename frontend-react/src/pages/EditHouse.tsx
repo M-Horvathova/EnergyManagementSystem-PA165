@@ -2,12 +2,15 @@ import React, { Fragment, FunctionComponent, useEffect, useState } from "react";
 import { Grid, Typography } from "@material-ui/core";
 import { useParams } from "react-router-dom";
 import House from "../interfaces/House";
+import HouseForm from "../components/HouseForm";
+import { useHistory } from "react-router";
 
-export interface HousePageProps {}
+export interface EditHouseProps {}
 
-const HousePage: FunctionComponent<HousePageProps> = () => {
+const EditHouse: FunctionComponent<EditHouseProps> = () => {
     const { id } = useParams<{ id: string }>();
     const [house, setHouse] = useState<House | null>();
+    const history = useHistory();
 
     useEffect(() => {
         // TODO fetch house with id
@@ -25,20 +28,32 @@ const HousePage: FunctionComponent<HousePageProps> = () => {
         });
     }, []);
 
+    const handleOnSubmit = (
+        name: string,
+        street: string,
+        code: string,
+        city: string,
+        postCode: string,
+        country: string
+    ) => {
+        // TODO call backend
+        history.push("/pa165/houses");
+    };
+
     return (
         <Fragment>
             <Typography variant="h4" component="h2">
-                House #{house?.id}
+                Edit house #{house?.id}
             </Typography>
             <Grid container spacing={3}>
-                <Grid item>
-                    <Typography gutterBottom variant="h5" component="h2">
-                        {house?.name}
-                    </Typography>
-                </Grid>
+                {house ? (
+                    <HouseForm house={house} onSubmit={handleOnSubmit} />
+                ) : (
+                    ""
+                )}
             </Grid>
         </Fragment>
     );
 };
 
-export default HousePage;
+export default EditHouse;
