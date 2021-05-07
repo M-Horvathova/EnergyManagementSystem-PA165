@@ -1,4 +1,4 @@
-import React, { FC, useContext, useState } from 'react';
+import React, { FC, useState } from 'react';
 import {
     Link,
 } from "react-router-dom";
@@ -13,7 +13,6 @@ import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import ListItem from '@material-ui/core/ListItem';
-import Button from "@material-ui/core/Button";
 import { makeStyles } from '@material-ui/core/styles';
 import red from '@material-ui/core/colors/red';
 import HomeIcon from '@material-ui/icons/Home';

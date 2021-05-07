@@ -1,9 +1,9 @@
-import React, { FC, useContext, useState } from 'react';
+import React, { FC, useState } from 'react';
 import { makeStyles } from '@material-ui/styles';
 
 import {
     Link,
-    Redirect,
+
 } from "react-router-dom";
 
 import Card from '@material-ui/core/Card';
@@ -17,9 +17,9 @@ import TextField from '@material-ui/core/TextField';
 import PersonAddIcon from '@material-ui/icons/PersonAdd';
 import { useTranslation } from 'react-i18next';
 
-{/*
+/*
     Author: Michaela Horváthová
-*/}
+*/
 const useStyles = makeStyles({
     app: {
         alignItems: 'center',

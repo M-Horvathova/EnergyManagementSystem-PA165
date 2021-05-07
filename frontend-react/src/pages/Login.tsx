@@ -1,9 +1,8 @@
-import React, { FC, useContext, useState } from 'react';
+import React, { FC, useState } from 'react';
 import { makeStyles } from '@material-ui/styles';
 
 import {
-    Link,
-    Redirect,
+    Link
 } from "react-router-dom";
 
 import Card from '@material-ui/core/Card';
@@ -16,10 +15,11 @@ import TextField from '@material-ui/core/TextField';
 
 import AccountBoxIcon from '@material-ui/icons/AccountBox';
 import { useTranslation } from 'react-i18next';
+import auth from "../services/auth";
 
-{/*
+/*
     Author: Michaela Horváthová
-*/}
+*/
 const useStyles = makeStyles({
     app: {
         alignItems: 'center',
@@ -53,7 +53,10 @@ const Login: FC = () => {
 
     const { t } = useTranslation();
 
-
+    const handleLoginEvent = () => {
+        auth.login("", "");
+        window.location.href = "/pa165";
+    };
 
 
     return (
@@ -99,7 +102,7 @@ const Login: FC = () => {
                         variant='contained'
                         size='large'
                         color='primary'
-
+                        onClick={handleLoginEvent}
                     >
                         {t('login.login')}
                     </Button>

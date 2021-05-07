@@ -1,4 +1,4 @@
-import React, { FC, useContext, } from "react";
+import React, { FC } from "react";
 import {
     Link,
 } from "react-router-dom";
@@ -16,9 +16,9 @@ import Divider from '@material-ui/core/Divider';
 import { useTranslation } from 'react-i18next';
 import LocMenu from "./LocMenu";
 
-{/*
+/*
  author: Michaela Horváthová
-*/}
+*/
 const useStyles = makeStyles((theme) => ({
     menuButton: {
         marginRight: theme.spacing(2),
@@ -48,20 +48,16 @@ const BasicMenu: FC = () => {
     return (
         <AppBar color="primary" position="static" variant="outlined">
             <Toolbar>
-                { <>
+                <>
                     <Button className={classes.menuButton}>
                         <Link className={classes.link} to="/pa165"><b>{t('menu.home')}</b></Link>
                     </Button>
-                </>}
+                </>
                 <Button className={classes.menuButton}>
                     <Link className={classes.link} to="/pa165/about/"><b>{t('menu.about')}</b></Link>
                 </Button>
-
-                { <>
+                <>
                     <Box display='flex' flexGrow={1}>
-                        <Button className={classes.menuButton}>
-                            <Link className={classes.link} to="/pa165/houses/"><b>{t('menu.houses')}</b></Link>
-                        </Button>
                         <Box display="flex"
                              m='auto'
                              alignItems="center"
@@ -99,7 +95,7 @@ const BasicMenu: FC = () => {
                         <Divider />
                     </Menu>
                     <LocMenu />
-                </>}
+                </>
 
 
             </Toolbar>

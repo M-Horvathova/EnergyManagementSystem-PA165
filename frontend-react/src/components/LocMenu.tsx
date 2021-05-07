@@ -42,7 +42,7 @@ const LocMenu: FC = () => {
                     <MenuItem />
                 ) : (
                     languages.map((item, index) => (
-                        <MenuItem onClick={() => changeLanguage(item)}>
+                        <MenuItem key={index} onClick={() => changeLanguage(item)}>
                             <ListItemIcon>
                                 <Flag code ={flags[index]} height="20" width="30"/>
                             </ListItemIcon>
