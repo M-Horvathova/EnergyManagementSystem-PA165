@@ -1,16 +1,17 @@
 import React, { FunctionComponent, useEffect, useState, Fragment } from "react";
-import User from "../interfaces/User";
 import HouseList from "../components/HouseList";
 import House from "../interfaces/House";
 import { Button, Grid, Typography } from "@material-ui/core";
 import { useTranslation } from "react-i18next";
 import { useHistory } from "react-router";
+import { getCurrentUser } from "../services/auth";
 
-export interface HousesProps {
-    user: User;
-}
+export interface HousesProps {}
 
-const Houses: FunctionComponent<HousesProps> = ({ user }) => {
+const Houses: FunctionComponent<HousesProps> = () => {
+    const user = getCurrentUser();
+    console.log(user);
+
     const [houses, setHouses] = useState<Array<House>>([]);
     const { t } = useTranslation();
     const history = useHistory();

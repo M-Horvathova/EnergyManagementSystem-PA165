@@ -23,7 +23,7 @@ const HousePage: FunctionComponent<HousePageProps> = () => {
                 street: null,
             },
         });
-    }, []);
+    }, [id]);
 
     return (
         <Fragment>

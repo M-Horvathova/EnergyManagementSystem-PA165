@@ -1,4 +1,3 @@
-import React from "react";
 import { FC } from "react";
 import Container from "@material-ui/core/Container";
 import { MuiThemeProvider, createMuiTheme } from "@material-ui/core/styles";
@@ -8,7 +7,6 @@ import {
     Redirect,
     Switch,
 } from "react-router-dom";
-import { getCurrentUser } from "./services/auth";
 
 import Hidden from "@material-ui/core/Hidden";
 import About from "./pages/About";
@@ -20,14 +18,13 @@ import Register from "./pages/Register";
 import HousePage from "./pages/HousePage";
 import EditHouse from "./pages/EditHouse";
 import AddHouse from "./pages/AddHouse";
+import ProtectedRoute from "./components/ProtectedRoute";
 
 /*
   author: Michaela Horváthová
 */
 const ourTheme = createMuiTheme({});
 const App: FC = () => {
-    const user = getCurrentUser();
-
     return (
         <MuiThemeProvider theme={ourTheme}>
             <Router>
@@ -55,69 +52,25 @@ const App: FC = () => {
                                 path="/pa165/register/"
                                 component={Register}
                             />
-                            <Route
+                            <ProtectedRoute
                                 exact
                                 path="/pa165/houses"
-                                render={(props) =>
-                                    user != null ? (
-                                        <Houses {...props} user={user} />
-                                    ) : (
-                                        <Redirect
-                                            to={{
-                                                pathname: "/pa165/login",
-                                                state: { from: props.location },
-                                            }}
-                                        />
-                                    )
-                                }
+                                component={Houses}
                             />
-                            <Route
+                            <ProtectedRoute
                                 exact
                                 path="/pa165/house/edit/:id"
-                                render={(props) =>
-                                    user != null ? (
-                                        <EditHouse {...props} />
-                                    ) : (
-                                        <Redirect
-                                            to={{
-                                                pathname: "/pa165/login",
-                                                state: { from: props.location },
-                                            }}
-                                        />
-                                    )
-                                }
+                                component={EditHouse}
                             />
-                            <Route
+                            <ProtectedRoute
                                 exact
                                 path="/pa165/house/create"
-                                render={(props) =>
-                                    user != null ? (
-                                        <AddHouse {...props} />
-                                    ) : (
-                                        <Redirect
-                                            to={{
-                                                pathname: "/pa165/login",
-                                                state: { from: props.location },
-                                            }}
-                                        />
-                                    )
-                                }
+                                component={AddHouse}
                             />
-                            <Route
+                            <ProtectedRoute
                                 exact
                                 path="/pa165/house/:id"
-                                render={(props) =>
-                                    user != null ? (
-                                        <HousePage {...props} />
-                                    ) : (
-                                        <Redirect
-                                            to={{
-                                                pathname: "/pa165/login",
-                                                state: { from: props.location },
-                                            }}
-                                        />
-                                    )
-                                }
+                                component={HousePage}
                             />
                             <Redirect from="/pa165/" to="/pa165/houses" />
                         </Switch>

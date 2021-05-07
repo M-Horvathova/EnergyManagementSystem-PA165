@@ -14,7 +14,7 @@ const HouseList: FunctionComponent<HouseListProps> = ({ houses, onRemove }) => {
     return (
         <Fragment>
             <Grid container direction="row" alignItems="flex-start" spacing={3}>
-                {houses.length == 0 ? (
+                {houses.length === 0 ? (
                     <Grid item>{t("houses.nothing")}</Grid>
                 ) : (
                     ""

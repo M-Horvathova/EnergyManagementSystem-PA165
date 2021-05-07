@@ -28,7 +28,7 @@ const EditHouse: FunctionComponent<EditHouseProps> = () => {
                 street: null,
             },
         });
-    }, []);
+    }, [id]);
 
     const handleOnSubmit = (
         name: string,

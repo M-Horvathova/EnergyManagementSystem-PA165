@@ -1,8 +1,6 @@
-{
-    /*
+/*
  author: Michaela Horváthová
 */
-}
 
 const en = {
     translation: {

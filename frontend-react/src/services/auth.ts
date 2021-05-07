@@ -30,9 +30,11 @@ export function getJwt() {
     return localStorage.getItem(tokenKey);
 }
 
-export default {
+const returnModule = {
     login,
     logout,
     getCurrentUser,
     getJwt,
 };
+
+export default returnModule;
