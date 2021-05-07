@@ -4,6 +4,7 @@ import HouseList from "../components/HouseList";
 import House from "../interfaces/House";
 import { Button, Grid, Typography } from "@material-ui/core";
 import { useTranslation } from "react-i18next";
+import { useHistory } from "react-router";
 
 export interface HousesProps {
     user: User;
@@ -12,6 +13,7 @@ export interface HousesProps {
 const Houses: FunctionComponent<HousesProps> = ({ user }) => {
     const [houses, setHouses] = useState<Array<House>>([]);
     const { t } = useTranslation();
+    const history = useHistory();
 
     useEffect(() => {
         // TODO call backend to fetch
@@ -84,6 +86,7 @@ const Houses: FunctionComponent<HousesProps> = ({ user }) => {
                         variant="contained"
                         color="primary"
                         disableElevation
+                        onClick={() => history.push("/pa165/house/create")}
                     >
                         {t("houses.add")}
                     </Button>

@@ -19,6 +19,7 @@ import Login from "./pages/Login";
 import Register from "./pages/Register";
 import HousePage from "./pages/HousePage";
 import EditHouse from "./pages/EditHouse";
+import AddHouse from "./pages/AddHouse";
 
 /*
   author: Michaela Horváthová
@@ -88,10 +89,10 @@ const App: FC = () => {
                             />
                             <Route
                                 exact
-                                path="/pa165/house/create/:id"
+                                path="/pa165/house/create"
                                 render={(props) =>
                                     user != null ? (
-                                        <EditHouse {...props} />
+                                        <AddHouse {...props} />
                                     ) : (
                                         <Redirect
                                             to={{
