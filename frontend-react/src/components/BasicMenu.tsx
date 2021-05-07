@@ -1,19 +1,17 @@
 import React, { FC } from "react";
-import {
-    Link,
-} from "react-router-dom";
+import { Link } from "react-router-dom";
 
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 import Button from "@material-ui/core/Button";
 import { makeStyles } from "@material-ui/core/styles";
-import Box from '@material-ui/core/Box';
-import Typography from '@material-ui/core/Typography';
-import Menu from '@material-ui/core/Menu';
-import IconButton from '@material-ui/core/IconButton';
-import AccountCircleIcon from '@material-ui/icons/AccountCircle';
-import Divider from '@material-ui/core/Divider';
-import { useTranslation } from 'react-i18next';
+import Box from "@material-ui/core/Box";
+import Typography from "@material-ui/core/Typography";
+import Menu from "@material-ui/core/Menu";
+import IconButton from "@material-ui/core/IconButton";
+import AccountCircleIcon from "@material-ui/icons/AccountCircle";
+import Divider from "@material-ui/core/Divider";
+import { useTranslation } from "react-i18next";
 import LocMenu from "./LocMenu";
 
 /*
@@ -50,20 +48,26 @@ const BasicMenu: FC = () => {
             <Toolbar>
                 <>
                     <Button className={classes.menuButton}>
-                        <Link className={classes.link} to="/pa165"><b>{t('menu.home')}</b></Link>
+                        <Link className={classes.link} to="/">
+                            <b>{t("menu.home")}</b>
+                        </Link>
                     </Button>
                 </>
                 <Button className={classes.menuButton}>
-                    <Link className={classes.link} to="/pa165/about/"><b>{t('menu.about')}</b></Link>
+                    <Link className={classes.link} to="/about">
+                        <b>{t("menu.about")}</b>
+                    </Link>
                 </Button>
                 <>
-                    <Box display='flex' flexGrow={1}>
-                        <Box display="flex"
-                             m='auto'
-                             alignItems="center"
-                             justifyContent="center">
+                    <Box display="flex" flexGrow={1}>
+                        <Box
+                            display="flex"
+                            m="auto"
+                            alignItems="center"
+                            justifyContent="center"
+                        >
                             <Typography variant="h4">
-                                {t('menu.app_name')}
+                                {t("menu.app_name")}
                             </Typography>
                         </Box>
                     </Box>
@@ -80,29 +84,24 @@ const BasicMenu: FC = () => {
                         id="menu-appbar"
                         anchorEl={anchorEl}
                         anchorOrigin={{
-                            vertical: 'top',
-                            horizontal: 'right',
+                            vertical: "top",
+                            horizontal: "right",
                         }}
                         keepMounted
                         transformOrigin={{
-                            vertical: 'top',
-                            horizontal: 'right',
+                            vertical: "top",
+                            horizontal: "right",
                         }}
                         open={open}
                         onClose={handleClose}
                     >
-
                         <Divider />
                     </Menu>
                     <LocMenu />
                 </>
-
-
             </Toolbar>
         </AppBar>
-
     );
-
 };
 
 export default BasicMenu;

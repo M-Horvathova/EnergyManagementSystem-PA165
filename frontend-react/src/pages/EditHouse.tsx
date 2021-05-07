@@ -39,7 +39,7 @@ const EditHouse: FunctionComponent<EditHouseProps> = () => {
         country: string
     ) => {
         // TODO call backend
-        history.push("/pa165/houses");
+        history.push("/houses");
     };
 
     return (

@@ -1,12 +1,7 @@
 import { FC } from "react";
 import Container from "@material-ui/core/Container";
 import { MuiThemeProvider, createMuiTheme } from "@material-ui/core/styles";
-import {
-    BrowserRouter as Router,
-    Route,
-    Redirect,
-    Switch,
-} from "react-router-dom";
+import { Route, Redirect, Switch, HashRouter } from "react-router-dom";
 
 import Hidden from "@material-ui/core/Hidden";
 import About from "./pages/About";
@@ -27,7 +22,7 @@ const ourTheme = createMuiTheme({});
 const App: FC = () => {
     return (
         <MuiThemeProvider theme={ourTheme}>
-            <Router>
+            <HashRouter>
                 <Hidden xsDown>
                     <BasicMenu />
                 </Hidden>
@@ -37,46 +32,38 @@ const App: FC = () => {
                 <main className="App" style={{ marginTop: 50 }}>
                     <Container maxWidth="lg">
                         <Switch>
+                            <Route exact path="/about" component={About} />
+                            <Route exact path="/login" component={Login} />
                             <Route
                                 exact
-                                path="/pa165/about/"
-                                component={About}
-                            />
-                            <Route
-                                exact
-                                path="/pa165/login/"
-                                component={Login}
-                            />
-                            <Route
-                                exact
-                                path="/pa165/register/"
+                                path="/register"
                                 component={Register}
                             />
                             <ProtectedRoute
                                 exact
-                                path="/pa165/houses"
+                                path="/houses"
                                 component={Houses}
                             />
                             <ProtectedRoute
                                 exact
-                                path="/pa165/house/edit/:id"
+                                path="/house/edit/:id"
                                 component={EditHouse}
                             />
                             <ProtectedRoute
                                 exact
-                                path="/pa165/house/create"
+                                path="/house/create"
                                 component={AddHouse}
                             />
                             <ProtectedRoute
                                 exact
-                                path="/pa165/house/:id"
+                                path="/house/:id"
                                 component={HousePage}
                             />
-                            <Redirect from="/pa165/" to="/pa165/houses" />
+                            <Redirect from="/" to="/houses" />
                         </Switch>
                     </Container>
                 </main>
-            </Router>
+            </HashRouter>
         </MuiThemeProvider>
     );
 };

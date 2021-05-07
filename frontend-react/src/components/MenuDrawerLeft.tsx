@@ -102,7 +102,7 @@ const MenuDrawerLeft: FC = () => {
                                 </ListItemIcon>
                                 <Link
                                     className={classes.link}
-                                    to="/pa165"
+                                    to="/"
                                     onClick={handleDrawerClose}
                                 >
                                     <b>{t("menu.home")}</b>
@@ -149,7 +149,7 @@ const MenuDrawerLeft: FC = () => {
                                 </ListItemIcon>
                                 <Link
                                     className={classes.link}
-                                    to="/pa165/about/"
+                                    to="/about"
                                     onClick={handleDrawerClose}
                                 >
                                     <b>{t("menu.about")}</b>

@@ -51,14 +51,14 @@ const HouseTile: FunctionComponent<HouseTileProps> = ({ house, onRemove }) => {
                 <Button
                     size="small"
                     color="primary"
-                    onClick={() => history.push("/pa165/house/" + id)}
+                    onClick={() => history.push("/house/" + id)}
                 >
                     {t("houses.open")}
                 </Button>
                 <Button
                     size="small"
                     color="primary"
-                    onClick={() => history.push("/pa165/house/edit/" + id)}
+                    onClick={() => history.push("/house/edit/" + id)}
                 >
                     {t("houses.edit")}
                 </Button>

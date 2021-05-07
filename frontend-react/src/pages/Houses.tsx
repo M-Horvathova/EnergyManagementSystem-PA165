@@ -87,7 +87,7 @@ const Houses: FunctionComponent<HousesProps> = () => {
                         variant="contained"
                         color="primary"
                         disableElevation
-                        onClick={() => history.push("/pa165/house/create")}
+                        onClick={() => history.push("/house/create")}
                     >
                         {t("houses.add")}
                     </Button>

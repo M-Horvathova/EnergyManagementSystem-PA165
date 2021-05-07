@@ -21,7 +21,7 @@ const ProtectedRoute: FunctionComponent<ProtectedRouteProps> = ({
                     return (
                         <Redirect
                             to={{
-                                pathname: "/pa165/login",
+                                pathname: "/login",
                                 state: { from: props.location },
                             }}
                         />
