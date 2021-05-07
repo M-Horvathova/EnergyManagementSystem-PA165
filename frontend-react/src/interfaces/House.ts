@@ -1,7 +1,7 @@
-import Address from "./Address"
+import Address from "./Address";
 
 export default interface House {
-    id: number
-    name: string
-    address: Address
+    id: number;
+    name: string;
+    address: Address;
 }

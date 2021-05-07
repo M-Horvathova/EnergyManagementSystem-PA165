@@ -49,6 +49,6 @@ const en = {
             sign_in: "Přihlásit se",
         },
     },
-}
+};
 
-export default en
+export default en;

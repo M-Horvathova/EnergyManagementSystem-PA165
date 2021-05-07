@@ -1,17 +1,17 @@
-import React, { FunctionComponent, useEffect, useState, Fragment } from "react"
-import User from "../interfaces/User"
-import HouseList from "../components/HouseList"
-import House from "../interfaces/House"
-import { Button, Grid } from "@material-ui/core"
-import { useTranslation } from "react-i18next"
+import React, { FunctionComponent, useEffect, useState, Fragment } from "react";
+import User from "../interfaces/User";
+import HouseList from "../components/HouseList";
+import House from "../interfaces/House";
+import { Button, Grid } from "@material-ui/core";
+import { useTranslation } from "react-i18next";
 
 export interface HomesProps {
-    user: User
+    user: User;
 }
 
 const Houses: FunctionComponent<HomesProps> = ({ user }) => {
-    const [houses, setHouses] = useState<Array<House>>([])
-    const { t } = useTranslation()
+    const [houses, setHouses] = useState<Array<House>>([]);
+    const { t } = useTranslation();
 
     useEffect(() => {
         // TODO call backend to fetch
@@ -64,14 +64,14 @@ const Houses: FunctionComponent<HomesProps> = ({ user }) => {
                     street: "Lesna ulica nad Dunajom",
                 },
             },
-        ])
-    }, [])
+        ]);
+    }, []);
 
     const handleOnRemove = (id: number) => {
         // TODO call backend to remove
-        const updatedHouses = [...houses]
-        setHouses(updatedHouses.filter((house) => house.id !== id))
-    }
+        const updatedHouses = [...houses];
+        setHouses(updatedHouses.filter((house) => house.id !== id));
+    };
 
     return (
         <Fragment>
@@ -89,7 +89,7 @@ const Houses: FunctionComponent<HomesProps> = ({ user }) => {
             </Grid>
             <HouseList houses={houses} onRemove={handleOnRemove} />
         </Fragment>
-    )
-}
+    );
+};
 
-export default Houses
+export default Houses;

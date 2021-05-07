@@ -1,11 +1,12 @@
 import jwtDecode from "jwt-decode";
-import User from '../interfaces/User';
+import User from "../interfaces/User";
 
 const tokenKey = "token";
 
 export async function login(email: string, password: string) {
     // here we should call login api to receive token
-    const jwt = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InZhbG8ucGF0cmlrQGdtYWlsLmNvbSIsImZpcnN0bmFtZSI6IlBhdHJpayIsImxhc3RuYW1lIjoiVmFsbyIsInJvbGUiOiJ1c2VyIn0.o5wChSnmm98Fy6qew6Cj9SKIh7NyiPqXPvFpXKBMMeg"
+    const jwt =
+        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InZhbG8ucGF0cmlrQGdtYWlsLmNvbSIsImZpcnN0bmFtZSI6IlBhdHJpayIsImxhc3RuYW1lIjoiVmFsbyIsInJvbGUiOiJ1c2VyIn0.o5wChSnmm98Fy6qew6Cj9SKIh7NyiPqXPvFpXKBMMeg";
     localStorage.setItem(tokenKey, jwt);
 }
 
@@ -33,5 +34,5 @@ export default {
     login,
     logout,
     getCurrentUser,
-    getJwt
+    getJwt,
 };
