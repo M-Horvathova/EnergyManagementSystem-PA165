@@ -7,9 +7,11 @@ import Button from "@material-ui/core/Button"
 import Typography from "@material-ui/core/Typography"
 import House from "../interfaces/House"
 import { useHistory } from "react-router"
+import { useTranslation } from "react-i18next"
 
 export interface HouseTileProps {
     house: House
+    onRemove(id: number): void
 }
 
 const useStyles = makeStyles({
@@ -19,15 +21,15 @@ const useStyles = makeStyles({
     },
 })
 
-const HouseTile: FunctionComponent<HouseTileProps> = ({ house }) => {
+const HouseTile: FunctionComponent<HouseTileProps> = ({ house, onRemove }) => {
     const classes = useStyles()
     const history = useHistory()
     const { address } = house
-
+    const { t } = useTranslation()
     const { id } = house
 
     return (
-        <Card className={classes.root}>
+        <Card className={classes.root} variant="outlined">
             <CardContent>
                 <Typography gutterBottom variant="h5" component="h2">
                     {house.name}
@@ -51,21 +53,21 @@ const HouseTile: FunctionComponent<HouseTileProps> = ({ house }) => {
                     color="primary"
                     onClick={() => history.push("/pa165/house/" + id)}
                 >
-                    Open
+                    {t("houses.open")}
                 </Button>
                 <Button
                     size="small"
                     color="primary"
                     onClick={() => history.push("/pa165/house/edit/" + id)}
                 >
-                    Edit
+                    {t("houses.edit")}
                 </Button>
                 <Button
                     size="small"
                     color="secondary"
-                    onClick={() => history.push("/pa165/house/edit/" + id)}
+                    onClick={() => onRemove(id)}
                 >
-                    Remove
+                    {t("houses.remove")}
                 </Button>
             </CardActions>
         </Card>

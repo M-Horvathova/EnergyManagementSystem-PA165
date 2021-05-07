@@ -2,6 +2,8 @@ import React, { FunctionComponent, useEffect, useState, Fragment } from "react"
 import User from "../interfaces/User"
 import HouseList from "../components/HouseList"
 import House from "../interfaces/House"
+import { Button, Grid } from "@material-ui/core"
+import { useTranslation } from "react-i18next"
 
 export interface HomesProps {
     user: User
@@ -9,8 +11,10 @@ export interface HomesProps {
 
 const Houses: FunctionComponent<HomesProps> = ({ user }) => {
     const [houses, setHouses] = useState<Array<House>>([])
+    const { t } = useTranslation()
 
     useEffect(() => {
+        // TODO call backend to fetch
         setHouses([
             {
                 id: 1,
@@ -63,10 +67,27 @@ const Houses: FunctionComponent<HomesProps> = ({ user }) => {
         ])
     }, [])
 
+    const handleOnRemove = (id: number) => {
+        // TODO call backend to remove
+        const updatedHouses = [...houses]
+        setHouses(updatedHouses.filter((house) => house.id !== id))
+    }
+
     return (
         <Fragment>
-            <h1>Houses</h1>
-            <HouseList houses={houses} />
+            <h1>{t("houses.houses")}</h1>
+            <Grid container spacing={3}>
+                <Grid item>
+                    <Button
+                        variant="contained"
+                        color="primary"
+                        disableElevation
+                    >
+                        {t("houses.add")}
+                    </Button>
+                </Grid>
+            </Grid>
+            <HouseList houses={houses} onRemove={handleOnRemove} />
         </Fragment>
     )
 }
