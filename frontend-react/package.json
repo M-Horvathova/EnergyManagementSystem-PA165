@@ -54,5 +54,11 @@
   },
   "devDependencies": {
     "@types/react-i18next": "^8.1.0"
+  },
+  "prettier": {
+    "trailingComma": "es5",
+    "tabWidth": 4,
+    "semi": false,
+    "singleQuote": false
   }
 }

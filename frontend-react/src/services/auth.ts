@@ -1,4 +1,5 @@
 import jwtDecode from "jwt-decode";
+import User from '../interfaces/User';
 
 const tokenKey = "token";
 
@@ -12,7 +13,7 @@ export function logout() {
     localStorage.removeItem(tokenKey);
 }
 
-export function getCurrentUser() {
+export function getCurrentUser(): User | null {
     try {
         const jwt = localStorage.getItem(tokenKey);
         if (jwt != null) {
