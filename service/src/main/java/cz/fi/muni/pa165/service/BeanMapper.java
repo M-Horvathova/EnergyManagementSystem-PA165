@@ -32,7 +32,7 @@ public class BeanMapper {
         houseDTO.setRunning(house.getRunning());
         houseDTO.setAddress(BeanMapper.mapTo(house.getAddress()));
         houseDTO.setSmartMeters(BeanMapper.mapTo(house.getSmartMeters()));
-        houseDTO.setPortalUserId(house.getId());
+        houseDTO.setPortalUserId(house.getPortalUser().getId());
         return houseDTO;
     }
 
@@ -46,7 +46,7 @@ public class BeanMapper {
         sm.setRunning(smartMeters.isRunning());
         sm.setPowerConsumptionSinceLastLog(smartMeters.getPowerConsumptionSinceLastLog());
         sm.setCumulativePowerConsumption(smartMeters.getCumulativePowerConsumption());
-        sm.setLastLogTakenAt(smartMeters.getLastLogTakenAt());
+        sm.setLastLogTakenAt(smartMeters.getLastLogTakenAt().toString());
         sm.setSmartMeterDescription(smartMeters.getSmartMeterDescription());
         return sm;
     }

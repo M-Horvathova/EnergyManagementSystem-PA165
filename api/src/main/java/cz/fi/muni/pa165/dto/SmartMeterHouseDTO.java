@@ -13,7 +13,7 @@ public class SmartMeterHouseDTO {
     private boolean isRunning;
     private double powerConsumptionSinceLastLog;
     private double cumulativePowerConsumption;
-    private LocalDateTime lastLogTakenAt;
+    private String lastLogTakenAt;
     private String smartMeterDescription;
 
     public Long getId() {
@@ -48,14 +48,11 @@ public class SmartMeterHouseDTO {
         isRunning = running;
     }
 
-    public LocalDateTime getLastLogTakenAt() {
+    public String getLastLogTakenAt() {
         return  lastLogTakenAt;
     }
 
-    public void setLastLogTakenAt(LocalDateTime lastLogTakenAt) {
-        if (lastLogTakenAt.isAfter(LocalDateTime.now())) {
-            throw new IllegalArgumentException("Future dateTime is not allowed");
-        }
+    public void setLastLogTakenAt(String lastLogTakenAt) {
         this.lastLogTakenAt = lastLogTakenAt;
     }
 
@@ -85,10 +82,12 @@ public class SmartMeterHouseDTO {
 
     @Override
     public String toString() {
-        return "SmartMeterDTO{" +
+        return "SmartMeterHouseDTO{" +
                 "id=" + id +
                 ", isRunning=" + isRunning +
+                ", powerConsumptionSinceLastLog=" + powerConsumptionSinceLastLog +
                 ", cumulativePowerConsumption=" + cumulativePowerConsumption +
+                ", lastLogTakenAt='" + lastLogTakenAt + '\'' +
                 ", smartMeterDescription='" + smartMeterDescription + '\'' +
                 '}';
     }
