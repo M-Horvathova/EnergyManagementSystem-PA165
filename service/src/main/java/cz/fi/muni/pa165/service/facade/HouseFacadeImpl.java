@@ -1,15 +1,12 @@
 package cz.fi.muni.pa165.service.facade;
 
 import cz.fi.muni.pa165.facade.HouseFacade;
-import cz.fi.muni.pa165.service.BeanMappingService;
+import cz.fi.muni.pa165.service.*;
 import cz.fi.muni.pa165.dto.HouseCreateDTO;
 import cz.fi.muni.pa165.dto.HouseDTO;
 import cz.fi.muni.pa165.dto.NewAddressDTO;
 import cz.fi.muni.pa165.entity.Address;
 import cz.fi.muni.pa165.entity.House;
-import cz.fi.muni.pa165.service.AddressService;
-import cz.fi.muni.pa165.service.HouseService;
-import cz.fi.muni.pa165.service.PortalUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -26,14 +23,12 @@ public class HouseFacadeImpl implements HouseFacade {
     private HouseService houseService;
     private AddressService addressService;
     private PortalUserService portalUserService;
-    private BeanMappingService beanMappingService;
 
     @Autowired
-    public HouseFacadeImpl(HouseService houseService, AddressService addressService, PortalUserService portalUserService, BeanMappingService beanMappingService) {
+    public HouseFacadeImpl(HouseService houseService, AddressService addressService, PortalUserService portalUserService) {
         this.houseService = houseService;
         this.addressService = addressService;
         this.portalUserService = portalUserService;
-        this.beanMappingService = beanMappingService;
     }
 
     @Override
@@ -81,28 +76,29 @@ public class HouseFacadeImpl implements HouseFacade {
 
     @Override
     public HouseDTO getHouseWithId(Long id) {
-        return beanMappingService.mapTo(houseService.findById(id), HouseDTO.class);
+        House house = houseService.findById(id);
+        return BeanMapper.mapTo(house);
     }
 
     @Override
     public List<HouseDTO> getHousesByUser(Long userId) {
         List<House> houses = houseService.findByUser(portalUserService.findUserById(userId));
-        return beanMappingService.mapTo(houses, HouseDTO.class);
+        return BeanMapper.mapTo(houses);
     }
 
     @Override
     public List<HouseDTO> getHousesByName(String name) {
-        return beanMappingService.mapTo(houseService.findByName(name), HouseDTO.class);
+        return BeanMapper.mapTo(houseService.findByName(name));
     }
 
     @Override
     public List<HouseDTO> getHousesByAddress(Long addressId) {
-        return beanMappingService.mapTo(houseService.findByAddress(addressService.findById(addressId)), HouseDTO.class);
+        return BeanMapper.mapTo(houseService.findByAddress(addressService.findById(addressId)));
     }
 
     @Override
     public List<HouseDTO> getAllHouses() {
-        return beanMappingService.mapTo(houseService.findAll(), HouseDTO.class);
+        return BeanMapper.mapTo(houseService.findAll());
     }
 
     @Override

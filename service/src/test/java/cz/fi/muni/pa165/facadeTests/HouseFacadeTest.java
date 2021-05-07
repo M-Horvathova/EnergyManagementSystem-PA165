@@ -42,9 +42,6 @@ public class HouseFacadeTest extends AbstractTestNGSpringContextTests {
     @Mock
     private PortalUserService portalUserService;
 
-    @Mock
-    private BeanMappingService beanMappingService;
-
 
     private HouseFacade houseFacade;
     private HouseCreateDTO houseCreateDTO;
@@ -78,7 +75,7 @@ public class HouseFacadeTest extends AbstractTestNGSpringContextTests {
         houseDTO.setName("Test house");
         houseDTO.setRunning(true);
         houseDTO.setAddress(addressDTO);
-        houseDTO.setPortalUser(portalUserDTO);
+        houseDTO.setPortalUserId(portalUserDTO.getId());
 
         House house = new House();
         house.setId(1L);
@@ -92,12 +89,8 @@ public class HouseFacadeTest extends AbstractTestNGSpringContextTests {
         when(addressService.createAddress(any(Address.class))).thenReturn(new Address());
         when(addressService.findById(any(Long.class))).thenReturn(new Address());
         when(portalUserService.findUserById(any(Long.class))).thenReturn(new PortalUser());
-        when(beanMappingService.mapTo(any(HouseCreateDTO.class), eq(House.class))).thenReturn(new House());
-        when(beanMappingService.mapTo(any(HouseDTO.class), eq(House.class))).thenReturn(house);
-        when(beanMappingService.mapTo(any(House.class), eq(HouseCreateDTO.class))).thenReturn(houseCreateDTO);
-        when(beanMappingService.mapTo(any(House.class), eq(HouseDTO.class))).thenReturn(houseDTO);
 
-        houseFacade = new HouseFacadeImpl(houseService, addressService, portalUserService, beanMappingService);
+        houseFacade = new HouseFacadeImpl(houseService, addressService, portalUserService);
     }
 
     @Test
