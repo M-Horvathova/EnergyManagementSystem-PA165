@@ -4,6 +4,7 @@ import { useParams } from "react-router-dom";
 import House from "../interfaces/House";
 import HouseForm from "../components/HouseForm";
 import { useHistory } from "react-router";
+import { useTranslation } from "react-i18next";
 
 export interface EditHouseProps {}
 
@@ -11,6 +12,7 @@ const EditHouse: FunctionComponent<EditHouseProps> = () => {
     const { id } = useParams<{ id: string }>();
     const [house, setHouse] = useState<House | null>();
     const history = useHistory();
+    const { t } = useTranslation();
 
     useEffect(() => {
         // TODO fetch house with id
@@ -43,7 +45,7 @@ const EditHouse: FunctionComponent<EditHouseProps> = () => {
     return (
         <Fragment>
             <Typography variant="h4" component="h2">
-                Edit house #{house?.id}
+                {t("editHouse.edit")} #{house?.id}
             </Typography>
             <Grid container spacing={3}>
                 {house ? (

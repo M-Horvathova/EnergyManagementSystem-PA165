@@ -25,6 +25,12 @@ const en = {
             add: "Přidat dům",
             nothing: "Žiadny záznam",
         },
+        addHouse: {
+            add: "Přidat dům",
+        },
+        editHouse: {
+            edit: "Upravit dům",
+        },
         houseForm: {
             name: "Meno",
             street: "Ulice",

@@ -25,6 +25,12 @@ const en = {
             add: "Añadir casa",
             nothing: "Nada que mostrar",
         },
+        addHouse: {
+            add: "Agregar casa",
+        },
+        editHouse: {
+            edit: "Editar casa",
+        },
         houseForm: {
             name: "Nombre",
             street: "Calle",

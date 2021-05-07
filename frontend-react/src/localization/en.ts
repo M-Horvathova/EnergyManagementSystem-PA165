@@ -31,6 +31,12 @@ const en = {
             add: "Add house",
             nothing: "Nothing to show",
         },
+        addHouse: {
+            add: "Add house",
+        },
+        editHouse: {
+            edit: "Edit house",
+        },
         houseForm: {
             name: "Name",
             street: "Street",
