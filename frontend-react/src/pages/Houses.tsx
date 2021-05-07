@@ -2,7 +2,7 @@ import React, { FunctionComponent, useEffect, useState, Fragment } from "react";
 import User from "../interfaces/User";
 import HouseList from "../components/HouseList";
 import House from "../interfaces/House";
-import { Button, Grid } from "@material-ui/core";
+import { Button, Grid, Typography } from "@material-ui/core";
 import { useTranslation } from "react-i18next";
 
 export interface HomesProps {
@@ -75,7 +75,9 @@ const Houses: FunctionComponent<HomesProps> = ({ user }) => {
 
     return (
         <Fragment>
-            <h1>{t("houses.houses")}</h1>
+            <Typography gutterBottom variant="h4" component="h2">
+                {t("houses.houses")}
+            </Typography>
             <Grid container spacing={3}>
                 <Grid item>
                     <Button

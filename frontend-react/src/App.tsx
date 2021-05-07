@@ -17,6 +17,7 @@ import Houses from "./pages/Houses";
 import MenuDrawerLeft from "./components/MenuDrawerLeft";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
+import HousePage from "./pages/HousePage";
 
 /*
   author: Michaela Horváthová
@@ -54,15 +55,26 @@ const App: FC = () => {
                             />
                             <Route
                                 exact
-                                path="/pa165/house/:id"
-                                component={Register}
-                            />
-                            <Route
-                                exact
                                 path="/pa165/houses"
                                 render={(props) =>
                                     user != null ? (
                                         <Houses {...props} user={user} />
+                                    ) : (
+                                        <Redirect
+                                            to={{
+                                                pathname: "/pa165/login",
+                                                state: { from: props.location },
+                                            }}
+                                        />
+                                    )
+                                }
+                            />
+                            <Route
+                                exact
+                                path="/pa165/house/:id"
+                                render={(props) =>
+                                    user != null ? (
+                                        <HousePage {...props} />
                                     ) : (
                                         <Redirect
                                             to={{
