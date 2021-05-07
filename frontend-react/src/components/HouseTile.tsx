@@ -14,6 +14,7 @@ export interface HouseTileProps {
 
 const useStyles = makeStyles({
     root: {
+        minWidth: 300,
         maxWidth: 345,
     },
 })
@@ -21,6 +22,7 @@ const useStyles = makeStyles({
 const HouseTile: FunctionComponent<HouseTileProps> = ({ house }) => {
     const classes = useStyles()
     const history = useHistory()
+    const { address } = house
 
     const { id } = house
 
@@ -31,9 +33,16 @@ const HouseTile: FunctionComponent<HouseTileProps> = ({ house }) => {
                     {house.name}
                 </Typography>
                 <Typography variant="body2" color="textSecondary" component="p">
-                    Lizards are a widespread group of squamate reptiles, with
-                    over 6,000 species, ranging across all continents except
-                    Antarctica
+                    {!address.street ? "---" : address.street}
+                </Typography>
+                <Typography variant="body2" color="textSecondary" component="p">
+                    {!address.code ? "---" : address.code}
+                </Typography>
+                <Typography variant="body2" color="textSecondary" component="p">
+                    {address.city}, {address.postCode}
+                </Typography>
+                <Typography variant="body2" color="textSecondary" component="p">
+                    {address.country}
                 </Typography>
             </CardContent>
             <CardActions>

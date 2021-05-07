@@ -15,22 +15,50 @@ const Houses: FunctionComponent<HomesProps> = ({ user }) => {
             {
                 id: 1,
                 name: "Kounicova",
+                address: {
+                    id: 1,
+                    city: "Brno",
+                    code: null,
+                    country: "Cesko",
+                    postCode: "8997666",
+                    street: null,
+                },
             },
             {
                 id: 2,
                 name: "Vinarská",
+                address: {
+                    id: 2,
+                    city: "Brno",
+                    code: "12",
+                    country: "Cesko",
+                    postCode: "8997666",
+                    street: null,
+                },
             },
             {
                 id: 3,
-                name: "Lesna",
+                name: "Dom pri lesnej ceste",
+                address: {
+                    id: 3,
+                    city: "Bratislava",
+                    code: "158",
+                    country: "Slovensko",
+                    postCode: "8997666",
+                    street: "Lesna ulica nad Dunajom",
+                },
             },
             {
                 id: 4,
-                name: "Moj domov",
-            },
-            {
-                id: 5,
-                name: "Muni",
+                name: "Môj dom",
+                address: {
+                    id: 3,
+                    city: "Bratislava",
+                    code: "158",
+                    country: "Slovensko",
+                    postCode: "8997666",
+                    street: "Lesna ulica nad Dunajom",
+                },
             },
         ])
     }, [])
