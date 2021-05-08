@@ -42,6 +42,7 @@ const HouseForm: FunctionComponent<HouseFormProps> = ({ house, onSubmit }) => {
     );
 
     const handleOnClick = () => {
+        // validate not null items
         if (!name || !city || !postCode || !country) {
             return;
         }

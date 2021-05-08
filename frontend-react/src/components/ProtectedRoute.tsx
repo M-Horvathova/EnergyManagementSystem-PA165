@@ -1,10 +1,15 @@
 import React, { FunctionComponent } from "react";
 import { Redirect, Route, RouteProps } from "react-router-dom";
 import { getCurrentUser } from "../services/auth";
+import Config from "../utils/Config";
 
-export interface ProtectedRouteProps extends RouteProps {}
+export interface ProtectedRouteProps extends RouteProps {
+    // when role is not defined, it allowed for both
+    role?: "User" | "Administrator";
+}
 
 const ProtectedRoute: FunctionComponent<ProtectedRouteProps> = ({
+    role,
     exact,
     path,
     render,
@@ -17,11 +22,26 @@ const ProtectedRoute: FunctionComponent<ProtectedRouteProps> = ({
             exact={exact}
             path={path}
             render={(props) => {
-                if (!getCurrentUser()) {
+                const user = getCurrentUser();
+                if (!user) {
                     return (
                         <Redirect
                             to={{
                                 pathname: "/login",
+                                state: { from: props.location },
+                            }}
+                        />
+                    );
+                }
+
+                if (role && user.role !== role) {
+                    return (
+                        <Redirect
+                            to={{
+                                pathname:
+                                    user.role === "User"
+                                        ? Config.userHome
+                                        : Config.adminHome,
                                 state: { from: props.location },
                             }}
                         />

@@ -10,9 +10,10 @@ import Typography from "@material-ui/core/Typography";
 import Menu from "@material-ui/core/Menu";
 import IconButton from "@material-ui/core/IconButton";
 import AccountCircleIcon from "@material-ui/icons/AccountCircle";
-import Divider from "@material-ui/core/Divider";
 import { useTranslation } from "react-i18next";
 import LocMenu from "./LocMenu";
+import { MenuItem } from "@material-ui/core";
+import { logout } from "../services/auth";
 
 /*
  author: Michaela Horváthová
@@ -41,6 +42,11 @@ const BasicMenu: FC = () => {
 
     const handleClose = () => {
         setAnchorEl(null);
+    };
+
+    const handleLogout = () => {
+        logout();
+        window.location.href = "/pa165";
     };
 
     return (
@@ -95,7 +101,9 @@ const BasicMenu: FC = () => {
                         open={open}
                         onClose={handleClose}
                     >
-                        <Divider />
+                        <MenuItem onClick={handleLogout}>
+                            {t("menu.logout")}
+                        </MenuItem>
                     </Menu>
                     <LocMenu />
                 </>

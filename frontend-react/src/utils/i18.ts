@@ -20,9 +20,17 @@ export const languages: Array<string> = ["en", "es", "cs"];
 
 export const flags: Array<string> = ["gb", "es", "cz"];
 
+export const getSavedLng = () => {
+    return localStorage.getItem("lng");
+};
+
+export const saveLng = (lng: string) => {
+    return localStorage.setItem("lng", lng);
+};
+
 i18n.use(initReactI18next).init({
     resources,
-    lng: "en",
+    lng: getSavedLng() || "en",
     fallbackLng: "en", // default language, good for testing
     interpolation: {
         escapeValue: false,
