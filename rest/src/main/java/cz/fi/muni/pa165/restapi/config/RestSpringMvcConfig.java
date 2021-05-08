@@ -2,21 +2,20 @@ package cz.fi.muni.pa165.restapi.config;
 
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.MapperFeature;
-import com.fasterxml.jackson.databind.SerializationFeature;
-import cz.muni.fi.pa165.sampledata.*;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
+import cz.muni.fi.pa165.sampledata.SampleDataConfiguration;
 import org.springframework.context.annotation.*;
-import org.springframework.hateoas.MediaTypes;
-import org.springframework.hateoas.config.EnableHypermediaSupport;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
-import org.springframework.web.servlet.config.annotation.*;
+import org.springframework.web.servlet.config.annotation.DefaultServletHandlerConfigurer;
+import org.springframework.web.servlet.config.annotation.EnableWebMvc;
+import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.Locale;
-
-import static org.springframework.hateoas.config.EnableHypermediaSupport.HypermediaType;
 
 
 @EnableWebMvc
