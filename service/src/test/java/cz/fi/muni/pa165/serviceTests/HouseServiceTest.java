@@ -86,6 +86,7 @@ public class HouseServiceTest extends AbstractTransactionalTestNGSpringContextTe
         when(houseDao.findByAddress(any(Address.class))).thenReturn(new ArrayList<>(testHouses));
 
         Address newAddress = new Address();
+        newAddress.setId(2L);
         newAddress.setCity("Test New City");
         newAddress.setPostCode("54321");
         newAddress.setCountry("SK");
@@ -102,6 +103,7 @@ public class HouseServiceTest extends AbstractTransactionalTestNGSpringContextTe
         when(houseDao.update(testHouse)).thenReturn(testHouse);
         when(houseDao.findByAddress(oldAddress)).thenReturn(new ArrayList<>(testHouses));
         Address newAddress = new Address();
+        newAddress.setId(2L);
         newAddress.setCity("Test New City");
         newAddress.setPostCode("54321");
         newAddress.setCountry("SK");
@@ -162,7 +164,6 @@ public class HouseServiceTest extends AbstractTransactionalTestNGSpringContextTe
 
         verify(houseDao, times(1)).delete(house);
         verify(addressDao, times(1)).delete(any(Address.class));
-        verify(smartMeterDao, times(1)).delete(any(SmartMeter.class));
     }
 
     @Test

@@ -1,0 +1,15 @@
+{
+
+  "writeKey": "a8654771348907124210-7511cd5ab9cc1265ad2bca39b0a1d594a599171e4067996800e5161191af72c6",
+  "readKey": "a8654771348907124210-ce552933f39eee867eb52db04598ddc45ceb50529bc5f0250c8460fdd1978a5f",
+
+  "upload": {
+    "type": "js",
+    "files": "src/localization/en.ts"
+  },
+
+  "download": {
+    "files": "src/localization/${lang}.ts"
+  }
+
+}

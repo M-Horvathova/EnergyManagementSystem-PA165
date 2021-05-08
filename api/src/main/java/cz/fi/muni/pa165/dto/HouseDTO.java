@@ -13,8 +13,8 @@ public class HouseDTO {
     private String name;
     private Boolean isRunning;
     private AddressDTO address;
-    private Set<SmartMeterDTO> smartMeters = new HashSet<>();
-    private PortalUserHouseDTO portalUser;
+    private Set<SmartMeterHouseDTO> smartMeters = new HashSet<>();
+    private Long portalUserId;
 
     public Long getId() {
         return id;
@@ -48,20 +48,20 @@ public class HouseDTO {
         this.address = address;
     }
 
-    public Set<SmartMeterDTO> getSmartMeters() {
+    public Set<SmartMeterHouseDTO> getSmartMeters() {
         return smartMeters;
     }
 
-    public void setSmartMeters(Set<SmartMeterDTO> smartMeters) {
+    public void setSmartMeters(Set<SmartMeterHouseDTO> smartMeters) {
         this.smartMeters = smartMeters;
     }
 
-    public PortalUserHouseDTO getPortalUser() {
-        return portalUser;
+    public Long getPortalUserId() {
+        return portalUserId;
     }
 
-    public void setPortalUser(PortalUserHouseDTO portalUser) {
-        this.portalUser = portalUser;
+    public void setPortalUserId(Long portalUserId) {
+        this.portalUserId = portalUserId;
     }
 
     @Override
@@ -94,7 +94,7 @@ public class HouseDTO {
                 ", isRunning=" + isRunning +
                 ", address=" + address +
                 ", smartMeters=" + smartMeters +
-                ", portalUser=" + portalUser +
+                ", portalUserId=" + portalUserId +
                 '}';
     }
 }

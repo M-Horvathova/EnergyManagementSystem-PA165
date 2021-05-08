@@ -37,7 +37,7 @@ public interface UserRoleDao {
     /**
      * Finds user by specified user name, in our portal user name is email
      *
-     * @param userName email of the user
+     * @param name email of the user
      * @return user with specified user name or null in case no user exists
      */
     UserRole findByName(String name);

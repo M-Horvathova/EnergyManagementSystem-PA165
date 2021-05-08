@@ -8,7 +8,7 @@ import java.util.Objects;
 public class HouseCreateDTO {
 
     private String name;
-    private Boolean isRunning;
+    private Boolean running;
     private String street;
     private String code;
     private String city;
@@ -25,11 +25,11 @@ public class HouseCreateDTO {
     }
 
     public Boolean getRunning() {
-        return isRunning;
+        return running;
     }
 
     public void setRunning(Boolean running) {
-        isRunning = running;
+        this.running = running;
     }
 
     public String getStreet() {
@@ -88,7 +88,7 @@ public class HouseCreateDTO {
         HouseCreateDTO that = (HouseCreateDTO) o;
 
         if (!Objects.equals(name, that.name)) return false;
-        if (!Objects.equals(isRunning, that.isRunning)) return false;
+        if (!Objects.equals(running, that.running)) return false;
         if (!Objects.equals(street, that.street)) return false;
         if (!Objects.equals(code, that.code)) return false;
         if (!Objects.equals(city, that.city)) return false;
@@ -100,7 +100,7 @@ public class HouseCreateDTO {
     @Override
     public int hashCode() {
         int result = name != null ? name.hashCode() : 0;
-        result = 31 * result + (isRunning != null ? isRunning.hashCode() : 0);
+        result = 31 * result + (running != null ? running.hashCode() : 0);
         result = 31 * result + (street != null ? street.hashCode() : 0);
         result = 31 * result + (code != null ? code.hashCode() : 0);
         result = 31 * result + (city != null ? city.hashCode() : 0);
@@ -114,7 +114,7 @@ public class HouseCreateDTO {
     public String toString() {
         return "HouseCreateDTO{" +
                 "name='" + name + '\'' +
-                ", isRunning=" + isRunning +
+                ", isRunning=" + running +
                 ", street='" + street + '\'' +
                 ", code='" + code + '\'' +
                 ", city='" + city + '\'' +
