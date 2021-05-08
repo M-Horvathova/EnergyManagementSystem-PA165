@@ -6,3 +6,16 @@ test-output
 *.iml
 *~
 target
+
+frontend-react/node_modules
+frontend-react/.pnp
+frontend-react/.pnp.js
+frontend-react/build
+frontend-react/.DS_Store
+frontend-react/.env.local
+frontend-react/.env.development.local
+frontend-react/.env.test.local
+frontend-react/.env.production.local
+frontend-react/npm-debug.log*
+frontend-react/yarn-debug.log*
+frontend-react/yarn-error.log*
