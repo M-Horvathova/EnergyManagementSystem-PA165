@@ -15,6 +15,9 @@ import java.util.stream.Collectors;
 @Service
 public class BeanMapper {
     public static AddressDTO mapTo(Address address) {
+        if (address == null) {
+            return null;
+        }
         AddressDTO addressDTO = new AddressDTO();
         addressDTO.setId(address.getId());
         addressDTO.setStreet(address.getCity());
@@ -26,6 +29,9 @@ public class BeanMapper {
     }
 
     public static HouseDTO mapTo(House house) {
+        if (house == null) {
+            return null;
+        }
         HouseDTO houseDTO = new HouseDTO();
         houseDTO.setId(house.getId());
         houseDTO.setName(house.getName());
@@ -41,12 +47,15 @@ public class BeanMapper {
     }
 
     public static SmartMeterHouseDTO mapTo(SmartMeter smartMeters) {
+        if (smartMeters == null) {
+            return null;
+        }
         SmartMeterHouseDTO sm = new SmartMeterHouseDTO();
         sm.setId(smartMeters.getId());
         sm.setRunning(smartMeters.isRunning());
         sm.setPowerConsumptionSinceLastLog(smartMeters.getPowerConsumptionSinceLastLog());
         sm.setCumulativePowerConsumption(smartMeters.getCumulativePowerConsumption());
-        sm.setLastLogTakenAt(smartMeters.getLastLogTakenAt().toString());
+        sm.setLastLogTakenAt(smartMeters.getLastLogTakenAt() != null ? smartMeters.getLastLogTakenAt().toString() : null);
         sm.setSmartMeterDescription(smartMeters.getSmartMeterDescription());
         return sm;
     }

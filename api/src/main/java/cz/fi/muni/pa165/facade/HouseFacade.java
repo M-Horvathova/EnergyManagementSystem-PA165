@@ -2,7 +2,7 @@ package cz.fi.muni.pa165.facade;
 
 import cz.fi.muni.pa165.dto.HouseCreateDTO;
 import cz.fi.muni.pa165.dto.HouseDTO;
-import cz.fi.muni.pa165.dto.NewAddressDTO;
+import cz.fi.muni.pa165.dto.HouseEditDTO;
 
 import java.util.List;
 
@@ -24,10 +24,11 @@ public interface HouseFacade {
     void deleteHouse(Long id);
 
     /**
-     * Changes the address of the house
-     * @param newAddressDTO DTO of address for replace the old address
+     * Edit the house
+     * @param id id of the house
+     * @param houseEditDTO DTO of the house
      */
-    void changeAddress(NewAddressDTO newAddressDTO);
+    void editHouse(Long id, HouseEditDTO houseEditDTO);
 
     /**
      * Finds house with the given id
@@ -62,13 +63,6 @@ public interface HouseFacade {
      * @return all houses in the system
      */
     List<HouseDTO> getAllHouses();
-
-    /**
-     * Changes the name of the house
-     * @param id id of the house
-     * @param houseName name of the house
-     */
-    void changeName(Long id, String houseName);
 
     /**
      * Changes the running status

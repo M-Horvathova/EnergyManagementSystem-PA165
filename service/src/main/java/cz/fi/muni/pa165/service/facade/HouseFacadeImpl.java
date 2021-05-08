@@ -1,17 +1,21 @@
 package cz.fi.muni.pa165.service.facade;
 
+import cz.fi.muni.pa165.dto.HouseEditDTO;
+import cz.fi.muni.pa165.entity.MeterLog;
+import cz.fi.muni.pa165.entity.SmartMeter;
 import cz.fi.muni.pa165.facade.HouseFacade;
 import cz.fi.muni.pa165.service.*;
 import cz.fi.muni.pa165.dto.HouseCreateDTO;
 import cz.fi.muni.pa165.dto.HouseDTO;
-import cz.fi.muni.pa165.dto.NewAddressDTO;
 import cz.fi.muni.pa165.entity.Address;
 import cz.fi.muni.pa165.entity.House;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 
 /**
  * @author Patrik Valo
@@ -23,12 +27,16 @@ public class HouseFacadeImpl implements HouseFacade {
     private HouseService houseService;
     private AddressService addressService;
     private PortalUserService portalUserService;
+    private SmartMeterService smartMeterService;
+    private MeterLogService meterLogService;
 
     @Autowired
-    public HouseFacadeImpl(HouseService houseService, AddressService addressService, PortalUserService portalUserService) {
+    public HouseFacadeImpl(HouseService houseService, AddressService addressService, PortalUserService portalUserService, SmartMeterService smartMeterService, MeterLogService meterLogService) {
         this.houseService = houseService;
         this.addressService = addressService;
         this.portalUserService = portalUserService;
+        this.smartMeterService = smartMeterService;
+        this.meterLogService = meterLogService;
     }
 
     @Override
@@ -56,22 +64,35 @@ public class HouseFacadeImpl implements HouseFacade {
     @Override
     public void deleteHouse(Long houseId) {
         House house = houseService.findById(houseId);
+        Set<SmartMeter> smartMeters = house.getSmartMeters();
 
         portalUserService.removeHouse(house.getPortalUser(), house);
         houseService.deleteHouse(house);
+
+        for (SmartMeter smartMeter : smartMeters) {
+            Set<MeterLog> meterLogs = smartMeter.getMeterLogs();
+
+            smartMeterService.delete(smartMeter);
+
+            for (MeterLog meterLog : meterLogs) {
+                meterLogService.deleteMeterLog(meterLog);
+            }
+        }
     }
 
     @Override
-    public void changeAddress(NewAddressDTO newAddressDTO) {
+    public void editHouse(Long id, HouseEditDTO houseEditDTO) {
         Address newAddress = new Address();
-        newAddress.setStreet(newAddressDTO.getStreet());
-        newAddress.setCode(newAddressDTO.getCode());
-        newAddress.setCity(newAddressDTO.getCity());
-        newAddress.setPostCode(newAddressDTO.getPostCode());
-        newAddress.setCountry(newAddressDTO.getCountry());
-
+        newAddress.setStreet(houseEditDTO.getStreet());
+        newAddress.setCode(houseEditDTO.getCode());
+        newAddress.setCity(houseEditDTO.getCity());
+        newAddress.setPostCode(houseEditDTO.getPostCode());
+        newAddress.setCountry(houseEditDTO.getCountry());
         Address createdAddress = addressService.createAddress(newAddress);
-        houseService.changeAddress(houseService.findById(newAddressDTO.getHouseId()), createdAddress);
+
+        House house = houseService.findById(id);
+        houseService.changeName(house, houseEditDTO.getName());
+        houseService.changeAddress(house, createdAddress);
     }
 
     @Override
@@ -99,11 +120,6 @@ public class HouseFacadeImpl implements HouseFacade {
     @Override
     public List<HouseDTO> getAllHouses() {
         return BeanMapper.mapTo(houseService.findAll());
-    }
-
-    @Override
-    public void changeName(Long id, String houseName) {
-        houseService.changeName(houseService.findById(id), houseName);
     }
 
     @Override

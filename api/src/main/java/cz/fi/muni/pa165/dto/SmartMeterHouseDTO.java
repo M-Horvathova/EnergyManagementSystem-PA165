@@ -1,8 +1,5 @@
 package cz.fi.muni.pa165.dto;
 
-import cz.fi.muni.pa165.entity.SmartMeter;
-
-import java.time.LocalDateTime;
 import java.util.Objects;
 
 /**
@@ -67,17 +64,32 @@ public class SmartMeterHouseDTO {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof SmartMeter)) return false;
+        if (o == null || getClass() != o.getClass()) return false;
 
-        SmartMeter sm = (SmartMeter) o;
-        return isRunning() == sm.isRunning() && Double.compare(sm.getPowerConsumptionSinceLastLog(), getPowerConsumptionSinceLastLog()) == 0
-                && Double.compare(sm.getCumulativePowerConsumption(), getCumulativePowerConsumption()) == 0
-                && ((getSmartMeterDescription() == null && sm.getSmartMeterDescription() == null) || (getSmartMeterDescription() != null && getSmartMeterDescription().equals(sm.getSmartMeterDescription())));
+        SmartMeterHouseDTO that = (SmartMeterHouseDTO) o;
+
+        if (isRunning != that.isRunning) return false;
+        if (Double.compare(that.powerConsumptionSinceLastLog, powerConsumptionSinceLastLog) != 0) return false;
+        if (Double.compare(that.cumulativePowerConsumption, cumulativePowerConsumption) != 0) return false;
+        if (!id.equals(that.id)) return false;
+        if (!Objects.equals(lastLogTakenAt, that.lastLogTakenAt))
+            return false;
+        return Objects.equals(smartMeterDescription, that.smartMeterDescription);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(isRunning(), getPowerConsumptionSinceLastLog(), getCumulativePowerConsumption(), getSmartMeterDescription());
+        int result;
+        long temp;
+        result = id.hashCode();
+        result = 31 * result + (isRunning ? 1 : 0);
+        temp = Double.doubleToLongBits(powerConsumptionSinceLastLog);
+        result = 31 * result + (int) (temp ^ (temp >>> 32));
+        temp = Double.doubleToLongBits(cumulativePowerConsumption);
+        result = 31 * result + (int) (temp ^ (temp >>> 32));
+        result = 31 * result + (lastLogTakenAt != null ? lastLogTakenAt.hashCode() : 0);
+        result = 31 * result + (smartMeterDescription != null ? smartMeterDescription.hashCode() : 0);
+        return result;
     }
 
     @Override

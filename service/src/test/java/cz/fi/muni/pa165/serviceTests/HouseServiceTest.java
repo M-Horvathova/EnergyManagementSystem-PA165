@@ -162,7 +162,6 @@ public class HouseServiceTest extends AbstractTransactionalTestNGSpringContextTe
 
         verify(houseDao, times(1)).delete(house);
         verify(addressDao, times(1)).delete(any(Address.class));
-        verify(smartMeterDao, times(1)).delete(any(SmartMeter.class));
     }
 
     @Test

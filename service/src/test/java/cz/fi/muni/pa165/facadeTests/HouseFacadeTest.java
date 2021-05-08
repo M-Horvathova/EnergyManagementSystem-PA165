@@ -1,17 +1,13 @@
 package cz.fi.muni.pa165.facadeTests;
 
-import cz.fi.muni.pa165.service.BeanMappingService;
 import cz.fi.muni.pa165.dto.*;
-import cz.fi.muni.pa165.dto.PortalUserHouseDTO;
 import cz.fi.muni.pa165.entity.Address;
 import cz.fi.muni.pa165.entity.House;
 import cz.fi.muni.pa165.entity.PortalUser;
 import cz.fi.muni.pa165.facade.HouseFacade;
-import cz.fi.muni.pa165.service.facade.HouseFacadeImpl;
-import cz.fi.muni.pa165.service.AddressService;
-import cz.fi.muni.pa165.service.HouseService;
-import cz.fi.muni.pa165.service.PortalUserService;
+import cz.fi.muni.pa165.service.*;
 import cz.fi.muni.pa165.service.config.BeanMappingConfiguration;
+import cz.fi.muni.pa165.service.facade.HouseFacadeImpl;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.test.context.ContextConfiguration;
@@ -41,6 +37,12 @@ public class HouseFacadeTest extends AbstractTestNGSpringContextTests {
 
     @Mock
     private PortalUserService portalUserService;
+
+    @Mock
+    private SmartMeterService smartMeterService;
+
+    @Mock
+    private MeterLogService meterLogService;
 
 
     private HouseFacade houseFacade;
@@ -90,7 +92,7 @@ public class HouseFacadeTest extends AbstractTestNGSpringContextTests {
         when(addressService.findById(any(Long.class))).thenReturn(new Address());
         when(portalUserService.findUserById(any(Long.class))).thenReturn(new PortalUser());
 
-        houseFacade = new HouseFacadeImpl(houseService, addressService, portalUserService);
+        houseFacade = new HouseFacadeImpl(houseService, addressService, portalUserService, smartMeterService, meterLogService);
     }
 
     @Test
@@ -106,15 +108,18 @@ public class HouseFacadeTest extends AbstractTestNGSpringContextTests {
     }
 
     @Test
-    public void changeAddressTest() {
-        NewAddressDTO addressDTO = new NewAddressDTO();
-        addressDTO.setStreet("Ečerova");
-        addressDTO.setCode("35");
-        addressDTO.setCity("Brno");
-        addressDTO.setCountry("Czech Republic");
-        addressDTO.setPostCode("123456");
-        addressDTO.setHouseId(1L);
-        houseFacade.changeAddress(addressDTO);
+    public void editTest() {
+        HouseEditDTO editDTO = new HouseEditDTO();
+        editDTO.setName("Nove");
+        editDTO.setStreet("Ečerova");
+        editDTO.setCode("35");
+        editDTO.setCity("Brno");
+        editDTO.setCountry("Czech Republic");
+        editDTO.setPostCode("123456");
+        houseFacade.editHouse(1L, editDTO);
+
+        verify(houseService, times(1)).findById(any(Long.class));
+        verify(houseService, times(1)).changeName(any(House.class), any(String.class));
         verify(addressService, times(1)).createAddress(any(Address.class));
         verify(houseService, times(1)).changeAddress(any(House.class), any(Address.class));
     }
@@ -149,13 +154,6 @@ public class HouseFacadeTest extends AbstractTestNGSpringContextTests {
     public void getAllTest() {
         houseFacade.getAllHouses();
         verify(houseService, times(1)).findAll();
-    }
-
-    @Test
-    public void changeNameTest() {
-        houseFacade.changeName(1L, "New name");
-        verify(houseService, times(1)).findById(any(Long.class));
-        verify(houseService, times(1)).changeName(any(House.class), any(String.class));
     }
 
     @Test

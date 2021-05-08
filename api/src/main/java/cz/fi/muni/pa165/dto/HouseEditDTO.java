@@ -5,21 +5,21 @@ import java.util.Objects;
 /**
  * @author Patrik Valo
  */
-public class NewAddressDTO {
+public class HouseEditDTO {
 
-    private Long houseId;
+    private String name;
     private String street;
     private String code;
     private String city;
     private String postCode;
     private String country;
 
-    public Long getHouseId() {
-        return houseId;
+    public String getName() {
+        return name;
     }
 
-    public void setHouseId(Long houseId) {
-        this.houseId = houseId;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getStreet() {
@@ -67,9 +67,9 @@ public class NewAddressDTO {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        NewAddressDTO that = (NewAddressDTO) o;
+        HouseEditDTO that = (HouseEditDTO) o;
 
-        if (!Objects.equals(houseId, that.houseId)) return false;
+        if (!Objects.equals(name, that.name)) return false;
         if (!Objects.equals(street, that.street)) return false;
         if (!Objects.equals(code, that.code)) return false;
         if (!Objects.equals(city, that.city)) return false;
@@ -79,7 +79,7 @@ public class NewAddressDTO {
 
     @Override
     public int hashCode() {
-        int result = houseId != null ? houseId.hashCode() : 0;
+        int result = name != null ? name.hashCode() : 0;
         result = 31 * result + (street != null ? street.hashCode() : 0);
         result = 31 * result + (code != null ? code.hashCode() : 0);
         result = 31 * result + (city != null ? city.hashCode() : 0);
@@ -90,8 +90,8 @@ public class NewAddressDTO {
 
     @Override
     public String toString() {
-        return "NewAddressDTO{" +
-                "houseId=" + houseId +
+        return "HouseCreateDTO{" +
+                "name='" + name + '\'' +
                 ", street='" + street + '\'' +
                 ", code='" + code + '\'' +
                 ", city='" + city + '\'' +

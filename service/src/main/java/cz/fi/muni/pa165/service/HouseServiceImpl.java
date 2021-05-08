@@ -38,12 +38,14 @@ public class HouseServiceImpl implements HouseService {
     @Override
     public House changeAddress(House house, Address newAddress) {
         List<House> houses = houseDao.findByAddress(house.getAddress());
-
-        if (houses.size() <= 1) {
-            addressDao.delete(house.getAddress());
-        }
+        Address address = house.getAddress();
 
         house.setAddress(newAddress);
+
+        if (houses.size() <= 1) {
+            addressDao.delete(address);
+        }
+
         return houseDao.update(house);
     }
 
@@ -105,18 +107,11 @@ public class HouseServiceImpl implements HouseService {
     @Override
     public void deleteHouse(House house) {
         List<House> houses = houseDao.findByAddress(house.getAddress());
-        List<SmartMeter> smartMeters = smartMeterDao.findByHouse(house);
         Address address = house.getAddress();
-
         houseDao.delete(house);
 
         if (houses.size() <= 1) {
             addressDao.delete(address);
-        }
-
-
-        for (SmartMeter smartMeter : smartMeters) {
-            smartMeterDao.delete(smartMeter);
         }
     }
 }
