@@ -39,25 +39,73 @@ public class AddressDaoImpl implements AddressDao {
 
     @Override
     public Address find(String street, String code, String city, String postCode, String country) {
-        String sqlQuery = "SELECT a FROM Address a " +
-                "WHERE a.city = :city " +
-                "AND a.postCode = :postCode " +
-                "AND a.country = :country";
+        if (street == null && code == null) {
+            return this.findWithoutNullable(city, postCode, country);
+        }
 
-        sqlQuery += street == null ? " AND a.street IS NULL" : " AND a.street = :street";
-        sqlQuery += code == null ? " AND a.code IS NULL" : " AND a.code = :code";
+        if (street == null) {
+            return this.findWithoutStreet(code, city, postCode, country);
+        }
 
-        var query = em.createQuery(sqlQuery, Address.class)
-                .setParameter("city", city)
-                .setParameter("postCode", postCode)
-                .setParameter("country", country);
-
-        query = street != null ? query.setParameter("street", street) : query;
-        query = code != null ? query.setParameter("code", code) : query;
+        if (code == null) {
+            return this.findWithoutCode(street, city, postCode, country);
+        }
 
         try {
-            return query.getSingleResult();
-        } catch (NoResultException e) {
+            return em.createQuery("SELECT a FROM Address a " +
+                    "WHERE a.street = :street AND a.code = :code AND a.city = :city " +
+                    "AND a.postCode = :postCode AND a.country = :country", Address.class)
+                    .setParameter("street", street)
+                    .setParameter("code", code)
+                    .setParameter("city", city)
+                    .setParameter("postCode", postCode)
+                    .setParameter("country", country)
+                    .getSingleResult();
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
+    private Address findWithoutStreet(String code, String city, String postCode, String country) {
+        try {
+            return em.createQuery("SELECT a FROM Address a " +
+                    "WHERE a.street IS NULL AND a.code = :code AND a.city = :city " +
+                    "AND a.postCode = :postCode AND a.country = :country", Address.class)
+                    .setParameter("code", code)
+                    .setParameter("city", city)
+                    .setParameter("postCode", postCode)
+                    .setParameter("country", country)
+                    .getSingleResult();
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
+    private Address findWithoutCode(String street, String city, String postCode, String country) {
+        try {
+            return em.createQuery("SELECT a FROM Address a " +
+                    "WHERE a.street = :street AND a.code IS NULL AND a.city = :city " +
+                    "AND a.postCode = :postCode AND a.country = :country", Address.class)
+                    .setParameter("street", street)
+                    .setParameter("city", city)
+                    .setParameter("postCode", postCode)
+                    .setParameter("country", country)
+                    .getSingleResult();
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
+    private Address findWithoutNullable(String city, String postCode, String country) {
+        try {
+            return em.createQuery("SELECT a FROM Address a " +
+                    "WHERE a.street IS NULL and a.code IS NULL and a.city = :city " +
+                    "AND a.postCode = :postCode AND a.country = :country", Address.class)
+                    .setParameter("city", city)
+                    .setParameter("postCode", postCode)
+                    .setParameter("country", country)
+                    .getSingleResult();
+        } catch (Exception e) {
             return null;
         }
     }

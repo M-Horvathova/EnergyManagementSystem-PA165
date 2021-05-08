@@ -37,6 +37,10 @@ public class HouseServiceImpl implements HouseService {
 
     @Override
     public House changeAddress(House house, Address newAddress) {
+        if (newAddress.getId().equals(house.getAddress().getId())) {
+            return house;
+        }
+
         List<House> houses = houseDao.findByAddress(house.getAddress());
         Address address = house.getAddress();
 

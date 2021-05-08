@@ -20,7 +20,7 @@ public class BeanMapper {
         }
         AddressDTO addressDTO = new AddressDTO();
         addressDTO.setId(address.getId());
-        addressDTO.setStreet(address.getCity());
+        addressDTO.setStreet(address.getStreet());
         addressDTO.setCode(address.getCode());
         addressDTO.setCity(address.getCity());
         addressDTO.setPostCode(address.getPostCode());
