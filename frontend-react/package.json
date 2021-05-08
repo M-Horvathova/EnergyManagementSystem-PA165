@@ -16,6 +16,7 @@
     "@types/react-dom": "^17.0.0",
     "@types/react-router-dom": "^5.1.6",
     "@types/react-world-flags": "^1.4.0",
+    "axios": "^0.21.1",
     "i18n": "^0.13.2",
     "i18next": "^19.8.4",
     "jwt-decode": "^3.1.2",

@@ -15,10 +15,11 @@ export interface HouseTileProps {
 }
 
 const useStyles = makeStyles({
-    root: {
+    running: {
         minWidth: 300,
         maxWidth: 345,
     },
+    notRunning: { minWidth: 300, maxWidth: 345, backgroundColor: "#f5f5f5" },
 });
 
 const HouseTile: FunctionComponent<HouseTileProps> = ({ house, onRemove }) => {
@@ -29,7 +30,10 @@ const HouseTile: FunctionComponent<HouseTileProps> = ({ house, onRemove }) => {
     const { id } = house;
 
     return (
-        <Card className={classes.root} variant="outlined">
+        <Card
+            className={house.running ? classes.running : classes.notRunning}
+            variant="outlined"
+        >
             <CardContent>
                 <Typography gutterBottom variant="h5" component="h2">
                     {house.name}

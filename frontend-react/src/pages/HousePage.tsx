@@ -22,6 +22,7 @@ const HousePage: FunctionComponent<HousePageProps> = () => {
                 postCode: "8997666",
                 street: null,
             },
+            running: true,
         });
     }, [id]);
 

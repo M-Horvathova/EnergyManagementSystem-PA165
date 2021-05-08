@@ -3,6 +3,8 @@ import { Grid, Typography } from "@material-ui/core";
 import HouseForm from "../components/HouseForm";
 import { useHistory } from "react-router";
 import { useTranslation } from "react-i18next";
+import axios from "axios";
+import Config from "../utils/Config";
 
 export interface AddHouseProps {}
 
@@ -10,7 +12,7 @@ const AddHouse: FunctionComponent<AddHouseProps> = () => {
     const history = useHistory();
     const { t } = useTranslation();
 
-    const handleOnSubmit = (
+    const handleOnSubmit = async (
         name: string,
         street: string,
         code: string,
@@ -18,7 +20,20 @@ const AddHouse: FunctionComponent<AddHouseProps> = () => {
         postCode: string,
         country: string
     ) => {
-        // TODO call backend
+        await axios({
+            method: "POST",
+            url: Config.urlRestBase + "/houses/create",
+            data: {
+                name,
+                street: !street ? null : street,
+                code: !code ? null : code,
+                city,
+                postCode,
+                country,
+                running: true,
+                portalUserId: 1,
+            },
+        });
         history.push("/houses");
     };
 

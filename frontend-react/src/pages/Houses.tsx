@@ -5,6 +5,8 @@ import { Button, Grid, Typography } from "@material-ui/core";
 import { useTranslation } from "react-i18next";
 import { useHistory } from "react-router";
 import { getCurrentUser } from "../services/auth";
+import axios from "axios";
+import Config from "../utils/Config";
 
 export interface HousesProps {}
 
@@ -17,61 +19,33 @@ const Houses: FunctionComponent<HousesProps> = () => {
     const history = useHistory();
 
     useEffect(() => {
-        // TODO call backend to fetch
-        setHouses([
-            {
-                id: 1,
-                name: "Kounicova",
-                address: {
-                    id: 1,
-                    city: "Brno",
-                    code: null,
-                    country: "Cesko",
-                    postCode: "8997666",
-                    street: null,
-                },
-            },
-            {
-                id: 2,
-                name: "Vinarská",
-                address: {
-                    id: 2,
-                    city: "Brno",
-                    code: "12",
-                    country: "Cesko",
-                    postCode: "8997666",
-                    street: null,
-                },
-            },
-            {
-                id: 3,
-                name: "Dom pri lesnej ceste",
-                address: {
-                    id: 3,
-                    city: "Bratislava",
-                    code: "158",
-                    country: "Slovensko",
-                    postCode: "8997666",
-                    street: "Lesna ulica nad Dunajom",
-                },
-            },
-            {
-                id: 4,
-                name: "Môj dom",
-                address: {
-                    id: 3,
-                    city: "Bratislava",
-                    code: "158",
-                    country: "Slovensko",
-                    postCode: "8997666",
-                    street: "Lesna ulica nad Dunajom",
-                },
-            },
-        ]);
+        axios
+            .get(Config.urlRestBase + `/houses/findByUser/${1}`)
+            .then((response) => {
+                const result: Array<House> = response.data.map((obj: any) => {
+                    return {
+                        id: obj.id,
+                        name: obj.name,
+                        address: {
+                            id: obj.address.id,
+                            city: obj.address.city,
+                            code: obj.address.code,
+                            country: obj.address.country,
+                            postCode: obj.address.postCOde,
+                            street: obj.address.street,
+                        },
+                        running: obj.running,
+                    } as House;
+                });
+                setHouses(result);
+            });
     }, []);
 
-    const handleOnRemove = (id: number) => {
-        // TODO call backend to remove
+    const handleOnRemove = async (id: number) => {
+        await axios({
+            method: "DELETE",
+            url: Config.urlRestBase + `/houses/${id}`,
+        });
         const updatedHouses = [...houses];
         setHouses(updatedHouses.filter((house) => house.id !== id));
     };

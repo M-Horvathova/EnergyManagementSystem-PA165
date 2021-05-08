@@ -5,6 +5,8 @@ import House from "../interfaces/House";
 import HouseForm from "../components/HouseForm";
 import { useHistory } from "react-router";
 import { useTranslation } from "react-i18next";
+import axios from "axios";
+import Config from "../utils/Config";
 
 export interface EditHouseProps {}
 
@@ -15,22 +17,27 @@ const EditHouse: FunctionComponent<EditHouseProps> = () => {
     const { t } = useTranslation();
 
     useEffect(() => {
-        // TODO fetch house with id
-        setHouse({
-            id: +id,
-            name: "Kounicova",
-            address: {
-                id: 1,
-                city: "Brno",
-                code: null,
-                country: "Cesko",
-                postCode: "8997666",
-                street: null,
-            },
+        axios({
+            method: "GET",
+            url: Config.urlRestBase + `/houses/${id}`,
+        }).then((response) => {
+            setHouse({
+                id: response.data.id,
+                name: response.data.name,
+                address: {
+                    id: response.data.address.id,
+                    city: response.data.address.city,
+                    code: response.data.address.code,
+                    country: response.data.address.country,
+                    postCode: response.data.address.postCode,
+                    street: response.data.address.street,
+                },
+                running: response.data.running,
+            });
         });
     }, [id]);
 
-    const handleOnSubmit = (
+    const handleOnSubmit = async (
         name: string,
         street: string,
         code: string,
@@ -38,7 +45,18 @@ const EditHouse: FunctionComponent<EditHouseProps> = () => {
         postCode: string,
         country: string
     ) => {
-        // TODO call backend
+        await axios({
+            method: "PUT",
+            url: Config.urlRestBase + `/houses/${id}`,
+            data: {
+                name,
+                street: !street ? null : street,
+                code: !code ? null : code,
+                city,
+                postCode,
+                country,
+            },
+        });
         history.push("/houses");
     };
 
