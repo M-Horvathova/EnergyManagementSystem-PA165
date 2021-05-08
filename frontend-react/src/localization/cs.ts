@@ -51,6 +51,7 @@ const en = {
             app_name: "Smart Energy",
             home: "Domů",
             houses: "Moje domy",
+            logout: "Odhlásit se",
         },
         register: {
             already_registered: "Jste již zaregistrováni?",

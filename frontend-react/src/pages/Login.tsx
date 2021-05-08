@@ -1,8 +1,5 @@
 import React, { FC, useState } from "react";
 import { makeStyles } from "@material-ui/styles";
-
-import { Link } from "react-router-dom";
-
 import Card from "@material-ui/core/Card";
 import Grid from "@material-ui/core/Grid";
 import CardActions from "@material-ui/core/CardActions";
@@ -84,11 +81,6 @@ const Login: FC = () => {
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
                     />
-
-                    <Typography variant="subtitle2" align="left" paragraph>
-                        {t("login.new_user")}{" "}
-                        <Link to="/register">{t("login.register")}</Link>
-                    </Typography>
                 </CardContent>
                 <CardActions className={classes.text}>
                     <Button

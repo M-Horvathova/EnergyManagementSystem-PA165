@@ -34,15 +34,10 @@ export function getCurrentUser(): LoginUser | null {
     }
 }
 
-export function getJwt() {
-    return localStorage.getItem(tokenKey);
-}
-
 const returnModule = {
     login,
     logout,
     getCurrentUser,
-    getJwt,
 };
 
 export default returnModule;

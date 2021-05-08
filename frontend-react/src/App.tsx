@@ -9,11 +9,12 @@ import BasicMenu from "./components/BasicMenu";
 import Houses from "./pages/Houses";
 import MenuDrawerLeft from "./components/MenuDrawerLeft";
 import Login from "./pages/Login";
-import Register from "./pages/Register";
 import HousePage from "./pages/HousePage";
 import EditHouse from "./pages/EditHouse";
 import AddHouse from "./pages/AddHouse";
 import ProtectedRoute from "./components/ProtectedRoute";
+import Config from "./utils/Config";
+import Dashboard from "./pages/Dashboard";
 
 /*
   author: Michaela Horváthová
@@ -34,27 +35,32 @@ const App: FC = () => {
                         <Switch>
                             <Route exact path="/about" component={About} />
                             <Route exact path="/login" component={Login} />
-                            <Route
-                                exact
-                                path="/register"
-                                component={Register}
-                            />
                             <ProtectedRoute
+                                role="User"
                                 exact
-                                path="/houses"
+                                path={Config.userHome}
                                 component={Houses}
                             />
                             <ProtectedRoute
+                                role="Administrator"
+                                exact
+                                path={Config.adminHome}
+                                component={Dashboard}
+                            />
+                            <ProtectedRoute
+                                role="User"
                                 exact
                                 path="/house/edit/:id"
                                 component={EditHouse}
                             />
                             <ProtectedRoute
+                                role="User"
                                 exact
                                 path="/house/create"
                                 component={AddHouse}
                             />
                             <ProtectedRoute
+                                role="User"
                                 exact
                                 path="/house/:id"
                                 component={HousePage}

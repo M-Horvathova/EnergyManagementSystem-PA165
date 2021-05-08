@@ -13,6 +13,9 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+/**
+ * @author Patrik Valo
+ */
 @RestController
 @RequestMapping("/houses")
 public class HousesController {
@@ -24,6 +27,14 @@ public class HousesController {
         this.houseFacade = houseFacade;
     }
 
+    /**
+     * Get House by ID curl -i -X GET
+     * http://localhost:8080/pa165/rest/houses/1
+     *
+     * @param id ID of the house
+     * @return HouseDTO
+     * @throws Exception
+     */
     @RequestMapping(value = "/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public HouseDTO getHouse(@PathVariable("id") long id) throws Exception {
         HouseDTO houseDTO = houseFacade.getHouseWithId(id);
@@ -35,6 +46,17 @@ public class HousesController {
         }
     }
 
+    /**
+     * Create a new house by POST method
+     * curl -X POST -i -H "Content-Type: application/json" --data
+     * '{"name":"Home","street":"Nova","code":null,"city":"Slovak","postCode":"90801",
+     * "country":"Slovakia", "running": true, "portalUserId": 1}'
+     * http://localhost:8080/pa165/rest/houses/create
+     *
+     * @param houseCreateDTO HouseCreateDTO with required fields for creation
+     * @return HouseDTO
+     * @throws ResourceAlreadyExistingException
+     */
     @RequestMapping(value = "/create", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE)
     public final HouseDTO createHouse(@RequestBody HouseCreateDTO houseCreateDTO) throws Exception {
@@ -46,6 +68,16 @@ public class HousesController {
         }
     }
 
+    /**
+     * Update the fields of the house by PUT method curl -X PUT -i -H "Content-Type: application/json" --data
+     * '{"name":"Home","street":"Nova","code":null,"city":"Slovak","postCode":"90801", "country":"Slovakia"}'
+     * http://localhost:8080/pa165/rest/houses/1
+     *
+     * @param id ID of the house, which should be edited
+     * @param houseEditDTO HouseEditDTO with required fields for edit
+     * @return updated HouseDTO
+     * @throws Exception
+     */
     @RequestMapping(value = "/{id}", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE)
     public final HouseDTO editHouse(@PathVariable("id") long id, @RequestBody HouseEditDTO houseEditDTO) throws Exception {
@@ -57,6 +89,16 @@ public class HousesController {
         }
     }
 
+    /**
+     * Change running status by PUT method curl -X PUT -i -H "Content-Type: application/json" --data
+     * '{"running": false}'
+     * http://localhost:8080/pa165/rest/houses/running/1
+     *
+     * @param id ID of the house
+     * @param runningDTO RunningDTO with required field
+     * @return HouseDTO
+     * @throws Exception
+     */
     @RequestMapping(value = "/running/{id}", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE)
     public final HouseDTO changeRunning(@PathVariable("id") long id, @RequestBody RunningDTO runningDTO) throws Exception {
@@ -68,6 +110,13 @@ public class HousesController {
         }
     }
 
+    /**
+     * Delete one house by id curl -i -X DELETE
+     * http://localhost:8080/pa165/rest/houses/1
+     *
+     * @param id ID of the house
+     * @throws Exception
+     */
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
     public final void deleteHouse(@PathVariable("id") long id) throws Exception {
         try {
@@ -77,6 +126,14 @@ public class HousesController {
         }
     }
 
+    /**
+     * Get all Houses for user with given ID curl -i -X GET
+     * http://localhost:8080/pa165/rest/houses/findByUser/1
+     *
+     * @param userId ID of the user
+     * @return List<HouseDTO>
+     * @throws Exception
+     */
     @RequestMapping(value = "/findByUser/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public final List<HouseDTO> findByUser(@PathVariable("id") long userId) throws Exception {
         try {
