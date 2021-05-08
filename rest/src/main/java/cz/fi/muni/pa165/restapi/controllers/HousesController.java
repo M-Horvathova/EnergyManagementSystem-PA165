@@ -48,8 +48,23 @@ public class HousesController {
     @RequestMapping(value = "/{id}", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE)
     public final HouseDTO editHouse(@PathVariable("id") long id, @RequestBody HouseEditDTO houseEditDTO) throws Exception {
-        houseFacade.editHouse(id, houseEditDTO);
-        return houseFacade.getHouseWithId(id);
+        try {
+            houseFacade.editHouse(id, houseEditDTO);
+            return houseFacade.getHouseWithId(id);
+        } catch (Exception e) {
+            throw new ResourceNotFoundException();
+        }
+    }
+
+    @RequestMapping(value = "/running/{id}", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE,
+            produces = MediaType.APPLICATION_JSON_VALUE)
+    public final Boolean changeRunning(@PathVariable("id") long id, @RequestBody Boolean running) throws Exception {
+        try {
+            houseFacade.changeRunning(id, running);
+            return running;
+        } catch (Exception e) {
+            throw new ResourceNotFoundException();
+        }
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
