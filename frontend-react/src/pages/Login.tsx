@@ -48,9 +48,9 @@ const Login: FC = () => {
 
     const { t } = useTranslation();
 
-    const handleLoginEvent = () => {
-        auth.login("", "");
-        window.location.href = "/";
+    const handleLoginEvent = async () => {
+        await auth.login(email, password);
+        window.location.href = "/pa165";
     };
 
     return (

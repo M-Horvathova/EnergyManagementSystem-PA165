@@ -5,6 +5,7 @@ import { useHistory } from "react-router";
 import { useTranslation } from "react-i18next";
 import axios from "axios";
 import Config from "../utils/Config";
+import { getCurrentUser } from "../services/auth";
 
 export interface AddHouseProps {}
 
@@ -20,6 +21,7 @@ const AddHouse: FunctionComponent<AddHouseProps> = () => {
         postCode: string,
         country: string
     ) => {
+        const user = getCurrentUser();
         await axios({
             method: "POST",
             url: Config.urlRestBase + "/houses/create",
@@ -31,7 +33,7 @@ const AddHouse: FunctionComponent<AddHouseProps> = () => {
                 postCode,
                 country,
                 running: true,
-                portalUserId: 1,
+                portalUserId: user?.id,
             },
         });
         history.push("/houses");

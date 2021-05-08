@@ -1,12 +1,20 @@
+import axios from "axios";
 import jwtDecode from "jwt-decode";
-import User from "../interfaces/User";
+import LoginUser from "../interfaces/LoginUser";
+import Config from "../utils/Config";
 
 const tokenKey = "token";
 
 export async function login(email: string, password: string) {
-    // here we should call login api to receive token
-    const jwt =
-        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InZhbG8ucGF0cmlrQGdtYWlsLmNvbSIsImZpcnN0bmFtZSI6IlBhdHJpayIsImxhc3RuYW1lIjoiVmFsbyIsInJvbGUiOiJ1c2VyIn0.o5wChSnmm98Fy6qew6Cj9SKIh7NyiPqXPvFpXKBMMeg";
+    const response = await axios({
+        method: "POST",
+        url: Config.urlRestBase + "/login",
+        data: {
+            userName: email,
+            password,
+        },
+    });
+    const jwt = response.data;
     localStorage.setItem(tokenKey, jwt);
 }
 
@@ -14,7 +22,7 @@ export function logout() {
     localStorage.removeItem(tokenKey);
 }
 
-export function getCurrentUser(): User | null {
+export function getCurrentUser(): LoginUser | null {
     try {
         const jwt = localStorage.getItem(tokenKey);
         if (jwt != null) {

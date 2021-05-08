@@ -1,42 +1,83 @@
 import React, { Fragment, FunctionComponent, useEffect, useState } from "react";
-import { Grid, Typography } from "@material-ui/core";
+import { Button, Grid, Typography } from "@material-ui/core";
 import { useParams } from "react-router-dom";
 import House from "../interfaces/House";
+import axios from "axios";
+import Config from "../utils/Config";
 
 export interface HousePageProps {}
 
 const HousePage: FunctionComponent<HousePageProps> = () => {
     const { id } = useParams<{ id: string }>();
     const [house, setHouse] = useState<House | null>();
+    const [smartMeters, setSmartMeters] = useState<any>();
 
     useEffect(() => {
-        // TODO fetch house with id
-        setHouse({
-            id: +id,
-            name: "Kounicova",
-            address: {
-                id: 1,
-                city: "Brno",
-                code: null,
-                country: "Cesko",
-                postCode: "8997666",
-                street: null,
-            },
-            running: true,
+        axios({
+            method: "GET",
+            url: Config.urlRestBase + `/houses/${id}`,
+        }).then((response) => {
+            setHouse({
+                id: response.data.id,
+                name: response.data.name,
+                address: {
+                    id: response.data.address.id,
+                    city: response.data.address.city,
+                    code: response.data.address.code,
+                    country: response.data.address.country,
+                    postCode: response.data.address.postCode,
+                    street: response.data.address.street,
+                },
+                running: response.data.running,
+            });
+
+            setSmartMeters(response.data.smartMeters);
         });
     }, [id]);
 
+    const handleOnClick = () => {
+        if (house) {
+            axios({
+                method: "PUT",
+                url: Config.urlRestBase + `/houses/running/${id}`,
+                data: { running: !house.running },
+            }).then((response) => {
+                setHouse({
+                    id: response.data.id,
+                    name: response.data.name,
+                    address: {
+                        id: response.data.address.id,
+                        city: response.data.address.city,
+                        code: response.data.address.code,
+                        country: response.data.address.country,
+                        postCode: response.data.address.postCode,
+                        street: response.data.address.street,
+                    },
+                    running: response.data.running,
+                });
+
+                setSmartMeters(response.data.smartMeters);
+            });
+        }
+    };
+
     return (
         <Fragment>
-            <Typography variant="h4" component="h2">
+            <Typography gutterBottom variant="h4" component="h2">
                 House #{house?.id}
             </Typography>
             <Grid container spacing={3}>
                 <Grid item>
-                    <Typography gutterBottom variant="h5" component="h2">
-                        {house?.name}
-                    </Typography>
+                    <Button
+                        variant="contained"
+                        color="primary"
+                        disableElevation
+                        onClick={handleOnClick}
+                    >
+                        Turn {house?.running ? "off" : "on"} the house
+                    </Button>
                 </Grid>
+                <Grid item>{JSON.stringify(smartMeters)}</Grid>
             </Grid>
         </Fragment>
     );

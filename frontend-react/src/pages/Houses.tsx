@@ -11,34 +11,34 @@ import Config from "../utils/Config";
 export interface HousesProps {}
 
 const Houses: FunctionComponent<HousesProps> = () => {
-    const user = getCurrentUser();
-    console.log(user);
-
     const [houses, setHouses] = useState<Array<House>>([]);
     const { t } = useTranslation();
     const history = useHistory();
 
     useEffect(() => {
-        axios
-            .get(Config.urlRestBase + `/houses/findByUser/${1}`)
-            .then((response) => {
-                const result: Array<House> = response.data.map((obj: any) => {
-                    return {
-                        id: obj.id,
-                        name: obj.name,
-                        address: {
-                            id: obj.address.id,
-                            city: obj.address.city,
-                            code: obj.address.code,
-                            country: obj.address.country,
-                            postCode: obj.address.postCOde,
-                            street: obj.address.street,
-                        },
-                        running: obj.running,
-                    } as House;
-                });
-                setHouses(result);
+        const user = getCurrentUser();
+
+        axios({
+            method: "GET",
+            url: Config.urlRestBase + `/houses/findByUser/${user?.id}`,
+        }).then((response) => {
+            const result: Array<House> = response.data.map((obj: any) => {
+                return {
+                    id: obj.id,
+                    name: obj.name,
+                    address: {
+                        id: obj.address.id,
+                        city: obj.address.city,
+                        code: obj.address.code,
+                        country: obj.address.country,
+                        postCode: obj.address.postCode,
+                        street: obj.address.street,
+                    },
+                    running: obj.running,
+                } as House;
             });
+            setHouses(result);
+        });
     }, []);
 
     const handleOnRemove = async (id: number) => {

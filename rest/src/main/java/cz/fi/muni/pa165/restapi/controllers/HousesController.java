@@ -3,6 +3,7 @@ package cz.fi.muni.pa165.restapi.controllers;
 import cz.fi.muni.pa165.dto.HouseCreateDTO;
 import cz.fi.muni.pa165.dto.HouseDTO;
 import cz.fi.muni.pa165.dto.HouseEditDTO;
+import cz.fi.muni.pa165.dto.RunningDTO;
 import cz.fi.muni.pa165.facade.HouseFacade;
 import cz.fi.muni.pa165.restapi.exceptions.ResourceAlreadyExistingException;
 import cz.fi.muni.pa165.restapi.exceptions.ResourceNotFoundException;
@@ -58,10 +59,10 @@ public class HousesController {
 
     @RequestMapping(value = "/running/{id}", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE)
-    public final Boolean changeRunning(@PathVariable("id") long id, @RequestBody Boolean running) throws Exception {
+    public final HouseDTO changeRunning(@PathVariable("id") long id, @RequestBody RunningDTO runningDTO) throws Exception {
         try {
-            houseFacade.changeRunning(id, running);
-            return running;
+            houseFacade.changeRunning(id, runningDTO.getRunning());
+            return houseFacade.getHouseWithId(id);
         } catch (Exception e) {
             throw new ResourceNotFoundException();
         }
