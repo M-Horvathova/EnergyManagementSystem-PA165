@@ -9,11 +9,11 @@ import cz.fi.muni.pa165.dto.HouseCreateDTO;
 import cz.fi.muni.pa165.dto.HouseDTO;
 import cz.fi.muni.pa165.entity.Address;
 import cz.fi.muni.pa165.entity.House;
+import cz.fi.muni.pa165.service.mappers.HouseToDTOMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
@@ -29,14 +29,16 @@ public class HouseFacadeImpl implements HouseFacade {
     private PortalUserService portalUserService;
     private SmartMeterService smartMeterService;
     private MeterLogService meterLogService;
+    private HouseToDTOMapper houseToDTOMapper;
 
     @Autowired
-    public HouseFacadeImpl(HouseService houseService, AddressService addressService, PortalUserService portalUserService, SmartMeterService smartMeterService, MeterLogService meterLogService) {
+    public HouseFacadeImpl(HouseService houseService, AddressService addressService, PortalUserService portalUserService, SmartMeterService smartMeterService, MeterLogService meterLogService, HouseToDTOMapper houseToDTOMapper) {
         this.houseService = houseService;
         this.addressService = addressService;
         this.portalUserService = portalUserService;
         this.smartMeterService = smartMeterService;
         this.meterLogService = meterLogService;
+        this.houseToDTOMapper = houseToDTOMapper;
     }
 
     @Override
@@ -98,28 +100,28 @@ public class HouseFacadeImpl implements HouseFacade {
     @Override
     public HouseDTO getHouseWithId(Long id) {
         House house = houseService.findById(id);
-        return BeanMapper.mapTo(house);
+        return houseToDTOMapper.houseToHouseDTO(house);
     }
 
     @Override
     public List<HouseDTO> getHousesByUser(Long userId) {
         List<House> houses = houseService.findByUser(portalUserService.findUserById(userId));
-        return BeanMapper.mapTo(houses);
+        return houseToDTOMapper.convertHouseListToHouseDTOList(houses);
     }
 
     @Override
     public List<HouseDTO> getHousesByName(String name) {
-        return BeanMapper.mapTo(houseService.findByName(name));
+        return houseToDTOMapper.convertHouseListToHouseDTOList(houseService.findByName(name));
     }
 
     @Override
     public List<HouseDTO> getHousesByAddress(Long addressId) {
-        return BeanMapper.mapTo(houseService.findByAddress(addressService.findById(addressId)));
+        return houseToDTOMapper.convertHouseListToHouseDTOList(houseService.findByAddress(addressService.findById(addressId)));
     }
 
     @Override
     public List<HouseDTO> getAllHouses() {
-        return BeanMapper.mapTo(houseService.findAll());
+        return houseToDTOMapper.convertHouseListToHouseDTOList(houseService.findAll());
     }
 
     @Override

@@ -11,7 +11,7 @@ public class HouseDTO {
 
     private Long id;
     private String name;
-    private Boolean isRunning;
+    private Boolean running;
     private AddressDTO address;
     private Set<SmartMeterHouseDTO> smartMeters = new HashSet<>();
     private Long portalUserId;
@@ -33,11 +33,11 @@ public class HouseDTO {
     }
 
     public Boolean getRunning() {
-        return isRunning;
+        return running;
     }
 
     public void setRunning(Boolean running) {
-        isRunning = running;
+        this.running = running;
     }
 
     public AddressDTO getAddress() {
@@ -73,7 +73,7 @@ public class HouseDTO {
 
         if (!Objects.equals(id, houseDTO.id)) return false;
         if (!Objects.equals(name, houseDTO.name)) return false;
-        if (!Objects.equals(isRunning, houseDTO.isRunning)) return false;
+        if (!Objects.equals(running, houseDTO.running)) return false;
         return Objects.equals(address, houseDTO.address);
     }
 
@@ -81,7 +81,7 @@ public class HouseDTO {
     public int hashCode() {
         int result = id != null ? id.hashCode() : 0;
         result = 31 * result + (name != null ? name.hashCode() : 0);
-        result = 31 * result + (isRunning != null ? isRunning.hashCode() : 0);
+        result = 31 * result + (running != null ? running.hashCode() : 0);
         result = 31 * result + (address != null ? address.hashCode() : 0);
         return result;
     }
@@ -91,7 +91,7 @@ public class HouseDTO {
         return "HouseDTO{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
-                ", isRunning=" + isRunning +
+                ", isRunning=" + running +
                 ", address=" + address +
                 ", smartMeters=" + smartMeters +
                 ", portalUserId=" + portalUserId +

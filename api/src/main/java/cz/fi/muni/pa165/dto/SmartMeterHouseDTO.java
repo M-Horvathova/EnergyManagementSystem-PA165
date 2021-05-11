@@ -7,7 +7,7 @@ import java.util.Objects;
  */
 public class SmartMeterHouseDTO {
     private Long id;
-    private boolean isRunning;
+    private boolean running;
     private double powerConsumptionSinceLastLog;
     private double cumulativePowerConsumption;
     private String lastLogTakenAt;
@@ -38,11 +38,11 @@ public class SmartMeterHouseDTO {
     }
 
     public boolean isRunning() {
-        return isRunning;
+        return running;
     }
 
     public void setRunning(boolean running) {
-        isRunning = running;
+        this.running = running;
     }
 
     public String getLastLogTakenAt() {
@@ -68,7 +68,7 @@ public class SmartMeterHouseDTO {
 
         SmartMeterHouseDTO that = (SmartMeterHouseDTO) o;
 
-        if (isRunning != that.isRunning) return false;
+        if (running != that.running) return false;
         if (Double.compare(that.powerConsumptionSinceLastLog, powerConsumptionSinceLastLog) != 0) return false;
         if (Double.compare(that.cumulativePowerConsumption, cumulativePowerConsumption) != 0) return false;
         if (!id.equals(that.id)) return false;
@@ -82,7 +82,7 @@ public class SmartMeterHouseDTO {
         int result;
         long temp;
         result = id.hashCode();
-        result = 31 * result + (isRunning ? 1 : 0);
+        result = 31 * result + (running ? 1 : 0);
         temp = Double.doubleToLongBits(powerConsumptionSinceLastLog);
         result = 31 * result + (int) (temp ^ (temp >>> 32));
         temp = Double.doubleToLongBits(cumulativePowerConsumption);
@@ -96,7 +96,7 @@ public class SmartMeterHouseDTO {
     public String toString() {
         return "SmartMeterHouseDTO{" +
                 "id=" + id +
-                ", isRunning=" + isRunning +
+                ", isRunning=" + running +
                 ", powerConsumptionSinceLastLog=" + powerConsumptionSinceLastLog +
                 ", cumulativePowerConsumption=" + cumulativePowerConsumption +
                 ", lastLogTakenAt='" + lastLogTakenAt + '\'' +
