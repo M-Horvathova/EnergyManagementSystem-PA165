@@ -1,6 +1,5 @@
 package cz.fi.muni.pa165.facadeTests;
 
-import cz.fi.muni.pa165.service.BeanMappingService;
 import cz.fi.muni.pa165.dto.*;
 
 import cz.fi.muni.pa165.entity.*;
@@ -10,6 +9,7 @@ import cz.fi.muni.pa165.service.facade.MeterLogFacadeImpl;
 import cz.fi.muni.pa165.service.MeterLogService;
 import cz.fi.muni.pa165.service.SmartMeterService;
 import cz.fi.muni.pa165.service.config.BeanMappingConfiguration;
+import cz.fi.muni.pa165.service.mappers.MeterLogMapper;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.test.context.ContextConfiguration;
@@ -43,9 +43,8 @@ public class MeterLogFacadeTest extends AbstractTestNGSpringContextTests {
 
     @Mock
     private SmartMeterService smartMeterService;
-
     @Mock
-    private BeanMappingService beanMappingService;
+    private MeterLogMapper meterLogMapper;
 
     private MeterLogFacade meterLogFacade;
     private MeterLogCreateDTO meterLogCreateDTO;
@@ -67,11 +66,8 @@ public class MeterLogFacadeTest extends AbstractTestNGSpringContextTests {
         when(meterLogService.findInDateFrame(any(LocalDate.class), any(LocalDate.class))).thenReturn(new ArrayList<>(Collections.singletonList(meterLog)));
         when(meterLogService.findInDateFrameWithDayTime(any(LocalDate.class), any(LocalDate.class), any(DayTime.class))).thenReturn(new ArrayList<>(Collections.singletonList(meterLog)));
         when(smartMeterService.findById(any(Long.class))).thenReturn(smartMeter);
-        when(beanMappingService.mapTo(any(MeterLog.class), eq(MeterLogDTO.class))).thenReturn(meterLogDTO);
-        when(beanMappingService.mapTo(any(MeterLogCreateDTO.class), eq(MeterLog.class))).thenReturn(meterLog);
-        when(beanMappingService.mapTo(any(MeterLogDTO.class), eq(MeterLog.class))).thenReturn(meterLog);
-        when(beanMappingService.mapTo(any(MeterLog.class), eq(MeterLogCreateDTO.class))).thenReturn(meterLogCreateDTO);
-        meterLogFacade = new MeterLogFacadeImpl(meterLogService, smartMeterService, beanMappingService);
+        when(meterLogMapper.meterLogToDTO(any(MeterLog.class))).thenReturn(meterLogDTO);
+        meterLogFacade = new MeterLogFacadeImpl(meterLogService, smartMeterService, meterLogMapper);
     }
 
     @Test
@@ -96,7 +92,6 @@ public class MeterLogFacadeTest extends AbstractTestNGSpringContextTests {
         meterLogFacade.getMeterLogWithId(1L);
 
         verify(meterLogService, times(1)).findById(1L);
-        verify(beanMappingService, times(1)).mapTo(any(MeterLog.class), eq(MeterLogDTO.class));
     }
 
     @Test
@@ -170,16 +165,16 @@ public class MeterLogFacadeTest extends AbstractTestNGSpringContextTests {
 
         meterLogCreateDTO = new MeterLogCreateDTO();
         meterLogCreateDTO.setMeasure(measure);
-        meterLogCreateDTO.setLogDate(date);
+        meterLogCreateDTO.setLogDate(date.toString());
         meterLogCreateDTO.setSmartMeterId(smartMeter.getId());
-        meterLogCreateDTO.setLogTime(LocalTime.of(11, 20));
+        meterLogCreateDTO.setLogTime("11:20:00");
 
         meterLogDTO = new MeterLogDTO();
         meterLogDTO.setMeasure(measure);
-        meterLogDTO.setLogDate(date);
-        meterLogDTO.setSmartMeter(smartMeter);
-        meterLogDTO.setLogTime(LocalTime.of(11, 20));
-        meterLogDTO.setCreateStamp(LocalDateTime.now());
+        meterLogDTO.setLogDate(date.toString());
+        meterLogDTO.setSmartMeterId(smartMeter.getId());
+        meterLogDTO.setLogTime("11:10:15");
+        meterLogDTO.setCreateStamp(LocalDateTime.now().toString());
 
         meterLog = new MeterLog();
         meterLog.setId(1L);

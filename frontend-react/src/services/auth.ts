@@ -2,8 +2,15 @@ import axios from "axios";
 import jwtDecode from "jwt-decode";
 import LoginUser from "../interfaces/LoginUser";
 import Config from "../utils/Config";
+import {createContext} from "react";
 
 const tokenKey = "token";
+
+type UserCtx = {
+    user: LoginUser | null;
+}
+
+export const UserContext = createContext<UserCtx>({user: null});
 
 export async function login(email: string, password: string) {
     const response = await axios({
@@ -38,6 +45,7 @@ const returnModule = {
     login,
     logout,
     getCurrentUser,
+    UserContext,
 };
 
 export default returnModule;

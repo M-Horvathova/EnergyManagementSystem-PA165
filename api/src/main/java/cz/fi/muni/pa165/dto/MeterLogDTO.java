@@ -1,36 +1,40 @@
 package cz.fi.muni.pa165.dto;
 
-import cz.fi.muni.pa165.entity.SmartMeter;
-
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.LocalTime;
 import java.util.Objects;
 
 /**
  * @author Michaela Horváthová
  */
 public class MeterLogDTO {
-    private LocalDate logDate;
-    private LocalTime logTime;
+    private String logDate;
+    private String logTime;
     private Long measure;
-    private SmartMeter smartMeter;
-    private LocalDateTime createStamp;
+    private Long smartMeterId;
+    private String createStamp;
 
-    public LocalDate getLogDate() {
+
+    public String getLogDate() {
         return logDate;
     }
 
-    public void setLogDate(LocalDate logDate) {
+    public void setLogDate(String logDate) {
         this.logDate = logDate;
     }
 
-    public LocalTime getLogTime() {
+    public String getLogTime() {
         return logTime;
     }
 
-    public void setLogTime(LocalTime logTime) {
+    public void setLogTime(String logTime) {
         this.logTime = logTime;
+    }
+
+    public String getCreateStamp() {
+        return createStamp;
+    }
+
+    public void setCreateStamp(String createStamp) {
+        this.createStamp = createStamp;
     }
 
     public Long getMeasure() {
@@ -41,21 +45,15 @@ public class MeterLogDTO {
         this.measure = measure;
     }
 
-    public SmartMeter getSmartMeter() {
-        return smartMeter;
+    public Long getSmartMeterId() {
+        return smartMeterId;
     }
 
-    public void setSmartMeter(SmartMeter smartMeter) {
-        this.smartMeter = smartMeter;
+    public void setSmartMeterId(Long smartMeterId) {
+        this.smartMeterId = smartMeterId;
     }
 
-    public LocalDateTime getCreateStamp() {
-        return createStamp;
-    }
 
-    public void setCreateStamp(LocalDateTime createStamp) {
-        this.createStamp = createStamp;
-    }
 
 
 
@@ -67,13 +65,13 @@ public class MeterLogDTO {
         return getLogDate().equals(that.getLogDate())
                 && getLogTime().equals(that.getLogTime())
                 && getMeasure().equals(that.getMeasure())
-                && getSmartMeter().equals(that.getSmartMeter())
+                && getSmartMeterId().equals(that.getSmartMeterId())
                 && Objects.equals(getCreateStamp(), that.getCreateStamp());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getLogDate(), getLogTime(), getMeasure(), getSmartMeter(), getCreateStamp());
+        return Objects.hash(getLogDate(), getLogTime(), getMeasure(), getSmartMeterId(), getCreateStamp());
     }
 
     @Override
@@ -82,7 +80,7 @@ public class MeterLogDTO {
                 "logDate=" + logDate +
                 ", logTime=" + logTime +
                 ", measure=" + measure +
-                ", smartMeter=" + smartMeter +
+                ", smartMeter=" + smartMeterId +
                 '}';
     }
 }
