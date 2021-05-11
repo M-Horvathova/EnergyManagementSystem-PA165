@@ -1,4 +1,4 @@
-export default interface Address {
+export default interface AddressDTO {
     id: number;
     street: string | null;
     code: string | null;

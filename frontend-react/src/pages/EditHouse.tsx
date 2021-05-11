@@ -1,7 +1,7 @@
 import React, { Fragment, FunctionComponent, useEffect, useState } from "react";
 import { Grid, Typography } from "@material-ui/core";
 import { useParams } from "react-router-dom";
-import House from "../interfaces/House";
+import HouseDTO from "../interfaces/HouseDTO";
 import HouseForm from "../components/HouseForm";
 import { useHistory } from "react-router";
 import { useTranslation } from "react-i18next";
@@ -12,7 +12,7 @@ export interface EditHouseProps {}
 
 const EditHouse: FunctionComponent<EditHouseProps> = () => {
     const { id } = useParams<{ id: string }>();
-    const [house, setHouse] = useState<House | null>();
+    const [house, setHouse] = useState<HouseDTO | null>();
     const history = useHistory();
     const { t } = useTranslation();
 
@@ -32,6 +32,7 @@ const EditHouse: FunctionComponent<EditHouseProps> = () => {
                     postCode: response.data.address.postCode,
                     street: response.data.address.street,
                 },
+                smartMeters: response.data.smartMeters,
                 running: response.data.running,
             });
         });
