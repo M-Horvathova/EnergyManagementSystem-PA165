@@ -3,66 +3,65 @@
 */
 
 const en = {
-    translation: {
-        about: {
-            creators:
-                "Created by Michaela Horváthová, Patrik Valo, Martin Podhora, Matej Rišňovský, 2021",
-            description1:
-                "This application was developed as a part of the PA165 Enterprise Applications in Java course at Masaryk University",
-            description2:
-                "The system will allow users to manage the smart meter devices at home. For a user, it will be possible to set different smart meters for the different houses they own/rent, and track the power consumption statistics over time that is collected automatically. They can track the power consumption of different devices in different time of the day (e.g., at night). They can also shut down the power to one of their houses through the system, when power is not needed. The power distribution company can consult the power consumption statistics over period of times of all the users registered into the system.",
-            git:
-                "The project is available at GitHub repository https://github.com/M-Horvathova/EnergyManagementSystem-PA165",
-            title: "Welcome to Smart Energy Monitoring System",
-        },
-        houses: {
-            houses: "Casas",
-            open: "Abrir",
-            edit: "Editar",
-            remove: "Reditar",
-            add: "Añadir casa",
-            nothing: "Nada que mostrar",
-        },
-        addHouse: {
-            add: "Agregar casa",
-        },
-        editHouse: {
-            edit: "Editar casa",
-        },
-        houseForm: {
-            name: "Nombre",
-            street: "Calle",
-            code: "Código",
-            city: "Ciudad",
-            postCode: "Código postal",
-            country: "País",
-            confirm: "Confirmar",
-        },
-        login: {
-            email: "Correo Electrónico",
-            login: "Entrar",
-            new_user: "¿Es un nuevo usuario?",
-            password: "Contraseña",
-            register: "Regístrese aquí",
-            sign_in: "Iniciar sesión",
-        },
-        menu: {
-            about: "Información",
-            app_name: "Smart Energy",
-            home: "Inicio",
-            houses: "My Houses",
-            logout: "Cerrar sesión",
-        },
-        register: {
-            already_registered: "¿Ya está registrado?",
-            email: "Correo Electrónico",
-            err_pswds_match: "Las contraseñas no coinciden",
-            password: "Contraseña",
-            password_conf: "Confirmar contraseña",
-            register: "Registrarse",
-            sign_in: "Iniciar sesión",
-        },
+  translation: {
+    about: {
+      creators: "Creado por Michaela Horváthová, Patrik Valo, Martin Podhora, Matej Rišňovský, 2021",
+      description1: "Esta aplicación fue desarrollada como parte del curso PA165 Enterprise Applications in Java en la Universidad Masaryk",
+      description2: "El sistema permitirá a los usuarios administrar los dispositivos de medidor inteligente en casa. Para un usuario, será posible establecer diferentes medidores inteligentes para las diferentes casas que poseen o alquilan, y realizar un seguimiento de las estadísticas de consumo de energía a lo largo del tiempo que se recogen automáticamente. Pueden realizar un seguimiento del consumo de energía de diferentes dispositivos en diferentes horas del día (por ejemplo, por la noche). También pueden apagar la energía de una de sus casas a través del sistema, cuando no se necesita energía. La compañía de distribución de energía puede consultar las estadísticas de consumo de energía durante períodos de tiempo de todos los usuarios registrados en el sistema.",
+      git: "El proyecto está disponible en el repositorio de GitHub https://github.com/M-Horvathova/EnergyManagementSystem-PA165",
+      title: "Bienvenido a Smart Energy Monitoring System"
     },
-};
+    addHouse: {
+      add: "Añadir casa"
+    },
+    editHouse: {
+      edit: "Editar casa"
+    },
+    home: {
+      loading: "Cargando…"
+    },
+    houseForm: {
+      city: "Ciudad",
+      code: "Código",
+      confirm: "Confirmar",
+      country: "País",
+      name: "Nombre",
+      postCode: "Código postal",
+      street: "Calle"
+    },
+    houses: {
+      add: "Añadir casa",
+      edit: "Editar",
+      houses: "Casas",
+      nothing: "Nada que mostrar",
+      open: "Abrir",
+      remove: "Eliminar"
+    },
+    login: {
+      email: "Correo Electrónico",
+      login: "Entrar",
+      new_user: "¿Es un nuevo usuario?",
+      password: "Contraseña",
+      register: "Regístrese aquí",
+      sign_in: "Iniciar sesión"
+    },
+    menu: {
+      about: "Información",
+      app_name: "Smart Energy",
+      home: "Inicio",
+      houses: "Mis Casas",
+      logout: "Cerrar sesión"
+    },
+    register: {
+      already_registered: "¿Ya está registrado?",
+      email: "Correo Electrónico",
+      err_pswds_match: "Las contraseñas no coinciden",
+      password: "Contraseña",
+      password_conf: "Confirmar contraseña",
+      register: "Registrarse",
+      sign_in: "Iniciar sesión"
+    }
+  }
+} ;
 
 export default en;

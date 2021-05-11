@@ -4,6 +4,7 @@ import { initReactI18next } from "react-i18next";
 import en from "../localization/en";
 import es from "../localization/es";
 import cs from "../localization/cs";
+import de from "../localization/de";
 
 /*
  author: Michaela Horváthová
@@ -12,13 +13,14 @@ const resources = {
     en,
     es,
     cs,
+    de,
 };
 
-export const languageLabels: Array<string> = ["EN", "ES", "CS"];
+export const languageLabels: Array<string> = ["EN", "ES", "CS", "DE"];
 
-export const languages: Array<string> = ["en", "es", "cs"];
+export const languages: Array<string> = ["en", "es", "cs", "de"];
 
-export const flags: Array<string> = ["gb", "es", "cz"];
+export const flags: Array<string> = ["gb", "es", "cz", "de"];
 
 export const getSavedLng = () => {
     return localStorage.getItem("lng");
