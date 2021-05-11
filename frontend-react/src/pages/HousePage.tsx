@@ -1,7 +1,7 @@
 import React, { Fragment, FunctionComponent, useEffect, useState } from "react";
 import { Button, Grid, Typography } from "@material-ui/core";
 import { useParams } from "react-router-dom";
-import House from "../interfaces/House";
+import HouseDTO from "../interfaces/HouseDTO";
 import axios from "axios";
 import Config from "../utils/Config";
 
@@ -9,7 +9,7 @@ export interface HousePageProps {}
 
 const HousePage: FunctionComponent<HousePageProps> = () => {
     const { id } = useParams<{ id: string }>();
-    const [house, setHouse] = useState<House | null>();
+    const [house, setHouse] = useState<HouseDTO | null>();
     const [smartMeters, setSmartMeters] = useState<any>();
 
     useEffect(() => {
@@ -17,6 +17,7 @@ const HousePage: FunctionComponent<HousePageProps> = () => {
             method: "GET",
             url: Config.urlRestBase + `/houses/${id}`,
         }).then((response) => {
+            console.log(response.data);
             setHouse({
                 id: response.data.id,
                 name: response.data.name,
@@ -28,6 +29,7 @@ const HousePage: FunctionComponent<HousePageProps> = () => {
                     postCode: response.data.address.postCode,
                     street: response.data.address.street,
                 },
+                smartMeters: response.data.smartMeters,
                 running: response.data.running,
             });
 
@@ -53,6 +55,7 @@ const HousePage: FunctionComponent<HousePageProps> = () => {
                         postCode: response.data.address.postCode,
                         street: response.data.address.street,
                     },
+                    smartMeters: response.data.smartMeters,
                     running: response.data.running,
                 });
 

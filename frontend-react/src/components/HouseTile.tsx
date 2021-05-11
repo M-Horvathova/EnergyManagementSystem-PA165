@@ -5,12 +5,12 @@ import CardActions from "@material-ui/core/CardActions";
 import CardContent from "@material-ui/core/CardContent";
 import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
-import House from "../interfaces/House";
+import HouseDTO from "../interfaces/HouseDTO";
 import { useHistory } from "react-router";
 import { useTranslation } from "react-i18next";
 
 export interface HouseTileProps {
-    house: House;
+    house: HouseDTO;
     onRemove(id: number): void;
 }
 

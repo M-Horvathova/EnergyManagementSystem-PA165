@@ -1,6 +1,6 @@
 import React, { FunctionComponent, useEffect, useState, Fragment } from "react";
 import HouseList from "../components/HouseList";
-import House from "../interfaces/House";
+import HouseDTO from "../interfaces/HouseDTO";
 import { Button, Grid, Typography } from "@material-ui/core";
 import { useTranslation } from "react-i18next";
 import { useHistory } from "react-router";
@@ -11,7 +11,7 @@ import Config from "../utils/Config";
 export interface HousesProps {}
 
 const Houses: FunctionComponent<HousesProps> = () => {
-    const [houses, setHouses] = useState<Array<House>>([]);
+    const [houses, setHouses] = useState<Array<HouseDTO>>([]);
     const { t } = useTranslation();
     const history = useHistory();
 
@@ -22,7 +22,7 @@ const Houses: FunctionComponent<HousesProps> = () => {
             method: "GET",
             url: Config.urlRestBase + `/houses/findByUser/${user?.id}`,
         }).then((response) => {
-            const result: Array<House> = response.data.map((obj: any) => {
+            const result: Array<HouseDTO> = response.data.map((obj: any) => {
                 return {
                     id: obj.id,
                     name: obj.name,
@@ -34,8 +34,9 @@ const Houses: FunctionComponent<HousesProps> = () => {
                         postCode: obj.address.postCode,
                         street: obj.address.street,
                     },
+                    smartMeters: obj.smartMeters,
                     running: obj.running,
-                } as House;
+                } as HouseDTO;
             });
             setHouses(result);
         });

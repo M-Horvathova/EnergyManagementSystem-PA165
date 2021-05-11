@@ -1,11 +1,11 @@
 import { Grid } from "@material-ui/core";
 import React, { FunctionComponent, Fragment } from "react";
-import House from "../interfaces/House";
+import HouseDTO from "../interfaces/HouseDTO";
 import HouseTile from "./HouseTile";
 import { useTranslation } from "react-i18next";
 
 export interface HouseListProps {
-    houses: Array<House>;
+    houses: Array<HouseDTO>;
     onRemove(id: number): void;
 }
 

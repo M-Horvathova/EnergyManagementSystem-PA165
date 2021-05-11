@@ -1,11 +1,11 @@
 import { FunctionComponent, useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import House from "../interfaces/House";
+import HouseDTO from "../interfaces/HouseDTO";
 import { Button, Grid, TextField } from "@material-ui/core";
 import { useTranslation } from "react-i18next";
 
 export interface HouseFormProps {
-    house?: House;
+    house?: HouseDTO;
     onSubmit(
         name: string,
         street: string,
