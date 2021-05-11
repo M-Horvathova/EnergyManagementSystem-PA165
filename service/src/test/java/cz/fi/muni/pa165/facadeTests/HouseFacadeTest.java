@@ -6,8 +6,9 @@ import cz.fi.muni.pa165.entity.House;
 import cz.fi.muni.pa165.entity.PortalUser;
 import cz.fi.muni.pa165.facade.HouseFacade;
 import cz.fi.muni.pa165.service.*;
-import cz.fi.muni.pa165.service.config.BeanMappingConfiguration;
+import cz.fi.muni.pa165.service.config.MapStructMappingConfiguration;
 import cz.fi.muni.pa165.service.facade.HouseFacadeImpl;
+import cz.fi.muni.pa165.service.mappers.HouseToDTOMapper;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.test.context.ContextConfiguration;
@@ -19,13 +20,15 @@ import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
+import java.util.ArrayList;
+
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
 /**
  * @author Michaela Horváthová
  */
-@ContextConfiguration(classes = BeanMappingConfiguration.class)
+@ContextConfiguration(classes = MapStructMappingConfiguration.class)
 @TestExecutionListeners(TransactionalTestExecutionListener.class)
 @Transactional
 public class HouseFacadeTest extends AbstractTestNGSpringContextTests {
@@ -43,6 +46,9 @@ public class HouseFacadeTest extends AbstractTestNGSpringContextTests {
 
     @Mock
     private MeterLogService meterLogService;
+
+    @Mock
+    private HouseToDTOMapper houseToDTOMapper;
 
 
     private HouseFacade houseFacade;
@@ -91,8 +97,10 @@ public class HouseFacadeTest extends AbstractTestNGSpringContextTests {
         when(addressService.createAddress(any(Address.class))).thenReturn(new Address());
         when(addressService.findById(any(Long.class))).thenReturn(new Address());
         when(portalUserService.findUserById(any(Long.class))).thenReturn(new PortalUser());
+        when(houseToDTOMapper.houseToHouseDTO(any(House.class))).thenReturn(houseDTO);
+        when(houseToDTOMapper.convertHouseListToHouseDTOList(anyList())).thenReturn(new ArrayList<HouseDTO>());
 
-        houseFacade = new HouseFacadeImpl(houseService, addressService, portalUserService, smartMeterService, meterLogService);
+        houseFacade = new HouseFacadeImpl(houseService, addressService, portalUserService, smartMeterService, meterLogService, houseToDTOMapper);
     }
 
     @Test
