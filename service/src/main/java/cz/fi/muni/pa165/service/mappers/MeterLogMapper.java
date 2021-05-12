@@ -22,10 +22,6 @@ public interface MeterLogMapper {
     })
     MeterLogDTO meterLogToDTO(MeterLog meterLog);
 
-
-    @Mappings({ @Mapping(target = "lastLogTakenAt", source = "lastLogTakenAt", dateFormat = "dd-MM-yyyy HH:mm:ss")})
-    SmartMeterHouseDTO smartMeterToSmartMeterHouseDTO(SmartMeter smartMeter);
-
     List<MeterLogDTO> convertLogListToMeterLogDTOList(List<MeterLog> meterLogs);
 
 

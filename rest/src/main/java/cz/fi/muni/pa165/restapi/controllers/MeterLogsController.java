@@ -1,6 +1,7 @@
 package cz.fi.muni.pa165.restapi.controllers;
 
 
+import cz.fi.muni.pa165.dto.HouseDTO;
 import cz.fi.muni.pa165.dto.MeterLogCreateDTO;
 import cz.fi.muni.pa165.dto.MeterLogDTO;
 import cz.fi.muni.pa165.facade.MeterLogFacade;
@@ -11,6 +12,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 /**
  * @author Michaela Horváthová
@@ -32,7 +35,6 @@ public class MeterLogsController {
     /**
      * Get Meter Log by ID curl -i -X GET
      * http://localhost:8080/pa165/rest/meterlogs/1
-     * curl -i -X GET http://localhost:8080/pa165/rest/meterlogs/1
      * @param id ID of the Meter Log
      * @return MeterLogDTO
      * @throws ResourceNotFoundException
@@ -71,8 +73,7 @@ public class MeterLogsController {
 
     /**
      * Delete single meter log by id curl -i -X DELETE
-     * http://localhost:8080/pa165/rest/meterlogs/1
-     *
+     * http://localhost:8080/pa165/rest/meterlogs/1     *
      * @param id ID of the meter log
      * @throws ResourceNotFoundException
      */
@@ -84,4 +85,8 @@ public class MeterLogsController {
             throw new ResourceNotFoundException();
         }
     }
+
+
+
+
 }
