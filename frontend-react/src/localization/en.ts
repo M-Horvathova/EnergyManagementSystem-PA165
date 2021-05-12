@@ -21,6 +21,7 @@ const en = {
             app_name: "Smart Energy",
             houses: "My Houses",
             logout: "Logout",
+            login: "Login",
         },
         houses: {
             houses: "Houses",

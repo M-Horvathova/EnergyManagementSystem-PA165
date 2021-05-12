@@ -15,14 +15,18 @@ import AddHouse from "./pages/AddHouse";
 import ProtectedRoute from "./components/ProtectedRoute";
 import Config from "./utils/Config";
 import Dashboard from "./pages/Dashboard";
+import {UserContext, getCurrentUser} from "./services/auth";
 
 /*
   author: Michaela Horváthová
 */
 const ourTheme = createMuiTheme({});
 const App: FC = () => {
+    const user = getCurrentUser();
+
     return (
         <MuiThemeProvider theme={ourTheme}>
+            <UserContext.Provider value={{user}}>
             <HashRouter>
                 <Hidden xsDown>
                     <BasicMenu />
@@ -30,11 +34,13 @@ const App: FC = () => {
                 <Hidden smUp>
                     <MenuDrawerLeft />
                 </Hidden>
+
                 <main className="App" style={{ marginTop: 50 }}>
                     <Container maxWidth="lg">
                         <Switch>
                             <Route exact path="/about" component={About} />
                             <Route exact path="/login" component={Login} />
+
                             <ProtectedRoute
                                 role="User"
                                 exact
@@ -70,6 +76,7 @@ const App: FC = () => {
                     </Container>
                 </main>
             </HashRouter>
+            </UserContext.Provider>
         </MuiThemeProvider>
     );
 };

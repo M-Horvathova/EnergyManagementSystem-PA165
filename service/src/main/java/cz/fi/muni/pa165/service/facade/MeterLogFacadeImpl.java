@@ -1,7 +1,6 @@
 package cz.fi.muni.pa165.service.facade;
 
 import cz.fi.muni.pa165.facade.MeterLogFacade;
-import cz.fi.muni.pa165.service.BeanMappingService;
 import cz.fi.muni.pa165.dto.MeterLogCreateDTO;
 import cz.fi.muni.pa165.dto.MeterLogDTO;
 import cz.fi.muni.pa165.entity.MeterLog;
@@ -9,6 +8,7 @@ import cz.fi.muni.pa165.entity.SmartMeter;
 import cz.fi.muni.pa165.enums.DayTime;
 import cz.fi.muni.pa165.service.MeterLogService;
 import cz.fi.muni.pa165.service.SmartMeterService;
+import cz.fi.muni.pa165.service.mappers.MeterLogMapper;
 import org.slf4j.LoggerFactory;
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,24 +29,24 @@ public class MeterLogFacadeImpl implements MeterLogFacade {
 
     private MeterLogService meterLogService;
     private SmartMeterService smartMeterService;
-    private BeanMappingService beanMappingService;
+    public final MeterLogMapper meterLogMapper;
 
     @Autowired
-    public MeterLogFacadeImpl(MeterLogService meterLogService, SmartMeterService smartMeterService, BeanMappingService beanMappingService) {
+    public MeterLogFacadeImpl(MeterLogService meterLogService, SmartMeterService smartMeterService, MeterLogMapper meterLogMapper) {
         this.meterLogService = meterLogService;
         this.smartMeterService = smartMeterService;
-        this.beanMappingService = beanMappingService;
+        this.meterLogMapper = meterLogMapper;
     }
 
 
     @Override
     public Long createMeterLog(MeterLogCreateDTO ml) {
+        log.info(ml.toString());
         SmartMeter mappedMeter = smartMeterService.findById(ml.getSmartMeterId());
         MeterLog mappedLog = new MeterLog();
-        mappedLog.setSmartMeter(mappedMeter);
-        mappedLog.setLogTime(ml.getLogTime());
-        mappedLog.setLogDate(ml.getLogDate());
         mappedLog.setMeasure(ml.getMeasure());
+        mappedLog.setSmartMeter(mappedMeter);
+        smartMeterService.addMeterLog(mappedMeter, mappedLog);
         MeterLog createdLog = meterLogService.createMeterLog(mappedLog);
         return createdLog.getId();
     }
@@ -60,13 +60,13 @@ public class MeterLogFacadeImpl implements MeterLogFacade {
     @Override
     public MeterLogDTO getMeterLogWithId(Long id) {
         MeterLog ml = meterLogService.findById(id);
-        return (ml == null) ? null : beanMappingService.mapTo(ml, MeterLogDTO.class);
+        return (ml == null) ? null : meterLogMapper.meterLogToDTO(ml);
     }
 
     @Override
     public List<MeterLogDTO> getAllMeterLogs() {
         List<MeterLog> res = meterLogService.findAll();
-        return beanMappingService.mapTo(res, MeterLogDTO.class);
+        return meterLogMapper.convertLogListToMeterLogDTOList(res);
     }
 
     @Override
@@ -79,7 +79,7 @@ public class MeterLogFacadeImpl implements MeterLogFacade {
             throw new IllegalArgumentException("Dates cannot be converted properly");
         }
         List<MeterLog> res = meterLogService.findInDateFrame(sDate, eDate);
-        return beanMappingService.mapTo(res, MeterLogDTO.class);
+        return meterLogMapper.convertLogListToMeterLogDTOList(res);
     }
 
     @Override
@@ -100,6 +100,6 @@ public class MeterLogFacadeImpl implements MeterLogFacade {
             throw new IllegalArgumentException("Dates cannot be converted properly");
         }
         List<MeterLog> res = meterLogService.findInDateFrameWithDayTime(sDate, eDate, dTime);
-        return beanMappingService.mapTo(res, MeterLogDTO.class);
+        return meterLogMapper.convertLogListToMeterLogDTOList(res);
     }
 }

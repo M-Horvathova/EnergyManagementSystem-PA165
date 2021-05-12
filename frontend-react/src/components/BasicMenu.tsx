@@ -1,4 +1,4 @@
-import React, { FC } from "react";
+import React, {FC, useContext} from "react";
 import { Link } from "react-router-dom";
 
 import AppBar from "@material-ui/core/AppBar";
@@ -13,7 +13,7 @@ import AccountCircleIcon from "@material-ui/icons/AccountCircle";
 import { useTranslation } from "react-i18next";
 import LocMenu from "./LocMenu";
 import { MenuItem } from "@material-ui/core";
-import { logout } from "../services/auth";
+import {logout, UserContext} from "../services/auth";
 
 /*
  author: Michaela Horváthová
@@ -34,6 +34,7 @@ const BasicMenu: FC = () => {
     const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
     const open = Boolean(anchorEl);
 
+    const { user } = useContext(UserContext);
     const { t } = useTranslation();
 
     const handleMenu = (event: React.MouseEvent<HTMLElement>) => {
@@ -52,19 +53,21 @@ const BasicMenu: FC = () => {
     return (
         <AppBar color="primary" position="static" variant="outlined">
             <Toolbar>
-                <>
+                {user && <>
                     <Button className={classes.menuButton}>
                         <Link className={classes.link} to="/">
                             <b>{t("menu.home")}</b>
                         </Link>
                     </Button>
-                </>
+                </>}
+
+
                 <Button className={classes.menuButton}>
                     <Link className={classes.link} to="/about">
                         <b>{t("menu.about")}</b>
                     </Link>
                 </Button>
-                <>
+                {user && <>
                     <Box display="flex" flexGrow={1}>
                         <Box
                             display="flex"
@@ -106,7 +109,29 @@ const BasicMenu: FC = () => {
                         </MenuItem>
                     </Menu>
                     <LocMenu />
-                </>
+
+                </>}
+
+                {user === null && <>
+                    <Box display="flex" flexGrow={1}>
+                        <Box
+                            display="flex"
+                            m="auto"
+                            alignItems="center"
+                            justifyContent="center"
+                        >
+                            <Typography variant="h4">
+                                {t("menu.app_name")}
+                            </Typography>
+                        </Box>
+                    </Box>
+
+                    <Button className={classes.menuButton}>
+                        <Link className={classes.link} to="/login/"><b>{t('menu.login')}</b></Link>
+                    </Button>
+                    <LocMenu />
+
+                </>}
             </Toolbar>
         </AppBar>
     );

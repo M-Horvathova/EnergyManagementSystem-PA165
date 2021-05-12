@@ -8,9 +8,9 @@ import java.util.Objects;
  */
 public class MeterLogCreateDTO {
     private Long measure;
-    private LocalDate logDate;
+    private String logDate;
     private Long smartMeterId;
-    private LocalTime logTime;
+    private String logTime;
 
     public Long getSmartMeterId() {
         return smartMeterId;
@@ -28,19 +28,19 @@ public class MeterLogCreateDTO {
         this.measure = measure;
     }
 
-    public LocalDate getLogDate() {
+    public String getLogDate() {
         return logDate;
     }
 
-    public void setLogDate(LocalDate logDate) {
+    public void setLogDate(String logDate) {
         this.logDate = logDate;
     }
 
-    public LocalTime getLogTime() {
+    public String getLogTime() {
         return logTime;
     }
 
-    public void setLogTime(LocalTime logTime) {
+    public void setLogTime(String logTime) {
         this.logTime = logTime;
     }
 

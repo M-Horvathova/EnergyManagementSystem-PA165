@@ -13,7 +13,7 @@ import org.mapstruct.Mappings;
 import java.util.List;
 import java.util.Set;
 
-@Mapper
+@Mapper(componentModel = "spring")
 public interface HouseToDTOMapper {
 
     AddressDTO addressToAddressDTO(Address address);
