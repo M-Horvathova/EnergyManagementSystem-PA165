@@ -5,6 +5,7 @@ import en from "../localization/en";
 import es from "../localization/es";
 import cs from "../localization/cs";
 import de from "../localization/de";
+import it from "../localization/it";
 
 /*
  author: Michaela Horváthová
@@ -14,13 +15,14 @@ const resources = {
     es,
     cs,
     de,
+    it,
 };
 
-export const languageLabels: Array<string> = ["EN", "ES", "CS", "DE"];
+export const languageLabels: Array<string> = ["EN", "ES", "CS", "DE", "IT"];
 
-export const languages: Array<string> = ["en", "es", "cs", "de"];
+export const languages: Array<string> = ["en", "es", "cs", "de", "it"];
 
-export const flags: Array<string> = ["gb", "es", "cz", "de"];
+export const flags: Array<string> = ["gb", "es", "cz", "de", "it"];
 
 export const getSavedLng = () => {
     return localStorage.getItem("lng");

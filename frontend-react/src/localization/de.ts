@@ -50,6 +50,7 @@ const en = {
       app_name: "Smart Energy",
       home: "Startseite",
       houses: "Meine Häuser",
+      login: "Login",
       logout: "Abmelden"
     },
     register: {
