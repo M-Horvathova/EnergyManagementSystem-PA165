@@ -42,6 +42,7 @@ const Login: FC = () => {
 
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+    const [errors, setErrors] = useState<{[index: string]: string}>({});
 
     const { t } = useTranslation();
 
@@ -59,6 +60,8 @@ const Login: FC = () => {
                         {t("login.login")}
                     </Typography>
                     <TextField
+                        error={errors["username"] != null}
+                        helperText={errors["username"]}
                         label={t("login.email")}
                         type="email"
                         name="email"
@@ -71,6 +74,8 @@ const Login: FC = () => {
                         onChange={(e) => setEmail(e.target.value)}
                     />
                     <TextField
+                        error={errors["password"] != null}
+                        helperText={errors["password"]}
                         label={t("login.password")}
                         type="password"
                         name="password"

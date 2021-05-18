@@ -64,6 +64,16 @@ public class PortalUserServiceImpl implements PortalUserService {
     }
 
     @Override
+    public List<PortalUser> getAllUsers(int page, int itemsCount) {
+        return portalUserDao.findAll(page, itemsCount);
+    }
+
+    @Override
+    public Long getTotalUsersCount() {
+        return portalUserDao.getTotalUsersCount();
+    }
+
+    @Override
     public boolean authenticate(PortalUser portalUser, String password) {
         return passwordEncoder.matches(password, portalUser.getPasswordHash());
     }

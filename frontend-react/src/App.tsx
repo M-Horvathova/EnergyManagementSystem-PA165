@@ -9,6 +9,7 @@ import BasicMenu from "./components/BasicMenu";
 import Houses from "./pages/Houses";
 import MenuDrawerLeft from "./components/MenuDrawerLeft";
 import Login from "./pages/Login";
+import Register from "./pages/Registration";
 import HousePage from "./pages/HousePage";
 import EditHouse from "./pages/EditHouse";
 import AddHouse from "./pages/AddHouse";
@@ -40,6 +41,7 @@ const App: FC = () => {
                         <Switch>
                             <Route exact path="/about" component={About} />
                             <Route exact path="/login" component={Login} />
+                            <Route exact path="/register" component={Register} />
 
                             <ProtectedRoute
                                 role="User"
