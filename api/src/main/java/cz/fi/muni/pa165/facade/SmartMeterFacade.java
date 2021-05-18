@@ -2,6 +2,7 @@ package cz.fi.muni.pa165.facade;
 
 import cz.fi.muni.pa165.dto.SmartMeterCreateDTO;
 import cz.fi.muni.pa165.dto.SmartMeterDTO;
+import cz.fi.muni.pa165.dto.SmartMeterEditDTO;
 import cz.fi.muni.pa165.enums.DayTime;
 
 import java.time.LocalDate;
@@ -26,7 +27,7 @@ public interface SmartMeterFacade {
      * Update smart meter
      * @param smartMeter to be updated
      */
-    SmartMeterDTO updateSmartMeter(SmartMeterDTO smartMeter);
+    SmartMeterDTO updateSmartMeter(SmartMeterEditDTO smartMeter);
 
     /**
      * Get smart meter by id
