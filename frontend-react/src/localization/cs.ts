@@ -37,6 +37,15 @@ const en = {
       open: "Otevřít",
       remove: "Odebrat"
     },
+    house: {
+      add: "Přidat meter",
+      edit: "Upravit",
+      nothing: "Nic k zobrazení",
+      open: "Otevřít",
+      remove: "Odebrat",
+      off: "Vypnout",
+      on: "Zapnout"
+    },
     login: {
       email: "E-mail",
       login: "Přihlásit se",

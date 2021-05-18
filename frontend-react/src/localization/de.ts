@@ -37,6 +37,15 @@ const en = {
       open: "Öffnen",
       remove: "Entfernen"
     },
+    house: {
+      add: "Geben Sie einem Meter zu",
+      edit: "Ändern",
+      nothing: "Keine Daten zum anzeigen",
+      open: "Öffnen",
+      remove: "Entfernen",
+      off: "Ausschalten",
+      on: "Einschalten"
+    },
     login: {
       email: "E-Mail",
       login: "Anmelden",

@@ -31,6 +31,15 @@ const en = {
             add: "Add house",
             nothing: "Nothing to show",
         },
+        house: {
+            open: "Open",
+            edit: "Edit",
+            remove: "Remove",
+            add: "Add meter",
+            nothing: "Nothing to show",
+            off: "Turn off",
+            on: "Turn on"
+        },
         addHouse: {
             add: "Add house",
         },
