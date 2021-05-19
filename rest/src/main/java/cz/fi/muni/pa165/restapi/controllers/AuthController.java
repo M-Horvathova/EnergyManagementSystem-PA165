@@ -12,7 +12,6 @@ import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@CrossOrigin
 public class AuthController {
 
     private final PortalUserFacade portalUserFacade;
