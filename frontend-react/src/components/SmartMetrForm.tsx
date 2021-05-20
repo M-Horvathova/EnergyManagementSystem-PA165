@@ -7,8 +7,8 @@ import { useTranslation } from "react-i18next";
 export interface SmartMetrFormProps {
     smartMeter ?: SmartMeterHouseDTO;
     onSubmit(
-        description: string,
-        running: boolean
+        smartMeterDescription: string,
+        isRunning: boolean
     ): void;
 }
 
@@ -23,10 +23,10 @@ const SmartMetrForm: FunctionComponent<SmartMetrFormProps> = ({ smartMeter, onSu
     const { t } = useTranslation();
 
     const [smartMeterDescription, setSmartMeterDescription] = useState<string>(smartMeter ? smartMeter.smartMeterDescription : "");
-    const [running, setRunning] = useState<boolean>(smartMeter ? smartMeter.running : false);
+    const [isRunning, setIsRunning] = useState<boolean>(smartMeter ? smartMeter.running : false);
 
     const handleOnClick = () => {
-        onSubmit(smartMeterDescription, running);
+        onSubmit(smartMeterDescription, isRunning);
     };
 
     return (
@@ -42,9 +42,9 @@ const SmartMetrForm: FunctionComponent<SmartMetrFormProps> = ({ smartMeter, onSu
                 onChange={(e) => setSmartMeterDescription(e.target.value)}
             />
             <Checkbox
-                checked={running}
+                checked={isRunning}
                 name={t("smartMeterForm.running")}
-                onChange={(e) => setRunning(e.target.checked)}
+                onChange={(e) => setIsRunning(e.target.checked)}
             />
             <Button
                 className={classes.button}

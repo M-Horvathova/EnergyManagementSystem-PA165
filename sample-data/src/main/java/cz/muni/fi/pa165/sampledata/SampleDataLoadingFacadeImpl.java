@@ -75,10 +75,10 @@ public class SampleDataLoadingFacadeImpl implements SampleDataLoadingFacade{
         log.info("Houses loaded");
 
         log.info("Loading smart meters");
-        SmartMeter smartMeter1 = smartMeter(true, 0, 0, house1);
-        SmartMeter smartMeter2 = smartMeter(true, 10, 150, house2);
-        SmartMeter smartMeter3 = smartMeter(false, 0, 0, house3);
-        SmartMeter smartMeter4 = smartMeter(true, 3, 15, house1);
+        SmartMeter smartMeter1 = smartMeter(true, 0, 0, house1, "Okruh garáž");
+        SmartMeter smartMeter2 = smartMeter(true, 10, 150, house2, "Okruh kotolňa");
+        SmartMeter smartMeter3 = smartMeter(false, 0, 0, house3, "Svetlá + spotrebiče");
+        SmartMeter smartMeter4 = smartMeter(true, 3, 15, house1, "Záhrada");
         log.info("Smart meters loaded");
 
         log.info("Loading meter logs");
@@ -166,8 +166,9 @@ public class SampleDataLoadingFacadeImpl implements SampleDataLoadingFacade{
         return h;
     }
 
-    private SmartMeter smartMeter(Boolean isRunning, double power, double cumulativePower, House house) {
+    private SmartMeter smartMeter(Boolean isRunning, double power, double cumulativePower, House house, String description) {
         SmartMeter sm = new SmartMeter();
+        sm.setSmartMeterDescription(description);
         sm.setRunning(isRunning);
         sm.setPowerConsumptionSinceLastLog(power);
         sm.setCumulativePowerConsumption(cumulativePower);

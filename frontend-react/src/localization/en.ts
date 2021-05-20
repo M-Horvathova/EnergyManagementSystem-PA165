@@ -72,6 +72,20 @@ const en = {
             new_user: "New user?",
             register: "Register here",
         },
+        smartMeterForm: {
+            description: "Description",
+            running: "Turned on",
+            confirm: "Confirm"
+        },
+        smartMeter: {
+            open: "Open",
+            edit: "Edit",
+            remove: "Remove",
+            create: "Create",
+            totalPowerConsumption: "Total power cunsumption:",
+            turnedOn: "On",
+            turnedOff: "Off"
+        }
     },
 };
 

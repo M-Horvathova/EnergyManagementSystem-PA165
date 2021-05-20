@@ -52,7 +52,7 @@ public class SmartMeterController {
     /**
      * Create a smart meter by POST method
      * curl -X POST -i -H "Content-Type: application/json" --data
-     * '{"houseId":"1","smartMeterDescription":"Smart meter - okruh garáž","isRunning": true}'
+     * '{"houseId":1,"smartMeterDescription":"Smart meter - okruh garáž","isRunning": true}'
      * http://localhost:8080/pa165/rest/smartmeters/create
      *
      * @param smartMeterCreateDTO SmartMeterCreateDTO with required fields for creation
@@ -85,8 +85,7 @@ public class SmartMeterController {
     public final SmartMeterDTO editSmartMeter(@PathVariable("id") long id, @RequestBody SmartMeterEditDTO smartMeterEditDTO) throws Exception {
         try {
             smartMeterEditDTO.setId(id);
-            smartMeterFacade.updateSmartMeter(smartMeterEditDTO);
-            return smartMeterFacade.getSmartMeter(id);
+            return smartMeterFacade.updateSmartMeter(smartMeterEditDTO);
         } catch (Exception e) {
             throw new ResourceNotFoundException();
         }

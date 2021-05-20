@@ -1,8 +1,8 @@
 import { Grid } from "@material-ui/core";
 import React, { FunctionComponent, Fragment } from "react";
 import { useTranslation } from "react-i18next";
-import SmartMeterHouseDTO from "../interfaces/SmartMeterHouseDTO";
 import SmartMeterTile from "./SmartMeterTile";
+import SmartMeterHouseDTO from "../interfaces/SmartMeterHouseDTO";
 
 export interface SmartMeterListProps {
     smartMeters: Array<SmartMeterHouseDTO>;

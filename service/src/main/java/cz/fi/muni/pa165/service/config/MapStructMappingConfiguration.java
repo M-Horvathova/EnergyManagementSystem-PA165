@@ -3,6 +3,7 @@ package cz.fi.muni.pa165.service.config;
 import cz.fi.muni.pa165.PersistenceApplicationContext;
 import cz.fi.muni.pa165.service.mappers.HouseToDTOMapper;
 import cz.fi.muni.pa165.service.mappers.MeterLogMapper;
+import cz.fi.muni.pa165.service.mappers.SmartMeterMapper;
 import org.mapstruct.factory.Mappers;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -21,4 +22,7 @@ public class MapStructMappingConfiguration {
 
     @Bean
     public MeterLogMapper meterLogMapper(){return Mappers.getMapper(MeterLogMapper.class);}
+
+    @Bean
+    public SmartMeterMapper smartMeterMapper() { return Mappers.getMapper(SmartMeterMapper.class); }
 }

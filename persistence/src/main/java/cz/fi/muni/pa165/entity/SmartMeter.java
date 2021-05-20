@@ -21,7 +21,7 @@ public class SmartMeter implements Serializable {
     private Set<MeterLog> meterLogs = new HashSet<>();
 
     @Column(nullable = false)
-    private boolean isRunning;
+    private boolean running;
 
     @Column(nullable = false)
     private double powerConsumptionSinceLastLog;
@@ -41,9 +41,8 @@ public class SmartMeter implements Serializable {
     public SmartMeter() {
     }
 
-
     public SmartMeter(boolean isRunning) {
-        this.isRunning = isRunning;
+        this.running = isRunning;
     }
 
     public void setId(Long id) {
@@ -71,11 +70,11 @@ public class SmartMeter implements Serializable {
     }
 
     public boolean isRunning() {
-        return isRunning;
+        return running;
     }
 
     public void setRunning(boolean running) {
-        isRunning = running;
+        this.running = running;
     }
 
     public LocalDateTime getLastLogTakenAt() {
@@ -142,7 +141,7 @@ public class SmartMeter implements Serializable {
     @Override
     public String toString() {
         return "SmartMeter{" +
-                "isRunning=" + isRunning +
+                "isRunning=" + running +
                 ", cumulativePowerConsumption=" + cumulativePowerConsumption +
                 ", smartMeterDescription='" + smartMeterDescription + '\'' +
                 ", houseId=" + house.getId() +

@@ -1,5 +1,5 @@
 import React, { Fragment, FunctionComponent, useEffect, useState } from "react";
-import { Button, ButtonGroup, Grid, Typography } from "@material-ui/core";
+import { Button, ButtonGroup, Grid, Typography, TextField } from "@material-ui/core";
 import { useHistory, useParams } from "react-router-dom";
 import axios from "axios";
 import Config from "../utils/Config";
@@ -17,7 +17,7 @@ const SmartMeterDetail: FunctionComponent<SmartMeterDetailProps> = () => {
     useEffect(() => {
         axios({
             method: "GET",
-            url: Config.urlRestBase + `/smartMeters/${id}`,
+            url: Config.urlRestBase + `/smartmeters/${id}`,
         }).then((response) => {
             console.log(response.data);
             setSmartMeter({
@@ -26,52 +26,24 @@ const SmartMeterDetail: FunctionComponent<SmartMeterDetailProps> = () => {
                 running: response.data.running,
                 powerConsumptionSinceLastLog: response.data.powerConsumptionSinceLastLog,
                 cumulativePowerConsumption: response.data.cumulativePowerConsumption,
-                lastLogTakenAt: response.data.lastLogTakenAt
+                lastLogTakenAt: response.data.lastLogTakenAt,
+                houseId : response.data.houseId
             });
         });
     }, [id]);
-
-/*    const handleOnClick = () => {
-        if (smartMeter) {
-            axios({
-                method: "PUT",
-                url: Config.urlRestBase + `/smartmeters/${id}`,
-                data: {
-                    description: smartMeter.smartMeterDescription
-                },
-            }).then((response) => {
-                setSmartMeter({
-                    id: response.data.id,
-                    smartMeterDescription: response.data.smartMeterDescription,
-                    running: response.data.running,
-                    powerConsumptionSinceLastLog: response.data.powerConsumptionSinceLastLog,
-                    cumulativePowerConsumption: response.data.cumulativePowerConsumption,
-                    lastLogTakenAt: response.data.lastLogTakenAt
-                });
-            });
-        }
-    };*/
 
     return (
         <Fragment>
             <Typography gutterBottom variant="h4" component="h2">
                 {smartMeter?.smartMeterDescription}
             </Typography>
+            <Typography variant="body2" color="textSecondary" component="p">
+                {smartMeter?.running ? t("smartMeter.turnedOn") : t("smartMeter.turnedOff")}
+            </Typography>
+            <Typography variant="body2" color="textSecondary" component="p">
+                { t("smartMeter.totalPowerConsumption") + " " + smartMeter?.cumulativePowerConsumption + " kwH"}
+            </Typography>
             <Grid container spacing={3}>
-                <Grid item>
-                    <ButtonGroup
-                        variant="contained"
-                        disableElevation
-                        aria-label="contained button group"
-                    >
-                        <Button
-                            color="primary"
-                            onClick={() => history.push("/smartMeter/create")}
-                        >
-                            {t("smartmeter.add")}
-                        </Button>
-                    </ButtonGroup>
-                </Grid>
             </Grid>
         </Fragment>
     );

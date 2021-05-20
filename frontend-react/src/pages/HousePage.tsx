@@ -74,7 +74,7 @@ const HousePage: FunctionComponent<HousePageProps> = () => {
     const handleOnRemove = async (id: number) => {
         await axios({
             method: "DELETE",
-            url: Config.urlRestBase + `/smartMeters/${id}`,
+            url: Config.urlRestBase + `/smartmeters/${id}`,
         });
         const updatedMeters = [...smartMeters];
         setSmartMeters(
@@ -96,7 +96,7 @@ const HousePage: FunctionComponent<HousePageProps> = () => {
                     >
                         <Button
                             color="primary"
-                            onClick={() => history.push("/smartMeter/create")}
+                            onClick={() => history.push(`/smartMeter/create?houseId=${id}`)}
                         >
                             {t("house.add")}
                         </Button>

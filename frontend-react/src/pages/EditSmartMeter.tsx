@@ -1,12 +1,12 @@
 import React, { Fragment, FunctionComponent, useEffect, useState } from "react";
 import { Grid, Typography } from "@material-ui/core";
 import { useParams } from "react-router-dom";
-import SmartMeterHouseDTO from "../interfaces/SmartMeterHouseDTO";
 import SmartMetrForm from "../components/SmartMetrForm";
-import { useHistory } from "react-router";
+import {useHistory, useLocation} from "react-router";
 import { useTranslation } from "react-i18next";
 import axios from "axios";
 import Config from "../utils/Config";
+import SmartMeterHouseDTO from "../interfaces/SmartMeterHouseDTO";
 
 export interface EditSmartMeterProps {}
 
@@ -21,36 +21,38 @@ const EditSmartMeter: FunctionComponent<EditSmartMeterProps> = () => {
             method: "GET",
             url: Config.urlRestBase + `/smartmeters/${id}`,
         }).then((response) => {
+            console.log(response);
             setSmartMeter({
                 id: response.data.id,
                 smartMeterDescription: response.data.smartMeterDescription,
                 running: response.data.running,
                 powerConsumptionSinceLastLog: response.data.powerConsumptionSinceLastLog,
                 cumulativePowerConsumption: response.data.cumulativePowerConsumption,
-                lastLogTakenAt: response.data.lastLogTakenAt
+                lastLogTakenAt: response.data.lastLogTakenAt,
+                houseId : response.data.houseId
             });
         });
     }, [id]);
 
     const handleOnSubmit = async (
-        description : string,
+        smartMeterDescription : string,
         running: boolean,
     ) => {
         await axios({
             method: "PUT",
             url: Config.urlRestBase + `/smartmeters/${id}`,
             data: {
-                description,
+                smartMeterDescription,
                 running
             },
         });
-        history.push("/smartmeters");
+        history.push(`/house/${smartMeter?.houseId}`);
     };
 
     return (
         <Fragment>
             <Typography variant="h4" component="h2">
-                {t("editSmartMeter.edit")} #{smartMeter?.id}
+                {t("smartMeter.edit")} '{smartMeter?.smartMeterDescription}'
             </Typography>
             <Grid container spacing={3}>
                 {smartMeter ? (

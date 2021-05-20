@@ -1,27 +1,21 @@
 package cz.fi.muni.pa165.dto;
 
-import cz.fi.muni.pa165.entity.House;
-import cz.fi.muni.pa165.entity.MeterLog;
-import cz.fi.muni.pa165.entity.SmartMeter;
-
-import javax.persistence.*;
-import java.time.LocalDateTime;
 import java.util.Objects;
-import java.util.Set;
+
 /**
  * @author Matej Rišňovský
  */
 public class SmartMeterCreateDTO {
-    private boolean isRunning;
+    private boolean running;
     private String smartMeterDescription;
     private long houseId;
 
     public boolean isRunning() {
-        return isRunning;
+        return running;
     }
 
     public void setRunning(boolean running) {
-        isRunning = running;
+        this.running = running;
     }
 
     public String getSmartMeterDescription() {
@@ -59,7 +53,7 @@ public class SmartMeterCreateDTO {
     @Override
     public String toString() {
         return "SmartMeterCreateDTO{" +
-                "isRunning=" + isRunning +
+                "isRunning=" + running +
                 ", smartMeterDescription='" + smartMeterDescription + '\'' +
                 ", houseId=" + houseId +
                 '}';

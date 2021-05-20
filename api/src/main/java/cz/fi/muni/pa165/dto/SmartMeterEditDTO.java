@@ -6,9 +6,9 @@ import java.util.Objects;
  * @author Matej Rišňovský
  */
 public class SmartMeterEditDTO {
-    private Long id;
-    private boolean isRunning;
     private String smartMeterDescription;
+    private boolean running;
+    private Long id;
 
     public Long getId() {
         return id;
@@ -17,11 +17,11 @@ public class SmartMeterEditDTO {
     public void setId(long id) { this.id = id; }
 
     public boolean isRunning() {
-        return isRunning;
+        return running;
     }
 
     public void setRunning(boolean running) {
-        isRunning = running;
+        this.running = running;
     }
 
     public String getSmartMeterDescription() {
@@ -36,9 +36,9 @@ public class SmartMeterEditDTO {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof SmartMeterCreateDTO)) return false;
+        if (!(o instanceof SmartMeterEditDTO)) return false;
 
-        SmartMeterCreateDTO sm = (SmartMeterCreateDTO) o;
+        SmartMeterEditDTO sm = (SmartMeterEditDTO) o;
         return isRunning() == sm.isRunning()
                 && ((getSmartMeterDescription() == null && sm.getSmartMeterDescription() == null) || (getSmartMeterDescription() != null && getSmartMeterDescription().equals(sm.getSmartMeterDescription())));
     }
@@ -50,8 +50,8 @@ public class SmartMeterEditDTO {
 
     @Override
     public String toString() {
-        return "SmartMeterCreateDTO{" +
-                "isRunning=" + isRunning +
+        return "SmartMeterEditDTO{" +
+                "isRunning=" + running +
                 ", smartMeterDescription='" + smartMeterDescription + '\'' +
                 '}';
     }

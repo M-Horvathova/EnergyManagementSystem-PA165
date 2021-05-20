@@ -42,7 +42,7 @@ public class SmartMeterDaoImpl implements SmartMeterDao {
 
     @Override
     public List<SmartMeter> findByRunning(boolean running) {
-        List<SmartMeter> smartMeters = em.createQuery("select sm from SmartMeter sm where sm.isRunning = :running", SmartMeter.class)
+        List<SmartMeter> smartMeters = em.createQuery("select sm from SmartMeter sm where sm.running = :running", SmartMeter.class)
                 .setParameter("running", running)
                 .getResultList();
         return smartMeters;
