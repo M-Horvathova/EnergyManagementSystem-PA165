@@ -1,5 +1,6 @@
 package cz.fi.muni.pa165.service.facade;
 
+import cz.fi.muni.pa165.dto.SmartMeterEditDTO;
 import cz.fi.muni.pa165.facade.SmartMeterFacade;
 import cz.fi.muni.pa165.service.BeanMappingService;
 import cz.fi.muni.pa165.dto.SmartMeterCreateDTO;
@@ -52,7 +53,7 @@ public class SmartMeterFacadeImpl implements SmartMeterFacade {
     }
 
     @Override
-    public SmartMeterDTO updateSmartMeter(SmartMeterDTO smartMeter) {
+    public SmartMeterDTO updateSmartMeter(SmartMeterEditDTO smartMeter) {
         SmartMeter sm = beanMappingService.mapTo(smartMeter, SmartMeter.class);
         return (smartMeterService.update(sm) == null) ? null : beanMappingService.mapTo(sm, SmartMeterDTO.class);
     }

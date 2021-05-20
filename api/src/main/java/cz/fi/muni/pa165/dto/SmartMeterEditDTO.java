@@ -1,20 +1,20 @@
 package cz.fi.muni.pa165.dto;
 
-import cz.fi.muni.pa165.entity.House;
-import cz.fi.muni.pa165.entity.MeterLog;
-import cz.fi.muni.pa165.entity.SmartMeter;
-
-import javax.persistence.*;
-import java.time.LocalDateTime;
 import java.util.Objects;
-import java.util.Set;
+
 /**
  * @author Matej Rišňovský
  */
-public class SmartMeterCreateDTO {
+public class SmartMeterEditDTO {
+    private Long id;
     private boolean isRunning;
     private String smartMeterDescription;
-    private long houseId;
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(long id) { this.id = id; }
 
     public boolean isRunning() {
         return isRunning;
@@ -32,13 +32,6 @@ public class SmartMeterCreateDTO {
         this.smartMeterDescription = description;
     }
 
-    public long getHouseId() {
-        return houseId;
-    }
-
-    public void setHouseId(long houseId) {
-        this.houseId = houseId;
-    }
 
     @Override
     public boolean equals(Object o) {
@@ -47,13 +40,12 @@ public class SmartMeterCreateDTO {
 
         SmartMeterCreateDTO sm = (SmartMeterCreateDTO) o;
         return isRunning() == sm.isRunning()
-                && getHouseId() == sm.getHouseId()
                 && ((getSmartMeterDescription() == null && sm.getSmartMeterDescription() == null) || (getSmartMeterDescription() != null && getSmartMeterDescription().equals(sm.getSmartMeterDescription())));
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(isRunning(), getHouseId(), getSmartMeterDescription());
+        return Objects.hash(isRunning(), getSmartMeterDescription());
     }
 
     @Override
@@ -61,7 +53,6 @@ public class SmartMeterCreateDTO {
         return "SmartMeterCreateDTO{" +
                 "isRunning=" + isRunning +
                 ", smartMeterDescription='" + smartMeterDescription + '\'' +
-                ", houseId=" + houseId +
                 '}';
     }
 }

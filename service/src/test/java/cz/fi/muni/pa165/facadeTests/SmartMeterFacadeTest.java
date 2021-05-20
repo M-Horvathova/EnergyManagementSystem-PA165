@@ -60,6 +60,7 @@ public class SmartMeterFacadeTest extends AbstractTestNGSpringContextTests {
     private SmartMeter testSmartMeter2;
     private SmartMeter testSmartMeter3;
     private SmartMeterDTO testSmartMeterDTO;
+    private SmartMeterEditDTO testSmartMeterEditDTO;
     private SmartMeterCreateDTO testSmartMeterCreateDTO;
     private List<SmartMeter> allSmartMeters;
     private List<SmartMeter> allRunningSmartMeters;
@@ -154,10 +155,13 @@ public class SmartMeterFacadeTest extends AbstractTestNGSpringContextTests {
         testSmartMeterDTO.setRunning(true);
 
         testSmartMeterCreateDTO = new SmartMeterCreateDTO();
-        testSmartMeterCreateDTO.setCumulativePowerConsumption(100);
         testSmartMeterCreateDTO.setSmartMeterDescription("TEST");
         testSmartMeterCreateDTO.setRunning(true);
         testSmartMeterCreateDTO.setHouseId(1);
+
+        testSmartMeterEditDTO = new SmartMeterEditDTO();
+        testSmartMeterEditDTO.setSmartMeterDescription("EDIT TEST");
+        testSmartMeterEditDTO.setRunning(false);
     }
 
 
@@ -169,7 +173,7 @@ public class SmartMeterFacadeTest extends AbstractTestNGSpringContextTests {
 
     @Test
     public void updateSmartMeterTest() {
-        SmartMeterDTO result = smartMeterFacade.updateSmartMeter(testSmartMeterDTO);
+        SmartMeterDTO result = smartMeterFacade.updateSmartMeter(testSmartMeterEditDTO);
         verify(smartMeterService, times(1)).update(any(SmartMeter.class));
     }
 
