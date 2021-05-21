@@ -4,6 +4,7 @@ import cz.fi.muni.pa165.entity.PortalUser;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 import java.util.regex.Pattern;
 import java.util.List;
 
@@ -20,6 +21,7 @@ public class PortalUserDaoImpl implements PortalUserDao {
 
     @Override
     public void create(PortalUser portalUser) {
+        portalUser.setCreatedTimestamp(LocalDateTime.now());
         userValidation(portalUser);
         em.persist(portalUser);
     }

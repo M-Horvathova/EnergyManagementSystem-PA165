@@ -49,7 +49,7 @@ export async function register(
             method: "POST",
             url: Config.urlRestBase + "/register",
             data: {
-                userName: email,
+                email,
                 password,
                 passwordConfirmation: confirmPassword,
                 firstName,
