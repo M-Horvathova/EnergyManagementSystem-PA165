@@ -4,6 +4,7 @@ import LoginUser from "../interfaces/LoginUser";
 import Config from "../utils/Config";
 import {createContext} from "react";
 import Registration from "../pages/Registration";
+import Login from "../pages/Login";
 
 const tokenKey = "token";
 
@@ -14,24 +15,22 @@ type UserCtx = {
 export const UserContext = createContext<UserCtx>({user: null});
 
 export async function login(email: string, password: string) {
-    const response = await axios({
-        method: "POST",
-        url: Config.urlRestBase + "/login",
-        data: {
-            userName: email,
-            password,
-        },
-    });
+    try {
+        const response = await axios({
+            method: "POST",
+            url: Config.urlRestBase + "/login",
+            data: {
+                userName: email,
+                password,
+            }
+        });
 
-    if (response.status === 401) {
-        var temp: {[index: string]: string;} = {
-            "password": ("login.incorrectPassword").match(response.statusText) ? "" : "login.incorrectPassword",
-            "username": ("login.incorrectPassword").match(response.statusText) ? "" : "login.notExistingUser"
-        };
+        const jwt = response.data;
+        localStorage.setItem(tokenKey, jwt);
+        return response.status;
+    } catch (e) {
+        return e.response.status;
     }
-
-    const jwt = response.data;
-    localStorage.setItem(tokenKey, jwt);
 }
 
 export function logout() {
@@ -45,21 +44,26 @@ export async function register(
         firstName: string,
         lastName: string,
         phone: string) {
-    const response = await axios({
-        method: "POST",
-        url: Config.urlRestBase + "/register",
-        data: {
-            userName: email,
-            password,
-            passwordConfirmation: confirmPassword,
-            firstName,
-            lastName,
-            phone
-        },
-    });
+    try {
+        const response = await axios({
+            method: "POST",
+            url: Config.urlRestBase + "/register",
+            data: {
+                userName: email,
+                password,
+                passwordConfirmation: confirmPassword,
+                firstName,
+                lastName,
+                phone
+            },
+        });
 
-    const jwt = response.data;
-    localStorage.setItem(tokenKey, jwt);
+        const jwt = response.data;
+        localStorage.setItem(tokenKey, jwt);
+        return response.status;
+    } catch (e) {
+        return e.response.status;
+    }
 }
 
 export function getCurrentUser(): LoginUser | null {

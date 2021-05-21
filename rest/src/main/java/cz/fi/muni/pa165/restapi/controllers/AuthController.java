@@ -7,6 +7,7 @@ import cz.fi.muni.pa165.entity.UserRole;
 import cz.fi.muni.pa165.facade.PortalUserFacade;
 import cz.fi.muni.pa165.restapi.exceptions.IncorrectPassordException;
 import cz.fi.muni.pa165.restapi.exceptions.NotExistingUserException;
+import cz.fi.muni.pa165.restapi.exceptions.UserAlreadyExistsException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
@@ -26,6 +27,11 @@ public class AuthController {
             consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE)
     public final String register(@RequestBody PortalUserRegistrationDTO portalUserRegistrationDTO) throws Exception {
+        PortalUserDTO portalUserDTO = portalUserFacade.findUserByEmail(portalUserRegistrationDTO.getEmail());
+        if (portalUserDTO != null) {
+            throw new UserAlreadyExistsException();
+        }
+
         portalUserFacade.registerUser(portalUserRegistrationDTO);
         Algorithm algorithm = Algorithm.HMAC256("secret");
         return JWT.create()

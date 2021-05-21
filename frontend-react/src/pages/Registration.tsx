@@ -11,6 +11,7 @@ import TextField from "@material-ui/core/TextField";
 import AccountBoxIcon from "@material-ui/icons/AccountBox";
 import { useTranslation } from "react-i18next";
 import auth from "../services/auth";
+import Alert from "@material-ui/lab/Alert";
 
 /*
     Author: Michaela Horváthová
@@ -42,12 +43,13 @@ const Registration: FC = () => {
 
     const validate = () => {
         var temp: {[index: string]: string;} = {
-            "email": (/.*@.*..*/).test(email) ? "" : "registration.invalidEmail",
-            "password": password ? "" : "registration.passwordRequired",
-            "confirmPassword": confirmPassword ? "" : "registration.confirmPasswordRequired",
-            "firstName": firstName ? "" : "registration.firstNameRequired",
-            "lastName": lastName ? "" : "registration.lastNameRequired",
-            "phone": phone.length > 9 ? "" : "registration.invalidPhoneLength"
+            "email": (/.*@.*..*/).test(email) ? "" : t("register.err_invalid_email"),
+            "password": password ? "" : t("register.err_password_required"),
+            "confirmPassword": confirmPassword ? "" : t("register.err_confirm_password_required"),
+            "firstName": firstName ? "" : t("register.err_first_name_required"),
+            "lastName": lastName ? "" : t("register.err_last_name_required"),
+            "phone": phone.length > 9 ? "" : t("register.err_invalid_phone"),
+            "passwordsSame": password === confirmPassword ? "" : t("register.err_password_not_same")
         };
 
         setErrors({...temp});
@@ -61,17 +63,19 @@ const Registration: FC = () => {
     const [lastName, setLastName] = useState("");
     const [phone, setPhone] = useState("");
     const [errors, setErrors] = useState<{[index: string]: string}>({});
+    const [beErrors, setBEErrors] = useState(false);
 
     const { t } = useTranslation();
 
     const handleLoginEvent = async () => {
         if (validate()) {
-            window.alert("testing")
-        } else {
-            return;
+            var status = await auth.register(email, password, confirmPassword, firstName, lastName, phone);
+            if (status == 409) {
+                setBEErrors(true);
+                return;
+            }
+            window.location.href = "/pa165";
         }
-        await auth.register(email, password, confirmPassword, firstName, lastName, phone);
-        window.location.href = "/pa165";
     };
 
     return (
@@ -80,12 +84,13 @@ const Registration: FC = () => {
                 <CardContent>
                     <AccountBoxIcon style={{ fontSize: "60" }} />
                     <Typography variant="h5" component="h1">
-                        {t("Registration.Registration")}
+                        {t("register.register")}
                     </Typography>
+                    {beErrors && <Alert variant="outlined" severity="error">{t("register.already_registered")}</Alert>}
                     <TextField
                         error={errors["email"] != null}
                         helperText={errors["email"]}
-                        label={t("registration.email")}
+                        label={t("register.email")}
                         type="text"
                         name="email"
                         fullWidth
@@ -99,7 +104,7 @@ const Registration: FC = () => {
                     <TextField
                         error={errors["password"] != null}
                         helperText={errors["password"]}
-                        label={t("registration.password")}
+                        label={t("register.password")}
                         type="password"
                         name="password"
                         fullWidth
@@ -110,9 +115,9 @@ const Registration: FC = () => {
                         onChange={(e) => setPassword(e.target.value)}
                     />
                     <TextField
-                        error={errors["confirmPassword"] != null}
-                        helperText={errors["confirmPassword"]}
-                        label={t("registration.confirmPassword")}
+                        error={errors["confirmPassword"] != null || errors["passwordsSame"] != null}
+                        helperText={errors["confirmPassword"] === "" ? errors["passwordsSame"] : errors["confirmPassword"]}
+                        label={t("register.password_conf")}
                         type="password"
                         name="confirmPassword"
                         fullWidth
@@ -125,7 +130,7 @@ const Registration: FC = () => {
                     <TextField
                         error={errors["firstName"] != null}
                         helperText={errors["firstName"]}
-                        label={t("registration.firstName")}
+                        label={t("register.first_name")}
                         type="text"
                         name="firstName"
                         fullWidth
@@ -138,7 +143,7 @@ const Registration: FC = () => {
                     <TextField
                         error={errors["lastName"] != null}
                         helperText={errors["lastName"]}
-                        label={t("registration.lastName")}
+                        label={t("register.last_name")}
                         type="text"
                         name="lastName"
                         fullWidth
@@ -151,7 +156,7 @@ const Registration: FC = () => {
                     <TextField
                         error={errors["phone"] != null}
                         helperText={errors["phone"]}
-                        label={t("registration.phone")}
+                        label={t("register.phone")}
                         type="text"
                         name="phone"
                         fullWidth
@@ -170,7 +175,7 @@ const Registration: FC = () => {
                         color="primary"
                         onClick={handleLoginEvent}
                     >
-                        {t("registration.register")}
+                        {t("register.register")}
                     </Button>
                 </CardActions>
             </Card>

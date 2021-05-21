@@ -78,12 +78,22 @@ public class PortalUserFacadeImpl implements PortalUserFacade {
     @Override
     public PortalUserDTO findUserById(Long id)
     {
-        return portalUserToPortalUserDTO(portalUserService.findUserById(id));
+        PortalUser user = portalUserService.findUserById(id);
+        if (user == null) {
+            return null;
+        }
+
+        return portalUserToPortalUserDTO(user);
     }
 
     @Override
     public PortalUserDTO findUserByEmail(String email) {
-        return portalUserToPortalUserDTO(portalUserService.findUserByEmail(email));
+        PortalUser user = portalUserService.findUserByEmail(email);
+        if (user == null) {
+            return null;
+        }
+
+        return portalUserToPortalUserDTO(user);
     }
 
     @Override
@@ -117,6 +127,10 @@ public class PortalUserFacadeImpl implements PortalUserFacade {
     }
 
     private PortalUserDTO portalUserToPortalUserDTO(PortalUser portalUser) {
+        if (portalUser == null) {
+            return null;
+        }
+
         PortalUserDTO portaluserDTO = new PortalUserDTO();
         portaluserDTO.setId(portalUser.getId());
         portaluserDTO.setActive(portalUser.isActive());
@@ -133,6 +147,10 @@ public class PortalUserFacadeImpl implements PortalUserFacade {
     }
 
     private PortalUser portalUserDTOToPortalUser(PortalUserRegistrationDTO portalUserDTO) {
+        if (portalUserDTO == null) {
+            return null;
+        }
+
         PortalUser portalUser = new PortalUser();
         portalUser.setEmail(portalUserDTO.getEmail());
         portalUser.setFirstName(portalUserDTO.getFirstName());
@@ -142,6 +160,10 @@ public class PortalUserFacadeImpl implements PortalUserFacade {
     }
 
     private void portalUserDTOToPortalUser(PortalUser portalUser, PortalUserChangeBasicInfoDTO portalUserChangeBasicInfoDTO) {
+        if (portalUser == null || portalUserChangeBasicInfoDTO == null) {
+            return;
+        }
+
         portalUser.setEmail(portalUserChangeBasicInfoDTO.getEmail());
         portalUser.setFirstName(portalUserChangeBasicInfoDTO.getFirstName());
         portalUser.setLastName(portalUserChangeBasicInfoDTO.getLastName());

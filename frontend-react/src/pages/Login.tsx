@@ -4,6 +4,7 @@ import Card from "@material-ui/core/Card";
 import Grid from "@material-ui/core/Grid";
 import CardActions from "@material-ui/core/CardActions";
 import CardContent from "@material-ui/core/CardContent";
+import Alert from "@material-ui/lab/Alert"
 import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
 import TextField from "@material-ui/core/TextField";
@@ -11,6 +12,7 @@ import TextField from "@material-ui/core/TextField";
 import AccountBoxIcon from "@material-ui/icons/AccountBox";
 import { useTranslation } from "react-i18next";
 import auth from "../services/auth";
+import {Snackbar} from "@material-ui/core";
 
 /*
     Author: Michaela Horváthová
@@ -43,11 +45,16 @@ const Login: FC = () => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [errors, setErrors] = useState<{[index: string]: string}>({});
-
+    const [beErrors, setBEErrors] = useState(false);
     const { t } = useTranslation();
 
     const handleLoginEvent = async () => {
-        await auth.login(email, password);
+        var status = await auth.login(email, password);
+        if (status == 401) {
+            setBEErrors(true);
+            return;
+        }
+
         window.location.href = "/pa165";
     };
 
@@ -59,6 +66,8 @@ const Login: FC = () => {
                     <Typography variant="h5" component="h1">
                         {t("login.login")}
                     </Typography>
+                    <br/>
+                    {beErrors && <Alert variant="outlined" severity="error">{t("login.invalid_credentials")}</Alert>}
                     <TextField
                         error={errors["username"] != null}
                         helperText={errors["username"]}
