@@ -37,6 +37,15 @@ const en = {
       open: "Abrir",
       remove: "Eliminar"
     },
+    house: {
+      add: "Añadir meter",
+      edit: "Editar",
+      nothing: "Nada que mostrar",
+      open: "Abrir",
+      remove: "Eliminar",
+      off: "Apagar",
+      on: "Encender"
+    },
     login: {
       email: "Correo Electrónico",
       login: "Entrar",
@@ -50,6 +59,7 @@ const en = {
       app_name: "Smart Energy",
       home: "Inicio",
       houses: "Mis Casas",
+      login: "Login",
       logout: "Cerrar sesión"
     },
     register: {

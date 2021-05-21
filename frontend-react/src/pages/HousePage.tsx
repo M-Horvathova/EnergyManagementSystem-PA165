@@ -1,16 +1,23 @@
 import React, { Fragment, FunctionComponent, useEffect, useState } from "react";
-import { Button, Grid, Typography } from "@material-ui/core";
-import { useParams } from "react-router-dom";
+import { Button, ButtonGroup, Grid, Typography } from "@material-ui/core";
+import { useHistory, useParams } from "react-router-dom";
 import HouseDTO from "../interfaces/HouseDTO";
 import axios from "axios";
 import Config from "../utils/Config";
+import SmartMeterList from "../components/SmartMeterList";
+import SmartMeterHouseDTO from "../interfaces/SmartMeterHouseDTO";
+import { useTranslation } from "react-i18next";
 
 export interface HousePageProps {}
 
 const HousePage: FunctionComponent<HousePageProps> = () => {
     const { id } = useParams<{ id: string }>();
+    const { t } = useTranslation();
+    const history = useHistory();
     const [house, setHouse] = useState<HouseDTO | null>();
-    const [smartMeters, setSmartMeters] = useState<any>();
+    const [smartMeters, setSmartMeters] = useState<Array<SmartMeterHouseDTO>>(
+        []
+    );
 
     useEffect(() => {
         axios({
@@ -64,24 +71,45 @@ const HousePage: FunctionComponent<HousePageProps> = () => {
         }
     };
 
+    const handleOnRemove = async (id: number) => {
+        await axios({
+            method: "DELETE",
+            url: Config.urlRestBase + `/smartMeters/${id}`,
+        });
+        const updatedMeters = [...smartMeters];
+        setSmartMeters(
+            updatedMeters.filter((smartMeter) => smartMeter.id !== id)
+        );
+    };
+
     return (
         <Fragment>
             <Typography gutterBottom variant="h4" component="h2">
-                House #{house?.id}
+                {house?.name}
             </Typography>
             <Grid container spacing={3}>
                 <Grid item>
-                    <Button
+                    <ButtonGroup
                         variant="contained"
-                        color="primary"
                         disableElevation
-                        onClick={handleOnClick}
+                        aria-label="contained button group"
                     >
-                        Turn {house?.running ? "off" : "on"} the house
-                    </Button>
+                        <Button
+                            color="primary"
+                            onClick={() => history.push("/smartMeter/create")}
+                        >
+                            {t("house.add")}
+                        </Button>
+                        <Button color="secondary" onClick={handleOnClick}>
+                            {house?.running ? t("house.off") : t("house.on")}
+                        </Button>
+                    </ButtonGroup>
                 </Grid>
-                <Grid item>{JSON.stringify(smartMeters)}</Grid>
             </Grid>
+            <SmartMeterList
+                smartMeters={smartMeters}
+                onRemove={handleOnRemove}
+            />
         </Fragment>
     );
 };
