@@ -13,8 +13,9 @@ import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
+@RequestMapping("/users")
 public class AuthController {
-
+    private static final int ITEMS_PAGE_COUNT = 10;
     private final PortalUserFacade portalUserFacade;
 
     @Autowired
@@ -100,5 +101,13 @@ public class AuthController {
     public final String deactivateUser(@PathVariable("id") Long id) throws Exception {
         portalUserFacade.deactivateUser(id);
         return "true";
+    }
+
+    @RequestMapping(path = "/{page}",
+            method = RequestMethod.GET,
+            produces = MediaType.APPLICATION_JSON_VALUE)
+    public final PortalUserListingDTO getUsers(@PathVariable("page") int page) throws Exception {
+        PortalUserListingDTO users = portalUserFacade.getAllUsers(page, ITEMS_PAGE_COUNT);
+        return users;
     }
 }

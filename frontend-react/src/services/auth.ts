@@ -18,7 +18,7 @@ export async function login(email: string, password: string) {
     try {
         const response = await axios({
             method: "POST",
-            url: Config.urlRestBase + "/login",
+            url: Config.urlRestBase + "/users/login",
             data: {
                 userName: email,
                 password,
@@ -47,7 +47,7 @@ export async function register(
     try {
         const response = await axios({
             method: "POST",
-            url: Config.urlRestBase + "/register",
+            url: Config.urlRestBase + "/users/register",
             data: {
                 email,
                 password,

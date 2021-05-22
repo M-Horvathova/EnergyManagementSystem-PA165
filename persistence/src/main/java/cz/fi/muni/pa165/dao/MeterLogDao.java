@@ -59,6 +59,8 @@ public interface MeterLogDao {
      */
     public List<MeterLog> findByDate(LocalDate date);
 
+    public List<MeterLog> findByDate(LocalDate from, LocalDate to);
+
     /**
      *  Finds all MeterLogs that have the given date and were also taken within the given time of day
      * @param date Date in LocalDate format when the measurement was done

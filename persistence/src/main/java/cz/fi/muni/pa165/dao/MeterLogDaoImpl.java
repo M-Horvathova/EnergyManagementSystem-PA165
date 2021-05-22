@@ -77,6 +77,12 @@ public class MeterLogDaoImpl implements MeterLogDao {
         return resultList;
     }
 
+    @Override
+    public List<MeterLog> findByDate(LocalDate from, LocalDate to) {
+        List<MeterLog> resultList = em.createQuery("select m from MeterLog m where m.logDate >= :from AND m.logDate <= :to",
+                MeterLog.class).setParameter("from", from).setParameter("to", to).getResultList();
+        return resultList;
+    }
 
     @Override
     public List<MeterLog> findByTimeOfDay(LocalDate date, DayTime dayTime) {

@@ -14,6 +14,7 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 /**
@@ -69,10 +70,69 @@ public class SmartMeterServiceImpl implements SmartMeterService {
         return meterLogs.stream().mapToDouble(meterLog -> (double)meterLog.getMeasure()).sum();
     }
 
+    @Override
+    public double getPowerSpentForDateForSmartMeter(LocalDate from, LocalDate to, SmartMeter smartMeter) {
+        List<MeterLog> meterLogs = meterLogDao.findByDate(from, to);
+        meterLogs.removeIf(meterLog -> !meterLog.getSmartMeter().equals(smartMeter));
+        return meterLogs.stream().mapToDouble(meterLog -> (double)meterLog.getMeasure()).sum();
+    }
+
+    @Override
+    public double getAveragePowerSpentForDateForSmartMeter(LocalDate from, LocalDate to, SmartMeter smartMeter) {
+        List<MeterLog> meterLogs = meterLogDao.findByDate(from, to);
+        meterLogs.removeIf(meterLog -> !meterLog.getSmartMeter().equals(smartMeter));
+        return meterLogs.stream().mapToDouble(meterLog -> (double)meterLog.getMeasure()).average().orElse(0.0);
+    }
+
+    @Override
+    public double getAveragePowerSpentForDateForSmartMeter(LocalDate date, SmartMeter smartMeter) {
+        List<MeterLog> meterLogs = meterLogDao.findByDate(date);
+        meterLogs.removeIf(meterLog -> !meterLog.getSmartMeter().equals(smartMeter));
+        return meterLogs.stream().mapToDouble(meterLog -> (double)meterLog.getMeasure()).average().orElse(0.0);
+    }
+
+    @Override
+    public double getPowerSpentForIntervalForSmartMeter(LocalDate from, LocalDate to, SmartMeter smartMeter) {
+        double result = getPowerSpentForDateForSmartMeter(from, to, smartMeter);
+        return result;
+    }
+
+    @Override
+    public double getAveragePowerSpentForIntervalForSmartMeter(LocalDate from, LocalDate to, SmartMeter smartMeter) {
+        double result = getAveragePowerSpentForDateForSmartMeter(from, to, smartMeter);
+        return result;
+    }
+
+    @Override
+    public double getPowerSpentForIntervalForSmartMeters(LocalDate from, LocalDate to, Set<SmartMeter> smartMeters) {
+        double result = 0.0;
+        for (SmartMeter smartMeter : smartMeters)
+        {
+            result += getPowerSpentForIntervalForSmartMeter(from, to, smartMeter);
+        }
+
+        return result;
+    }
+
+    @Override
+    public double getAveragePowerSpentForIntervalForSmartMeters(LocalDate from, LocalDate to, Set<SmartMeter> smartMeters) {
+        double result = 0.0;
+        for (SmartMeter smartMeter : smartMeters)
+        {
+            result += getAveragePowerSpentForIntervalForSmartMeter(from, to, smartMeter);
+        }
+
+        return result;
+    }
 
     @Override
     public double getAllPowerSpent() {
         return findAll().stream().mapToDouble(sm -> sm.getCumulativePowerConsumption()).sum();
+    }
+
+    @Override
+    public double getAveragePowerSpent() {
+        return findAll().stream().mapToDouble(sm -> sm.getCumulativePowerConsumption()).average().orElse(0);
     }
 
     @Override
