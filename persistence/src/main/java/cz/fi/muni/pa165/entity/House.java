@@ -20,7 +20,7 @@ public class House implements Serializable {
     @Column(nullable = false)
     private String name;
 
-    @Column(nullable = false)
+    @Column(nullable = false, name = "is_running")
     private Boolean isRunning;
 
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
