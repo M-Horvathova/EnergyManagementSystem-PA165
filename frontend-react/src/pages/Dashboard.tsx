@@ -61,7 +61,7 @@ interface HeadCell {
 }
 
 const headCells: HeadCell[] = [
-    { id: 'userName', numeric: false, disablePadding: true, label: 'username' },
+    { id: 'userName', numeric: false, disablePadding: false, label: 'username' },
     { id: 'fromToTotalSpent', numeric: true, disablePadding: false, label: 'total spent' },
     { id: 'fromToAverageSpent', numeric: true, disablePadding: false, label: 'average spent' }
 ];
@@ -168,6 +168,14 @@ const Dashboard: FunctionComponent<UsersProps> = () => {
     const [to, setTo] = React.useState<Date | null>(null);
     const [statistics, setStatistics] = useState<StatisticsDTO>(new StatisticsDTO());
 
+    const getFromDate = () => {
+        return from === null ? null : from.toISOString();
+    }
+
+    const getToDate = () => {
+        return to === null ? null : to.toISOString();
+    }
+
     const handleFromDateChange = (date: Date | null) => {
         setFrom(date);
     };
@@ -179,20 +187,22 @@ const Dashboard: FunctionComponent<UsersProps> = () => {
     useEffect(() => {
         axios({
             method: "GET",
-            url: Config.urlRestBase + `/statistics/${from}/${to}`,
+            url: Config.urlRestBase + `/statistics/${getFromDate()}/${getToDate()}`,
         }).then((response) => {
             const result: StatisticsDTO = response.data as StatisticsDTO;
             setStatistics(result);
+            setRows(result.statistics);
         });
     }, []);
 
     const handleGetStatisticsEvent = async (event: object) => {
         axios({
             method: "GET",
-            url: Config.urlRestBase + `/statistics/${from}/${to}`,
+            url: Config.urlRestBase + `/statistics/${getFromDate()}/${getToDate()}`,
         }).then((response) => {
-            const result: StatisticsDTO = response.data.map((obj: any) => obj as StatisticsDTO);
+            const result: StatisticsDTO = response.data as StatisticsDTO;
             setStatistics(result);
+            setRows(result.statistics);
         });
     };
 
@@ -284,26 +294,14 @@ const Dashboard: FunctionComponent<UsersProps> = () => {
                                 {stableSort(rows, getComparator(order, orderBy))
                                     .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                                     .map((row, index) => {
-                                        const labelId = `enhanced-table-checkbox-${index}`;
-
                                         return (
-                                            <TableRow
-                                                hover
-                                                role="checkbox"
-                                                tabIndex={-1}
-                                                key={row.userName}
-                                            >
-                                                <TableCell padding="checkbox">
-                                                </TableCell>
-                                                <TableCell component="th" id={labelId} scope="row" padding="none">
-                                                    {row.userName}
-                                                </TableCell>
-                                                <TableCell align="right">{row.userName}</TableCell>
+                                            <TableRow>
+                                                <TableCell align="left">{row.userName}</TableCell>
                                                 <TableCell align="right">{row.fromToTotalSpent}</TableCell>
                                                 <TableCell align="right">{row.fromToAverageSpent}</TableCell>
                                             </TableRow>
                                         );
-                                    })};
+                                    })}
                                 {emptyRows > 0 && (
                                     <TableRow style={{ height: 53 * emptyRows }}>
                                         <TableCell colSpan={6} />

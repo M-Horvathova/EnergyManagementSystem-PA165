@@ -10,10 +10,21 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.time.LocalDate;
+import java.time.chrono.IsoChronology;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeFormatterBuilder;
+import java.time.format.ResolverStyle;
 
 @RestController
 @RequestMapping("/statistics")
 public class StatisticsController {
+    private static final DateTimeFormatter ISO_LOCAL_DATE_TIME_Z = new DateTimeFormatterBuilder()
+                .parseCaseInsensitive()
+                .append(DateTimeFormatter.ISO_LOCAL_DATE)
+                .appendLiteral('T')
+                .append(DateTimeFormatter.ISO_LOCAL_TIME)
+                .appendLiteral('Z')
+                .toFormatter();
     private final StatisticsFacade statisticsFacade;
 
     @Autowired
@@ -29,11 +40,11 @@ public class StatisticsController {
         LocalDate dateTo = null;
 
         if (from != null && !from.equals("null")) {
-            dateFrom = LocalDate.parse(from);
+            dateFrom = LocalDate.parse(from, ISO_LOCAL_DATE_TIME_Z);
         }
 
         if (to != null && !to.equals("null")) {
-            dateTo = LocalDate.parse(to);
+            dateTo = LocalDate.parse(to, ISO_LOCAL_DATE_TIME_Z);
         }
 
         return statisticsFacade.getUsersStatisticsForInterval(dateFrom, dateTo);
