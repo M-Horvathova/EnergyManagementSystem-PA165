@@ -34,6 +34,8 @@ public interface SmartMeterService {
      */
     SmartMeter findById(Long id);
 
+    List<SmartMeter> findByHouse(House house);
+
     /**
      * Get all smart meters
      */
@@ -59,19 +61,15 @@ public interface SmartMeterService {
 
     double getAveragePowerSpentForDateForSmartMeter(LocalDate date, SmartMeter smartMeter);
 
-    double getPowerSpentForIntervalForSmartMeter(LocalDate from, LocalDate to, SmartMeter smartMeter);
+    double getPowerSpentForIntervalForSmartMeters(LocalDate from, LocalDate to, List<SmartMeter> smartMeters);
 
-    double getAveragePowerSpentForIntervalForSmartMeter(LocalDate from, LocalDate to, SmartMeter smartMeter);
-
-    double getPowerSpentForIntervalForSmartMeters(LocalDate from, LocalDate to, Set<SmartMeter> smartMeters);
-
-    double getAveragePowerSpentForIntervalForSmartMeters(LocalDate from, LocalDate to, Set<SmartMeter> smartMeters);
-
-    double getAveragePowerSpent();
+    double getAveragePowerSpentForIntervalForSmartMeters(LocalDate from, LocalDate to, List<SmartMeter> smartMeters);
 
     double getPowerSpentForDateForSmartMeter(LocalDate from, LocalDate to, SmartMeter smartMeter);
 
     double getAveragePowerSpentForDateForSmartMeter(LocalDate from, LocalDate to, SmartMeter smartMeter);
+
+    double getAveragePowerSpent();
 
     /**
     * Get power spent across all smart meters

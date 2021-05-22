@@ -4,6 +4,7 @@ import cz.fi.muni.pa165.dto.StatisticDTO;
 import cz.fi.muni.pa165.dto.StatisticsDTO;
 import cz.fi.muni.pa165.entity.House;
 import cz.fi.muni.pa165.entity.PortalUser;
+import cz.fi.muni.pa165.entity.SmartMeter;
 import cz.fi.muni.pa165.facade.StatisticsFacade;
 import cz.fi.muni.pa165.service.HouseService;
 import cz.fi.muni.pa165.service.MeterLogService;
@@ -40,17 +41,17 @@ public class StatisticsFacadeImpl implements StatisticsFacade {
 
     public StatisticsDTO getUsersStatisticsForInterval(LocalDate from, LocalDate to) {
         StatisticsDTO statistics = new StatisticsDTO();
-        statistics.setFrom(from.toString());
-        statistics.setTo(to.toString());
         List<PortalUser> users = portalUserService.getAllUsers();
         for (PortalUser user : users) {
             StatisticDTO statisticDTO = new StatisticDTO();
             statisticDTO.setUserName(user.getEmail());
             double totalPowerSpent = 0.0;
             double averagePowerSpent = 0.0;
-            for (House house : user.getHouses()) {
-                totalPowerSpent += smartMeterService.getPowerSpentForIntervalForSmartMeters(from, to, house.getSmartMeters());
-                averagePowerSpent += smartMeterService.getAveragePowerSpentForIntervalForSmartMeters(from, to, house.getSmartMeters());
+            List<House> houses = houseService.findByUser(user);
+            for (House house : houses) {
+                List<SmartMeter> smartMeters = smartMeterService.findByHouse(house);
+                totalPowerSpent += smartMeterService.getPowerSpentForIntervalForSmartMeters(from, to, smartMeters);
+                averagePowerSpent += smartMeterService.getAveragePowerSpentForIntervalForSmartMeters(from, to, smartMeters);
             }
             statisticDTO.setFromToTotalSpent(totalPowerSpent);
             statisticDTO.setFromToAverageSpent(averagePowerSpent);

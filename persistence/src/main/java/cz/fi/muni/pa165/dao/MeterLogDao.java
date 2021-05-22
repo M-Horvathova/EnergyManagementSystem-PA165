@@ -1,5 +1,6 @@
 package cz.fi.muni.pa165.dao;
 
+import cz.fi.muni.pa165.entity.SmartMeter;
 import cz.fi.muni.pa165.enums.DayTime;
 import cz.fi.muni.pa165.entity.MeterLog;
 
@@ -59,7 +60,7 @@ public interface MeterLogDao {
      */
     public List<MeterLog> findByDate(LocalDate date);
 
-    public List<MeterLog> findByDate(LocalDate from, LocalDate to);
+    List<MeterLog> findByDateAndSmartMeter(LocalDate from, LocalDate to, SmartMeter smartMeter);
 
     /**
      *  Finds all MeterLogs that have the given date and were also taken within the given time of day

@@ -2,6 +2,7 @@ package cz.fi.muni.pa165.service;
 
 import cz.fi.muni.pa165.dao.MeterLogDao;
 import cz.fi.muni.pa165.dao.SmartMeterDao;
+import cz.fi.muni.pa165.entity.House;
 import cz.fi.muni.pa165.entity.MeterLog;
 import cz.fi.muni.pa165.entity.SmartMeter;
 import org.slf4j.Logger;
@@ -48,6 +49,10 @@ public class SmartMeterServiceImpl implements SmartMeterService {
         return smartMeterDao.findById(id);
     }
 
+    public List<SmartMeter> findByHouse(House house) {
+        return smartMeterDao.findByHouse(house);
+    }
+
     @Override
     public List<SmartMeter> findAll() {
         return smartMeterDao.findAll();
@@ -71,20 +76,6 @@ public class SmartMeterServiceImpl implements SmartMeterService {
     }
 
     @Override
-    public double getPowerSpentForDateForSmartMeter(LocalDate from, LocalDate to, SmartMeter smartMeter) {
-        List<MeterLog> meterLogs = meterLogDao.findByDate(from, to);
-        meterLogs.removeIf(meterLog -> !meterLog.getSmartMeter().equals(smartMeter));
-        return meterLogs.stream().mapToDouble(meterLog -> (double)meterLog.getMeasure()).sum();
-    }
-
-    @Override
-    public double getAveragePowerSpentForDateForSmartMeter(LocalDate from, LocalDate to, SmartMeter smartMeter) {
-        List<MeterLog> meterLogs = meterLogDao.findByDate(from, to);
-        meterLogs.removeIf(meterLog -> !meterLog.getSmartMeter().equals(smartMeter));
-        return meterLogs.stream().mapToDouble(meterLog -> (double)meterLog.getMeasure()).average().orElse(0.0);
-    }
-
-    @Override
     public double getAveragePowerSpentForDateForSmartMeter(LocalDate date, SmartMeter smartMeter) {
         List<MeterLog> meterLogs = meterLogDao.findByDate(date);
         meterLogs.removeIf(meterLog -> !meterLog.getSmartMeter().equals(smartMeter));
@@ -92,34 +83,34 @@ public class SmartMeterServiceImpl implements SmartMeterService {
     }
 
     @Override
-    public double getPowerSpentForIntervalForSmartMeter(LocalDate from, LocalDate to, SmartMeter smartMeter) {
-        double result = getPowerSpentForDateForSmartMeter(from, to, smartMeter);
-        return result;
+    public double getPowerSpentForDateForSmartMeter(LocalDate from, LocalDate to, SmartMeter smartMeter) {
+        List<MeterLog> meterLogs = meterLogDao.findByDateAndSmartMeter(from, to, smartMeter);
+        return meterLogs.stream().mapToDouble(meterLog -> (double)meterLog.getMeasure()).sum();
     }
 
     @Override
-    public double getAveragePowerSpentForIntervalForSmartMeter(LocalDate from, LocalDate to, SmartMeter smartMeter) {
-        double result = getAveragePowerSpentForDateForSmartMeter(from, to, smartMeter);
-        return result;
+    public double getAveragePowerSpentForDateForSmartMeter(LocalDate from, LocalDate to, SmartMeter smartMeter) {
+        List<MeterLog> meterLogs = meterLogDao.findByDateAndSmartMeter(from, to, smartMeter);
+        return meterLogs.stream().mapToDouble(meterLog -> (double)meterLog.getMeasure()).average().orElse(0);
     }
 
     @Override
-    public double getPowerSpentForIntervalForSmartMeters(LocalDate from, LocalDate to, Set<SmartMeter> smartMeters) {
+    public double getPowerSpentForIntervalForSmartMeters(LocalDate from, LocalDate to, List<SmartMeter> smartMeters) {
         double result = 0.0;
         for (SmartMeter smartMeter : smartMeters)
         {
-            result += getPowerSpentForIntervalForSmartMeter(from, to, smartMeter);
+            result += getPowerSpentForDateForSmartMeter(from, to, smartMeter);
         }
 
         return result;
     }
 
     @Override
-    public double getAveragePowerSpentForIntervalForSmartMeters(LocalDate from, LocalDate to, Set<SmartMeter> smartMeters) {
+    public double getAveragePowerSpentForIntervalForSmartMeters(LocalDate from, LocalDate to, List<SmartMeter> smartMeters) {
         double result = 0.0;
         for (SmartMeter smartMeter : smartMeters)
         {
-            result += getAveragePowerSpentForIntervalForSmartMeter(from, to, smartMeter);
+            result += getAveragePowerSpentForDateForSmartMeter(from, to, smartMeter);
         }
 
         return result;

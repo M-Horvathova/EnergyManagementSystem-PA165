@@ -1,7 +1,6 @@
 package cz.fi.muni.pa165.restapi.controllers;
 
 import cz.fi.muni.pa165.dto.StatisticsDTO;
-import cz.fi.muni.pa165.facade.PortalUserFacade;
 import cz.fi.muni.pa165.facade.StatisticsFacade;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -25,20 +24,16 @@ public class StatisticsController {
     @RequestMapping(path = "/{from}/{to}",
             method = RequestMethod.GET,
             produces = MediaType.APPLICATION_JSON_VALUE)
-    public final StatisticsDTO getStatistics(@PathVariable("from") String from, @PathVariable("from") String to) {
+    public final StatisticsDTO getStatistics(@PathVariable("from") String from, @PathVariable("to") String to) {
         LocalDate dateFrom = null;
         LocalDate dateTo = null;
 
-        if (from != null) {
+        if (from != null && !from.equals("null")) {
             dateFrom = LocalDate.parse(from);
-        } else{
-            dateFrom = LocalDate.MIN;
         }
 
-        if (to != null) {
+        if (to != null && !to.equals("null")) {
             dateTo = LocalDate.parse(to);
-        } else{
-            dateTo = LocalDate.MAX;
         }
 
         return statisticsFacade.getUsersStatisticsForInterval(dateFrom, dateTo);
