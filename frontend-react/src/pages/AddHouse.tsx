@@ -9,6 +9,9 @@ import { getCurrentUser } from "../services/auth";
 
 export interface AddHouseProps {}
 
+/*
+  author: Patrik Valo
+*/
 const AddHouse: FunctionComponent<AddHouseProps> = () => {
     const history = useHistory();
     const { t } = useTranslation();

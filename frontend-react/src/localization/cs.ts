@@ -14,11 +14,33 @@ const en = {
     addHouse: {
       add: "Přidat dům"
     },
+    dashboard: {
+      all_time_average: "Průměr všech dob za log (kW)",
+      all_time_statistics: "Celkové statistiky",
+      all_time_total: "Celkové množství (kW)",
+      get_statistics: "Získat statistiky",
+      rows_per_page: "Řádků na stránku",
+      table_average_spent: "Průměr ve všech domech a inteligentních měřičích (kW)",
+      table_total_spent: "Celkem (kW)",
+      table_username: "Uživatel",
+      user_stats_from: "Statistiky z",
+      user_stats_to: "Statistiky do",
+      welcome_admin: "Vítejte administrátore"
+    },
     editHouse: {
       edit: "Upravit dům"
     },
     home: {
       loading: "Načítání…"
+    },
+    house: {
+      add: "Přidat měřič",
+      edit: "Upravit",
+      nothing: "Nic k zobrazení",
+      off: "Vypnout",
+      on: "Zapnout",
+      open: "Otevřít",
+      remove: "Odebrat"
     },
     houseForm: {
       city: "Město",
@@ -37,17 +59,9 @@ const en = {
       open: "Otevřít",
       remove: "Odebrat"
     },
-    house: {
-      add: "Přidat meter",
-      edit: "Upravit",
-      nothing: "Nic k zobrazení",
-      open: "Otevřít",
-      remove: "Odebrat",
-      off: "Vypnout",
-      on: "Zapnout"
-    },
     login: {
       email: "E-mail",
+      invalid_credentials: "Vyplnili jste neplatné přihlašovací údaje",
       login: "Přihlásit se",
       new_user: "Jste nový uživatel?",
       password: "Heslo",
@@ -59,17 +73,45 @@ const en = {
       app_name: "Smart Energy",
       home: "Domů",
       houses: "Moje domy",
-      login: "Login",
-      logout: "Odhlásit se"
+      login: "Přihlásit se",
+      logout: "Odhlásit se",
+      register: "Registrovat se"
     },
     register: {
       already_registered: "Jste již zaregistrováni?",
       email: "E-mail",
+      err_confirm_password_required: "Vyžaduje se potvrzení hesla",
+      err_first_name_required: "Křestní jméno vyžadováno",
+      err_invalid_email: "Neplatný e-mail",
+      err_invalid_phone: "Neplatná délka telefonního čísla",
+      err_last_name_required: "Požadováno příjmení",
+      err_password_not_same: "Hesla nejsou stejná",
+      err_password_required: "Je vyžadováno heslo",
       err_pswds_match: "Hesla se neshodují",
+      first_name: "Křestní jméno",
+      last_name: "Příjmení",
       password: "Heslo",
       password_conf: "Potvrdit heslo",
+      phone: "Telefon",
       register: "Registrovat se",
       sign_in: "Přihlásit se"
+    },
+    smartMeter: {
+      averagePowerConsumptionAtNight: "Průměrná spotřeba energie v noci",
+      averagePowerConsumptionInDay: "Průměrná spotřeba energie ve dne",
+      create: "Vytvořit",
+      edit: "Upravit",
+      open: "Otevřít",
+      powerSpentForDate: "Zobrazit spotřebu energie pro datum",
+      remove: "Odebrat",
+      totalPowerConsumption: "Celková spotřeba energie:",
+      turnedOff: "Vypnuto",
+      turnedOn: "Zapnuto"
+    },
+    smartMeterForm: {
+      confirm: "Potvrdit",
+      description: "Popis",
+      running: "Zapnuto"
     }
   }
 } ;

@@ -8,11 +8,13 @@ import cz.fi.muni.pa165.entity.MeterLog;
 import cz.fi.muni.pa165.entity.SmartMeter;
 import cz.fi.muni.pa165.enums.DayTime;
 import cz.fi.muni.pa165.facade.SmartMeterFacade;
+import cz.fi.muni.pa165.service.config.MapStructMappingConfiguration;
 import cz.fi.muni.pa165.service.facade.SmartMeterFacadeImpl;
 import cz.fi.muni.pa165.service.HouseService;
 import cz.fi.muni.pa165.service.MeterLogService;
 import cz.fi.muni.pa165.service.SmartMeterService;
 import cz.fi.muni.pa165.service.config.BeanMappingConfiguration;
+import cz.fi.muni.pa165.service.mappers.SmartMeterMapper;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.test.context.ContextConfiguration;
@@ -36,7 +38,7 @@ import static org.mockito.Mockito.*;
 /**
  * @author Martin Podhora
  */
-@ContextConfiguration(classes = BeanMappingConfiguration.class)
+@ContextConfiguration(classes = MapStructMappingConfiguration.class)
 @TestExecutionListeners(TransactionalTestExecutionListener.class)
 @Transactional
 public class SmartMeterFacadeTest extends AbstractTestNGSpringContextTests {
@@ -50,7 +52,7 @@ public class SmartMeterFacadeTest extends AbstractTestNGSpringContextTests {
     private MeterLogService meterLogService;
 
     @Mock
-    private BeanMappingService beanMappingService;
+    private SmartMeterMapper mapper;
 
     private SmartMeterFacade smartMeterFacade;
 
@@ -60,6 +62,7 @@ public class SmartMeterFacadeTest extends AbstractTestNGSpringContextTests {
     private SmartMeter testSmartMeter2;
     private SmartMeter testSmartMeter3;
     private SmartMeterDTO testSmartMeterDTO;
+    private SmartMeterEditDTO testSmartMeterEditDTO;
     private SmartMeterCreateDTO testSmartMeterCreateDTO;
     private List<SmartMeter> allSmartMeters;
     private List<SmartMeter> allRunningSmartMeters;
@@ -77,12 +80,10 @@ public class SmartMeterFacadeTest extends AbstractTestNGSpringContextTests {
         when(smartMeterService.findById(any(Long.class))).thenReturn(testSmartMeter1);
         when(smartMeterService.findAll()).thenReturn(allSmartMeters);
         when(smartMeterService.getRunningSmartMeters()).thenReturn(allRunningSmartMeters);
-        when(beanMappingService.mapTo(any(SmartMeterCreateDTO.class), eq(SmartMeter.class))).thenReturn(testSmartMeter1);
-        when(beanMappingService.mapTo(any(SmartMeterDTO.class), eq(SmartMeter.class))).thenReturn(testSmartMeter1);
-        when(beanMappingService.mapTo(any(SmartMeter.class), eq(SmartMeterCreateDTO.class))).thenReturn(testSmartMeterCreateDTO);
-        when(beanMappingService.mapTo(any(SmartMeter.class), eq(SmartMeterDTO.class))).thenReturn(testSmartMeterDTO);
+        when(mapper.smartMeterToDTO(any(SmartMeter.class))).thenReturn(testSmartMeterDTO);
+        when(mapper.smartMetersToDTOs(anyList())).thenReturn(new ArrayList<>());
 
-        smartMeterFacade = new SmartMeterFacadeImpl(smartMeterService, houseService, beanMappingService, meterLogService);
+        smartMeterFacade = new SmartMeterFacadeImpl(smartMeterService, houseService, meterLogService, mapper);
     }
 
     private void initEntitiesAndDTOs() {
@@ -147,17 +148,22 @@ public class SmartMeterFacadeTest extends AbstractTestNGSpringContextTests {
         allRunningSmartMeters.add(testSmartMeter2);
 
         testSmartMeterDTO = new SmartMeterDTO();
-        testSmartMeterDTO.setHouse(testHouse1);
+        testSmartMeterDTO.setId(66L);
+        testSmartMeterDTO.setHouseId(testHouse1.getId());
         testSmartMeterDTO.setCumulativePowerConsumption(100);
         testSmartMeterDTO.setLastLogTakenAt(LocalDateTime.of(LocalDate.of(2021, 1, 30), LocalTime.of(0, 0)));
         testSmartMeterDTO.setPowerConsumptionSinceLastLog(100);
         testSmartMeterDTO.setRunning(true);
 
         testSmartMeterCreateDTO = new SmartMeterCreateDTO();
-        testSmartMeterCreateDTO.setCumulativePowerConsumption(100);
         testSmartMeterCreateDTO.setSmartMeterDescription("TEST");
         testSmartMeterCreateDTO.setRunning(true);
         testSmartMeterCreateDTO.setHouseId(1);
+
+        testSmartMeterEditDTO = new SmartMeterEditDTO();
+        testSmartMeterEditDTO.setId(99L);
+        testSmartMeterEditDTO.setSmartMeterDescription("EDIT TEST");
+        testSmartMeterEditDTO.setRunning(false);
     }
 
 
@@ -169,7 +175,7 @@ public class SmartMeterFacadeTest extends AbstractTestNGSpringContextTests {
 
     @Test
     public void updateSmartMeterTest() {
-        SmartMeterDTO result = smartMeterFacade.updateSmartMeter(testSmartMeterDTO);
+        SmartMeterDTO result = smartMeterFacade.updateSmartMeter(testSmartMeterEditDTO);
         verify(smartMeterService, times(1)).update(any(SmartMeter.class));
     }
 

@@ -82,7 +82,7 @@ const en = {
             register: "Register here",
             invalid_credentials: "You have filled invalid credentials",
         },
-        dashboard: {
+ 		dashboard: {
             welcome_admin: "Welcome admin",
             all_time_statistics: "All-time statistics",
             all_time_total: "All-time total (kW)",
@@ -94,6 +94,23 @@ const en = {
             table_total_spent: "Total (kW)",
             table_average_spent: "Average across all houses and smart meters (kW)",
             rows_per_page: "Rows per page",
+        },
+ 		smartMeterForm: {
+            description: "Description",
+            running: "Turned on",
+            confirm: "Confirm"
+        },
+        smartMeter: {
+            open: "Open",
+            edit: "Edit",
+            remove: "Remove",
+            create: "Create",
+            totalPowerConsumption: "Total power consumption:",
+            turnedOn: "Turned on",
+            turnedOff: "Turned off",
+            averagePowerConsumptionAtNight: "Average power consumption at night",
+            averagePowerConsumptionInDay: "Average power consumption in day",
+            powerSpentForDate: "Show power spent for date"
         }
     },
 };

@@ -9,6 +9,9 @@ import { useHistory } from "react-router";
 import { useTranslation } from "react-i18next";
 import PortalUserDTO from "../interfaces/PortalUserDTO";
 
+/*
+  author: Martin Podhora
+*/
 export interface UserTileProps {
     user: PortalUserDTO;
 }
@@ -22,7 +25,6 @@ const useStyles = makeStyles({
 });
 
 const UserTile: FunctionComponent<UserTileProps> = ({ user }) => {
-    const classes = useStyles();
     const history = useHistory();
     const { t } = useTranslation();
     const { id } = user;

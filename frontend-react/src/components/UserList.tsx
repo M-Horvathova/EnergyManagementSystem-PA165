@@ -1,15 +1,15 @@
 import { Grid } from "@material-ui/core";
-import React, {FunctionComponent, Fragment, useEffect, useState} from "react";
-import HouseDTO from "../interfaces/HouseDTO";
-import HouseTile from "./HouseTile";
+import React, {FunctionComponent, Fragment} from "react";
 import { useTranslation } from "react-i18next";
 import PortalUserListingDTO from "../interfaces/PortalUserListingDTO";
 import {Pagination} from "@material-ui/lab";
 import UserTile from "./UserTile";
 import axios from "axios";
 import Config from "../utils/Config";
-import {getCurrentUser} from "../services/auth";
 
+/*
+  author: Martin Podhora
+*/
 export interface UserListProps {
     users: PortalUserListingDTO;
 }

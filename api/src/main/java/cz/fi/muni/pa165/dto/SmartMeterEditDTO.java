@@ -5,10 +5,16 @@ import java.util.Objects;
 /**
  * @author Matej Rišňovský
  */
-public class SmartMeterCreateDTO {
-    private boolean running;
+public class SmartMeterEditDTO {
     private String smartMeterDescription;
-    private long houseId;
+    private boolean running;
+    private Long id;
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(long id) { this.id = id; }
 
     public boolean isRunning() {
         return running;
@@ -26,36 +32,27 @@ public class SmartMeterCreateDTO {
         this.smartMeterDescription = description;
     }
 
-    public long getHouseId() {
-        return houseId;
-    }
-
-    public void setHouseId(long houseId) {
-        this.houseId = houseId;
-    }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof SmartMeterCreateDTO)) return false;
+        if (!(o instanceof SmartMeterEditDTO)) return false;
 
-        SmartMeterCreateDTO sm = (SmartMeterCreateDTO) o;
+        SmartMeterEditDTO sm = (SmartMeterEditDTO) o;
         return isRunning() == sm.isRunning()
-                && getHouseId() == sm.getHouseId()
                 && ((getSmartMeterDescription() == null && sm.getSmartMeterDescription() == null) || (getSmartMeterDescription() != null && getSmartMeterDescription().equals(sm.getSmartMeterDescription())));
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(isRunning(), getHouseId(), getSmartMeterDescription());
+        return Objects.hash(isRunning(), getSmartMeterDescription());
     }
 
     @Override
     public String toString() {
-        return "SmartMeterCreateDTO{" +
+        return "SmartMeterEditDTO{" +
                 "isRunning=" + running +
                 ", smartMeterDescription='" + smartMeterDescription + '\'' +
-                ", houseId=" + houseId +
                 '}';
     }
 }

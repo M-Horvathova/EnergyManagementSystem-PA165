@@ -12,55 +12,106 @@ const en = {
       title: "Benvenuto in Smart Energy Monitoring System"
     },
     addHouse: {
-      add: "Add house"
+      add: "Aggiungi casa"
+    },
+    dashboard: {
+      all_time_average: "Media di tutti i tempi per log (kW)",
+      all_time_statistics: "Statistiche di tutti i tempi",
+      all_time_total: "Totale di tutti i tempi (kW)",
+      get_statistics: "Ottieni statistiche",
+      rows_per_page: "Righe per pagina",
+      table_average_spent: "Media su tutte le case e contatori intelligenti (kW)",
+      table_total_spent: "Totale (kW)",
+      table_username: "Utente",
+      user_stats_from: "Statistiche da",
+      user_stats_to: "Statistiche per",
+      welcome_admin: "Admin di benvenuto"
     },
     editHouse: {
       edit: "Modifica casa"
     },
     home: {
-      loading: "Loading..."
+      loading: "Caricamento in corso..."
+    },
+    house: {
+      add: "Aggiungi contatore",
+      edit: "Modifica",
+      nothing: "Non ci sono dati da mostrare",
+      off: "Disattiva",
+      on: "Attiva",
+      open: "Apri",
+      remove: "Rimuovi"
     },
     houseForm: {
-      city: "City",
-      code: "Code",
-      confirm: "Confirm",
-      country: "Country",
-      name: "Name",
-      postCode: "Post Code",
-      street: "Street"
+      city: "Città",
+      code: "Codice",
+      confirm: "Conferma",
+      country: "Paese",
+      name: "Nome",
+      postCode: "Codice postale",
+      street: "Strada"
     },
     houses: {
       add: "Aggiungi casa",
-      edit: "Edit",
-      houses: "Houses",
-      nothing: "Nothing to show",
-      open: "Open",
-      remove: "Remove"
+      edit: "Modifica",
+      houses: "Abitazioni",
+      nothing: "Non ci sono dati da mostrare",
+      open: "Apri",
+      remove: "Rimuovi"
     },
     login: {
-      email: "Email",
-      login: "Login",
-      new_user: "New user?",
-      password: "Password",
-      register: "Register here",
-      sign_in: "Sign in"
+      email: "E-mail",
+      invalid_credentials: "Hai compilato credenziali non valide",
+      login: "Accedi",
+      new_user: "Nuovo utente",
+      password: "Parola d'ordine",
+      register: "Registrati qui",
+      sign_in: "Accedi"
     },
     menu: {
-      about: "About",
+      about: "Informazioni",
       app_name: "Smart Energy",
       home: "Pagina iniziale",
       houses: "Le mie case",
-      login: "Login",
-      logout: "Logout"
+      login: "Accedi",
+      logout: "Esci",
+      register: "Registrati"
     },
     register: {
-      already_registered: "Already registered?",
-      email: "Email",
-      err_pswds_match: "Passwords do not match",
-      password: "Password",
-      password_conf: "Confirm password",
-      register: "Register",
-      sign_in: "Sign in"
+      already_registered: "Già registrata.",
+      email: "E-mail",
+      err_confirm_password_required: "Conferma password richiesta",
+      err_first_name_required: "Nome richiesto",
+      err_invalid_email: "E-mail non valida",
+      err_invalid_phone: "Lunghezza del telefono non valida",
+      err_last_name_required: "Cognome richiesto",
+      err_password_not_same: "Le password non sono le stesse",
+      err_password_required: "Password obbligatoria",
+      err_pswds_match: "Le password non corrispondono",
+      first_name: "Nome",
+      last_name: "Cognome",
+      password: "Parola d'ordine",
+      password_conf: "Conferma Password",
+      phone: "Telefono",
+      register: "Registrati",
+      sign_in: "Accedi"
+    },
+    smartMeter: {
+      averagePowerConsumptionAtNight: "Consumo energetico medio durante la notte",
+      averagePowerConsumptionInDay: "Consumo energetico medio in giorno",
+      create: "Crea",
+      edit: "Modifica",
+      open: "Apri",
+      powerSpentForDate: "Mostra la potenza speso per la data",
+      remove: "Rimuovi",
+      totalPowerConsumption: "Consumo energetico totale:",
+      turnedOff: "Disattivato",
+      turnedOn: "Acceso"
+    },
+    smartMeterForm: {
+      confirm: "Conferma",
+      description: "Descrizione",
+      running: "Acceso"
     }
   }
 } ;

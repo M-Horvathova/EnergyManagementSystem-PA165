@@ -10,6 +10,9 @@ import { useTranslation } from "react-i18next";
 
 export interface HousePageProps {}
 
+/*
+  author: Patrik Valo
+*/
 const HousePage: FunctionComponent<HousePageProps> = () => {
     const { id } = useParams<{ id: string }>();
     const { t } = useTranslation();
@@ -74,7 +77,7 @@ const HousePage: FunctionComponent<HousePageProps> = () => {
     const handleOnRemove = async (id: number) => {
         await axios({
             method: "DELETE",
-            url: Config.urlRestBase + `/smartMeters/${id}`,
+            url: Config.urlRestBase + `/smartmeters/${id}`,
         });
         const updatedMeters = [...smartMeters];
         setSmartMeters(
@@ -96,7 +99,7 @@ const HousePage: FunctionComponent<HousePageProps> = () => {
                     >
                         <Button
                             color="primary"
-                            onClick={() => history.push("/smartMeter/create")}
+                            onClick={() => history.push(`/smartMeter/create?houseId=${id}`)}
                         >
                             {t("house.add")}
                         </Button>

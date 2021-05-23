@@ -4,5 +4,6 @@ export default interface SmartMeterHouseDTO {
     powerConsumptionSinceLastLog: number;
     cumulativePowerConsumption: number;
     lastLogTakenAt: string | null;
-    smartMeterDescription: string | null;
+    smartMeterDescription: string;
+    houseId: number;
 }

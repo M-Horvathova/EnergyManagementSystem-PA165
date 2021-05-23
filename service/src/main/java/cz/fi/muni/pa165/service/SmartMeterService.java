@@ -3,6 +3,7 @@ package cz.fi.muni.pa165.service;
 import cz.fi.muni.pa165.entity.House;
 import cz.fi.muni.pa165.entity.MeterLog;
 import cz.fi.muni.pa165.entity.SmartMeter;
+import cz.fi.muni.pa165.enums.DayTime;
 /**
  * @author Matej Rišňovský
  */
@@ -59,7 +60,7 @@ public interface SmartMeterService {
      */
     double getPowerSpentForDateForSmartMeter(LocalDate date, SmartMeter smartMeter);
 
-    double getAveragePowerSpentForDateForSmartMeter(LocalDate date, SmartMeter smartMeter);
+    double getAveragePowerSpentForDayTimeSmartMeter(SmartMeter smartMeter, DayTime dayTime);
 
     double getPowerSpentForIntervalForSmartMeters(LocalDate from, LocalDate to, List<SmartMeter> smartMeters);
 

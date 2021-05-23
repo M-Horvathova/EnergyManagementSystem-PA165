@@ -5,6 +5,7 @@ import cz.fi.muni.pa165.dao.SmartMeterDao;
 import cz.fi.muni.pa165.entity.House;
 import cz.fi.muni.pa165.entity.MeterLog;
 import cz.fi.muni.pa165.entity.SmartMeter;
+import cz.fi.muni.pa165.enums.DayTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,9 +14,8 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
+import java.util.function.DoubleBinaryOperator;
 import java.util.stream.Collectors;
 
 /**
@@ -76,10 +76,18 @@ public class SmartMeterServiceImpl implements SmartMeterService {
     }
 
     @Override
-    public double getAveragePowerSpentForDateForSmartMeter(LocalDate date, SmartMeter smartMeter) {
-        List<MeterLog> meterLogs = meterLogDao.findByDate(date);
-        meterLogs.removeIf(meterLog -> !meterLog.getSmartMeter().equals(smartMeter));
-        return meterLogs.stream().mapToDouble(meterLog -> (double)meterLog.getMeasure()).average().orElse(0.0);
+    public double getAveragePowerSpentForDayTimeSmartMeter(SmartMeter smartMeter, DayTime dayTime) {
+        Set<MeterLog> meterLogs  = smartMeter.getMeterLogs();
+        meterLogs.removeIf(meterLog -> !meterLog.isWithinDayTime(dayTime));
+
+        Map<LocalDate, List<MeterLog>> meterLogsGrouped =
+                meterLogs.stream().collect(Collectors.groupingBy(ml -> ml.getLogDate()));
+
+        List<Double> measurements = new ArrayList<Double>();
+        for (List<MeterLog> value: meterLogsGrouped.values()) {
+            measurements.add(Double.valueOf(value.stream().mapToDouble(ml -> (double)ml.getMeasure()).sum()));
+        }
+        return measurements.stream().mapToDouble(measurement -> measurement).average().orElse(0.0);
     }
 
     @Override

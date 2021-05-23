@@ -13,6 +13,9 @@ import Register from "./pages/Registration";
 import HousePage from "./pages/HousePage";
 import EditHouse from "./pages/EditHouse";
 import AddHouse from "./pages/AddHouse";
+import SmartMeterDetail from "./pages/SmartMeterDetail";
+import EditSmartMeter from "./pages/EditSmartMeter";
+import AddSmartMeter from "./pages/AddSmartMeter";
 import ProtectedRoute from "./components/ProtectedRoute";
 import Config from "./utils/Config";
 import Dashboard from "./pages/Dashboard";
@@ -72,6 +75,24 @@ const App: FC = () => {
                                 exact
                                 path="/house/:id"
                                 component={HousePage}
+                            />
+                            <ProtectedRoute
+                                role="User"
+                                exact
+                                path="/smartmeter/edit/:id"
+                                component={EditSmartMeter}
+                            />
+                            <ProtectedRoute
+                                role="User"
+                                exact
+                                path="/smartmeter/create"
+                                component={AddSmartMeter}
+                            />
+                            <ProtectedRoute
+                                role="User"
+                                exact
+                                path="/smartmeter/:id"
+                                component={SmartMeterDetail}
                             />
                             <Redirect from="/" to="/houses" />
                         </Switch>

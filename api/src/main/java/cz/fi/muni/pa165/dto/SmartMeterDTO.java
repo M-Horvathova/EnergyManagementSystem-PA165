@@ -1,10 +1,7 @@
 package cz.fi.muni.pa165.dto;
 
-import cz.fi.muni.pa165.entity.House;
 import cz.fi.muni.pa165.entity.MeterLog;
-import cz.fi.muni.pa165.entity.SmartMeter;
 
-import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.Objects;
 import java.util.Set;
@@ -14,16 +11,17 @@ import java.util.Set;
 public class SmartMeterDTO {
     private Long id;
     private Set<MeterLog> meterLogs;
-    private boolean isRunning;
+    private boolean running;
     private double powerConsumptionSinceLastLog;
     private double cumulativePowerConsumption;
     private LocalDateTime lastLogTakenAt;
     private String smartMeterDescription;
-    private House house;
+    private Long houseId;
 
     public Long getId() {
         return id;
     }
+    public void setId(Long id) { this.id = id; }
 
     public double getCumulativePowerConsumption() {
         return cumulativePowerConsumption;
@@ -42,11 +40,11 @@ public class SmartMeterDTO {
     }
 
     public boolean isRunning() {
-        return isRunning;
+        return running;
     }
 
     public void setRunning(boolean running) {
-        isRunning = running;
+        this.running = running;
     }
 
     public LocalDateTime getLastLogTakenAt() {
@@ -54,7 +52,7 @@ public class SmartMeterDTO {
     }
 
     public void setLastLogTakenAt(LocalDateTime lastLogTakenAt) {
-        if (lastLogTakenAt.isAfter(LocalDateTime.now())) {
+        if (lastLogTakenAt != null && lastLogTakenAt.isAfter(LocalDateTime.now())) {
             throw new IllegalArgumentException("Future dateTime is not allowed");
         }
         this.lastLogTakenAt = lastLogTakenAt;
@@ -72,39 +70,39 @@ public class SmartMeterDTO {
         return meterLogs;
     }
 
-    public House getHouse() {
-        return house;
+    public Long getHouseId() {
+        return houseId;
     }
 
-    public void setHouse(House house) {
-        this.house = house;
+    public void setHouseId(Long houseId) {
+        this.houseId = houseId;
     }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof SmartMeter)) return false;
+        if (!(o instanceof SmartMeterDTO)) return false;
 
-        SmartMeter sm = (SmartMeter) o;
+        SmartMeterDTO sm = (SmartMeterDTO) o;
         return isRunning() == sm.isRunning() && Double.compare(sm.getPowerConsumptionSinceLastLog(), getPowerConsumptionSinceLastLog()) == 0
                 && Double.compare(sm.getCumulativePowerConsumption(), getCumulativePowerConsumption()) == 0
-                && ((getHouse() == null && sm.getHouse() == null) || (getHouse() != null && getHouse().equals(sm.getHouse())))
+                && getHouseId().equals(sm.getHouseId())
                 && ((getSmartMeterDescription() == null && sm.getSmartMeterDescription() == null) || (getSmartMeterDescription() != null && getSmartMeterDescription().equals(sm.getSmartMeterDescription())));
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(isRunning(), getPowerConsumptionSinceLastLog(), getCumulativePowerConsumption(), getHouse(), getSmartMeterDescription());
+        return Objects.hash(isRunning(), getPowerConsumptionSinceLastLog(), getCumulativePowerConsumption(), getHouseId(), getSmartMeterDescription());
     }
 
     @Override
     public String toString() {
         return "SmartMeterDTO{" +
                 "id=" + id +
-                ", isRunning=" + isRunning +
+                ", isRunning=" + running +
                 ", cumulativePowerConsumption=" + cumulativePowerConsumption +
                 ", smartMeterDescription='" + smartMeterDescription + '\'' +
-                ", house=" + house +
+                ", houseId=" + houseId +
                 '}';
     }
 }

@@ -10,6 +10,9 @@ import Config from "../utils/Config";
 
 export interface HousesProps {}
 
+/*
+  author: Patrik Valo
+*/
 const Houses: FunctionComponent<HousesProps> = () => {
     const [houses, setHouses] = useState<Array<HouseDTO>>([]);
     const { t } = useTranslation();
