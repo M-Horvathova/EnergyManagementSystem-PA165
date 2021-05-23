@@ -28,13 +28,13 @@ public class MeterLog implements Serializable {
     /*
         Date when the measurement was taken
      */
-    @Column(nullable = false)
+    @Column(nullable = false, name = "log_date")
     private LocalDate logDate;
 
     /*
         Time when the measurement was taken
      */
-    @Column(nullable = false)
+    @Column(nullable = false, name = "log_time")
     private LocalTime logTime;
 
     /*
@@ -46,7 +46,7 @@ public class MeterLog implements Serializable {
     @ManyToOne(fetch = FetchType.LAZY)
     private SmartMeter smartMeter;
 
-    @Column
+    @Column(name = "create_stamp")
     private LocalDateTime createStamp;
 
     @PrePersist
