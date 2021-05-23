@@ -14,11 +14,33 @@ const en = {
     addHouse: {
       add: "Geben Sie einem Haus zu"
     },
+    dashboard: {
+      all_time_average: "Allzeitdurchschnitt pro log (kW)",
+      all_time_statistics: "Statistiken aller Zeiten",
+      all_time_total: "Allzeit-Gesamtsumme (kW)",
+      get_statistics: "Statistiken abrufen",
+      rows_per_page: "Zeilen pro Seite",
+      table_average_spent: "Durchschnittlich in allen Häusern und Smartmetern (kW)",
+      table_total_spent: "Insgesamt (kW)",
+      table_username: "Benutzer",
+      user_stats_from: "Statistiken von",
+      user_stats_to: "Statistiken zu",
+      welcome_admin: "Willkommen Admin"
+    },
     editHouse: {
       edit: "Editiere Haus"
     },
     home: {
       loading: "Wird geladen…"
+    },
+    house: {
+      add: "Meter hinzufügen",
+      edit: "Ändern",
+      nothing: "Keine Daten zum anzeigen",
+      off: "Ausschalten",
+      on: "Aktivieren",
+      open: "Öffnen",
+      remove: "Entfernen"
     },
     houseForm: {
       city: "Stadt",
@@ -37,17 +59,9 @@ const en = {
       open: "Öffnen",
       remove: "Entfernen"
     },
-    house: {
-      add: "Geben Sie einem Meter zu",
-      edit: "Ändern",
-      nothing: "Keine Daten zum anzeigen",
-      open: "Öffnen",
-      remove: "Entfernen",
-      off: "Ausschalten",
-      on: "Einschalten"
-    },
     login: {
       email: "E-Mail",
+      invalid_credentials: "Sie haben ungültige Anmeldedaten ausgefüllt",
       login: "Anmelden",
       new_user: "Neuer Benutzer?",
       password: "Kennwort",
@@ -59,17 +73,45 @@ const en = {
       app_name: "Smart Energy",
       home: "Startseite",
       houses: "Meine Häuser",
-      login: "Login",
-      logout: "Abmelden"
+      login: "Anmelden",
+      logout: "Abmelden",
+      register: "Registrieren"
     },
     register: {
-      already_registered: "Bereits registriert?",
+      already_registered: "Bereits registriert",
       email: "E-Mail",
+      err_confirm_password_required: "Passwort bestätigen erforderlich",
+      err_first_name_required: "Vorname erforderlich",
+      err_invalid_email: "Ungültige E-Mail",
+      err_invalid_phone: "Ungültige Telefonlänge",
+      err_last_name_required: "Nachname wird benötigt",
+      err_password_not_same: "Passwörter sind nicht das Gleiche",
+      err_password_required: "Passwort erforderlich",
       err_pswds_match: "Kennwörter stimmen nicht überein",
+      first_name: "Vorname",
+      last_name: "Nachname",
       password: "Kennwort",
       password_conf: "Kennwort bestätigen",
+      phone: "Telefon",
       register: "Registrieren",
       sign_in: "Anmelden"
+    },
+    smartMeter: {
+      averagePowerConsumptionAtNight: "Durchschnittlicher Stromverbrauch in der Nacht",
+      averagePowerConsumptionInDay: "Durchschnittlicher Stromverbrauch am Tag",
+      create: "Erstellen",
+      edit: "Bearbeiten",
+      open: "Öffnen",
+      powerSpentForDate: "Anzeige der für das Datum verbrauchten Leistung",
+      remove: "Löschen",
+      totalPowerConsumption: "Gesamter Stromverbrauch:",
+      turnedOff: "Ausgeschaltet",
+      turnedOn: "Eingeschaltet"
+    },
+    smartMeterForm: {
+      confirm: "Bestätigen",
+      description: "Beschreibung",
+      running: "Eingeschaltet"
     }
   }
 } ;

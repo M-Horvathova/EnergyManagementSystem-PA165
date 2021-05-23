@@ -22,6 +22,10 @@ import TableSortLabel from "@material-ui/core/TableSortLabel";
 import {createStyles, makeStyles, Theme} from "@material-ui/core/styles";
 import StatisticDTO from "../interfaces/StatisticDTO";
 
+/*
+  author: Martin Podhora
+*/
+
 function descendingComparator<T>(a: T, b: T, orderBy: keyof T) {
     if (b[orderBy] < a[orderBy]) {
         return -1;

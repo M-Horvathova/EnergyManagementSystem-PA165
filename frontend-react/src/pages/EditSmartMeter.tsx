@@ -1,7 +1,7 @@
 import React, { Fragment, FunctionComponent, useEffect, useState } from "react";
 import { Grid, Typography } from "@material-ui/core";
 import { useParams } from "react-router-dom";
-import SmartMetrForm from "../components/SmartMetrForm";
+import SmartMeterForm from "../components/SmartMeterForm";
 import {useHistory, useLocation} from "react-router";
 import { useTranslation } from "react-i18next";
 import axios from "axios";
@@ -10,6 +10,9 @@ import SmartMeterHouseDTO from "../interfaces/SmartMeterHouseDTO";
 
 export interface EditSmartMeterProps {}
 
+/*
+  author: Matej Rišňovský
+*/
 const EditSmartMeter: FunctionComponent<EditSmartMeterProps> = () => {
     const { id } = useParams<{ id: string }>();
     const [smartMeter, setSmartMeter] = useState<SmartMeterHouseDTO | null>();
@@ -56,7 +59,7 @@ const EditSmartMeter: FunctionComponent<EditSmartMeterProps> = () => {
             </Typography>
             <Grid container spacing={3}>
                 {smartMeter ? (
-                    <SmartMetrForm smartMeter={smartMeter} onSubmit={handleOnSubmit} />
+                    <SmartMeterForm smartMeter={smartMeter} onSubmit={handleOnSubmit} />
                 ) : (
                     ""
                 )}

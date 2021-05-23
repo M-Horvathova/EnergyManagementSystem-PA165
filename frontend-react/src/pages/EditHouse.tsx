@@ -10,6 +10,9 @@ import Config from "../utils/Config";
 
 export interface EditHouseProps {}
 
+/*
+  author: Patrik Valo
+*/
 const EditHouse: FunctionComponent<EditHouseProps> = () => {
     const { id } = useParams<{ id: string }>();
     const [house, setHouse] = useState<HouseDTO | null>();

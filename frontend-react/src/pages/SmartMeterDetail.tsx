@@ -1,9 +1,8 @@
 import React, { Fragment, FunctionComponent, useEffect, useState } from "react";
-import { Button, ButtonGroup, Grid, Typography, TextField } from "@material-ui/core";
-import { useHistory, useParams } from "react-router-dom";
+import { Grid, Typography } from "@material-ui/core";
+import { useParams } from "react-router-dom";
 import axios from "axios";
 import Config from "../utils/Config";
-import SmartMeterHouseDTO from "../interfaces/SmartMeterHouseDTO";
 import { useTranslation } from "react-i18next";
 import DateFnsUtils from "@date-io/date-fns";
 import {KeyboardDatePicker, MuiPickersUtilsProvider} from "@material-ui/pickers";
@@ -12,6 +11,9 @@ import SmartMeterPowerSpentForDate from "../interfaces/SmartMeterPowerSpentForDa
 
 export interface SmartMeterDetailProps {}
 
+/*
+  author: Matej Rišňovský
+*/
 const SmartMeterDetail: FunctionComponent<SmartMeterDetailProps> = () => {
     const { id } = useParams<{ id: string }>();
     const { t } = useTranslation();

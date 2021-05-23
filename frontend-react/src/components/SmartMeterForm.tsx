@@ -4,7 +4,11 @@ import SmartMeterHouseDTO from "../interfaces/SmartMeterHouseDTO";
 import { Button, Grid, TextField, Checkbox } from "@material-ui/core";
 import { useTranslation } from "react-i18next";
 
-export interface SmartMetrFormProps {
+/*
+  author: Matej Rišňovský
+*/
+
+export interface SmartMeterFormProps {
     smartMeter ?: SmartMeterHouseDTO;
     onSubmit(
         smartMeterDescription: string,
@@ -18,7 +22,7 @@ const useStyles = makeStyles({
     },
 });
 
-const SmartMetrForm: FunctionComponent<SmartMetrFormProps> = ({ smartMeter, onSubmit }) => {
+const SmartMeterForm: FunctionComponent<SmartMeterFormProps> = ({ smartMeter, onSubmit }) => {
     const classes = useStyles();
     const { t } = useTranslation();
 
@@ -59,4 +63,4 @@ const SmartMetrForm: FunctionComponent<SmartMetrFormProps> = ({ smartMeter, onSu
     );
 };
 
-export default SmartMetrForm;
+export default SmartMeterForm;

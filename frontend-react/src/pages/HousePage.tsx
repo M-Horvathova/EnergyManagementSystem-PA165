@@ -10,6 +10,9 @@ import { useTranslation } from "react-i18next";
 
 export interface HousePageProps {}
 
+/*
+  author: Patrik Valo
+*/
 const HousePage: FunctionComponent<HousePageProps> = () => {
     const { id } = useParams<{ id: string }>();
     const { t } = useTranslation();

@@ -4,6 +4,10 @@ import { useTranslation } from "react-i18next";
 import SmartMeterTile from "./SmartMeterTile";
 import SmartMeterHouseDTO from "../interfaces/SmartMeterHouseDTO";
 
+/*
+  author: Matej Rišňovský
+*/
+
 export interface SmartMeterListProps {
     smartMeters: Array<SmartMeterHouseDTO>;
     onRemove(id: number): void;

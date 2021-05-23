@@ -1,6 +1,6 @@
-import React, { Fragment, FunctionComponent, useEffect, useState } from "react";
+import React, { Fragment, FunctionComponent } from "react";
 import { Grid, Typography } from "@material-ui/core";
-import SmartMetrForm from "../components/SmartMetrForm";
+import SmartMeterForm from "../components/SmartMeterForm";
 import { useHistory } from "react-router";
 import { useLocation } from "react-router";
 import { useTranslation } from "react-i18next";
@@ -9,6 +9,9 @@ import Config from "../utils/Config";
 
 export interface AddSmartMeterProps {}
 
+/*
+  author: Matej Rišňovský
+*/
 const AddSmartMeter: FunctionComponent<AddSmartMeterProps> = () => {
     const {search} = useLocation();
     const houseId: number = +search.split("houseId=")[1];
@@ -37,7 +40,7 @@ const AddSmartMeter: FunctionComponent<AddSmartMeterProps> = () => {
                 {t("smartMeter.create")}
             </Typography>
             <Grid container spacing={3}>
-                <SmartMetrForm onSubmit={handleOnSubmit} />
+                <SmartMeterForm onSubmit={handleOnSubmit} />
             </Grid>
         </Fragment>
     );

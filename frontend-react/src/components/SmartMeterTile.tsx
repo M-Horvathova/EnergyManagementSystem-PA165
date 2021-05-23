@@ -5,10 +5,14 @@ import CardActions from "@material-ui/core/CardActions";
 import CardContent from "@material-ui/core/CardContent";
 import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
-import {useHistory, useLocation} from "react-router";
+import {useHistory} from "react-router";
 import { useTranslation } from "react-i18next";
 import SmartMeterHouseDTO from "../interfaces/SmartMeterHouseDTO";
 
+
+/*
+  author: Matej Rišňovský
+*/
 export interface SmartMeterTileProps {
     smartMeter: SmartMeterHouseDTO;
     onRemove(id: number): void;
