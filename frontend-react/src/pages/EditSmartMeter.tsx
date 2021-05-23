@@ -2,7 +2,7 @@ import React, { Fragment, FunctionComponent, useEffect, useState } from "react";
 import { Grid, Typography } from "@material-ui/core";
 import { useParams } from "react-router-dom";
 import SmartMeterForm from "../components/SmartMeterForm";
-import {useHistory, useLocation} from "react-router";
+import {useHistory} from "react-router";
 import { useTranslation } from "react-i18next";
 import axios from "axios";
 import Config from "../utils/Config";

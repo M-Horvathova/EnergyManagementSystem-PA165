@@ -256,7 +256,7 @@ const Dashboard: FunctionComponent<UsersProps> = () => {
                     variant="inline"
                     format="MM/dd/yyyy"
                     margin="normal"
-                    id="date-picker-inline"
+                    id="date-picker-inline-2"
                     label={t("dashboard.user_stats_from")}
                     value={from}
                     onChange={handleFromDateChange}
@@ -306,9 +306,9 @@ const Dashboard: FunctionComponent<UsersProps> = () => {
                             <TableBody>
                                 {stableSort(rows, getComparator(order, orderBy))
                                     .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                                    .map((row) => {
+                                    .map((row, index) => {
                                         return (
-                                            <TableRow>
+                                            <TableRow key={index}>
                                                 <TableCell align="left">{row.userName}</TableCell>
                                                 <TableCell align="right">{row.fromToTotalSpent}</TableCell>
                                                 <TableCell align="right">{row.fromToAverageSpent}</TableCell>
