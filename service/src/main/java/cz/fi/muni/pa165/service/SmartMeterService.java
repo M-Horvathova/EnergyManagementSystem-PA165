@@ -10,6 +10,8 @@ import cz.fi.muni.pa165.entity.SmartMeter;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Set;
+
 /**
  * @author Matej Rišňovský
  */
@@ -31,6 +33,8 @@ public interface SmartMeterService {
      * @param id id of smart meter to be found
      */
     SmartMeter findById(Long id);
+
+    List<SmartMeter> findByHouse(House house);
 
     /**
      * Get all smart meters
@@ -55,9 +59,21 @@ public interface SmartMeterService {
      */
     double getPowerSpentForDateForSmartMeter(LocalDate date, SmartMeter smartMeter);
 
-     /**
-     * Get power spent across all smart meters
-     */
+    double getAveragePowerSpentForDateForSmartMeter(LocalDate date, SmartMeter smartMeter);
+
+    double getPowerSpentForIntervalForSmartMeters(LocalDate from, LocalDate to, List<SmartMeter> smartMeters);
+
+    double getAveragePowerSpentForIntervalForSmartMeters(LocalDate from, LocalDate to, List<SmartMeter> smartMeters);
+
+    double getPowerSpentForDateForSmartMeter(LocalDate from, LocalDate to, SmartMeter smartMeter);
+
+    double getAveragePowerSpentForDateForSmartMeter(LocalDate from, LocalDate to, SmartMeter smartMeter);
+
+    double getAveragePowerSpent();
+
+    /**
+    * Get power spent across all smart meters
+    */
     double getAllPowerSpent();
     /**
      * Add the meter log to smart meter

@@ -1,19 +1,20 @@
 package cz.fi.muni.pa165.service.facade;
 
 
+import cz.fi.muni.pa165.dto.*;
+import cz.fi.muni.pa165.entity.House;
 import cz.fi.muni.pa165.facade.PortalUserFacade;
 import cz.fi.muni.pa165.service.BeanMappingService;
-import cz.fi.muni.pa165.dto.HouseDTO;
-import cz.fi.muni.pa165.dto.PortalUserAuthenticateDTO;
-import cz.fi.muni.pa165.dto.PortalUserChangePasswordDTO;
-import cz.fi.muni.pa165.dto.PortalUserDTO;
 import cz.fi.muni.pa165.entity.PortalUser;
 import cz.fi.muni.pa165.service.PortalUserService;
+import cz.fi.muni.pa165.service.mappers.HouseToDTOMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 /**
@@ -23,25 +24,25 @@ import java.util.stream.Collectors;
 @Transactional
 public class PortalUserFacadeImpl implements PortalUserFacade {
     private final PortalUserService portalUserService;
-    private final BeanMappingService beanMappingService;
+    private HouseToDTOMapper houseToDTOMapper;
 
     @Autowired
-    public PortalUserFacadeImpl(PortalUserService portalUserService, BeanMappingService beanMappingService) {
+    public PortalUserFacadeImpl(PortalUserService portalUserService, HouseToDTOMapper houseToDTOMapper) {
         this.portalUserService = portalUserService;
-        this.beanMappingService = beanMappingService;
+        this.houseToDTOMapper = houseToDTOMapper;
     }
     @Override
-    public void registerUser(PortalUserDTO portalUserDTO, String unencryptedPassword) {
-        PortalUser portalUser = portalUserDTOToPortalUser(portalUserDTO);
-        Long id = portalUserService.registerUser(portalUser, unencryptedPassword);
-        portalUserDTO.setId(id);
+    public void registerUser(PortalUserRegistrationDTO portalUserRegistrationDTO) {
+        PortalUser portalUser = portalUserDTOToPortalUser(portalUserRegistrationDTO);
+        Long id = portalUserService.registerUser(portalUser, portalUserRegistrationDTO.getPassword());
+        portalUserRegistrationDTO.setId(id);
     }
 
     @Override
-    public void registerAdministrator(PortalUserDTO portalUserDTO, String unencryptedPassword) {
-        PortalUser portalUser = portalUserDTOToPortalUser(portalUserDTO);
-        Long id = portalUserService.registerAdministrator(portalUser, unencryptedPassword);
-        portalUserDTO.setId(id);
+    public void registerAdministrator(PortalUserRegistrationDTO portalUserRegistrationDTO) {
+        PortalUser portalUser = portalUserDTOToPortalUser(portalUserRegistrationDTO);
+        Long id = portalUserService.registerAdministrator(portalUser, portalUserRegistrationDTO.getPassword());
+        portalUserRegistrationDTO.setId(id);
     }
 
     @Override
@@ -51,27 +52,54 @@ public class PortalUserFacadeImpl implements PortalUserFacade {
     }
 
     @Override
+    public PortalUserListingDTO getAllUsers(int page, int itemsCount) {
+        List<PortalUser> portalUsers = portalUserService.getAllUsers(page, itemsCount);
+        List<PortalUserDTO> portalUserDTOs = portalUsers.stream().map(this::portalUserToPortalUserDTO).collect(Collectors.toList());
+        Long allItems = portalUserService.getTotalUsersCount();
+        PortalUserListingDTO portalUserListingDTO = new PortalUserListingDTO();
+        portalUserListingDTO.setPortalUserDTOs(portalUserDTOs);
+        portalUserListingDTO.setPage(page);
+        portalUserListingDTO.setPagesCount((int)((allItems / itemsCount) + 1));
+        return portalUserListingDTO;
+    }
+
+    @Override
     public boolean authenticate(PortalUserAuthenticateDTO portalUserAuthenticateDTO) {
+        PortalUser user = portalUserService.findUserByEmail(portalUserAuthenticateDTO.getUserName());
+        if (user == null) {
+            return false;
+        }
+
         return portalUserService.authenticate(
-                portalUserService.findUserByEmail(portalUserAuthenticateDTO.getUserName()),
+                user,
                 portalUserAuthenticateDTO.getPassword());
     }
 
     @Override
     public PortalUserDTO findUserById(Long id)
     {
-        return portalUserToPortalUserDTO(portalUserService.findUserById(id));
+        PortalUser user = portalUserService.findUserById(id);
+        if (user == null) {
+            return null;
+        }
+
+        return portalUserToPortalUserDTO(user);
     }
 
     @Override
     public PortalUserDTO findUserByEmail(String email) {
-        return portalUserToPortalUserDTO(portalUserService.findUserByEmail(email));
+        PortalUser user = portalUserService.findUserByEmail(email);
+        if (user == null) {
+            return null;
+        }
+
+        return portalUserToPortalUserDTO(user);
     }
 
     @Override
-    public void updateBasicUserInfo(PortalUserDTO portalUserDTO) {
-        PortalUser portalUser = portalUserService.findUserById(portalUserDTO.getId());
-        portalUserDTOToPortalUser(portalUser, portalUserDTO);
+    public void updateBasicUserInfo(PortalUserChangeBasicInfoDTO portalUserChangeBasicInfoDTO) {
+        PortalUser portalUser = portalUserService.findUserById(portalUserChangeBasicInfoDTO.getId());
+        portalUserDTOToPortalUser(portalUser, portalUserChangeBasicInfoDTO);
         portalUserService.updateBasicUserInfo(portalUser);
     }
 
@@ -99,6 +127,10 @@ public class PortalUserFacadeImpl implements PortalUserFacade {
     }
 
     private PortalUserDTO portalUserToPortalUserDTO(PortalUser portalUser) {
+        if (portalUser == null) {
+            return null;
+        }
+
         PortalUserDTO portaluserDTO = new PortalUserDTO();
         portaluserDTO.setId(portalUser.getId());
         portaluserDTO.setActive(portalUser.isActive());
@@ -110,11 +142,15 @@ public class PortalUserFacadeImpl implements PortalUserFacade {
         portaluserDTO.setLastName(portalUser.getLastName());
         portaluserDTO.setPasswordHash(portalUser.getPasswordHash());
         portaluserDTO.setPhone(portalUser.getPhone());
-        portaluserDTO.setHouses(beanMappingService.mapTo(portalUser.getHouses(), HouseDTO.class));
+        portaluserDTO.setHouses(houseToDTOMapper.convertHouseListToHouseDTOList(new ArrayList<House>(portalUser.getHouses())));
         return portaluserDTO;
     }
 
-    private PortalUser portalUserDTOToPortalUser(PortalUserDTO portalUserDTO) {
+    private PortalUser portalUserDTOToPortalUser(PortalUserRegistrationDTO portalUserDTO) {
+        if (portalUserDTO == null) {
+            return null;
+        }
+
         PortalUser portalUser = new PortalUser();
         portalUser.setEmail(portalUserDTO.getEmail());
         portalUser.setFirstName(portalUserDTO.getFirstName());
@@ -123,10 +159,14 @@ public class PortalUserFacadeImpl implements PortalUserFacade {
         return portalUser;
     }
 
-    private void portalUserDTOToPortalUser(PortalUser portalUser, PortalUserDTO portalUserDTO) {
-        portalUser.setEmail(portalUserDTO.getEmail());
-        portalUser.setFirstName(portalUserDTO.getFirstName());
-        portalUser.setLastName(portalUserDTO.getLastName());
-        portalUser.setPhone(portalUserDTO.getPhone());
+    private void portalUserDTOToPortalUser(PortalUser portalUser, PortalUserChangeBasicInfoDTO portalUserChangeBasicInfoDTO) {
+        if (portalUser == null || portalUserChangeBasicInfoDTO == null) {
+            return;
+        }
+
+        portalUser.setEmail(portalUserChangeBasicInfoDTO.getEmail());
+        portalUser.setFirstName(portalUserChangeBasicInfoDTO.getFirstName());
+        portalUser.setLastName(portalUserChangeBasicInfoDTO.getLastName());
+        portalUser.setPhone(portalUserChangeBasicInfoDTO.getPhone());
     }
 }

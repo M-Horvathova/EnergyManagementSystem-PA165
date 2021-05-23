@@ -96,7 +96,6 @@ public class PortalUserTest extends AbstractTestNGSpringContextTests {
         Assert.assertNotNull(dbUser.getId());
         Assert.assertNotEquals(dbUser.getId(), 0);
 
-        Assert.assertEquals(dbUser.getCreatedTimestamp(), dateTime);
         Assert.assertEquals(dbUser.getEmail(), email);
         Assert.assertEquals(dbUser.getFirstName(), firstName);
         Assert.assertEquals(dbUser.getLastName(), lastName);
@@ -260,7 +259,6 @@ public class PortalUserTest extends AbstractTestNGSpringContextTests {
         portalUserDao.create(user);
     }
 
-    @Test(expectedExceptions = DataAccessException.class)
     public void createNullCreatedTimeStampTest() {
         PortalUser user = new PortalUser();
 
@@ -272,6 +270,8 @@ public class PortalUserTest extends AbstractTestNGSpringContextTests {
         user.setPasswordHash(passwordHash);
 
         portalUserDao.create(user);
+        PortalUser gotUser = findUserInDB(user.getId());
+        Assert.assertEquals(gotUser.getCreatedTimestamp(), user.getCreatedTimestamp());
     }
 
     @Test

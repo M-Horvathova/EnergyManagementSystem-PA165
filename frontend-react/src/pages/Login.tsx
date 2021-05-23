@@ -4,6 +4,7 @@ import Card from "@material-ui/core/Card";
 import Grid from "@material-ui/core/Grid";
 import CardActions from "@material-ui/core/CardActions";
 import CardContent from "@material-ui/core/CardContent";
+import Alert from "@material-ui/lab/Alert"
 import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
 import TextField from "@material-ui/core/TextField";
@@ -42,11 +43,17 @@ const Login: FC = () => {
 
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
-
+    const [errors] = useState<{[index: string]: string}>({});
+    const [beErrors, setBEErrors] = useState(false);
     const { t } = useTranslation();
 
     const handleLoginEvent = async () => {
-        await auth.login(email, password);
+        let status = await auth.login(email, password);
+        if (status === 401) {
+            setBEErrors(true);
+            return;
+        }
+
         window.location.href = "/pa165";
     };
 
@@ -58,7 +65,11 @@ const Login: FC = () => {
                     <Typography variant="h5" component="h1">
                         {t("login.login")}
                     </Typography>
+                    <br/>
+                    {beErrors && <Alert variant="outlined" severity="error">{t("login.invalid_credentials")}</Alert>}
                     <TextField
+                        error={errors["username"] != null}
+                        helperText={errors["username"]}
                         label={t("login.email")}
                         type="email"
                         name="email"
@@ -71,6 +82,8 @@ const Login: FC = () => {
                         onChange={(e) => setEmail(e.target.value)}
                     />
                     <TextField
+                        error={errors["password"] != null}
+                        helperText={errors["password"]}
                         label={t("login.password")}
                         type="password"
                         name="password"

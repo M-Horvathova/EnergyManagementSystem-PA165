@@ -129,6 +129,9 @@ const BasicMenu: FC = () => {
                     <Button className={classes.menuButton}>
                         <Link className={classes.link} to="/login/"><b>{t('menu.login')}</b></Link>
                     </Button>
+                    <Button className={classes.menuButton}>
+                        <Link className={classes.link} to="/register/"><b>{t('menu.register')}</b></Link>
+                    </Button>
                     <LocMenu />
 
                 </>}

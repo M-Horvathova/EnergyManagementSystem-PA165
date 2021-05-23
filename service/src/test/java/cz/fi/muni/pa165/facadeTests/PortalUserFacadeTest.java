@@ -1,15 +1,14 @@
 package cz.fi.muni.pa165.facadeTests;
 
+import cz.fi.muni.pa165.dto.*;
 import cz.fi.muni.pa165.service.BeanMappingService;
-import cz.fi.muni.pa165.dto.PortalUserAuthenticateDTO;
-import cz.fi.muni.pa165.dto.PortalUserChangePasswordDTO;
-import cz.fi.muni.pa165.dto.PortalUserDTO;
 import cz.fi.muni.pa165.entity.*;
 import cz.fi.muni.pa165.enums.DayTime;
 import cz.fi.muni.pa165.facade.PortalUserFacade;
 import cz.fi.muni.pa165.service.facade.PortalUserFacadeImpl;
 import cz.fi.muni.pa165.service.PortalUserService;
 import cz.fi.muni.pa165.service.config.BeanMappingConfiguration;
+import cz.fi.muni.pa165.service.mappers.HouseToDTOMapper;
 import org.hibernate.service.spi.ServiceException;
 import org.mockito.Mock;
 import org.mockito.Mockito;
@@ -42,7 +41,7 @@ public class PortalUserFacadeTest extends AbstractTestNGSpringContextTests
     private PortalUserService portalUserService;
 
     @Mock
-    private BeanMappingService beanMappingService;
+    private HouseToDTOMapper houseToDTOMapper;
 
     private PortalUserFacade portalUserFacade;
 
@@ -50,6 +49,9 @@ public class PortalUserFacadeTest extends AbstractTestNGSpringContextTests
     private PortalUserChangePasswordDTO portalUserChangePasswordDTO;
     private PortalUserDTO portalUserDTO1;
     private PortalUserDTO portalUserDTO2;
+    private PortalUserRegistrationDTO portalUserRegistrationDTO;
+    private PortalUserRegistrationDTO portalAdminRegistrationDTO;
+    private PortalUserChangeBasicInfoDTO portalUserChangeBasicInfoDTO;
     private PortalUser user1;
     private PortalUser user2;
     private List<PortalUser> userList;
@@ -84,6 +86,28 @@ public class PortalUserFacadeTest extends AbstractTestNGSpringContextTests
         portalUserDTO2.setEmail("test2@muni.cz");
         portalUserDTO2.setId(2L);
 
+        portalUserChangeBasicInfoDTO = new PortalUserChangeBasicInfoDTO();
+        portalUserChangeBasicInfoDTO.setFirstName("Firstname");
+        portalUserChangeBasicInfoDTO.setLastName("Lastname");
+        portalUserChangeBasicInfoDTO.setEmail("test@muni.cz");
+        portalUserChangeBasicInfoDTO.setId(1L);
+
+        portalUserRegistrationDTO = new PortalUserRegistrationDTO();
+        portalUserRegistrationDTO.setFirstName("Firstname");
+        portalUserRegistrationDTO.setLastName("Lastname");
+        portalUserRegistrationDTO.setEmail("test@muni.cz");
+        portalUserRegistrationDTO.setPassword("abc");
+        portalUserRegistrationDTO.setPasswordConfirmation("abc");
+        portalUserRegistrationDTO.setId(1L);
+
+        portalAdminRegistrationDTO = new PortalUserRegistrationDTO();
+        portalAdminRegistrationDTO.setFirstName("Firstname2");
+        portalAdminRegistrationDTO.setLastName("Lastname2");
+        portalAdminRegistrationDTO.setEmail("test2@muni.cz");
+        portalAdminRegistrationDTO.setPassword("abc");
+        portalAdminRegistrationDTO.setPasswordConfirmation("abc");
+        portalAdminRegistrationDTO.setId(2L);
+
         userRoleAdmin = new UserRole();
         userRoleAdmin.setRoleName(UserRole.ADMINISTRATOR_ROLE_NAME);
 
@@ -104,10 +128,13 @@ public class PortalUserFacadeTest extends AbstractTestNGSpringContextTests
         userList.add(user1);
         userList.add(user2);
 
-        portalUserFacade = new PortalUserFacadeImpl(portalUserService, beanMappingService);
+        portalUserFacade = new PortalUserFacadeImpl(portalUserService, houseToDTOMapper);
 
         when(portalUserService.findUserByEmail(any(String.class))).thenReturn(user1);
         when(portalUserService.findUserById(any(Long.class))).thenReturn(user1);
+        when(portalUserService.registerAdministrator(any(PortalUser.class), any(String.class))).thenReturn(user2.getId());
+        when(portalUserService.registerUser(any(PortalUser.class), any(String.class))).thenReturn(user1.getId());
+
     }
 
     @AfterMethod
@@ -119,16 +146,15 @@ public class PortalUserFacadeTest extends AbstractTestNGSpringContextTests
     @Test
     public void registerUserTest() {
         when(portalUserService.registerUser(any(PortalUser.class), any(String.class))).thenReturn(user1.getId());
-        portalUserFacade.registerUser(portalUserDTO1, "12345678");
+        portalUserFacade.registerUser(portalUserRegistrationDTO);
 
-        Assert.assertEquals(portalUserDTO1.getId(), user1.getId());
+        Assert.assertEquals(portalUserRegistrationDTO.getId(), user1.getId());
         verify(portalUserService, times(1)).registerUser(any(PortalUser.class), any(String.class));
     }
 
     @Test
     public void registerAdminTest() {
-        when(portalUserService.registerAdministrator(any(PortalUser.class), any(String.class))).thenReturn(user2.getId());
-        portalUserFacade.registerAdministrator(portalUserDTO2, "12345678");
+        portalUserFacade.registerAdministrator(portalAdminRegistrationDTO);
 
         Assert.assertEquals(portalUserDTO2.getId(), user2.getId());
         verify(portalUserService, times(1)).registerAdministrator(any(PortalUser.class), any(String.class));
@@ -182,7 +208,7 @@ public class PortalUserFacadeTest extends AbstractTestNGSpringContextTests
 
     @Test
     public void updateBasicInfoTest() {
-        portalUserFacade.updateBasicUserInfo(portalUserDTO1);
+        portalUserFacade.updateBasicUserInfo(portalUserChangeBasicInfoDTO);
 
         verify(portalUserService, times(1)).findUserById(any(Long.class));
         verify(portalUserService, times(1)).updateBasicUserInfo(any(PortalUser.class));

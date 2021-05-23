@@ -3,6 +3,8 @@ package cz.fi.muni.pa165.dao;
 
 import cz.fi.muni.pa165.entity.PortalUser;
 
+import javax.persistence.Query;
+import javax.persistence.TypedQuery;
 import java.util.List;
 
 /**
@@ -32,6 +34,10 @@ public interface PortalUserDao {
      * @return all users from the database, empty list in case of the empty database
      */
     List<PortalUser> findAll();
+
+    List<PortalUser> findAll(int page, int itemsCount);
+
+    Long getTotalUsersCount();
 
     /**
      * Finds user by specified user name, in our portal user name is email
