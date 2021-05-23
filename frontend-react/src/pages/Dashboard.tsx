@@ -5,7 +5,7 @@ import {
 } from '@material-ui/pickers';
 import Typography from "@material-ui/core/Typography";
 import DateFnsUtils from '@date-io/date-fns';
-import {Button} from "@material-ui/core";
+import {Button, Card, CardContent} from "@material-ui/core";
 import {useTranslation} from "react-i18next";
 import axios from "axios";
 import Config from "../utils/Config";
@@ -19,7 +19,7 @@ import TableCell from "@material-ui/core/TableCell";
 import TablePagination from "@material-ui/core/TablePagination";
 import TableHead from "@material-ui/core/TableHead";
 import TableSortLabel from "@material-ui/core/TableSortLabel";
-import {createStyles, lighten, makeStyles, Theme} from "@material-ui/core/styles";
+import {createStyles, makeStyles, Theme} from "@material-ui/core/styles";
 import StatisticDTO from "../interfaces/StatisticDTO";
 
 function descendingComparator<T>(a: T, b: T, orderBy: keyof T) {
@@ -60,12 +60,6 @@ interface HeadCell {
     numeric: boolean;
 }
 
-const headCells: HeadCell[] = [
-    { id: 'userName', numeric: false, disablePadding: false, label: 'username' },
-    { id: 'fromToTotalSpent', numeric: true, disablePadding: false, label: 'total spent' },
-    { id: 'fromToAverageSpent', numeric: true, disablePadding: false, label: 'average spent' }
-];
-
 interface EnhancedTableProps {
     classes: ReturnType<typeof useStyles>;
     onRequestSort: (event: React.MouseEvent<unknown>, property: keyof StatisticDTO) => void;
@@ -75,6 +69,14 @@ interface EnhancedTableProps {
 }
 
 function EnhancedTableHead(props: EnhancedTableProps) {
+    const { t } = useTranslation();
+
+    const headCells: HeadCell[] = [
+        { id: 'userName', numeric: false, disablePadding: false, label: t("dashboard.table_username") },
+        { id: 'fromToTotalSpent', numeric: true, disablePadding: false, label: t("dashboard.table_total_spent") },
+        { id: 'fromToAverageSpent', numeric: true, disablePadding: false, label: t("dashboard.table_average_spent") }
+    ];
+
     const { classes, order, orderBy, rowCount, onRequestSort } = props;
     const createSortHandler = (property: keyof StatisticDTO) => (event: React.MouseEvent<unknown>) => {
         onRequestSort(event, property);
@@ -109,28 +111,6 @@ function EnhancedTableHead(props: EnhancedTableProps) {
     );
 }
 
-const useToolbarStyles = makeStyles((theme: Theme) =>
-    createStyles({
-        root: {
-            paddingLeft: theme.spacing(2),
-            paddingRight: theme.spacing(1),
-        },
-        highlight:
-            theme.palette.type === 'light'
-                ? {
-                    color: theme.palette.secondary.main,
-                    backgroundColor: lighten(theme.palette.secondary.light, 0.85),
-                }
-                : {
-                    color: theme.palette.text.primary,
-                    backgroundColor: theme.palette.secondary.dark,
-                },
-        title: {
-            flex: '1 1 100%',
-        },
-    }),
-);
-
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
         root: {
@@ -157,6 +137,22 @@ const useStyles = makeStyles((theme: Theme) =>
         button: {
             borderRadius: "12px",
             flex: "1",
+            top: 20,
+        },
+        cardroot: {
+            minWidth: 275,
+        },
+        bullet: {
+            display: 'inline-block',
+            margin: '0 2px',
+            transform: 'scale(0.8)',
+        },
+        title: {
+            fontSize: 20,
+            fontWeight: 'bold',
+        },
+        pos: {
+            marginBottom: 12,
         },
     }),
 );
@@ -167,6 +163,7 @@ const Dashboard: FunctionComponent<UsersProps> = () => {
     const [from, setFrom] = React.useState<Date | null>(null);
     const [to, setTo] = React.useState<Date | null>(null);
     const [statistics, setStatistics] = useState<StatisticsDTO>(new StatisticsDTO());
+    const { t } = useTranslation();
 
     const getFromDate = () => {
         return from === null ? null : from.toISOString();
@@ -182,7 +179,6 @@ const Dashboard: FunctionComponent<UsersProps> = () => {
     const handleToDateChange = (date: Date | null) => {
         setTo(date);
     };
-    const { t } = useTranslation();
 
     useEffect(() => {
         axios({
@@ -195,7 +191,7 @@ const Dashboard: FunctionComponent<UsersProps> = () => {
         });
     }, []);
 
-    const handleGetStatisticsEvent = async (event: object) => {
+    const handleGetStatisticsEvent = async () => {
         axios({
             method: "GET",
             url: Config.urlRestBase + `/statistics/${getFromDate()}/${getToDate()}`,
@@ -234,8 +230,22 @@ const Dashboard: FunctionComponent<UsersProps> = () => {
     return (
         <div>
             <Typography variant={"h3"} align={"center"}>
-                {"Welcome admin!"}
+                {t("dashboard.welcome_admin")}
             </Typography>
+            <Card className={classes.cardroot}>
+                <CardContent>
+                    <Typography className={classes.title} color="textPrimary" gutterBottom>
+                        {t("dashboard.all_time_statistics")}
+                    </Typography>
+                    <Typography className={classes.pos} color="textSecondary">
+                        {t("dashboard.all_time_total")}: {statistics.totalSpent}
+                    </Typography>
+                    <Typography className={classes.pos} color="textSecondary">
+                        {t("dashboard.all_time_average")}: {statistics.averageSpent}
+                    </Typography>
+                </CardContent>
+            </Card>
+
             <MuiPickersUtilsProvider utils={DateFnsUtils}>
                 <KeyboardDatePicker
                     disableToolbar
@@ -243,7 +253,7 @@ const Dashboard: FunctionComponent<UsersProps> = () => {
                     format="MM/dd/yyyy"
                     margin="normal"
                     id="date-picker-inline"
-                    label="Date picker inline"
+                    label={t("dashboard.user_stats_from")}
                     value={from}
                     onChange={handleFromDateChange}
                     KeyboardButtonProps={{
@@ -256,7 +266,7 @@ const Dashboard: FunctionComponent<UsersProps> = () => {
                     format="MM/dd/yyyy"
                     margin="normal"
                     id="date-picker-inline"
-                    label="Date picker inline"
+                    label={t("dashboard.user_stats_to")}
                     value={to}
                     onChange={handleToDateChange}
                     KeyboardButtonProps={{
@@ -265,8 +275,7 @@ const Dashboard: FunctionComponent<UsersProps> = () => {
                 />
                 <Button
                     className={classes.button}
-                    variant="contained"
-                    size="large"
+                    variant="outlined"
                     color="primary"
                     onClick={handleGetStatisticsEvent}
                 >
@@ -279,7 +288,7 @@ const Dashboard: FunctionComponent<UsersProps> = () => {
                     <TableContainer>
                         <Table
                             className={classes.table}
-                            aria-labelledby="tableTitle"
+                            aria-labelledby={t("dashboard.user_statistics")}
                             size={'medium'}
                             aria-label="enhanced table"
                         >
@@ -314,6 +323,7 @@ const Dashboard: FunctionComponent<UsersProps> = () => {
                         rowsPerPageOptions={[5, 10, 25]}
                         component="div"
                         count={rows.length}
+                        labelRowsPerPage={t("dashboard.rows_per_page")}
                         rowsPerPage={rowsPerPage}
                         page={page}
                         onChangePage={handleChangePage}

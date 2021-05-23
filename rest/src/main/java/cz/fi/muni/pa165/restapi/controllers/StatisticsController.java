@@ -2,6 +2,7 @@ package cz.fi.muni.pa165.restapi.controllers;
 
 import cz.fi.muni.pa165.dto.StatisticsDTO;
 import cz.fi.muni.pa165.facade.StatisticsFacade;
+import cz.fi.muni.pa165.restapi.exceptions.InvalidDateFormatException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -10,11 +11,13 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.time.LocalDate;
-import java.time.chrono.IsoChronology;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeFormatterBuilder;
-import java.time.format.ResolverStyle;
+import java.time.format.DateTimeParseException;
 
+/**
+ * @author Martin Podhora
+ */
 @RestController
 @RequestMapping("/statistics")
 public class StatisticsController {
@@ -39,12 +42,16 @@ public class StatisticsController {
         LocalDate dateFrom = null;
         LocalDate dateTo = null;
 
-        if (from != null && !from.equals("null")) {
-            dateFrom = LocalDate.parse(from, ISO_LOCAL_DATE_TIME_Z);
-        }
+        try {
+            if (from != null && !from.equals("null")) {
+                dateFrom = LocalDate.parse(from, ISO_LOCAL_DATE_TIME_Z);
+            }
 
-        if (to != null && !to.equals("null")) {
-            dateTo = LocalDate.parse(to, ISO_LOCAL_DATE_TIME_Z);
+            if (to != null && !to.equals("null")) {
+                dateTo = LocalDate.parse(to, ISO_LOCAL_DATE_TIME_Z);
+            }
+        } catch (DateTimeParseException ex) {
+            throw new InvalidDateFormatException();
         }
 
         return statisticsFacade.getUsersStatisticsForInterval(dateFrom, dateTo);

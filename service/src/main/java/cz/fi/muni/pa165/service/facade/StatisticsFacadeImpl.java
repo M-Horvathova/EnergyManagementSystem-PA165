@@ -18,6 +18,9 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDate;
 import java.util.List;
 
+/**
+ * @author Martin Podhora
+ */
 @Service
 public class StatisticsFacadeImpl implements StatisticsFacade {
     final static Logger log = LoggerFactory.getLogger(MeterLogFacadeImpl.class);
@@ -53,8 +56,9 @@ public class StatisticsFacadeImpl implements StatisticsFacade {
                 totalPowerSpent += smartMeterService.getPowerSpentForIntervalForSmartMeters(from, to, smartMeters);
                 averagePowerSpent += smartMeterService.getAveragePowerSpentForIntervalForSmartMeters(from, to, smartMeters);
             }
+
             statisticDTO.setFromToTotalSpent(totalPowerSpent);
-            statisticDTO.setFromToAverageSpent(averagePowerSpent);
+            statisticDTO.setFromToAverageSpent(averagePowerSpent / (houses.size() == 0 ? 1 : houses.size()));
             statistics.addStatistic(statisticDTO);
         }
 

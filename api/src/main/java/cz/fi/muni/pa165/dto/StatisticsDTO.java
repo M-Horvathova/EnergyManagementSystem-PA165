@@ -4,6 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+/**
+ * @author Martin Podhora
+ */
 public class StatisticsDTO {
     private String from;
     private String to;

@@ -3,8 +3,6 @@ import jwtDecode from "jwt-decode";
 import LoginUser from "../interfaces/LoginUser";
 import Config from "../utils/Config";
 import {createContext} from "react";
-import Registration from "../pages/Registration";
-import Login from "../pages/Login";
 
 const tokenKey = "token";
 
@@ -18,7 +16,7 @@ export async function login(email: string, password: string) {
     try {
         const response = await axios({
             method: "POST",
-            url: Config.urlRestBase + "/users/login",
+            url: Config.urlRestBase + "/user/login",
             data: {
                 userName: email,
                 password,
@@ -47,7 +45,7 @@ export async function register(
     try {
         const response = await axios({
             method: "POST",
-            url: Config.urlRestBase + "/users/register",
+            url: Config.urlRestBase + "/user/register",
             data: {
                 email,
                 password,

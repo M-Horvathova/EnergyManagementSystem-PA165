@@ -113,17 +113,17 @@ public class SmartMeterServiceImpl implements SmartMeterService {
             result += getAveragePowerSpentForDateForSmartMeter(from, to, smartMeter);
         }
 
-        return result;
+        return result / (smartMeters.size() == 0 ? 1 : smartMeters.size());
     }
 
     @Override
     public double getAllPowerSpent() {
-        return findAll().stream().mapToDouble(sm -> sm.getCumulativePowerConsumption()).sum();
+        return meterLogDao.findAll().stream().mapToDouble(ml -> (double)ml.getMeasure()).sum();
     }
 
     @Override
     public double getAveragePowerSpent() {
-        return findAll().stream().mapToDouble(sm -> sm.getCumulativePowerConsumption()).average().orElse(0);
+        return meterLogDao.findAll().stream().mapToDouble(ml -> (double)ml.getMeasure()).average().orElse(0);
     }
 
     @Override

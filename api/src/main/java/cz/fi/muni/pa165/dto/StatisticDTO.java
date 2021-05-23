@@ -2,10 +2,13 @@ package cz.fi.muni.pa165.dto;
 
 import java.util.Objects;
 
+/**
+ * @author Martin Podhora
+ */
 public class StatisticDTO {
     private String userName;
-    private Double fromToTotalSpent;
-    private Double fromToAverageSpent;
+    private double fromToTotalSpent;
+    private double fromToAverageSpent;
 
     public String getUserName() {
         return userName;
@@ -15,19 +18,19 @@ public class StatisticDTO {
         this.userName = userName;
     }
 
-    public Double getFromToTotalSpent() {
+    public double getFromToTotalSpent() {
         return fromToTotalSpent;
     }
 
-    public void setFromToTotalSpent(Double fromToTotalSpent) {
+    public void setFromToTotalSpent(double fromToTotalSpent) {
         this.fromToTotalSpent = fromToTotalSpent;
     }
 
-    public Double getFromToAverageSpent() {
+    public double getFromToAverageSpent() {
         return fromToAverageSpent;
     }
 
-    public void setFromToAverageSpent(Double fromToAverageSpent) {
+    public void setFromToAverageSpent(double fromToAverageSpent) {
         this.fromToAverageSpent = fromToAverageSpent;
     }
 

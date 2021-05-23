@@ -13,7 +13,6 @@ import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/users")
 public class AuthController {
     private static final int ITEMS_PAGE_COUNT = 10;
     private final PortalUserFacade portalUserFacade;
@@ -23,7 +22,7 @@ public class AuthController {
         this.portalUserFacade = portalUserFacade;
     }
 
-    @RequestMapping(path = "/register",
+    @RequestMapping(path = "/user/register",
             method = RequestMethod.POST,
             consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE)
@@ -44,7 +43,7 @@ public class AuthController {
                 .sign(algorithm);
     }
 
-    @RequestMapping(path = "/login",
+    @RequestMapping(path = "/user/login",
             method = RequestMethod.POST,
             consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE)
@@ -67,7 +66,7 @@ public class AuthController {
         }
     }
 
-    @RequestMapping(path = "/{id}",
+    @RequestMapping(path = "/user/{id}",
             method = RequestMethod.PUT,
             consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE)
@@ -77,7 +76,7 @@ public class AuthController {
         return "true";
     }
 
-    @RequestMapping(path = "/{id}",
+    @RequestMapping(path = "/user/{id}",
             method = RequestMethod.GET,
             consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE)
@@ -85,7 +84,7 @@ public class AuthController {
         return portalUserFacade.findUserById(id);
     }
 
-    @RequestMapping(path = "/change-password/{id}",
+    @RequestMapping(path = "/user/change-password/{id}",
             method = RequestMethod.PUT,
             consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE)
@@ -94,16 +93,7 @@ public class AuthController {
         return portalUserFacade.changePassword(portalUserChangePasswordDTO);
     }
 
-    @RequestMapping(path = "/deactivate-user/{id}",
-            method = RequestMethod.PUT,
-            consumes = MediaType.APPLICATION_JSON_VALUE,
-            produces = MediaType.APPLICATION_JSON_VALUE)
-    public final String deactivateUser(@PathVariable("id") Long id) throws Exception {
-        portalUserFacade.deactivateUser(id);
-        return "true";
-    }
-
-    @RequestMapping(path = "/{page}",
+    @RequestMapping(path = "/users/{page}",
             method = RequestMethod.GET,
             produces = MediaType.APPLICATION_JSON_VALUE)
     public final PortalUserListingDTO getUsers(@PathVariable("page") int page) throws Exception {

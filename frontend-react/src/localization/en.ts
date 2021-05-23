@@ -82,6 +82,19 @@ const en = {
             register: "Register here",
             invalid_credentials: "You have filled invalid credentials",
         },
+        dashboard: {
+            welcome_admin: "Welcome admin",
+            all_time_statistics: "All-time statistics",
+            all_time_total: "All-time total (kW)",
+            all_time_average: "All-time average (kW)",
+            user_stats_from: "Statistics from",
+            user_stats_to: "Statistics to",
+            get_statistics: "Get statistics",
+            table_username: "User",
+            table_total_spent: "Total (kW)",
+            table_average_spent: "Average (kW)",
+            rows_per_page: "Rows per page",
+        }
     },
 };
 
