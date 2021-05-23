@@ -3,7 +3,6 @@ package cz.fi.muni.pa165.service.facade;
 import cz.fi.muni.pa165.dto.SmartMeterEditDTO;
 import cz.fi.muni.pa165.entity.House;
 import cz.fi.muni.pa165.facade.SmartMeterFacade;
-import cz.fi.muni.pa165.service.BeanMappingService;
 import cz.fi.muni.pa165.dto.SmartMeterCreateDTO;
 import cz.fi.muni.pa165.dto.SmartMeterDTO;
 import cz.fi.muni.pa165.entity.MeterLog;
