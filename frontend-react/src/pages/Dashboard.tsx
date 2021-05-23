@@ -189,7 +189,7 @@ const Dashboard: FunctionComponent<UsersProps> = () => {
             setStatistics(result);
             setRows(result.statistics);
         });
-    }, []);
+    }, [from ,to]);
 
     const handleGetStatisticsEvent = async () => {
         axios({
