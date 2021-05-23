@@ -75,7 +75,7 @@ public class SampleDataLoadingFacadeImpl implements SampleDataLoadingFacade{
         log.info("Houses loaded");
 
         log.info("Loading smart meters");
-        SmartMeter smartMeter1 = smartMeter(true, 0, 0, house1, "Okruh garáž");
+        SmartMeter smartMeter1 = smartMeter(true, 0, 15, house1, "Okruh garáž");
         SmartMeter smartMeter2 = smartMeter(true, 10, 150, house2, "Okruh kotolňa");
         SmartMeter smartMeter3 = smartMeter(false, 0, 0, house3, "Svetlá + spotrebiče");
         SmartMeter smartMeter4 = smartMeter(true, 3, 15, house1, "Záhrada");

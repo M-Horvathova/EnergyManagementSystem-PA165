@@ -7,6 +7,7 @@ import java.io.Serializable;
  * @author Patrik Valo
  */
 @Entity
+@Table(name = "address")
 public class Address implements Serializable {
 
     @Id
@@ -20,7 +21,7 @@ public class Address implements Serializable {
     @Column(nullable = false)
     private String city;
 
-    @Column(nullable = false)
+    @Column(nullable = false, name = "post_code")
     private String postCode;
 
     @Column(nullable = false)

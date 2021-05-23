@@ -144,7 +144,7 @@ public class SmartMeterController {
 
     /**
      * Get all power spent across all smart meters curl -i -X POST
-     * '{"date":"22-12-2020"}'
+     * '{"day":22, "month": 12, "year":2020}'
      * http://localhost:8080/pa165/rest/smartmeters/powerSpent/1
      *
      * @param id ID of the smart meter
@@ -152,9 +152,10 @@ public class SmartMeterController {
      */
     @RequestMapping(value = "/powerSpent/{id}", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE)
-    public final double getPowerSpentForDate(@PathVariable("id") long id, @RequestBody Date date) {
+    public final double getPowerSpentForDate(@PathVariable("id") long id, @RequestBody SmartMeterPowerSpentDTO smartMeterPowerSpentDTO) {
         try {
-            LocalDate localDate =  LocalDate.of(date.getYear(), date.getMonth(), date.getDay());
+            //react numbers months from zero
+            LocalDate localDate =  LocalDate.of(smartMeterPowerSpentDTO.getYear(), smartMeterPowerSpentDTO.getMonth() + 1, smartMeterPowerSpentDTO.getDay());
             var smartMeter = smartMeterFacade.getSmartMeter(id);
             return smartMeterFacade.getPowerSpentForDateForSmartMeter(localDate, smartMeter);
         } catch (Exception e) {
@@ -176,7 +177,7 @@ public class SmartMeterController {
             SmartMeterStatisticsDTO statisticDTO = new SmartMeterStatisticsDTO();
             statisticDTO.setSmartMeterDescription(sm.getSmartMeterDescription());
             statisticDTO.setRunning(sm.isRunning());
-            statisticDTO.setCumulativePowerComsumption(sm.getCumulativePowerConsumption());
+            statisticDTO.setCumulativePowerConsumption(sm.getCumulativePowerConsumption());
 
             double averagePerDay = smartMeterFacade.getAveragePowerSpentForDayTimeSmartMeter(id, DayTime.Day);
             double averagePerNight = smartMeterFacade.getAveragePowerSpentForDayTimeSmartMeter(id, DayTime.Night);

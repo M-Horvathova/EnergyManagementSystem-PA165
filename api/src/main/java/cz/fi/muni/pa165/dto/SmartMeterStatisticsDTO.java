@@ -1,6 +1,5 @@
 package cz.fi.muni.pa165.dto;
 
-import java.time.LocalDateTime;
 import java.util.Objects;
 
 /**
@@ -9,7 +8,7 @@ import java.util.Objects;
 public class SmartMeterStatisticsDTO {
     private String smartMeterDescription;
     private  boolean running;
-    private double cumulativePowerComsumption;
+    private double cumulativePowerConsumption;
     private double averageSpentPerNight;
     private double averageSpentPerDay;
 
@@ -21,12 +20,12 @@ public class SmartMeterStatisticsDTO {
         this.smartMeterDescription = description;
     }
 
-    public double getCumulativePowerComsumption() {
-        return cumulativePowerComsumption;
+    public double getCumulativePowerConsumption() {
+        return cumulativePowerConsumption;
     }
 
-    public void setCumulativePowerComsumption(double cumulativePowerComsumption) {
-        this.cumulativePowerComsumption = cumulativePowerComsumption;
+    public void setCumulativePowerConsumption(double cumulativePowerConsumption) {
+        this.cumulativePowerConsumption = cumulativePowerConsumption;
     }
 
     public double getAverageSpentPerNight() {
@@ -60,11 +59,11 @@ public class SmartMeterStatisticsDTO {
         SmartMeterStatisticsDTO that = (SmartMeterStatisticsDTO) o;
         return Objects.equals(getSmartMeterDescription(), that.getSmartMeterDescription()) && Objects.equals(getAverageSpentPerDay(),
                 that.getAverageSpentPerDay()) && Objects.equals(getAverageSpentPerNight(), that.getAverageSpentPerNight())
-                && Objects.equals(getCumulativePowerComsumption(), that.getCumulativePowerComsumption()) && Objects.equals(isRunning(), that.isRunning());
+                && Objects.equals(getCumulativePowerConsumption(), that.getCumulativePowerConsumption()) && Objects.equals(isRunning(), that.isRunning());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getSmartMeterDescription(), getAverageSpentPerDay(), getAverageSpentPerNight(), getCumulativePowerComsumption(), isRunning());
+        return Objects.hash(getSmartMeterDescription(), getAverageSpentPerDay(), getAverageSpentPerNight(), getCumulativePowerConsumption(), isRunning());
     }
 }

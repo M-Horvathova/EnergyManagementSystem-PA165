@@ -15,7 +15,6 @@ export interface SmartMeterDetailProps {}
 const SmartMeterDetail: FunctionComponent<SmartMeterDetailProps> = () => {
     const { id } = useParams<{ id: string }>();
     const { t } = useTranslation();
-    const history = useHistory();
     const [smartMeterPowerSpentInDate, setSmartMeterPowerSpentInDate] = useState<SmartMeterPowerSpentForDate | null>();
     const [selectedDate, setSelectedDate] = React.useState<Date | null>(
         new Date(Date.now()),
@@ -28,7 +27,11 @@ const SmartMeterDetail: FunctionComponent<SmartMeterDetailProps> = () => {
         axios({
             method: "POST",
             url: Config.urlRestBase + `/smartmeters/powerSpent/${id}`,
-            data: { date: date },
+            data: {
+                day: date?.getDate(),
+                month: date?.getMonth(),
+                year: date?.getFullYear()
+            },
         }).then((response) => {
             setSmartMeterPowerSpentInDate({
                 result : response.data
@@ -58,7 +61,7 @@ const SmartMeterDetail: FunctionComponent<SmartMeterDetailProps> = () => {
                 {smartMeterStats?.smartMeterDescription}
             </Typography>
             <Typography variant="body2" color="textSecondary" component="p">
-                {smartMeterStats?.running ? t("smartMeter.turnedOn") : t("smartMeter.turnedOff")}
+                { smartMeterStats?.running ? t("smartMeter.turnedOn") : t("smartMeter.turnedOff")}
             </Typography>
             <Typography variant="body2" color="textSecondary" component="p">
                 { t("smartMeter.totalPowerConsumption") + " " + smartMeterStats?.cumulativePowerConsumption + " kwH"}
@@ -76,7 +79,7 @@ const SmartMeterDetail: FunctionComponent<SmartMeterDetailProps> = () => {
                     format="MM/dd/yyyy"
                     margin="normal"
                     id="date-picker-inline"
-                    label="Date picker inline"
+                    label={t("smartMeter.powerSpentForDate")}
                     value={selectedDate}
                     onChange={handleDateChange}
                     KeyboardButtonProps={{
@@ -84,7 +87,7 @@ const SmartMeterDetail: FunctionComponent<SmartMeterDetailProps> = () => {
                     }}
                 />
                 <Typography variant="body2" color="textSecondary" component="p">
-                    {smartMeterPowerSpentInDate?.result + " something"}
+                    {smartMeterPowerSpentInDate?.result === undefined ? "" :  smartMeterPowerSpentInDate?.result + " kwH"}
                 </Typography>
             </MuiPickersUtilsProvider>
             <Grid container spacing={3}>
