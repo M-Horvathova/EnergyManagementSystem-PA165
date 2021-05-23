@@ -3,9 +3,8 @@ package cz.fi.muni.pa165.dao;
 import cz.fi.muni.pa165.entity.PortalUser;
 import org.springframework.stereotype.Repository;
 
-import javax.persistence.EntityManager;
-import javax.persistence.NoResultException;
-import javax.persistence.PersistenceContext;
+import javax.persistence.*;
+import java.time.LocalDateTime;
 import java.util.regex.Pattern;
 import java.util.List;
 
@@ -22,6 +21,7 @@ public class PortalUserDaoImpl implements PortalUserDao {
 
     @Override
     public void create(PortalUser portalUser) {
+        portalUser.setCreatedTimestamp(LocalDateTime.now());
         userValidation(portalUser);
         em.persist(portalUser);
     }
@@ -34,6 +34,20 @@ public class PortalUserDaoImpl implements PortalUserDao {
     @Override
     public List<PortalUser> findAll() {
         return em.createQuery("SELECT pu FROM PortalUser pu", PortalUser.class).getResultList();
+    }
+
+    @Override
+    public List<PortalUser> findAll(int page, int itemsCount) {
+        TypedQuery<PortalUser> query = em.createQuery("SELECT pu FROM PortalUser pu", PortalUser.class);
+        query.setFirstResult(page);
+        query.setMaxResults(itemsCount);
+        return query.getResultList();
+    }
+
+    @Override
+    public Long getTotalUsersCount() {
+        Query countQuery = em.createQuery("SELECT COUNT(pu.id) FROM PortalUser pu");
+        return (Long) countQuery.getSingleResult();
     }
 
     @Override

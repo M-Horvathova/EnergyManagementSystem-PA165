@@ -1,6 +1,7 @@
 package cz.fi.muni.pa165.dao;
 
 import cz.fi.muni.pa165.entity.MeterLog;
+import cz.fi.muni.pa165.entity.SmartMeter;
 import cz.fi.muni.pa165.enums.DayTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -10,6 +11,7 @@ import org.springframework.stereotype.Repository;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -77,6 +79,35 @@ public class MeterLogDaoImpl implements MeterLogDao {
         return resultList;
     }
 
+    @Override
+    public List<MeterLog> findByDateAndSmartMeter(LocalDate from, LocalDate to, SmartMeter smartMeter) {
+        if (smartMeter == null) {
+            return new ArrayList<MeterLog>();
+        }
+
+        if (from != null && to != null) {
+            return em.createQuery("select m from MeterLog m where m.logDate >= :from AND m.logDate <= :to AND  m.smartMeter = :smartMeter", MeterLog.class)
+                    .setParameter("from", from)
+                    .setParameter("to", to)
+                    .setParameter("smartMeter", smartMeter)
+                    .getResultList();
+        } else if (from != null && to == null) {
+            return em.createQuery("select m from MeterLog m where m.logDate >= :from AND m.smartMeter = :smartMeter", MeterLog.class)
+                    .setParameter("from", from)
+                    .setParameter("smartMeter", smartMeter)
+                    .getResultList();
+        } else if (from == null && to != null) {
+            return em.createQuery("select m from MeterLog m where m.logDate <= :to AND m.smartMeter = :smartMeter", MeterLog.class)
+                    .setParameter("to", to)
+                    .setParameter("smartMeter", smartMeter)
+                    .getResultList();
+        } else {
+            return em.createQuery("select m from MeterLog m where m.smartMeter = :smartMeter", MeterLog.class)
+                    .setParameter("smartMeter", smartMeter)
+                    .getResultList();
+        }
+
+    }
 
     @Override
     public List<MeterLog> findByTimeOfDay(LocalDate date, DayTime dayTime) {

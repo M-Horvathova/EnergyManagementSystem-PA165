@@ -307,36 +307,36 @@ public class SmartMeterServiceTest {
 
     @Test
     public void getAllPowerSpentForThreeTest() {
-        List<SmartMeter> smList = new ArrayList<>();
-        smList.add(testSmartMeter1);
-        smList.add(testSmartMeter2);
-        smList.add(testSmartMeter3);
-        when(smartMeterDao.findAll()).thenReturn(smList);
+        List<MeterLog> smList = new ArrayList<>();
+        smList.add(testMeterLog11);
+        smList.add(testMeterLog12);
+        smList.add(testMeterLog21);
+        when(meterLogDao.findAll()).thenReturn(smList);
 
         double result = smartMeterService.getAllPowerSpent();
-        Assert.assertEquals(300.0, result);
-        verify(smartMeterDao, times(1)).findAll();
+        Assert.assertEquals((double)(testMeterLog11.getMeasure() + testMeterLog12.getMeasure() + testMeterLog21.getMeasure()), result);
+        verify(meterLogDao, times(1)).findAll();
     }
 
     @Test
     public void getAllPowerSpentForOneTest() {
-        List<SmartMeter> smList = new ArrayList<>();
-        smList.add(testSmartMeter1);
-        when(smartMeterDao.findAll()).thenReturn(smList);
+        List<MeterLog> smList = new ArrayList<>();
+        smList.add(testMeterLog11);
+        when(meterLogDao.findAll()).thenReturn(smList);
 
         double result = smartMeterService.getAllPowerSpent();
-        Assert.assertEquals(100.0, result);
-        verify(smartMeterDao, times(1)).findAll();
+        Assert.assertEquals((double)testMeterLog11.getMeasure(), result);
+        verify(meterLogDao, times(1)).findAll();
     }
 
     @Test
     public void getAllPowerSpentForNoneTest() {
-        List<SmartMeter> smList = new ArrayList<>();
-        when(smartMeterDao.findAll()).thenReturn(smList);
+        List<MeterLog> smList = new ArrayList<>();
+        when(meterLogDao.findAll()).thenReturn(smList);
 
         double result = smartMeterService.getAllPowerSpent();
         Assert.assertEquals(0.0, result);
-        verify(smartMeterDao, times(1)).findAll();
+        verify(meterLogDao, times(1)).findAll();
     }
 
     @Test

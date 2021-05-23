@@ -1,8 +1,6 @@
 package cz.fi.muni.pa165.facade;
 
-import cz.fi.muni.pa165.dto.PortalUserAuthenticateDTO;
-import cz.fi.muni.pa165.dto.PortalUserChangePasswordDTO;
-import cz.fi.muni.pa165.dto.PortalUserDTO;
+import cz.fi.muni.pa165.dto.*;
 import cz.fi.muni.pa165.entity.PortalUser;
 
 import java.util.List;
@@ -14,18 +12,16 @@ public interface PortalUserFacade {
     /**
      * Performs registration of the user
      *
-     * @param portalUserDTO user data
-     * @param unencryptedPassword password
+     * @param portalUserRegistrationDTO user data
      */
-    void registerUser(PortalUserDTO portalUserDTO, String unencryptedPassword);
+    void registerUser(PortalUserRegistrationDTO portalUserRegistrationDTO);
 
     /**
      * Performs registration of the administrator
      *
-     * @param portalUserDTO user data
-     * @param unencryptedPassword password
+     * @param portalUserRegistrationDTO user data
      */
-    void registerAdministrator(PortalUserDTO portalUserDTO, String unencryptedPassword);
+    void registerAdministrator(PortalUserRegistrationDTO portalUserRegistrationDTO);
 
     /**
      * Gets all users
@@ -33,6 +29,8 @@ public interface PortalUserFacade {
      * @return all users
      */
     List<PortalUserDTO> getAllUsers();
+
+    PortalUserListingDTO getAllUsers(int page, int itemsCount);
 
     /**
      * Used to check whether the password for user matches during login
@@ -61,9 +59,9 @@ public interface PortalUserFacade {
     /**
      * Updates basic info about user
      *
-     * @param portalUserDTO updated user info
+     * @param portalUserChangeBasicInfoDTO updated user info
      */
-    void updateBasicUserInfo(PortalUserDTO portalUserDTO);
+    void updateBasicUserInfo(PortalUserChangeBasicInfoDTO portalUserChangeBasicInfoDTO);
 
     /**
      * Deactivates given user

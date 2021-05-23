@@ -11,6 +11,7 @@ import java.util.Set;
  */
 
 @Entity
+@Table(name = "smart_meter")
 public class SmartMeter implements Serializable {
 
     @Id

@@ -1,6 +1,7 @@
 package cz.fi.muni.pa165.restapi.controllers;
 
 import cz.fi.muni.pa165.dto.*;
+import cz.fi.muni.pa165.enums.DayTime;
 import cz.fi.muni.pa165.facade.HouseFacade;
 import cz.fi.muni.pa165.facade.SmartMeterFacade;
 import cz.fi.muni.pa165.restapi.exceptions.ResourceAlreadyExistingException;
@@ -143,7 +144,7 @@ public class SmartMeterController {
 
     /**
      * Get all power spent across all smart meters curl -i -X POST
-     * '{"smartMeterDescription":"Smart meter - okruh garáž","isRunning": true}'
+     * '{"date":"22-12-2020"}'
      * http://localhost:8080/pa165/rest/smartmeters/powerSpent/1
      *
      * @param id ID of the smart meter
@@ -156,6 +157,33 @@ public class SmartMeterController {
             LocalDate localDate =  LocalDate.of(date.getYear(), date.getMonth(), date.getDay());
             var smartMeter = smartMeterFacade.getSmartMeter(id);
             return smartMeterFacade.getPowerSpentForDateForSmartMeter(localDate, smartMeter);
+        } catch (Exception e) {
+            throw new ResourceNotFoundException();
+        }
+    }
+
+    /**
+     * Get statistics about smart meter curl -i -X GET
+     * http://localhost:8080/pa165/rest/smartmeters/statistics/1
+     * @param id ID of the smart meter
+     * @return statistics for smart meter
+     */
+    @RequestMapping(value = "/statistics/{id}", method = RequestMethod.GET,
+            produces = MediaType.APPLICATION_JSON_VALUE)
+    public final SmartMeterStatisticsDTO getSmartMeterStatistics(@PathVariable("id") long id) {
+        try {
+            SmartMeterDTO sm = smartMeterFacade.getSmartMeter(id);
+            SmartMeterStatisticsDTO statisticDTO = new SmartMeterStatisticsDTO();
+            statisticDTO.setSmartMeterDescription(sm.getSmartMeterDescription());
+            statisticDTO.setRunning(sm.isRunning());
+            statisticDTO.setCumulativePowerComsumption(sm.getCumulativePowerConsumption());
+
+            double averagePerDay = smartMeterFacade.getAveragePowerSpentForDayTimeSmartMeter(id, DayTime.Day);
+            double averagePerNight = smartMeterFacade.getAveragePowerSpentForDayTimeSmartMeter(id, DayTime.Night);
+
+            statisticDTO.setAverageSpentPerDay(averagePerDay);
+            statisticDTO.setAverageSpentPerNight(averagePerNight);
+            return statisticDTO;
         } catch (Exception e) {
             throw new ResourceNotFoundException();
         }

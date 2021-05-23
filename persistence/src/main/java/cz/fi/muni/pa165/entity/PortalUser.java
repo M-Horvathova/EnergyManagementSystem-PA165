@@ -16,38 +16,40 @@ import java.util.Set;
  * @author Martin Podhora
  */
 @Entity
+@Table(name = "portal_user")
 public class PortalUser implements Serializable {
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
+    @Column(name = "id")
     private Long id;
 
-    @Column(nullable=false)
+    @Column(nullable=false, name = "password_hash")
     private String passwordHash;
 
-    @Column(nullable=false,unique=true)
+    @Column(nullable=false,unique=true, name = "email")
     private String email;
 
-    @Column(nullable=false)
+    @Column(nullable=false, name = "first_name")
     private String firstName;
 
-    @Column(nullable=false)
+    @Column(nullable=false, name = "last_name")
     private String lastName;
 
-    @Column(nullable=false)
+    @Column(nullable=false, name = "phone")
     private String phone;
 
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private UserRole userRole;
 
-    @Column(nullable=false)
+    @Column(nullable=false, name = "is_active")
     private boolean isActive;
 
     @Future
-    @Column(nullable=false)
+    @Column(nullable=false, name = "created_timestamp")
     private LocalDateTime createdTimestamp;
 
     @Future
-    @Column(nullable=true)
+    @Column(nullable=true, name = "last_login_timestamp")
     private LocalDateTime lastLoginTimestamp;
 
     @OneToMany(mappedBy = "portalUser", fetch = FetchType.LAZY)

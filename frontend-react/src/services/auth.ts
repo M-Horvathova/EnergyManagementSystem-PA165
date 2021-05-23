@@ -13,20 +13,55 @@ type UserCtx = {
 export const UserContext = createContext<UserCtx>({user: null});
 
 export async function login(email: string, password: string) {
-    const response = await axios({
-        method: "POST",
-        url: Config.urlRestBase + "/login",
-        data: {
-            userName: email,
-            password,
-        },
-    });
-    const jwt = response.data;
-    localStorage.setItem(tokenKey, jwt);
+    try {
+        const response = await axios({
+            method: "POST",
+            url: Config.urlRestBase + "/user/login",
+            data: {
+                userName: email,
+                password,
+            }
+        });
+
+        const jwt = response.data;
+        localStorage.setItem(tokenKey, jwt);
+        return response.status;
+    } catch (e) {
+        return e.response.status;
+    }
 }
 
 export function logout() {
     localStorage.removeItem(tokenKey);
+}
+
+export async function register(
+        email: string,
+        password: string,
+        confirmPassword: string,
+        firstName: string,
+        lastName: string,
+        phone: string) {
+    try {
+        const response = await axios({
+            method: "POST",
+            url: Config.urlRestBase + "/user/register",
+            data: {
+                email,
+                password,
+                passwordConfirmation: confirmPassword,
+                firstName,
+                lastName,
+                phone
+            },
+        });
+
+        const jwt = response.data;
+        localStorage.setItem(tokenKey, jwt);
+        return response.status;
+    } catch (e) {
+        return e.response.status;
+    }
 }
 
 export function getCurrentUser(): LoginUser | null {
@@ -42,6 +77,7 @@ export function getCurrentUser(): LoginUser | null {
 }
 
 const returnModule = {
+    register,
     login,
     logout,
     getCurrentUser,

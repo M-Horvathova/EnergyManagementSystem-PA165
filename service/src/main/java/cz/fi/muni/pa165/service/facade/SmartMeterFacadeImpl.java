@@ -114,6 +114,12 @@ public class SmartMeterFacadeImpl implements SmartMeterFacade {
     }
 
     @Override
+    public double getAveragePowerSpentForDayTimeSmartMeter(Long id, DayTime dayTime) {
+        SmartMeter sm = smartMeterService.findById(id);
+        return  smartMeterService.getAveragePowerSpentForDayTimeSmartMeter(sm, dayTime);
+    }
+
+    @Override
     public double getPowerSpentForDateFrameWithDayTime(LocalDate from, LocalDate to, SmartMeterDTO smartMeter, DayTime dayTime) {
         SmartMeter sm = smartMeterService.findById(smartMeter.getId());
         return smartMeterService.sumPowerFromLogs(meterLogService.filterInDateFrameWithTimeDay(new ArrayList<>(sm.getMeterLogs()), from, to, dayTime));

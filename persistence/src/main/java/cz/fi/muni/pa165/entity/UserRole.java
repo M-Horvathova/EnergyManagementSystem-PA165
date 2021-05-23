@@ -11,15 +11,17 @@ import java.util.Objects;
  * @author Martin Podhora
  */
 @Entity
+@Table(name = "user_role")
 public class UserRole implements Serializable {
     public static final String USER_ROLE_NAME = "User";
     public static final String ADMINISTRATOR_ROLE_NAME = "Administrator";
 
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
+    @Column(name = "id")
     private Long id;
 
-    @Column(nullable=false)
+    @Column(nullable=false, name = "role_name")
     private String roleName;
 
     public Long getId() {

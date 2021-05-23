@@ -82,7 +82,7 @@ public class SampleDataLoadingFacadeImpl implements SampleDataLoadingFacade{
         log.info("Smart meters loaded");
 
         log.info("Loading meter logs");
-        MeterLog meterLog1 = meterLog((long) -5, smartMeter1, LocalDateTime.of(2020, 8, 15, 15, 35));
+        MeterLog meterLog1 = meterLog(10L, smartMeter1, LocalDateTime.of(2020, 8, 16, 15, 35));
         MeterLog meterLog2 = meterLog(5L, smartMeter1, LocalDateTime.of(2020, 8, 15, 18, 35));
         MeterLog meterLog3 = meterLog(10L, smartMeter2, LocalDateTime.of(2021, 1, 1, 23, 59));
         MeterLog meterLog4 = meterLog(11L, smartMeter2, LocalDateTime.of(2021, 1, 2, 23, 59));

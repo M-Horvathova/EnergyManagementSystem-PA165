@@ -33,6 +33,10 @@ public interface PortalUserService {
      */
     List<PortalUser> getAllUsers();
 
+    List<PortalUser> getAllUsers(int page, int itemsCount);
+
+    Long getTotalUsersCount();
+
     /**
      * Returns whether the user entered correct password
      *
