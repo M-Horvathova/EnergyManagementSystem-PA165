@@ -307,26 +307,24 @@ public class SmartMeterServiceTest {
 
     @Test
     public void getAllPowerSpentForThreeTest() {
-        List<SmartMeter> smList = new ArrayList<>();
-        smList.add(testSmartMeter1);
-        smList.add(testSmartMeter2);
-        smList.add(testSmartMeter3);
-        when(smartMeterDao.findAll()).thenReturn(smList);
+        List<MeterLog> smList = new ArrayList<>();
+        smList.add(testMeterLog11);
+        smList.add(testMeterLog12);
+        smList.add(testMeterLog21);
+        when(meterLogDao.findAll()).thenReturn(smList);
 
         double result = smartMeterService.getAllPowerSpent();
-        Assert.assertEquals(300.0, result);
-        verify(smartMeterDao, times(1)).findAll();
+        Assert.assertEquals(result, 250.0);
     }
 
     @Test
     public void getAllPowerSpentForOneTest() {
-        List<SmartMeter> smList = new ArrayList<>();
-        smList.add(testSmartMeter1);
-        when(smartMeterDao.findAll()).thenReturn(smList);
+        List<MeterLog> smList = new ArrayList<>();
+        smList.add(testMeterLog11);
+        when(meterLogDao.findAll()).thenReturn(smList);
 
         double result = smartMeterService.getAllPowerSpent();
-        Assert.assertEquals(100.0, result);
-        verify(smartMeterDao, times(1)).findAll();
+        Assert.assertEquals(result, 50.0);
     }
 
     @Test
@@ -336,7 +334,6 @@ public class SmartMeterServiceTest {
 
         double result = smartMeterService.getAllPowerSpent();
         Assert.assertEquals(0.0, result);
-        verify(smartMeterDao, times(1)).findAll();
     }
 
     @Test
