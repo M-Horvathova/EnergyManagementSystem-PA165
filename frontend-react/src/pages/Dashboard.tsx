@@ -77,7 +77,7 @@ function EnhancedTableHead(props: EnhancedTableProps) {
         { id: 'fromToAverageSpent', numeric: true, disablePadding: false, label: t("dashboard.table_average_spent") }
     ];
 
-    const { classes, order, orderBy, rowCount, onRequestSort } = props;
+    const { classes, order, orderBy, onRequestSort } = props;
     const createSortHandler = (property: keyof StatisticDTO) => (event: React.MouseEvent<unknown>) => {
         onRequestSort(event, property);
     };
@@ -157,6 +157,14 @@ const useStyles = makeStyles((theme: Theme) =>
     }),
 );
 
+export const getFromDate = (from: Date|null) => {
+    return from === null ? null : from.toISOString();
+}
+
+export const getToDate = (to: Date|null) => {
+    return to === null ? null : to.toISOString();
+}
+
 export interface UsersProps {}
 
 const Dashboard: FunctionComponent<UsersProps> = () => {
@@ -164,14 +172,6 @@ const Dashboard: FunctionComponent<UsersProps> = () => {
     const [to, setTo] = React.useState<Date | null>(null);
     const [statistics, setStatistics] = useState<StatisticsDTO>(new StatisticsDTO());
     const { t } = useTranslation();
-
-    const getFromDate = () => {
-        return from === null ? null : from.toISOString();
-    }
-
-    const getToDate = () => {
-        return to === null ? null : to.toISOString();
-    }
 
     const handleFromDateChange = (date: Date | null) => {
         setFrom(date);
@@ -183,7 +183,7 @@ const Dashboard: FunctionComponent<UsersProps> = () => {
     useEffect(() => {
         axios({
             method: "GET",
-            url: Config.urlRestBase + `/statistics/${getFromDate()}/${getToDate()}`,
+            url: Config.urlRestBase + `/statistics/${getFromDate(from)}/${getToDate(to)}`,
         }).then((response) => {
             const result: StatisticsDTO = response.data as StatisticsDTO;
             setStatistics(result);
@@ -194,7 +194,7 @@ const Dashboard: FunctionComponent<UsersProps> = () => {
     const handleGetStatisticsEvent = async () => {
         axios({
             method: "GET",
-            url: Config.urlRestBase + `/statistics/${getFromDate()}/${getToDate()}`,
+            url: Config.urlRestBase + `/statistics/${getFromDate(from)}/${getToDate(to)}`,
         }).then((response) => {
             const result: StatisticsDTO = response.data as StatisticsDTO;
             setStatistics(result);
@@ -302,7 +302,7 @@ const Dashboard: FunctionComponent<UsersProps> = () => {
                             <TableBody>
                                 {stableSort(rows, getComparator(order, orderBy))
                                     .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                                    .map((row, index) => {
+                                    .map((row) => {
                                         return (
                                             <TableRow>
                                                 <TableCell align="left">{row.userName}</TableCell>

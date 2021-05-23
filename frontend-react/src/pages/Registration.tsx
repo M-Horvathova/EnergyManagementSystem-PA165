@@ -42,7 +42,7 @@ const Registration: FC = () => {
     const classes = useStyles();
 
     const validate = () => {
-        var temp: {[index: string]: string;} = {
+        let temp: {[index: string]: string;} = {
             "email": (/.*@.*..*/).test(email) ? "" : t("register.err_invalid_email"),
             "password": password ? "" : t("register.err_password_required"),
             "confirmPassword": confirmPassword ? "" : t("register.err_confirm_password_required"),
@@ -69,8 +69,8 @@ const Registration: FC = () => {
 
     const handleLoginEvent = async () => {
         if (validate()) {
-            var status = await auth.register(email, password, confirmPassword, firstName, lastName, phone);
-            if (status == 409) {
+            let status = await auth.register(email, password, confirmPassword, firstName, lastName, phone);
+            if (status === 409) {
                 setBEErrors(true);
                 return;
             }

@@ -12,7 +12,6 @@ import TextField from "@material-ui/core/TextField";
 import AccountBoxIcon from "@material-ui/icons/AccountBox";
 import { useTranslation } from "react-i18next";
 import auth from "../services/auth";
-import {Snackbar} from "@material-ui/core";
 
 /*
     Author: Michaela Horváthová
@@ -44,13 +43,13 @@ const Login: FC = () => {
 
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
-    const [errors, setErrors] = useState<{[index: string]: string}>({});
+    const [errors] = useState<{[index: string]: string}>({});
     const [beErrors, setBEErrors] = useState(false);
     const { t } = useTranslation();
 
     const handleLoginEvent = async () => {
-        var status = await auth.login(email, password);
-        if (status == 401) {
+        let status = await auth.login(email, password);
+        if (status === 401) {
             setBEErrors(true);
             return;
         }
