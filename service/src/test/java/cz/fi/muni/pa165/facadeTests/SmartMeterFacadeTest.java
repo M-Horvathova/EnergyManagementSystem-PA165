@@ -1,6 +1,5 @@
 package cz.fi.muni.pa165.facadeTests;
 
-import cz.fi.muni.pa165.service.BeanMappingService;
 import cz.fi.muni.pa165.dto.*;
 import cz.fi.muni.pa165.entity.Address;
 import cz.fi.muni.pa165.entity.House;
@@ -13,7 +12,6 @@ import cz.fi.muni.pa165.service.facade.SmartMeterFacadeImpl;
 import cz.fi.muni.pa165.service.HouseService;
 import cz.fi.muni.pa165.service.MeterLogService;
 import cz.fi.muni.pa165.service.SmartMeterService;
-import cz.fi.muni.pa165.service.config.BeanMappingConfiguration;
 import cz.fi.muni.pa165.service.mappers.SmartMeterMapper;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
