@@ -1,4 +1,4 @@
-import { FC, useState } from "react";
+import {FC, useContext, useState} from "react";
 import { Link } from "react-router-dom";
 
 import Drawer from "@material-ui/core/Drawer";
@@ -16,13 +16,14 @@ import red from "@material-ui/core/colors/red";
 import HomeIcon from "@material-ui/icons/Home";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
 import InfoIcon from "@material-ui/icons/Info";
-import CardGiftcardIcon from "@material-ui/icons/CardGiftcard";
 import AccountCircleIcon from "@material-ui/icons/AccountCircle";
 import PersonAddIcon from "@material-ui/icons/PersonAdd";
 import Box from "@material-ui/core/Box";
+import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 
 import LocMenu from "./LocMenu";
 import { useTranslation } from "react-i18next";
+import {logout, UserContext} from "../services/auth";
 
 const useStyles = makeStyles({
     link: {
@@ -54,6 +55,7 @@ const MenuDrawerLeft: FC = () => {
     const classes = useStyles();
     const [open, setOpen] = useState(false);
     const { t } = useTranslation();
+    const { user } = useContext(UserContext);
 
     const handleDrawerOpen = () => {
         setOpen(true);
@@ -61,6 +63,11 @@ const MenuDrawerLeft: FC = () => {
 
     const handleDrawerClose = () => {
         setOpen(false);
+    };
+
+    const handleLogout = () => {
+        logout();
+        window.location.href = "/pa165";
     };
 
     return (
@@ -91,7 +98,7 @@ const MenuDrawerLeft: FC = () => {
                 </div>
                 <Divider />
                 <List className={classes.list}>
-                    {
+                    { user &&
                         <>
                             <ListItem alignItems="flex-start"></ListItem>
                             <Divider />
@@ -115,32 +122,21 @@ const MenuDrawerLeft: FC = () => {
                                 </ListItemIcon>
                                 <Link
                                     className={classes.link}
-                                    to="pa165/about/"
+                                    to="/about"
                                     onClick={handleDrawerClose}
                                 >
                                     <b>{t("menu.about")}</b>
                                 </Link>
                             </ListItem>
-                            <ListItem>
-                                <ListItemIcon>
-                                    {" "}
-                                    <CardGiftcardIcon></CardGiftcardIcon>{" "}
-                                </ListItemIcon>
-                                <Link
-                                    className={classes.link}
-                                    to="/list/"
-                                    onClick={handleDrawerClose}
-                                >
-                                    <b>{t("menu.gift_lists")}</b>
-                                </Link>
+                            <Divider />
+                            <ListItem >
+                                <ListItemIcon> <ExitToAppIcon /> </ListItemIcon>
+                                <Link className={classes.link} to="/pa165" onClick={() => handleLogout()}><b>{t('menu.logout')}</b></Link>
                             </ListItem>
-                            <Divider />
-                            <Divider />
-
                             <Divider />
                         </>
                     }
-                    {
+                    { user == null &&
                         <>
                             <ListItem divider>
                                 <ListItemIcon>
