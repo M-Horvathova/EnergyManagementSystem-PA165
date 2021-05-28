@@ -75,24 +75,47 @@ public class SampleDataLoadingFacadeImpl implements SampleDataLoadingFacade{
         log.info("Houses loaded");
 
         log.info("Loading smart meters");
-        SmartMeter smartMeter1 = smartMeter(true, 0, 15, house1, "Okruh garáž");
+        SmartMeter smartMeter1 = smartMeter(true, 0, 51, house1, "Okruh garáž");
         SmartMeter smartMeter2 = smartMeter(true, 10, 150, house2, "Okruh kotolňa");
         SmartMeter smartMeter3 = smartMeter(false, 0, 0, house3, "Svetlá + spotrebiče");
-        SmartMeter smartMeter4 = smartMeter(true, 3, 15, house1, "Záhrada");
+        SmartMeter smartMeter4 = smartMeter(true, 3, 22, house1, "Záhrada");
         log.info("Smart meters loaded");
 
         log.info("Loading meter logs");
-        MeterLog meterLog1 = meterLog(10L, smartMeter1, LocalDateTime.of(2020, 8, 16, 15, 35));
-        MeterLog meterLog2 = meterLog(5L, smartMeter1, LocalDateTime.of(2020, 8, 15, 18, 35));
-        MeterLog meterLog3 = meterLog(10L, smartMeter2, LocalDateTime.of(2021, 1, 1, 23, 59));
-        MeterLog meterLog4 = meterLog(11L, smartMeter2, LocalDateTime.of(2021, 1, 2, 23, 59));
-        MeterLog meterLog5 = meterLog(39L, smartMeter2, LocalDateTime.of(2021, 1, 3, 23,59));
-        MeterLog meterLog6 = meterLog(25L, smartMeter2, LocalDateTime.of(2021, 1, 4, 23, 59));
-        MeterLog meterLog7 = meterLog(35L, smartMeter2, LocalDateTime.of(2021, 1, 5, 23,59));
-        MeterLog meterLog8 = meterLog(30L, smartMeter2, LocalDateTime.of(2021, 1, 6, 23, 59));
-        MeterLog meterLog9 = meterLog(9L, smartMeter4, LocalDateTime.of(2021, 2, 15, 8, 25));
-        MeterLog meterLog10 = meterLog(2L, smartMeter4, LocalDateTime.of(2021, 2, 9, 6, 12));
-        MeterLog meterLog11 = meterLog(4L, smartMeter4, LocalDateTime.of(2021, 2, 22, 13, 54));
+        MeterLog meterLog1 = meterLog(10L, smartMeter1,
+                LocalDateTime.of(2020, 8, 16, 15, 35));
+        MeterLog meterLog2 = meterLog(5L, smartMeter1,
+                LocalDateTime.of(2020, 8, 15, 18, 35));
+        MeterLog meterLog3 = meterLog(10L, smartMeter2,
+                LocalDateTime.of(2021, 1, 1, 23, 59));
+        MeterLog meterLog4 = meterLog(11L, smartMeter2,
+                LocalDateTime.of(2021, 1, 2, 23, 59));
+        MeterLog meterLog5 = meterLog(39L, smartMeter2,
+                LocalDateTime.of(2021, 1, 3, 23,59));
+        MeterLog meterLog6 = meterLog(25L, smartMeter2,
+                LocalDateTime.of(2021, 1, 4, 23, 59));
+        MeterLog meterLog7 = meterLog(35L, smartMeter2,
+                LocalDateTime.of(2021, 1, 5, 23,59));
+        MeterLog meterLog8 = meterLog(30L, smartMeter2,
+                LocalDateTime.of(2021, 1, 6, 23, 59));
+        MeterLog meterLog9 = meterLog(9L, smartMeter4,
+                LocalDateTime.of(2021, 2, 15, 8, 25));
+        MeterLog meterLog10 = meterLog(2L, smartMeter4,
+                LocalDateTime.of(2021, 2, 9, 6, 12));
+        MeterLog meterLog11 = meterLog(4L, smartMeter4,
+                LocalDateTime.of(2021, 2, 22, 13, 54));
+        MeterLog meterLog12 = meterLog(7L, smartMeter4,
+                LocalDateTime.of(2021, 3, 22, 13, 54));
+        MeterLog meterLog13 = meterLog(11L, smartMeter1,
+                LocalDateTime.of(2020, 8, 26, 5, 35));
+        MeterLog meterLog14 = meterLog(3L, smartMeter1,
+                LocalDateTime.of(2020, 9, 11, 18, 35));
+        MeterLog meterLog15 = meterLog(8L, smartMeter1,
+                LocalDateTime.of(2020, 9, 1, 15, 35));
+        MeterLog meterLog16 = meterLog(1L, smartMeter1,
+                LocalDateTime.of(2020, 8, 6, 15, 35));
+        MeterLog meterLog17 = meterLog(13L, smartMeter1,
+                LocalDateTime.of(2020, 8, 17, 15, 35));
         log.info("Meter logs loaded");
         log.info("Sample data loading complete");
     }
