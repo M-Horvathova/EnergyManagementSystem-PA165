@@ -12,7 +12,7 @@ import IconButton from "@material-ui/core/IconButton";
 import AccountCircleIcon from "@material-ui/icons/AccountCircle";
 import { useTranslation } from "react-i18next";
 import LocMenu from "./LocMenu";
-import { MenuItem } from "@material-ui/core";
+import {FormGroup, Grid, MenuItem, Switch} from "@material-ui/core";
 import {logout, UserContext} from "../services/auth";
 
 /*
@@ -29,10 +29,16 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-const BasicMenu: FC = () => {
+type Props = {
+    theme: 'light' | 'dark';
+    setTheme: React.Dispatch<React.SetStateAction<'light' | 'dark'>>;
+}
+
+const BasicMenu: FC<Props> = ({theme, setTheme}) => {
     const classes = useStyles();
     const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
     const open = Boolean(anchorEl);
+    const [checked, setChecked] = React.useState<boolean>(theme === 'dark');
 
     const { user } = useContext(UserContext);
     const { t } = useTranslation();
@@ -49,6 +55,12 @@ const BasicMenu: FC = () => {
         logout();
         window.location.href = "/pa165";
     };
+
+    const handleChange = () => {
+        setChecked(prevState => !prevState);
+        setTheme(prevState => prevState === 'light' ? 'dark' : 'light');
+        window.localStorage.setItem('theme', theme === 'light' ? 'dark' : 'light');
+    }
 
     return (
         <AppBar color="primary" position="static" variant="outlined">
@@ -109,7 +121,17 @@ const BasicMenu: FC = () => {
                         </MenuItem>
                     </Menu>
                     <LocMenu />
-
+                    <FormGroup>
+                        <Typography component="div">
+                            <Grid component="label" container alignItems="center" spacing={1}>
+                                <Grid item>Light</Grid>
+                                <Grid item>
+                                    <Switch checked={checked} onChange={handleChange} name="ThemeToggle" />
+                                </Grid>
+                                <Grid item>Dark</Grid>
+                            </Grid>
+                        </Typography>
+                    </FormGroup>
                 </>}
 
                 {user === null && <>
@@ -132,7 +154,19 @@ const BasicMenu: FC = () => {
                     <Button className={classes.menuButton}>
                         <Link className={classes.link} to="/register/"><b>{t('menu.register')}</b></Link>
                     </Button>
+
                     <LocMenu />
+                    <FormGroup>
+                        <Typography component="div">
+                            <Grid component="label" container alignItems="center" spacing={1}>
+                                <Grid item>Light</Grid>
+                                <Grid item>
+                                    <Switch checked={checked} onChange={handleChange} name="ThemeToggle" />
+                                </Grid>
+                                <Grid item>Dark</Grid>
+                            </Grid>
+                        </Typography>
+                    </FormGroup>
 
                 </>}
             </Toolbar>

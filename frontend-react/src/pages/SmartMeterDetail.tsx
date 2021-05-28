@@ -102,7 +102,7 @@ const SmartMeterDetail: FunctionComponent<SmartMeterDetailProps> = () => {
                             <ListItem>
                                 <ListItemAvatar>
                                     <Avatar>
-                                        {smartMeterStats?.running ? <TurnedIn /> : <TurnedInNot/>}
+                                        {smartMeterStats?.running ? <TurnedIn color='secondary'/> : <TurnedInNot color='secondary'/>}
                                     </Avatar>
                                 </ListItemAvatar>
                                 <ListItemText>

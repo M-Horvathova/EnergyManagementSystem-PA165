@@ -5,7 +5,7 @@ import {
 } from '@material-ui/pickers';
 import Typography from "@material-ui/core/Typography";
 import DateFnsUtils from '@date-io/date-fns';
-import {Card, CardContent, ListItem} from "@material-ui/core";
+import {Card, CardContent, ListItem, Grid, List} from "@material-ui/core";
 import {useTranslation} from "react-i18next";
 import axios from "axios";
 import Config from "../utils/Config";
@@ -25,7 +25,6 @@ import ListItemAvatar from "@material-ui/core/ListItemAvatar";
 import Avatar from "@material-ui/core/Avatar";
 import {OfflineBolt, BarChart} from "@material-ui/icons";
 import ListItemText from "@material-ui/core/ListItemText";
-import List from "@material-ui/core/List";
 
 /*
   author: Martin Podhora
@@ -230,6 +229,7 @@ const Dashboard: FunctionComponent<UsersProps> = () => {
             <Typography variant={"h3"} align={"center"}>
                 {t("dashboard.welcome_admin")}
             </Typography>
+            <p />
             <Card className={classes.cardroot}>
                 <CardContent>
                     <Typography className={classes.title} color="textPrimary" gutterBottom>
@@ -239,7 +239,7 @@ const Dashboard: FunctionComponent<UsersProps> = () => {
                         <ListItem>
                             <ListItemAvatar>
                                 <Avatar>
-                                    <OfflineBolt/>
+                                    <OfflineBolt color='secondary'/>
                                 </Avatar>
                             </ListItemAvatar>
                             <ListItemText>
@@ -251,7 +251,7 @@ const Dashboard: FunctionComponent<UsersProps> = () => {
                         <ListItem>
                             <ListItemAvatar>
                                 <Avatar>
-                                    <BarChart />
+                                    <BarChart color='secondary'/>
                                 </Avatar>
                             </ListItemAvatar>
                             <ListItemText>
@@ -295,6 +295,7 @@ const Dashboard: FunctionComponent<UsersProps> = () => {
             </MuiPickersUtilsProvider>
 
             <div className={classes.root}>
+                <Grid xs={12}>
                 <Paper className={classes.paper}>
                     <TableContainer>
                         <Table
@@ -341,6 +342,7 @@ const Dashboard: FunctionComponent<UsersProps> = () => {
                         onChangeRowsPerPage={handleChangeRowsPerPage}
                     />
                 </Paper>
+                </Grid>
             </div>
         </div>
     );
