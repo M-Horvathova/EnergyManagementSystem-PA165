@@ -5,7 +5,7 @@ import {
 } from '@material-ui/pickers';
 import Typography from "@material-ui/core/Typography";
 import DateFnsUtils from '@date-io/date-fns';
-import {Button, Card, CardContent} from "@material-ui/core";
+import {Card, CardContent, ListItem, Grid, List} from "@material-ui/core";
 import {useTranslation} from "react-i18next";
 import axios from "axios";
 import Config from "../utils/Config";
@@ -21,6 +21,10 @@ import TableHead from "@material-ui/core/TableHead";
 import TableSortLabel from "@material-ui/core/TableSortLabel";
 import {createStyles, makeStyles, Theme} from "@material-ui/core/styles";
 import StatisticDTO from "../interfaces/StatisticDTO";
+import ListItemAvatar from "@material-ui/core/ListItemAvatar";
+import Avatar from "@material-ui/core/Avatar";
+import {OfflineBolt, BarChart} from "@material-ui/icons";
+import ListItemText from "@material-ui/core/ListItemText";
 
 /*
   author: Martin Podhora
@@ -172,8 +176,8 @@ export const getToDate = (to: Date|null) => {
 export interface UsersProps {}
 
 const Dashboard: FunctionComponent<UsersProps> = () => {
-    const [from, setFrom] = React.useState<Date | null>(null);
-    const [to, setTo] = React.useState<Date | null>(null);
+    const [from, setFrom] = React.useState<Date | null>( new Date(Date.now()));
+    const [to, setTo] = React.useState<Date | null>( new Date(Date.now()));
     const [statistics, setStatistics] = useState<StatisticsDTO>(new StatisticsDTO());
     const { t } = useTranslation();
 
@@ -194,17 +198,6 @@ const Dashboard: FunctionComponent<UsersProps> = () => {
             setRows(result.statistics);
         });
     }, [from ,to]);
-
-    const handleGetStatisticsEvent = async () => {
-        axios({
-            method: "GET",
-            url: Config.urlRestBase + `/statistics/${getFromDate(from)}/${getToDate(to)}`,
-        }).then((response) => {
-            const result: StatisticsDTO = response.data as StatisticsDTO;
-            setStatistics(result);
-            setRows(result.statistics);
-        });
-    };
 
     const classes = useStyles();
     const [order, setOrder] = React.useState<Order>('asc');
@@ -236,17 +229,39 @@ const Dashboard: FunctionComponent<UsersProps> = () => {
             <Typography variant={"h3"} align={"center"}>
                 {t("dashboard.welcome_admin")}
             </Typography>
+            <p />
             <Card className={classes.cardroot}>
                 <CardContent>
                     <Typography className={classes.title} color="textPrimary" gutterBottom>
                         {t("dashboard.all_time_statistics")}
                     </Typography>
-                    <Typography className={classes.pos} color="textSecondary">
-                        {t("dashboard.all_time_total")}: {statistics.totalSpent}
-                    </Typography>
-                    <Typography className={classes.pos} color="textSecondary">
-                        {t("dashboard.all_time_average")}: {statistics.averageSpent}
-                    </Typography>
+                    <List>
+                        <ListItem>
+                            <ListItemAvatar>
+                                <Avatar>
+                                    <OfflineBolt color='secondary'/>
+                                </Avatar>
+                            </ListItemAvatar>
+                            <ListItemText>
+                                <Typography className={classes.pos} color="textSecondary">
+                                    {t("dashboard.all_time_total")}: {statistics.totalSpent}
+                                </Typography>
+                            </ListItemText>
+                        </ListItem>
+                        <ListItem>
+                            <ListItemAvatar>
+                                <Avatar>
+                                    <BarChart color='secondary'/>
+                                </Avatar>
+                            </ListItemAvatar>
+                            <ListItemText>
+                                <Typography className={classes.pos} color="textSecondary">
+                                    {t("dashboard.all_time_average")}:
+                                    {Math.round((statistics.averageSpent + Number.EPSILON) * 100) / 100}
+                                </Typography>
+                            </ListItemText>
+                        </ListItem>
+                    </List>
                 </CardContent>
             </Card>
 
@@ -277,17 +292,10 @@ const Dashboard: FunctionComponent<UsersProps> = () => {
                         'aria-label': 'change date',
                     }}
                 />
-                <Button
-                    className={classes.button}
-                    variant="outlined"
-                    color="primary"
-                    onClick={handleGetStatisticsEvent}
-                >
-                    {t("dashboard.get_statistics")}
-                </Button>
             </MuiPickersUtilsProvider>
 
             <div className={classes.root}>
+                <Grid xs={12}>
                 <Paper className={classes.paper}>
                     <TableContainer>
                         <Table
@@ -334,6 +342,7 @@ const Dashboard: FunctionComponent<UsersProps> = () => {
                         onChangeRowsPerPage={handleChangeRowsPerPage}
                     />
                 </Paper>
+                </Grid>
             </div>
         </div>
     );

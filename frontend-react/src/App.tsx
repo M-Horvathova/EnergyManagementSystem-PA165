@@ -1,4 +1,4 @@
-import { FC } from "react";
+import {FC, useEffect, useState} from "react";
 import Container from "@material-ui/core/Container";
 import { MuiThemeProvider, createMuiTheme } from "@material-ui/core/styles";
 import { Route, Redirect, Switch, HashRouter } from "react-router-dom";
@@ -20,23 +20,98 @@ import ProtectedRoute from "./components/ProtectedRoute";
 import Config from "./utils/Config";
 import Dashboard from "./pages/Dashboard";
 import {UserContext, getCurrentUser} from "./services/auth";
+import {indigo, orange} from "@material-ui/core/colors";
+import {CssBaseline} from "@material-ui/core";
 
 /*
   author: Michaela Horváthová
 */
-const ourTheme = createMuiTheme({});
+const ourLightTheme = ({
+    palette: {
+        primary: {
+            main: indigo[500],
+            light: '#757ce8',
+            dark: '#002884',
+        },
+        secondary: {
+            main: '#802a00',
+        },
+    },
+    overrides: {
+        MuiCard: {
+            root: {
+                minWidth: 275,
+                height: "100%",
+                width: "100%",
+                borderWidth: "medium",
+            },
+        },
+        MuiButton: {
+          root: {
+            '&:hover': {
+               backgroundColor: indigo[800],
+            }
+          },
+        },
+    },
+});
+
+const ourDarkTheme = createMuiTheme({
+    palette: {
+        type: 'dark',
+        primary: {
+            main: '#050c3d',
+            light: '#534bae',
+            dark: '#000051',
+        },
+        secondary: {
+            main: orange[100],
+        },
+        background: {
+            default: '#303030',
+            paper: '#424242',
+        }
+
+    },
+    overrides: {
+        MuiCard: {
+            root: {
+                minWidth: 275,
+                height: "100%",
+                width: "100%",
+                borderWidth: "medium",
+            },
+        },
+        MuiButton: {
+            root: {
+                '&:hover': {
+                    backgroundColor: indigo[700],
+                }
+            },
+        },
+    },
+});
+
 const App: FC = () => {
     const user = getCurrentUser();
+    const [theme, setTheme] = useState<'light' | 'dark'>('light');
+    const muiTheme = theme === 'light' ? createMuiTheme(ourLightTheme) : createMuiTheme(ourDarkTheme);
+
+    useEffect(() => {
+        const locTheme = window.localStorage.getItem('theme');
+        locTheme && setTheme(locTheme === 'light' ? 'light' : 'dark');
+    }, [])
 
     return (
-        <MuiThemeProvider theme={ourTheme}>
+        <MuiThemeProvider theme={muiTheme}>
+            <CssBaseline />
             <UserContext.Provider value={{user}}>
             <HashRouter>
                 <Hidden xsDown>
-                    <BasicMenu />
+                    <BasicMenu theme={theme} setTheme={setTheme}/>
                 </Hidden>
                 <Hidden smUp>
-                    <MenuDrawerLeft />
+                    <MenuDrawerLeft theme={theme} setTheme={setTheme}/>
                 </Hidden>
 
                 <main className="App" style={{ marginTop: 50 }}>
