@@ -60,12 +60,12 @@ public interface SmartMeterFacade {
     double getPowerSpentForDateForSmartMeter(LocalDate date, SmartMeterDTO smartMeter);
 
     /**
-     * Get power spent for smart meter in time range
-     * @param from start of time range
-     * @param to end of time range
+     * Get power spent for smart meter in date range
+     * @param from start of date range
+     * @param to end of date range
      * @param smartMeter Smart meter to get power spent for
      */
-    double getPowerSpentForSmartMeterInTimeRange(LocalDateTime from, LocalDateTime to, SmartMeterDTO smartMeter);
+    double getPowerSpentForSmartMeterInDateRange(LocalDate from, LocalDate to, SmartMeterDTO smartMeter);
 
     double getAveragePowerSpentForDayTimeSmartMeter(Long id, DayTime dayTime);
 

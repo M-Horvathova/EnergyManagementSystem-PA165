@@ -164,6 +164,28 @@ public class SmartMeterController {
     }
 
     /**
+     * Get all power spent across all smart meters curl -i -X POST
+     * '{"dayFrom":22, "monthFrom": 12, "yearFrom":2020,"dayTo":20, "monthTo": 2, "yearTo":2021}'
+     * http://localhost:8080/pa165/rest/smartmeters/powerSpentInterval/1
+     *
+     * @param id ID of the smart meter
+     * @return spent power for smart meter for date
+     */
+    @RequestMapping(value = "/powerSpentInterval/{id}", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE,
+            produces = MediaType.APPLICATION_JSON_VALUE)
+    public final double getPowerSpentForDateInterval(@PathVariable("id") long id, @RequestBody SmartMeterPowerSpentInIntervalDTO smartMeterPowerSpentInIntervalDTO) {
+        try {
+            //react numbers months from zero
+            LocalDate localDateFrom =  LocalDate.of(smartMeterPowerSpentInIntervalDTO.getYearFrom(), smartMeterPowerSpentInIntervalDTO.getMonthFrom() + 1, smartMeterPowerSpentInIntervalDTO.getDayFrom());
+            LocalDate localDateTo =  LocalDate.of(smartMeterPowerSpentInIntervalDTO.getYearTo(), smartMeterPowerSpentInIntervalDTO.getMonthTo() + 1, smartMeterPowerSpentInIntervalDTO.getDayTo());
+            var smartMeter = smartMeterFacade.getSmartMeter(id);
+            return smartMeterFacade.getPowerSpentForSmartMeterInDateRange(localDateFrom, localDateTo, smartMeter);
+        } catch (Exception e) {
+            throw new ResourceNotFoundException();
+        }
+    }
+
+    /**
      * Get statistics about smart meter curl -i -X GET
      * http://localhost:8080/pa165/rest/smartmeters/statistics/1
      * @param id ID of the smart meter

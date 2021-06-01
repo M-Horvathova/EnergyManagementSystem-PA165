@@ -107,9 +107,9 @@ public class SmartMeterFacadeImpl implements SmartMeterFacade {
     }
 
     @Override
-    public double getPowerSpentForSmartMeterInTimeRange(LocalDateTime from, LocalDateTime to, SmartMeterDTO smartMeter) {
+    public double getPowerSpentForSmartMeterInDateRange(LocalDate from, LocalDate to, SmartMeterDTO smartMeter) {
         SmartMeter sm = smartMeterService.findById(smartMeter.getId());
-        return smartMeterService.sumPowerFromLogs(meterLogService.filterInDateFrame(new ArrayList<>(sm.getMeterLogs()), from.toLocalDate(), to.toLocalDate()));
+        return smartMeterService.sumPowerFromLogs(meterLogService.filterInDateFrame(new ArrayList<>(sm.getMeterLogs()), from, to));
     }
 
     @Override
