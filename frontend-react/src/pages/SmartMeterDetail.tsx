@@ -7,7 +7,7 @@ import { useTranslation } from "react-i18next";
 import DateFnsUtils from "@date-io/date-fns";
 import {KeyboardDatePicker, MuiPickersUtilsProvider} from "@material-ui/pickers";
 import SmartMeterStatisticsDTO from "../interfaces/SmartMeterStatisticsDTO";
-import SmartMeterPowerSpentForDate from "../interfaces/SmartMeterPowerSpentForDate";
+import SmartMeterStatsIntervalDTO from "../interfaces/SmartMeterStatsIntervalDTO";
 import CardContent from '@material-ui/core/CardContent';
 import List from "@material-ui/core/List";
 import {TurnedInNot, TurnedIn, OfflineBolt, NightsStay, WbSunny} from "@material-ui/icons";
@@ -24,49 +24,39 @@ export interface SmartMeterDetailProps {}
 const SmartMeterDetail: FunctionComponent<SmartMeterDetailProps> = () => {
     const { id } = useParams<{ id: string }>();
     const { t } = useTranslation();
-    const [smartMeterPowerSpentInDate, setSmartMeterPowerSpentInDate] = useState<SmartMeterPowerSpentForDate | null>();
-    const [selectedDateFrom, setSelectedDateFrom] = React.useState<Date | null>(
-        new Date(Date.now()),
-    );
-    const [selectedDateTo, setSelectedDateTo] = React.useState<Date | null>(
-        new Date(Date.now()),
-    );
+    const [selectedDateFrom, setSelectedDateFrom] = React.useState<Date | null>(new Date(new Date().setDate(new Date().getDate()-1)));
+    const [selectedDateTo, setSelectedDateTo] = React.useState<Date | null>(new Date(Date.now()));
     const [smartMeterStats, setSmartMeterStats] = useState<SmartMeterStatisticsDTO | null>();
+    const [smartMeterStatsInterval, setSmartMeterStatsInterval] = useState<SmartMeterStatsIntervalDTO | null>();
+
+    useEffect(()=> {
+        axios({
+            method: "POST",
+            url: Config.urlRestBase + `/smartmeters/powerSpentInterval/${id}`,
+            data: {
+                dayFrom: selectedDateFrom?.getDate(),
+                monthFrom: selectedDateFrom?.getMonth() === undefined ? 1: selectedDateFrom?.getMonth() + 1,
+                yearFrom: selectedDateFrom?.getFullYear(),
+                dayTo: selectedDateTo?.getDate(),
+                monthTo: selectedDateTo?.getMonth() === undefined ? 1 : selectedDateTo?.getMonth() + 1,
+                yearTo: selectedDateTo?.getFullYear(),
+            },
+        }).then((response) => {
+            setSmartMeterStatsInterval({
+                cumulativePowerConsumption : response.data.cumulativePowerConsumption,
+                totalSpentPerNight : response.data.totalSpentPerNight,
+                totalSpentPerDay: response.data.totalSpentPerDay,
+            });
+        });
+    }, [selectedDateFrom, selectedDateTo, id])
+
 
     const handleDateFromChange = (date: Date | null) => {
         setSelectedDateFrom(date);
-
-        axios({
-            method: "POST",
-            url: Config.urlRestBase + `/smartmeters/powerSpent/${id}`,
-            data: {
-                day: date?.getDate(),
-                month: date?.getMonth(),
-                year: date?.getFullYear()
-            },
-        }).then((response) => {
-            setSmartMeterPowerSpentInDate({
-                result : response.data
-            });
-        });
     };
 
     const handleDateToChange = (date: Date | null) => {
         setSelectedDateTo(date);
-
-        axios({
-            method: "POST",
-            url: Config.urlRestBase + `/smartmeters/powerSpent/${id}`,
-            data: {
-                day: date?.getDate(),
-                month: date?.getMonth(),
-                year: date?.getFullYear()
-            },
-        }).then((response) => {
-            setSmartMeterPowerSpentInDate({
-                result : response.data
-            });
-        });
     };
 
     useEffect(() => {
@@ -91,14 +81,17 @@ const SmartMeterDetail: FunctionComponent<SmartMeterDetailProps> = () => {
                 {smartMeterStats?.smartMeterDescription}
             </Typography>
 
-            <Card style={{ minHeight: '30vh' }}>
+            <Card style={{ minHeight: '15vh' }}>
                 <CardContent>
                     <Grid container spacing={2} alignItems="center">
-                        <Grid item xs={12} md={8} sm={8}>
+                        <Grid item xs={12} md={12} sm={12}>
                             <Typography variant='h5'>
-                                Total tats description TODO
+                                {t("smartMeter.totalStats")}
                             </Typography>
-                        <List>
+                        </Grid>
+
+                            <Grid item xs={12} md={6} sm={6}>
+                                <List>
                             <ListItem>
                                 <ListItemAvatar>
                                     <Avatar>
@@ -106,7 +99,7 @@ const SmartMeterDetail: FunctionComponent<SmartMeterDetailProps> = () => {
                                     </Avatar>
                                 </ListItemAvatar>
                                 <ListItemText>
-                                    <Typography variant="body2" color="textSecondary" component="p">
+                                    <Typography variant="body2" component="p">
                                         { smartMeterStats?.running ? t("smartMeter.turnedOn") : t("smartMeter.turnedOff")}
                                     </Typography>
                                 </ListItemText>
@@ -118,11 +111,15 @@ const SmartMeterDetail: FunctionComponent<SmartMeterDetailProps> = () => {
                                     </Avatar>
                                 </ListItemAvatar>
                                 <ListItemText>
-                                    <Typography variant="body2" color="textSecondary" component="p">
+                                    <Typography variant="body2" component="p">
                                         { t("smartMeter.totalPowerConsumption") + " " + smartMeterStats?.cumulativePowerConsumption + " kwH"}
                                     </Typography>
                                 </ListItemText>
                             </ListItem>
+                                </List>
+                            </Grid>
+                            <Grid item xs={12} md={6} sm={6}>
+                                <List>
                             <ListItem>
                                 <ListItemAvatar>
                                     <Avatar>
@@ -130,8 +127,10 @@ const SmartMeterDetail: FunctionComponent<SmartMeterDetailProps> = () => {
                                     </Avatar>
                                 </ListItemAvatar>
                                 <ListItemText>
-                                    <Typography variant="body2" color="textSecondary" component="p">
-                                        { t("smartMeter.averagePowerConsumptionInDay") + " " + smartMeterStats?.averageSpentPerDay + " kwH"}
+                                    <Typography variant="body2"  component="p">
+                                        { t("smartMeter.averagePowerConsumptionInDay") + " "
+                                        + Math.round((smartMeterStats?.averageSpentPerDay === undefined ? 0
+                                            : smartMeterStats?.averageSpentPerDay + Number.EPSILON) * 100) / 100 + " kwH"}
                                     </Typography>
                                 </ListItemText>
                             </ListItem>
@@ -142,17 +141,25 @@ const SmartMeterDetail: FunctionComponent<SmartMeterDetailProps> = () => {
                                     </Avatar>
                                 </ListItemAvatar>
                                 <ListItemText>
-                                    <Typography variant="body2" color="textSecondary" component="p">
-                                        { t("smartMeter.averagePowerConsumptionAtNight") + " " + smartMeterStats?.averageSpentPerNight + " kwH"}
+                                    <Typography variant="body2" component="p">
+                                        { t("smartMeter.averagePowerConsumptionAtNight") + " "
+                                        + Math.round((smartMeterStats?.averageSpentPerNight === undefined ? 0
+                                            : smartMeterStats?.averageSpentPerNight + Number.EPSILON) * 100) / 100 + " kwH"}
                                     </Typography>
                                 </ListItemText>
                             </ListItem>
-                        </List>
-                        </Grid>
-                            <p/>
+                                </List>
+                            </Grid>
+                    </Grid>
+                </CardContent>
+            </Card>
+            <p />
+            <Card style={{ minHeight: '30vh' }}>
+                <CardContent>
+                    <Grid container spacing={2} alignItems="center">
                             <Grid item xs={12}>
                             <Typography variant='h5'>
-                                Stats in time frame description TODO
+                                {t("smartMeter.intervalStats")}
                             </Typography>
                             </Grid>
                         <Grid item  xs={12} md={6} sm={6}>
@@ -162,8 +169,8 @@ const SmartMeterDetail: FunctionComponent<SmartMeterDetailProps> = () => {
                                     variant="inline"
                                     format="MM/dd/yyyy"
                                     margin="normal"
-                                    id="date-picker-inline"
-                                    label={t("smartMeter.powerSpentForDate")}
+                                    id="date-picker-from"
+                                    label={t("smartMeter.powerSpentFromDate")}
                                     value={selectedDateFrom}
                                     onChange={handleDateFromChange}
                                     KeyboardButtonProps={{
@@ -180,8 +187,8 @@ const SmartMeterDetail: FunctionComponent<SmartMeterDetailProps> = () => {
                                     variant="inline"
                                     format="MM/dd/yyyy"
                                     margin="normal"
-                                    id="date-picker-inline"
-                                    label={t("smartMeter.powerSpentForDate")}
+                                    id="date-picker-to"
+                                    label={t("smartMeter.powerSpentToDate")}
                                     value={selectedDateTo}
                                     onChange={handleDateToChange}
                                     KeyboardButtonProps={{
@@ -190,10 +197,47 @@ const SmartMeterDetail: FunctionComponent<SmartMeterDetailProps> = () => {
                                 />
                             </MuiPickersUtilsProvider>
                         </Grid>
-                        <Grid item xs={12}>
-                            <Typography variant="body2" color="textPrimary" component="p">
-                                {smartMeterPowerSpentInDate?.result === undefined ? "" :  smartMeterPowerSpentInDate?.result + " kwH"}
-                            </Typography>
+                        <Grid item xs={12}  md={8} sm={8}>
+                                { smartMeterStatsInterval?.cumulativePowerConsumption === undefined ?
+                                    <List />:
+                                <List>
+                                    <ListItem>
+                                        <ListItemAvatar>
+                                            <Avatar>
+                                                <OfflineBolt/>
+                                            </Avatar>
+                                        </ListItemAvatar>
+                                        <ListItemText>
+                                            <Typography variant="body2" component="p">
+                                                { t("smartMeter.totalPowerConsumptionInterval") + " " + smartMeterStatsInterval?.cumulativePowerConsumption + " kwH"}
+                                            </Typography>
+                                        </ListItemText>
+                                    </ListItem>
+                                    <ListItem>
+                                        <ListItemAvatar>
+                                            <Avatar>
+                                                <WbSunny/>
+                                            </Avatar>
+                                        </ListItemAvatar>
+                                        <ListItemText>
+                                            <Typography variant="body2" component="p">
+                                                { t("smartMeter.totalPowerConsumptionInDay") + " " + smartMeterStatsInterval?.totalSpentPerDay + " kwH"}
+                                            </Typography>
+                                        </ListItemText>
+                                    </ListItem>
+                                    <ListItem>
+                                        <ListItemAvatar>
+                                            <Avatar>
+                                                <NightsStay/>
+                                            </Avatar>
+                                        </ListItemAvatar>
+                                        <ListItemText>
+                                            <Typography variant="body2" component="p">
+                                                { t("smartMeter.totalPowerConsumptionAtNight") + " " + smartMeterStatsInterval?.totalSpentPerNight + " kwH"}
+                                            </Typography>
+                                        </ListItemText>
+                                    </ListItem>
+                                </List> }
                         </Grid>
                     </Grid>
                 </CardContent>

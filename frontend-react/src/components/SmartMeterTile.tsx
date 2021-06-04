@@ -1,5 +1,4 @@
 import React, { FunctionComponent } from "react";
-import { makeStyles } from "@material-ui/core/styles";
 import Card from "@material-ui/core/Card";
 import CardActions from "@material-ui/core/CardActions";
 import CardContent from "@material-ui/core/CardContent";
@@ -18,28 +17,17 @@ export interface SmartMeterTileProps {
     onRemove(id: number): void;
 }
 
-const useStyles = makeStyles({
-    running: {
-        minWidth: 300,
-        maxWidth: 345,
-    },
-    notRunning: { minWidth: 300, maxWidth: 345, backgroundColor: "#f5f5f5" },
-});
 
 const SmartMeterTile: FunctionComponent<SmartMeterTileProps> = ({
     smartMeter,
     onRemove,
 }) => {
-    const classes = useStyles();
     const history = useHistory();
     const { t } = useTranslation();
     const { id } = smartMeter;
 
     return (
         <Card
-            className={
-                smartMeter.running ? classes.running : classes.notRunning
-            }
             variant="outlined"
         >
             <CardContent>
@@ -58,21 +46,18 @@ const SmartMeterTile: FunctionComponent<SmartMeterTileProps> = ({
             <CardActions>
                 <Button
                     size="small"
-                    color="primary"
                     onClick={() => history.push("/smartMeter/" + id)}
                 >
                     {t("smartMeter.open")}
                 </Button>
                 <Button
                     size="small"
-                    color="primary"
                     onClick={() => history.push("/smartMeter/edit/" + id)}
                 >
                     {t("smartMeter.edit")}
                 </Button>
                 <Button
                     size="small"
-                    color="secondary"
                     onClick={() => onRemove(id)}
                 >
                     {t("smartMeter.remove")}
