@@ -6,7 +6,6 @@ import { useLocation } from "react-router";
 import { useTranslation } from "react-i18next";
 import axios from "axios";
 import Config from "../utils/Config";
-import BackHeader from "../components/BackHeader";
 
 export interface AddSmartMeterProps {}
 
@@ -32,12 +31,11 @@ const AddSmartMeter: FunctionComponent<AddSmartMeterProps> = () => {
                 running,
             },
         });
-        history.replace(`/house/${houseId}`);
+        history.push(`/house/${houseId}`);
     };
 
     return (
         <Fragment>
-            <BackHeader />
             <Typography variant="h4" component="h2">
                 {t("smartMeter.create")}
             </Typography>

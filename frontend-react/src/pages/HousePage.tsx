@@ -7,7 +7,6 @@ import Config from "../utils/Config";
 import SmartMeterList from "../components/SmartMeterList";
 import SmartMeterHouseDTO from "../interfaces/SmartMeterHouseDTO";
 import { useTranslation } from "react-i18next";
-import BackHeader from "../components/BackHeader";
 
 export interface HousePageProps {}
 
@@ -88,7 +87,6 @@ const HousePage: FunctionComponent<HousePageProps> = () => {
 
     return (
         <Fragment>
-            <BackHeader />
             <Typography gutterBottom variant="h4" component="h2">
                 {house?.name}
             </Typography>
@@ -102,9 +100,7 @@ const HousePage: FunctionComponent<HousePageProps> = () => {
                         <Button
                             color="primary"
                             onClick={() =>
-                                history.replace(
-                                    `/smartMeter/create?houseId=${id}`
-                                )
+                                history.push(`/smartMeter/create?houseId=${id}`)
                             }
                         >
                             {t("house.add")}

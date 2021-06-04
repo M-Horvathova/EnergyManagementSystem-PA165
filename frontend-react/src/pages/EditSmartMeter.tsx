@@ -7,7 +7,6 @@ import { useTranslation } from "react-i18next";
 import axios from "axios";
 import Config from "../utils/Config";
 import SmartMeterHouseDTO from "../interfaces/SmartMeterHouseDTO";
-import BackHeader from "../components/BackHeader";
 
 export interface EditSmartMeterProps {}
 
@@ -52,12 +51,11 @@ const EditSmartMeter: FunctionComponent<EditSmartMeterProps> = () => {
                 running,
             },
         });
-        history.replace(`/house/${smartMeter?.houseId}`);
+        history.push(`/house/${smartMeter?.houseId}`);
     };
 
     return (
         <Fragment>
-            <BackHeader />
             <Typography variant="h4" component="h2">
                 {t("smartMeter.edit")} '{smartMeter?.smartMeterDescription}'
             </Typography>

@@ -23,7 +23,6 @@ import {
 import Avatar from "@material-ui/core/Avatar";
 import ListItemAvatar from "@material-ui/core/ListItemAvatar";
 import ListItemText from "@material-ui/core/ListItemText";
-import BackHeader from "../components/BackHeader";
 
 export interface SmartMeterDetailProps {}
 
@@ -100,7 +99,6 @@ const SmartMeterDetail: FunctionComponent<SmartMeterDetailProps> = () => {
 
     return (
         <Fragment>
-            <BackHeader />
             <Typography gutterBottom variant="h4" component="h2">
                 {smartMeterStats?.smartMeterDescription}
             </Typography>
