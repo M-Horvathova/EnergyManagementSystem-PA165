@@ -6,6 +6,7 @@ import { useTranslation } from "react-i18next";
 import axios from "axios";
 import Config from "../utils/Config";
 import { getCurrentUser } from "../services/auth";
+import BackHeader from "../components/BackHeader";
 
 export interface AddHouseProps {}
 
@@ -39,11 +40,12 @@ const AddHouse: FunctionComponent<AddHouseProps> = () => {
                 portalUserId: user?.id,
             },
         });
-        history.push("/houses");
+        history.replace("/houses");
     };
 
     return (
         <Fragment>
+            <BackHeader />
             <Typography variant="h4" component="h2">
                 {t("addHouse.add")}
             </Typography>

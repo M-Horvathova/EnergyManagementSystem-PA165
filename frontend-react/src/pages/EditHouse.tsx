@@ -7,6 +7,7 @@ import { useHistory } from "react-router";
 import { useTranslation } from "react-i18next";
 import axios from "axios";
 import Config from "../utils/Config";
+import BackHeader from "../components/BackHeader";
 
 export interface EditHouseProps {}
 
@@ -61,11 +62,12 @@ const EditHouse: FunctionComponent<EditHouseProps> = () => {
                 country,
             },
         });
-        history.push("/houses");
+        history.replace("/houses");
     };
 
     return (
         <Fragment>
+            <BackHeader />
             <Typography variant="h4" component="h2">
                 {t("editHouse.edit")} #{house?.id}
             </Typography>

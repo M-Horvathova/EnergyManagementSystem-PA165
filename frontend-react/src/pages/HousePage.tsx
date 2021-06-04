@@ -102,7 +102,9 @@ const HousePage: FunctionComponent<HousePageProps> = () => {
                         <Button
                             color="primary"
                             onClick={() =>
-                                history.push(`/smartMeter/create?houseId=${id}`)
+                                history.replace(
+                                    `/smartMeter/create?houseId=${id}`
+                                )
                             }
                         >
                             {t("house.add")}
