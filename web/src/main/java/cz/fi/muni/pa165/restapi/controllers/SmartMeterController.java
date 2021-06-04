@@ -118,10 +118,9 @@ public class SmartMeterController {
      * @throws Exception
      */
     @RequestMapping(value = "/findByHouse/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    public final Set<SmartMeterHouseDTO> findByHouse(@PathVariable("id") long houseId) throws Exception {
+    public final List<SmartMeterDTO> findByHouse(@PathVariable("id") long houseId) throws Exception {
         try {
-            HouseDTO houseDTO = houseFacade.getHouseWithId(houseId);
-            return houseDTO.getSmartMeters();
+            return smartMeterFacade.getSmartMeterByHouse(houseId);
         } catch (Exception e) {
             throw new ResourceNotFoundException();
         }

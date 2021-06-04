@@ -27,7 +27,6 @@ const HousePage: FunctionComponent<HousePageProps> = () => {
             method: "GET",
             url: Config.urlRestBase + `/houses/${id}`,
         }).then((response) => {
-            console.log(response.data);
             setHouse({
                 id: response.data.id,
                 name: response.data.name,
@@ -42,8 +41,13 @@ const HousePage: FunctionComponent<HousePageProps> = () => {
                 smartMeters: response.data.smartMeters,
                 running: response.data.running,
             });
+        });
 
-            setSmartMeters(response.data.smartMeters);
+        axios({
+            method: "GET",
+            url: Config.urlRestBase + `/smartmeters/findByHouse/${id}`,
+        }).then((response) => {
+            setSmartMeters(response.data);
         });
     }, [id]);
 
@@ -69,7 +73,12 @@ const HousePage: FunctionComponent<HousePageProps> = () => {
                     running: response.data.running,
                 });
 
-                setSmartMeters(response.data.smartMeters);
+                axios({
+                    method: "GET",
+                    url: Config.urlRestBase + `/smartmeters/findByHouse/${id}`,
+                }).then((response) => {
+                    setSmartMeters(response.data);
+                });
             });
         }
     };

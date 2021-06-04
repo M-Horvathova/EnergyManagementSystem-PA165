@@ -1,5 +1,6 @@
 package cz.fi.muni.pa165.facade;
 
+import cz.fi.muni.pa165.dto.HouseDTO;
 import cz.fi.muni.pa165.dto.SmartMeterCreateDTO;
 import cz.fi.muni.pa165.dto.SmartMeterDTO;
 import cz.fi.muni.pa165.dto.SmartMeterEditDTO;
@@ -35,6 +36,13 @@ public interface SmartMeterFacade {
      * @param id id of smart meter to be found
      */
     SmartMeterDTO getSmartMeter(Long id);
+
+    /**
+     * Get all smart meters for given house
+     * @param id id of the house
+     * @return List of smart meters
+     */
+    List<SmartMeterDTO> getSmartMeterByHouse(Long id);
 
     /**
      * Get all smart meters
