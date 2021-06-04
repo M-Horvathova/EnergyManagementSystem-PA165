@@ -172,13 +172,24 @@ public class SmartMeterController {
      */
     @RequestMapping(value = "/powerSpentInterval/{id}", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE)
-    public final double getPowerSpentForDateInterval(@PathVariable("id") long id, @RequestBody SmartMeterPowerSpentInIntervalDTO smartMeterPowerSpentInIntervalDTO) {
+    public final SmartMeterStatsIntervalDTO getPowerSpentForDateInterval(@PathVariable("id") long id, @RequestBody SmartMeterPowerSpentInIntervalDTO smartMeterPowerSpentInIntervalDTO) {
         try {
             //react numbers months from zero
             LocalDate localDateFrom =  LocalDate.of(smartMeterPowerSpentInIntervalDTO.getYearFrom(), smartMeterPowerSpentInIntervalDTO.getMonthFrom() + 1, smartMeterPowerSpentInIntervalDTO.getDayFrom());
             LocalDate localDateTo =  LocalDate.of(smartMeterPowerSpentInIntervalDTO.getYearTo(), smartMeterPowerSpentInIntervalDTO.getMonthTo() + 1, smartMeterPowerSpentInIntervalDTO.getDayTo());
-            var smartMeter = smartMeterFacade.getSmartMeter(id);
-            return smartMeterFacade.getPowerSpentForSmartMeterInDateRange(localDateFrom, localDateTo, smartMeter);
+            var sm = smartMeterFacade.getSmartMeter(id);
+
+            SmartMeterStatsIntervalDTO statisticDTO = new SmartMeterStatsIntervalDTO();
+
+            double dayTotal = smartMeterFacade.getPowerSpentForDateFrameWithDayTime(localDateFrom, localDateTo, sm, DayTime.Day);
+            double nightTotal = smartMeterFacade.getPowerSpentForDateFrameWithDayTime(localDateFrom, localDateTo, sm, DayTime.Night);
+            double total =  smartMeterFacade.getPowerSpentForSmartMeterInDateRange(localDateFrom, localDateTo, sm);
+
+            statisticDTO.setCumulativePowerConsumption(total);
+            statisticDTO.setTotalSpentPerDay(dayTotal);
+            statisticDTO.setTotalSpentPerNight(nightTotal);
+
+            return statisticDTO;
         } catch (Exception e) {
             throw new ResourceNotFoundException();
         }
