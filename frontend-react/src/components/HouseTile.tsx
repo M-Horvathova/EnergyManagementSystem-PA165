@@ -13,7 +13,6 @@ export interface HouseTileProps {
     onRemove(id: number): void;
 }
 
-
 const HouseTile: FunctionComponent<HouseTileProps> = ({ house, onRemove }) => {
     const history = useHistory();
     const { address } = house;
@@ -21,10 +20,7 @@ const HouseTile: FunctionComponent<HouseTileProps> = ({ house, onRemove }) => {
     const { id } = house;
 
     return (
-        <Card
-
-            variant="outlined"
-        >
+        <Card variant="outlined">
             <CardContent>
                 <Typography gutterBottom variant="h5" component="h2">
                     {house.name}
