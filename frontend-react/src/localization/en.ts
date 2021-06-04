@@ -105,12 +105,18 @@ const en = {
             edit: "Edit",
             remove: "Remove",
             create: "Create",
-            totalPowerConsumption: "Total power consumption:",
+            totalPowerConsumption: "Total power consumption",
             turnedOn: "Turned on",
             turnedOff: "Turned off",
             averagePowerConsumptionAtNight: "Average power consumption at night",
             averagePowerConsumptionInDay: "Average power consumption in day",
-            powerSpentForDate: "Show power spent for date"
+            powerSpentFromDate: "Select start date",
+            powerSpentToDate: "Select end date",
+            totalStats: "Statistics for this smart meter",
+            intervalStats: "Statistics in chosen date interval",
+            totalPowerConsumptionAtNight: "Total power consumption at night in interval",
+            totalPowerConsumptionInDay: "Total power consumption in day in interval",
+            totalPowerConsumptionInterval: "Total power consumption in interval",
         }
     },
 };

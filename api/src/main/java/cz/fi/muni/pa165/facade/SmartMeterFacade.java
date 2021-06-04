@@ -82,5 +82,4 @@ public interface SmartMeterFacade {
      * @param dayTime Time of day to sum power for
      */
     double getPowerSpentForDateFrameWithDayTime(LocalDate from, LocalDate to, SmartMeterDTO smartMeter, DayTime dayTime);
-
 }

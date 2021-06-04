@@ -124,6 +124,8 @@ public class SmartMeterFacadeImpl implements SmartMeterFacade {
         return smartMeterService.sumPowerFromLogs(meterLogService.filterInDateFrameWithTimeDay(new ArrayList<>(sm.getMeterLogs()), from, to, dayTime));
     }
 
+
+
     @Override
     public double getAllPowerSpent() {
         return  smartMeterService.getAllPowerSpent();

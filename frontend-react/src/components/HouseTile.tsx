@@ -1,5 +1,4 @@
 import React, { FunctionComponent } from "react";
-import { makeStyles } from "@material-ui/core/styles";
 import Card from "@material-ui/core/Card";
 import CardActions from "@material-ui/core/CardActions";
 import CardContent from "@material-ui/core/CardContent";
@@ -14,16 +13,8 @@ export interface HouseTileProps {
     onRemove(id: number): void;
 }
 
-const useStyles = makeStyles({
-    running: {
-        minWidth: 300,
-        maxWidth: 345,
-    },
-    notRunning: { minWidth: 300, maxWidth: 345, backgroundColor: "#f5f5f5" },
-});
 
 const HouseTile: FunctionComponent<HouseTileProps> = ({ house, onRemove }) => {
-    const classes = useStyles();
     const history = useHistory();
     const { address } = house;
     const { t } = useTranslation();
@@ -31,7 +22,7 @@ const HouseTile: FunctionComponent<HouseTileProps> = ({ house, onRemove }) => {
 
     return (
         <Card
-            className={house.running ? classes.running : classes.notRunning}
+
             variant="outlined"
         >
             <CardContent>

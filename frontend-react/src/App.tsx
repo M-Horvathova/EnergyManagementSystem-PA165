@@ -34,7 +34,7 @@ const ourLightTheme = ({
             dark: '#002884',
         },
         secondary: {
-            main: '#802a00',
+            main: '#8c433a',
         },
     },
     overrides: {
@@ -62,7 +62,7 @@ const ourDarkTheme = createMuiTheme({
         primary: {
             main: '#050c3d',
             light: '#534bae',
-            dark: '#000051',
+            dark: '#000041',
         },
         secondary: {
             main: orange[100],
