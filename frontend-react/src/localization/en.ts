@@ -38,8 +38,8 @@ const en = {
             remove: "Remove",
             add: "Add meter",
             nothing: "Nothing to show",
-            off: "Turn off",
-            on: "Turn on"
+            off: "Turn off electricity",
+            on: "Turn on electricity"
         },
         addHouse: {
             add: "Add house",

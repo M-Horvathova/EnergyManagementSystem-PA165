@@ -37,8 +37,8 @@ const en = {
       add: "Přidat měřič",
       edit: "Upravit",
       nothing: "Nic k zobrazení",
-      off: "Vypnout",
-      on: "Zapnout",
+      off: "Vypnout proud",
+      on: "Zapnout proud",
       open: "Otevřít",
       remove: "Odebrat"
     },

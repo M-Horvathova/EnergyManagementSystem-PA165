@@ -37,8 +37,8 @@ const en = {
       add: "Añadir medidor",
       edit: "Editar",
       nothing: "Nada que mostrar",
-      off: "Desactivar",
-      on: "Activar",
+      off: "Quitar la electricidad",
+      on: "Enciende la electricidad",
       open: "Abrir",
       remove: "Eliminar"
     },
