@@ -66,7 +66,7 @@ public class HouseFacadeImpl implements HouseFacade {
     @Override
     public void deleteHouse(Long houseId) {
         House house = houseService.findById(houseId);
-        Set<SmartMeter> smartMeters = house.getSmartMeters();
+        List<SmartMeter> smartMeters = smartMeterService.findByHouse(house);
 
         portalUserService.removeHouse(house.getPortalUser(), house);
         houseService.deleteHouse(house);

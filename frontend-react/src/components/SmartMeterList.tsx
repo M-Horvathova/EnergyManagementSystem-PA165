@@ -18,6 +18,7 @@ const SmartMeterList: FunctionComponent<SmartMeterListProps> = ({
     onRemove,
 }) => {
     const { t } = useTranslation();
+    smartMeters.sort((fst, snd) => fst.id - snd.id);
     return (
         <Fragment>
             <Grid container direction="row" alignItems="flex-start" spacing={3}>

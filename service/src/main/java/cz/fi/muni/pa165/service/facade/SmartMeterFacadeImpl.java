@@ -1,5 +1,6 @@
 package cz.fi.muni.pa165.service.facade;
 
+import cz.fi.muni.pa165.dto.HouseDTO;
 import cz.fi.muni.pa165.dto.SmartMeterEditDTO;
 import cz.fi.muni.pa165.entity.House;
 import cz.fi.muni.pa165.facade.SmartMeterFacade;
@@ -73,6 +74,12 @@ public class SmartMeterFacadeImpl implements SmartMeterFacade {
     public SmartMeterDTO getSmartMeter(Long id) {
         SmartMeter sm = smartMeterService.findById(id);
         return  sm == null ? null : smartMeterMapper.smartMeterToDTO(sm);
+    }
+
+    @Override
+    public List<SmartMeterDTO> getSmartMeterByHouse(Long id) {
+        House house = houseService.findById(id);
+        return smartMeterMapper.smartMetersToDTOs(smartMeterService.findByHouse(house));
     }
 
     @Override

@@ -37,8 +37,8 @@ const en = {
       add: "Aggiungi contatore",
       edit: "Modifica",
       nothing: "Non ci sono dati da mostrare",
-      off: "Disattiva",
-      on: "Attiva",
+      off: "Spegnere l'elettricità",
+      on: "Accendi l'elettricità",
       open: "Apri",
       remove: "Rimuovi"
     },

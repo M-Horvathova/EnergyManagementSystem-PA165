@@ -37,8 +37,8 @@ const en = {
       add: "Meter hinzufügen",
       edit: "Ändern",
       nothing: "Keine Daten zum anzeigen",
-      off: "Ausschalten",
-      on: "Aktivieren",
+      off: "Strom abschalten",
+      on: "Strom einschalten",
       open: "Öffnen",
       remove: "Entfernen"
     },

@@ -2,7 +2,7 @@ import React, { Fragment, FunctionComponent, useEffect, useState } from "react";
 import { Grid, Typography } from "@material-ui/core";
 import { useParams } from "react-router-dom";
 import SmartMeterForm from "../components/SmartMeterForm";
-import {useHistory} from "react-router";
+import { useHistory } from "react-router";
 import { useTranslation } from "react-i18next";
 import axios from "axios";
 import Config from "../utils/Config";
@@ -29,24 +29,26 @@ const EditSmartMeter: FunctionComponent<EditSmartMeterProps> = () => {
                 id: response.data.id,
                 smartMeterDescription: response.data.smartMeterDescription,
                 running: response.data.running,
-                powerConsumptionSinceLastLog: response.data.powerConsumptionSinceLastLog,
-                cumulativePowerConsumption: response.data.cumulativePowerConsumption,
+                powerConsumptionSinceLastLog:
+                    response.data.powerConsumptionSinceLastLog,
+                cumulativePowerConsumption:
+                    response.data.cumulativePowerConsumption,
                 lastLogTakenAt: response.data.lastLogTakenAt,
-                houseId : response.data.houseId
+                houseId: response.data.houseId,
             });
         });
     }, [id]);
 
     const handleOnSubmit = async (
-        smartMeterDescription : string,
-        running: boolean,
+        smartMeterDescription: string,
+        running: boolean
     ) => {
         await axios({
             method: "PUT",
             url: Config.urlRestBase + `/smartmeters/${id}`,
             data: {
                 smartMeterDescription,
-                running
+                running,
             },
         });
         history.push(`/house/${smartMeter?.houseId}`);
@@ -59,7 +61,10 @@ const EditSmartMeter: FunctionComponent<EditSmartMeterProps> = () => {
             </Typography>
             <Grid container spacing={3}>
                 {smartMeter ? (
-                    <SmartMeterForm smartMeter={smartMeter} onSubmit={handleOnSubmit} />
+                    <SmartMeterForm
+                        smartMeter={smartMeter}
+                        onSubmit={handleOnSubmit}
+                    />
                 ) : (
                     ""
                 )}
