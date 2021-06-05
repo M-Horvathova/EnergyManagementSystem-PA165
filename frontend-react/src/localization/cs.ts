@@ -71,8 +71,10 @@ const en = {
     menu: {
       about: "O aplikaci",
       app_name: "Smart Energy",
+      dark: "Tmavý",
       home: "Domů",
       houses: "Moje domy",
+      light: "Světlý",
       login: "Přihlásit se",
       logout: "Odhlásit se",
       register: "Registrovat se"

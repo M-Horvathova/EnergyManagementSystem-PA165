@@ -159,11 +159,11 @@ const BasicMenu: FC<Props> = ({theme, setTheme}) => {
                     <FormGroup>
                         <Typography component="div">
                             <Grid component="label" container alignItems="center" spacing={1}>
-                                <Grid item>Light</Grid>
+                                <Grid item>{t('menu.light')}</Grid>
                                 <Grid item>
                                     <Switch checked={checked} onChange={handleChange} name="ThemeToggle" />
                                 </Grid>
-                                <Grid item>Dark</Grid>
+                                <Grid item>{t('menu.dark')}</Grid>
                             </Grid>
                         </Typography>
                     </FormGroup>

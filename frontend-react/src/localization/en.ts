@@ -23,6 +23,8 @@ const en = {
             logout: "Logout",
             login: "Login",
             register: "Register",
+            light: "Light",
+            dark: "Dark",
         },
         houses: {
             houses: "Houses",

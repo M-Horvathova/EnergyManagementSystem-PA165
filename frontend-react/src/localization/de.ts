@@ -71,8 +71,10 @@ const en = {
     menu: {
       about: "Über",
       app_name: "Smart Energy",
+      dark: "Dunkel",
       home: "Startseite",
       houses: "Meine Häuser",
+      light: "Hell",
       login: "Anmelden",
       logout: "Abmelden",
       register: "Registrieren"
