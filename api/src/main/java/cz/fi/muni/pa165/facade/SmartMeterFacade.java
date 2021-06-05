@@ -11,26 +11,25 @@ import java.util.List;
 /**
  * @author Matej Rišňovský
  */
-
-/**
- * @author Matej Rišňovský
- */
 public interface SmartMeterFacade {
     /**
      * Create smart meter
      * @param smartMeter to be created
+     * @return smart meter ID
      */
     Long createSmartMeter(SmartMeterCreateDTO smartMeter);
 
     /**
      * Update smart meter
      * @param smartMeter to be updated
+     * @return updated smart meter DTO
      */
     SmartMeterDTO updateSmartMeter(SmartMeterEditDTO smartMeter);
 
     /**
      * Get smart meter by id
      * @param id id of smart meter to be found
+     * @return found smart meter DTO
      */
     SmartMeterDTO getSmartMeter(Long id);
 
@@ -43,11 +42,13 @@ public interface SmartMeterFacade {
 
     /**
      * Get all smart meters
+     * @return List of smart meters
      */
     List<SmartMeterDTO> getAllSmartMeters();
 
     /**
      * Get all running smart meters
+     * @return List of smart meters
      */
     List<SmartMeterDTO> getRunningSmartMetes();
 
@@ -61,6 +62,7 @@ public interface SmartMeterFacade {
      * Get power spent for smart meter on particular date
      * @param date date for which we want power spent
      * @param smartMeter Smart meter to get power spent for
+     * @return power spent number
      */
     double getPowerSpentForDateForSmartMeter(LocalDate date, SmartMeterDTO smartMeter);
 
@@ -69,13 +71,21 @@ public interface SmartMeterFacade {
      * @param from start of date range
      * @param to end of date range
      * @param smartMeter Smart meter to get power spent for
+     * @return power spent number
      */
     double getPowerSpentForSmartMeterInDateRange(LocalDate from, LocalDate to, SmartMeterDTO smartMeter);
 
+    /**
+     * Get average power spent for smart meter in day time
+     * @param id smart meter id
+     * @param dayTime day time to get power for
+     * @return average power spent number in day time
+     */
     double getAveragePowerSpentForDayTimeSmartMeter(Long id, DayTime dayTime);
 
     /**
      * Get power spent across all smart meters
+     * @return power spent number
      */
     double getAllPowerSpent();
 
@@ -85,6 +95,7 @@ public interface SmartMeterFacade {
      * @param to end of time range
      * @param smartMeter Smart meter to get power spent for
      * @param dayTime Time of day to sum power for
+     * @return power spent number
      */
     double getPowerSpentForDateFrameWithDayTime(LocalDate from, LocalDate to, SmartMeterDTO smartMeter, DayTime dayTime);
 }

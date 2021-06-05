@@ -29,6 +29,12 @@ public interface PortalUserFacade {
      */
     List<PortalUserDTO> getAllUsers();
 
+    /**
+     * Used for paging in the UI
+     * @param page page count number
+     * @param itemsCount User set number of items on  single page
+     * @return DTO of listings
+     */
     PortalUserListingDTO getAllUsers(int page, int itemsCount);
 
     /**

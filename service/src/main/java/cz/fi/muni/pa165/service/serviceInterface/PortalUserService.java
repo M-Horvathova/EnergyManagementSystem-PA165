@@ -15,6 +15,7 @@ public interface PortalUserService {
      *
      * @param portalUser portal user
      * @param unencryptedPassword plaintext password
+     * @return user id
      */
     Long registerUser(PortalUser portalUser, String unencryptedPassword);
 
@@ -23,6 +24,7 @@ public interface PortalUserService {
      *
      * @param portalUser portal user
      * @param unencryptedPassword plaintext password
+     * @return administrator id
      */
     Long registerAdministrator(PortalUser portalUser, String unencryptedPassword);
 
@@ -33,8 +35,18 @@ public interface PortalUserService {
      */
     List<PortalUser> getAllUsers();
 
+    /**
+     * Gets all users
+     * @param page page number
+     * @param itemsCount number of items on a single page
+     * @return list of users
+     */
     List<PortalUser> getAllUsers(int page, int itemsCount);
 
+    /**
+     * Get total number of users
+     * @return number of users
+     */
     Long getTotalUsersCount();
 
     /**
@@ -105,7 +117,7 @@ public interface PortalUserService {
      * @param id user id
      * @param oldPassword old password
      * @param newPassword new password
-     * @return true if change was successfull false otherwise
+     * @return true if change was successful false otherwise
      */
     boolean changePassword(Long id, String oldPassword, String newPassword);
 

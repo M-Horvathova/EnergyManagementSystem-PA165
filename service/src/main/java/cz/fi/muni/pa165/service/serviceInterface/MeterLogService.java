@@ -18,20 +18,20 @@ public interface MeterLogService {
      * @param id Id of the object to be found
      * @return Found object or null
      */
-    public MeterLog findById(Long id);
+    MeterLog findById(Long id);
 
     /**
      * Finds all meter logs
      * @return list of all meter log objects
      */
-    public List<MeterLog> findAll();
+    List<MeterLog> findAll();
 
     /**
      * Finds all meter logs taken on given day
      * @param date Date in which the searched for logs were taken
      * @return List of meter logs taken on specified date
      */
-    public List<MeterLog> findByDate(LocalDate date);
+    List<MeterLog> findByDate(LocalDate date);
 
     /**
      * Finds all meter logs given within time frame (including on edge days)
@@ -39,7 +39,7 @@ public interface MeterLogService {
      * @param endDate ending date of the time frame
      * @return List of meter logs taken within given timeframe
      */
-    public List<MeterLog> findInDateFrame(LocalDate startDate, LocalDate endDate);
+    List<MeterLog> findInDateFrame(LocalDate startDate, LocalDate endDate);
 
     /**
      * Finds all meter logs given within time frame (including on edge days) and in given time of day
@@ -48,19 +48,19 @@ public interface MeterLogService {
      * @param dayTime time of the day where logs were taken
      * @return List of meter logs given within time frame and in given time of day
      */
-    public List<MeterLog> findInDateFrameWithDayTime(LocalDate startDate, LocalDate endDate, DayTime dayTime);
+   List<MeterLog> findInDateFrameWithDayTime(LocalDate startDate, LocalDate endDate, DayTime dayTime);
 
     /**
      * Creates meter log in database
      * @param ml meter log to be created
      */
-    public MeterLog createMeterLog(MeterLog ml);
+    MeterLog createMeterLog(MeterLog ml);
 
     /**
      * Deletes a meter log
      * @param ml meter log to be deleted
      */
-    public void deleteMeterLog(MeterLog ml);
+    void deleteMeterLog(MeterLog ml);
 
     /**
      * Changes the measurement value of the given meter log to the given value
@@ -68,7 +68,7 @@ public interface MeterLogService {
      * @param newMeasurement new measurement value
      * @return meter log with the updated value
      */
-    public MeterLog changeMeasurement(MeterLog ml, Long newMeasurement);
+    MeterLog changeMeasurement(MeterLog ml, Long newMeasurement);
 
     /**
      * Changes the date taken of the given meter log to the given value
@@ -76,7 +76,7 @@ public interface MeterLogService {
      * @param newDate new date value
      * @return meter log with the updated value
      */
-    public MeterLog changeDate(MeterLog ml, LocalDate newDate);
+    MeterLog changeDate(MeterLog ml, LocalDate newDate);
 
     /**
      * Changes the time taken of the given meter log to the given value
@@ -84,7 +84,7 @@ public interface MeterLogService {
      * @param newTme new time value
      * @return meter log with the updated value
      */
-    public MeterLog changeTime(MeterLog ml, LocalTime newTme);
+    MeterLog changeTime(MeterLog ml, LocalTime newTme);
 
     /**
      * Checks if given meter log was taken in given time frame
@@ -93,7 +93,7 @@ public interface MeterLogService {
      * @param endDate end date of the time frame
      * @return true if meter log was taken in given time frame (edge days included), false otherwise
      */
-    public boolean isInDateFrame(MeterLog ml, LocalDate startDate, LocalDate endDate);
+    boolean isInDateFrame(MeterLog ml, LocalDate startDate, LocalDate endDate);
 
     /**
      * Checks if given meter log was taken in given time of day
@@ -101,7 +101,7 @@ public interface MeterLogService {
      * @param dayTime time of day to be checked against
      * @return true if meter log was taken in given time of day, false otherwise
      */
-    public boolean isInDayTime(MeterLog ml, DayTime dayTime);
+    boolean isInDayTime(MeterLog ml, DayTime dayTime);
 
     /**
      * Checks if given meter log was taken in given time frame and daytime
@@ -111,7 +111,7 @@ public interface MeterLogService {
      * @param dayTime time of day to be checked against
      * @return true if meter log was taken in given time frame (edge days included) and time of day, false otherwise
      */
-    public boolean isInDateFrameWithDayTime(MeterLog ml, LocalDate startDate, LocalDate endDate, DayTime dayTime);
+    boolean isInDateFrameWithDayTime(MeterLog ml, LocalDate startDate, LocalDate endDate, DayTime dayTime);
 
     /**
      * Removes all entries from given list that were not taken within given date frame (edge days included)
@@ -120,7 +120,7 @@ public interface MeterLogService {
      * @param endDate end date of the time frame
      * @return list of only those frames from the parameter that were taken in given time frame
      */
-    public List<MeterLog> filterInDateFrame(List<MeterLog> meterLogs, LocalDate startDate, LocalDate endDate);
+    List<MeterLog> filterInDateFrame(List<MeterLog> meterLogs, LocalDate startDate, LocalDate endDate);
 
     /**
      * Removes all entries from given list that were not taken within given time of day
@@ -128,7 +128,7 @@ public interface MeterLogService {
      * @param dayTime time of day to be included
      * @return list of only those frames from the parameter that were taken in given time of day
      */
-    public List<MeterLog> filterInDayTime(List<MeterLog> meterLogs, DayTime dayTime);
+    List<MeterLog> filterInDayTime(List<MeterLog> meterLogs, DayTime dayTime);
 
     /**
      * Removes all entries from given list that were not taken within given date frame (edge days included) and time of day
@@ -138,5 +138,5 @@ public interface MeterLogService {
      * @param dayTime time of day to be included
      * @return list of only those frames from the parameter that were taken in given time frame and time of day
      */
-    public List<MeterLog> filterInDateFrameWithTimeDay(List<MeterLog> meterLogs, LocalDate startDate, LocalDate endDate, DayTime dayTime);
+    List<MeterLog> filterInDateFrameWithTimeDay(List<MeterLog> meterLogs, LocalDate startDate, LocalDate endDate, DayTime dayTime);
 }
