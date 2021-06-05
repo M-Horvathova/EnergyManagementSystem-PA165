@@ -118,6 +118,7 @@ const en = {
       turnedOn: "Acceso"
     },
     smartMeterForm: {
+      checkLabel: "Corsa",
       confirm: "Conferma",
       description: "Descrizione",
       running: "Acceso"

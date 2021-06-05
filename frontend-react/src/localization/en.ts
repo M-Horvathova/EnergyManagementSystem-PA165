@@ -100,7 +100,8 @@ const en = {
  		smartMeterForm: {
             description: "Description",
             running: "Turned on",
-            confirm: "Confirm"
+            confirm: "Confirm",
+            checkLabel: "Running",
         },
         smartMeter: {
             open: "Open",

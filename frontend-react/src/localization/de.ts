@@ -118,6 +118,7 @@ const en = {
       turnedOn: "Eingeschaltet"
     },
     smartMeterForm: {
+      checkLabel: "Aktiv",
       confirm: "Bestätigen",
       description: "Beschreibung",
       running: "Eingeschaltet"

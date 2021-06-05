@@ -118,6 +118,7 @@ const en = {
       turnedOn: "Zapnuto"
     },
     smartMeterForm: {
+      checkLabel: "Bežící",
       confirm: "Potvrdit",
       description: "Popis",
       running: "Zapnuto"
