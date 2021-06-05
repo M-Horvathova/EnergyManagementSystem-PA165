@@ -1,13 +1,13 @@
 package cz.fi.muni.pa165.service.facade;
 
 import cz.fi.muni.pa165.facade.MeterLogFacade;
-import cz.fi.muni.pa165.dto.MeterLogCreateDTO;
-import cz.fi.muni.pa165.dto.MeterLogDTO;
+import cz.fi.muni.pa165.dto.meterLog.MeterLogCreateDTO;
+import cz.fi.muni.pa165.dto.meterLog.MeterLogDTO;
 import cz.fi.muni.pa165.entity.MeterLog;
 import cz.fi.muni.pa165.entity.SmartMeter;
 import cz.fi.muni.pa165.enums.DayTime;
-import cz.fi.muni.pa165.service.MeterLogService;
-import cz.fi.muni.pa165.service.SmartMeterService;
+import cz.fi.muni.pa165.service.serviceInterface.MeterLogService;
+import cz.fi.muni.pa165.service.serviceInterface.SmartMeterService;
 import cz.fi.muni.pa165.service.mappers.MeterLogMapper;
 import org.slf4j.LoggerFactory;
 import org.slf4j.Logger;

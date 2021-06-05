@@ -1,24 +1,22 @@
 package cz.fi.muni.pa165.service.facade;
 
-import cz.fi.muni.pa165.dto.HouseDTO;
-import cz.fi.muni.pa165.dto.SmartMeterEditDTO;
+import cz.fi.muni.pa165.dto.smartMeter.SmartMeterEditDTO;
 import cz.fi.muni.pa165.entity.House;
 import cz.fi.muni.pa165.facade.SmartMeterFacade;
-import cz.fi.muni.pa165.dto.SmartMeterCreateDTO;
-import cz.fi.muni.pa165.dto.SmartMeterDTO;
+import cz.fi.muni.pa165.dto.smartMeter.SmartMeterCreateDTO;
+import cz.fi.muni.pa165.dto.smartMeter.SmartMeterDTO;
 import cz.fi.muni.pa165.entity.MeterLog;
 import cz.fi.muni.pa165.entity.SmartMeter;
 import cz.fi.muni.pa165.enums.DayTime;
-import cz.fi.muni.pa165.service.HouseService;
-import cz.fi.muni.pa165.service.MeterLogService;
-import cz.fi.muni.pa165.service.SmartMeterService;
+import cz.fi.muni.pa165.service.serviceInterface.HouseService;
+import cz.fi.muni.pa165.service.serviceInterface.MeterLogService;
+import cz.fi.muni.pa165.service.serviceInterface.SmartMeterService;
 import cz.fi.muni.pa165.service.mappers.SmartMeterMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;

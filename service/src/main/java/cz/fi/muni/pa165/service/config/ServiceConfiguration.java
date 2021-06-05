@@ -1,8 +1,8 @@
 package cz.fi.muni.pa165.service.config;
 
 import cz.fi.muni.pa165.PersistenceApplicationContext;
-import cz.fi.muni.pa165.dto.MeterLogDTO;
-import cz.fi.muni.pa165.dto.SmartMeterDTO;
+import cz.fi.muni.pa165.dto.meterLog.MeterLogDTO;
+import cz.fi.muni.pa165.dto.smartMeter.SmartMeterDTO;
 import cz.fi.muni.pa165.entity.MeterLog;
 import cz.fi.muni.pa165.entity.SmartMeter;
 import cz.fi.muni.pa165.service.facade.MeterLogFacadeImpl;

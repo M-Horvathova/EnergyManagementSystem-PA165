@@ -1,6 +1,6 @@
 package cz.fi.muni.pa165.service.mappers;
 
-import cz.fi.muni.pa165.dto.SmartMeterDTO;
+import cz.fi.muni.pa165.dto.smartMeter.SmartMeterDTO;
 import cz.fi.muni.pa165.entity.SmartMeter;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;

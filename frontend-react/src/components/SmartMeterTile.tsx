@@ -45,6 +45,7 @@ const SmartMeterTile: FunctionComponent<SmartMeterTileProps> = ({
                 <Button
                     size="small"
                     color="primary"
+                    variant="text"
                     onClick={() => history.push("/smartMeter/" + id)}
                 >
                     {t("smartMeter.open")}
@@ -52,6 +53,7 @@ const SmartMeterTile: FunctionComponent<SmartMeterTileProps> = ({
                 <Button
                     size="small"
                     color="primary"
+                    variant="text"
                     onClick={() => history.push("/smartMeter/edit/" + id)}
                 >
                     {t("smartMeter.edit")}
@@ -59,6 +61,7 @@ const SmartMeterTile: FunctionComponent<SmartMeterTileProps> = ({
                 <Button
                     size="small"
                     color="secondary"
+                    variant="text"
                     onClick={() => onRemove(id)}
                 >
                     {t("smartMeter.remove")}

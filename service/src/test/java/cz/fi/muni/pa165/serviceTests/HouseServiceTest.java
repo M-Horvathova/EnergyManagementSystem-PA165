@@ -10,7 +10,7 @@ import cz.fi.muni.pa165.entity.Address;
 import cz.fi.muni.pa165.entity.House;
 import cz.fi.muni.pa165.entity.PortalUser;
 import cz.fi.muni.pa165.entity.SmartMeter;
-import cz.fi.muni.pa165.service.HouseService;
+import cz.fi.muni.pa165.service.serviceInterface.HouseService;
 import cz.fi.muni.pa165.service.config.ServiceConfiguration;
 import org.hibernate.service.spi.ServiceException;
 import org.mockito.InjectMocks;

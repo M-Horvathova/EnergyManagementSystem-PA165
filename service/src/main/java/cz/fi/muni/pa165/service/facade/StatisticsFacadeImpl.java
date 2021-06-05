@@ -1,15 +1,15 @@
 package cz.fi.muni.pa165.service.facade;
 
-import cz.fi.muni.pa165.dto.StatisticDTO;
-import cz.fi.muni.pa165.dto.StatisticsDTO;
+import cz.fi.muni.pa165.dto.portalUser.UserStatisticDTO;
+import cz.fi.muni.pa165.dto.portalUser.AllUsersStatisticsDTO;
 import cz.fi.muni.pa165.entity.House;
 import cz.fi.muni.pa165.entity.PortalUser;
 import cz.fi.muni.pa165.entity.SmartMeter;
 import cz.fi.muni.pa165.facade.StatisticsFacade;
-import cz.fi.muni.pa165.service.HouseService;
-import cz.fi.muni.pa165.service.MeterLogService;
-import cz.fi.muni.pa165.service.PortalUserService;
-import cz.fi.muni.pa165.service.SmartMeterService;
+import cz.fi.muni.pa165.service.serviceInterface.HouseService;
+import cz.fi.muni.pa165.service.serviceInterface.MeterLogService;
+import cz.fi.muni.pa165.service.serviceInterface.PortalUserService;
+import cz.fi.muni.pa165.service.serviceInterface.SmartMeterService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,12 +42,12 @@ public class StatisticsFacadeImpl implements StatisticsFacade {
         this.smartMeterService = smartMeterService;
     }
 
-    public StatisticsDTO getUsersStatisticsForInterval(LocalDate from, LocalDate to) {
-        StatisticsDTO statistics = new StatisticsDTO();
+    public AllUsersStatisticsDTO getUsersStatisticsForInterval(LocalDate from, LocalDate to) {
+        AllUsersStatisticsDTO statistics = new AllUsersStatisticsDTO();
         List<PortalUser> users = portalUserService.getAllUsers();
         for (PortalUser user : users) {
-            StatisticDTO statisticDTO = new StatisticDTO();
-            statisticDTO.setUserName(user.getEmail());
+            UserStatisticDTO userStatisticDTO = new UserStatisticDTO();
+            userStatisticDTO.setUserName(user.getEmail());
             double totalPowerSpent = 0.0;
             double averagePowerSpent = 0.0;
             List<House> houses = houseService.findByUser(user);
@@ -57,9 +57,9 @@ public class StatisticsFacadeImpl implements StatisticsFacade {
                 averagePowerSpent += smartMeterService.getAveragePowerSpentForIntervalForSmartMeters(from, to, smartMeters);
             }
 
-            statisticDTO.setFromToTotalSpent(totalPowerSpent);
-            statisticDTO.setFromToAverageSpent(averagePowerSpent / (houses.size() == 0 ? 1 : houses.size()));
-            statistics.addStatistic(statisticDTO);
+            userStatisticDTO.setFromToTotalSpent(totalPowerSpent);
+            userStatisticDTO.setFromToAverageSpent(averagePowerSpent / (houses.size() == 0 ? 1 : houses.size()));
+            statistics.addStatistic(userStatisticDTO);
         }
 
         statistics.setTotalSpent(smartMeterService.getAllPowerSpent());

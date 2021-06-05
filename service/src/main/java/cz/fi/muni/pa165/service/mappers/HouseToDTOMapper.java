@@ -1,8 +1,8 @@
 package cz.fi.muni.pa165.service.mappers;
 
 import cz.fi.muni.pa165.dto.AddressDTO;
-import cz.fi.muni.pa165.dto.HouseDTO;
-import cz.fi.muni.pa165.dto.SmartMeterHouseDTO;
+import cz.fi.muni.pa165.dto.house.HouseDTO;
+import cz.fi.muni.pa165.dto.smartMeter.SmartMeterHouseDTO;
 import cz.fi.muni.pa165.entity.Address;
 import cz.fi.muni.pa165.entity.House;
 import cz.fi.muni.pa165.entity.SmartMeter;

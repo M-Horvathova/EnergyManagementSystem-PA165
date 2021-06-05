@@ -1,8 +1,8 @@
 package cz.fi.muni.pa165.facade;
 
-import cz.fi.muni.pa165.dto.HouseCreateDTO;
-import cz.fi.muni.pa165.dto.HouseDTO;
-import cz.fi.muni.pa165.dto.HouseEditDTO;
+import cz.fi.muni.pa165.dto.house.HouseCreateDTO;
+import cz.fi.muni.pa165.dto.house.HouseDTO;
+import cz.fi.muni.pa165.dto.house.HouseEditDTO;
 
 import java.util.List;
 

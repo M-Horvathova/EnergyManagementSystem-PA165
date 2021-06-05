@@ -2,7 +2,7 @@ package cz.fi.muni.pa165.restapi.controllers;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
-import cz.fi.muni.pa165.dto.*;
+import cz.fi.muni.pa165.dto.portalUser.*;
 import cz.fi.muni.pa165.entity.UserRole;
 import cz.fi.muni.pa165.facade.PortalUserFacade;
 import cz.fi.muni.pa165.restapi.exceptions.IncorrectPassordException;

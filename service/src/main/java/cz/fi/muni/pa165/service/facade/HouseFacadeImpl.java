@@ -1,15 +1,15 @@
 package cz.fi.muni.pa165.service.facade;
 
-import cz.fi.muni.pa165.dto.HouseEditDTO;
+import cz.fi.muni.pa165.dto.house.HouseEditDTO;
 import cz.fi.muni.pa165.entity.MeterLog;
 import cz.fi.muni.pa165.entity.SmartMeter;
 import cz.fi.muni.pa165.facade.HouseFacade;
-import cz.fi.muni.pa165.service.*;
-import cz.fi.muni.pa165.dto.HouseCreateDTO;
-import cz.fi.muni.pa165.dto.HouseDTO;
+import cz.fi.muni.pa165.dto.house.HouseCreateDTO;
+import cz.fi.muni.pa165.dto.house.HouseDTO;
 import cz.fi.muni.pa165.entity.Address;
 import cz.fi.muni.pa165.entity.House;
 import cz.fi.muni.pa165.service.mappers.HouseToDTOMapper;
+import cz.fi.muni.pa165.service.serviceInterface.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

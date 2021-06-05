@@ -1,7 +1,6 @@
 package cz.fi.muni.pa165.facade;
 
-import cz.fi.muni.pa165.dto.*;
-import cz.fi.muni.pa165.entity.PortalUser;
+import cz.fi.muni.pa165.dto.portalUser.*;
 
 import java.util.List;
 
@@ -30,6 +29,12 @@ public interface PortalUserFacade {
      */
     List<PortalUserDTO> getAllUsers();
 
+    /**
+     * Used for paging in the UI
+     * @param page page count number
+     * @param itemsCount User set number of items on  single page
+     * @return DTO of listings
+     */
     PortalUserListingDTO getAllUsers(int page, int itemsCount);
 
     /**

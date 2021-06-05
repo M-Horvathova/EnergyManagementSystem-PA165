@@ -65,16 +65,13 @@ public class AddressDTO {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
+        if (!(o instanceof AddressDTO)) return false;
         AddressDTO that = (AddressDTO) o;
-
-        if (!Objects.equals(id, that.id)) return false;
-        if (!Objects.equals(street, that.street)) return false;
-        if (!Objects.equals(code, that.code)) return false;
-        if (!Objects.equals(city, that.city)) return false;
-        if (!Objects.equals(postCode, that.postCode)) return false;
-        return Objects.equals(country, that.country);
+        return Objects.equals(getStreet(), that.getStreet()) &&
+                Objects.equals(getCode(), that.getCode()) &&
+                Objects.equals(getCity(), that.getCity()) &&
+                getPostCode().equals(that.getPostCode()) &&
+                getCountry().equals(that.getCountry());
     }
 
     @Override

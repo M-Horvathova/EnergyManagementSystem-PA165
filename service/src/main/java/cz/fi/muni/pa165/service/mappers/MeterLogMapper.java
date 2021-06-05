@@ -1,11 +1,8 @@
 package cz.fi.muni.pa165.service.mappers;
 
 
-import cz.fi.muni.pa165.dto.MeterLogCreateDTO;
-import cz.fi.muni.pa165.dto.MeterLogDTO;
-import cz.fi.muni.pa165.dto.SmartMeterHouseDTO;
+import cz.fi.muni.pa165.dto.meterLog.MeterLogDTO;
 import cz.fi.muni.pa165.entity.MeterLog;
-import cz.fi.muni.pa165.entity.SmartMeter;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Mappings;

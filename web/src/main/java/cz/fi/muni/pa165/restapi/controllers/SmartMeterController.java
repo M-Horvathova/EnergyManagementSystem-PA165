@@ -1,6 +1,6 @@
 package cz.fi.muni.pa165.restapi.controllers;
 
-import cz.fi.muni.pa165.dto.*;
+import cz.fi.muni.pa165.dto.smartMeter.*;
 import cz.fi.muni.pa165.enums.DayTime;
 import cz.fi.muni.pa165.facade.HouseFacade;
 import cz.fi.muni.pa165.facade.SmartMeterFacade;
@@ -11,9 +11,7 @@ import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
-import java.util.Date;
 import java.util.List;
-import java.util.Set;
 
 /**
  * @author Matej Rišňovský

@@ -1,6 +1,6 @@
 package cz.fi.muni.pa165.facade;
 
-import cz.fi.muni.pa165.dto.StatisticsDTO;
+import cz.fi.muni.pa165.dto.portalUser.AllUsersStatisticsDTO;
 
 import java.time.LocalDate;
 
@@ -14,5 +14,5 @@ public interface StatisticsFacade {
      * @param to can be date to or null, in that case search has no upper bound
      * @return statistics DTO
      */
-    StatisticsDTO getUsersStatisticsForInterval(LocalDate from, LocalDate to);
+    AllUsersStatisticsDTO getUsersStatisticsForInterval(LocalDate from, LocalDate to);
 }

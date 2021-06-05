@@ -43,7 +43,7 @@ public class UserRole implements Serializable {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (o == null || !(o instanceof UserRole)) return false;
+        if (!(o instanceof UserRole)) return false;
         UserRole userRole = (UserRole) o;
         return getRoleName().equals(userRole.getRoleName());
     }

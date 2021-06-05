@@ -1,8 +1,8 @@
 package cz.muni.fi.pa165.sampledata;
 
 import cz.fi.muni.pa165.dao.UserRoleDao;
-import cz.fi.muni.pa165.service.*;
 import cz.fi.muni.pa165.entity.*;
+import cz.fi.muni.pa165.service.serviceInterface.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,7 +28,9 @@ public class SampleDataLoadingFacadeImpl implements SampleDataLoadingFacade{
     private final UserRoleDao userRoleDao;
 
     @Autowired
-    public SampleDataLoadingFacadeImpl(MeterLogService meterLogService, SmartMeterService smartMeterService, HouseService houseService, PortalUserService portalUserService, AddressService addressService, UserRoleDao userRoleDao) {
+    public SampleDataLoadingFacadeImpl(MeterLogService meterLogService, SmartMeterService smartMeterService,
+                                       HouseService houseService, PortalUserService portalUserService,
+                                       AddressService addressService, UserRoleDao userRoleDao) {
         this.meterLogService = meterLogService;
         this.smartMeterService = smartMeterService;
         this.houseService = houseService;
@@ -75,10 +77,14 @@ public class SampleDataLoadingFacadeImpl implements SampleDataLoadingFacade{
         log.info("Houses loaded");
 
         log.info("Loading smart meters");
-        SmartMeter smartMeter1 = smartMeter(true, 0, 51, house1, "Okruh garáž");
-        SmartMeter smartMeter2 = smartMeter(true, 10, 150, house2, "Okruh kotolňa");
-        SmartMeter smartMeter3 = smartMeter(false, 0, 0, house3, "Svetlá + spotrebiče");
-        SmartMeter smartMeter4 = smartMeter(true, 3, 22, house1, "Záhrada");
+        SmartMeter smartMeter1 = smartMeter(
+                true, 0, 51, house1, "Okruh garáž");
+        SmartMeter smartMeter2 = smartMeter(
+                true, 10, 150, house2, "Okruh kotolňa");
+        SmartMeter smartMeter3 = smartMeter(
+                false, 0, 0, house3, "Svetlá + spotrebiče");
+        SmartMeter smartMeter4 = smartMeter(
+                true, 3, 22, house1, "Záhrada");
         log.info("Smart meters loaded");
 
         log.info("Loading meter logs");
@@ -189,7 +195,8 @@ public class SampleDataLoadingFacadeImpl implements SampleDataLoadingFacade{
         return h;
     }
 
-    private SmartMeter smartMeter(Boolean isRunning, double power, double cumulativePower, House house, String description) {
+    private SmartMeter smartMeter(Boolean isRunning, double power,
+                                  double cumulativePower, House house, String description) {
         SmartMeter sm = new SmartMeter();
         sm.setSmartMeterDescription(description);
         sm.setRunning(isRunning);

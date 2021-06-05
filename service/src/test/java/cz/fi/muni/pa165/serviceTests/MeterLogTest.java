@@ -3,7 +3,7 @@ package cz.fi.muni.pa165.serviceTests;
 import cz.fi.muni.pa165.dao.MeterLogDao;
 import cz.fi.muni.pa165.entity.MeterLog;
 import cz.fi.muni.pa165.enums.DayTime;
-import cz.fi.muni.pa165.service.MeterLogService;
+import cz.fi.muni.pa165.service.serviceInterface.MeterLogService;
 import cz.fi.muni.pa165.service.config.ServiceConfiguration;
 import org.hibernate.service.spi.ServiceException;
 import org.mockito.InjectMocks;

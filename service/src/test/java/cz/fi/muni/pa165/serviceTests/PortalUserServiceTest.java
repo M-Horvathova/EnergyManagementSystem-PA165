@@ -1,13 +1,10 @@
 package cz.fi.muni.pa165.serviceTests;
 
-import cz.fi.muni.pa165.dao.MeterLogDao;
 import cz.fi.muni.pa165.dao.PortalUserDao;
-import cz.fi.muni.pa165.dao.SmartMeterDao;
 import cz.fi.muni.pa165.dao.UserRoleDao;
 import cz.fi.muni.pa165.entity.*;
-import cz.fi.muni.pa165.service.PortalUserService;
+import cz.fi.muni.pa165.service.serviceInterface.PortalUserService;
 import cz.fi.muni.pa165.service.config.ServiceConfiguration;
-import org.apache.commons.collections.ArrayStack;
 import org.hibernate.service.spi.ServiceException;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
@@ -23,9 +20,6 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
