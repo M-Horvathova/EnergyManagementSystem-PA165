@@ -95,6 +95,11 @@ const ourDarkTheme = createMuiTheme({
                 color: orange[400],
             },
         },
+        MuiIcon: {
+            colorSecondary: {
+                color: orange[100],
+            },
+        },
     },
 });
 
@@ -123,7 +128,7 @@ const App: FC = () => {
                 <main className="App" style={{ marginTop: 50 }}>
                     <Container maxWidth="lg">
                         <Switch>
-                            <Route exact path="/about" component={About} />
+                            <Route exact path="/about" component={() => <About theme={theme}/>}/>
                             <Route exact path="/login" component={Login} />
                             <Route exact path="/register" component={Register} />
 
