@@ -1,7 +1,6 @@
 package cz.fi.muni.pa165.facade;
 
-import cz.fi.muni.pa165.dto.*;
-import cz.fi.muni.pa165.entity.PortalUser;
+import cz.fi.muni.pa165.dto.portalUser.*;
 
 import java.util.List;
 

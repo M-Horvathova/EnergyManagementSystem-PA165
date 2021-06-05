@@ -1,9 +1,8 @@
 package cz.fi.muni.pa165.restapi.controllers;
 
 
-import cz.fi.muni.pa165.dto.HouseDTO;
-import cz.fi.muni.pa165.dto.MeterLogCreateDTO;
-import cz.fi.muni.pa165.dto.MeterLogDTO;
+import cz.fi.muni.pa165.dto.meterLog.MeterLogCreateDTO;
+import cz.fi.muni.pa165.dto.meterLog.MeterLogDTO;
 import cz.fi.muni.pa165.facade.MeterLogFacade;
 import cz.fi.muni.pa165.restapi.exceptions.ResourceAlreadyExistingException;
 import cz.fi.muni.pa165.restapi.exceptions.ResourceNotFoundException;
@@ -12,8 +11,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 /**
  * @author Michaela Horváthová

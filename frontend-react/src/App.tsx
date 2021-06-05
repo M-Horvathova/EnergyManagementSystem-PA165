@@ -50,7 +50,7 @@ const ourLightTheme = ({
           root: {
             '&:hover': {
                backgroundColor: indigo[800],
-            }
+            },
           },
         },
     },
@@ -86,7 +86,13 @@ const ourDarkTheme = createMuiTheme({
             root: {
                 '&:hover': {
                     backgroundColor: indigo[700],
-                }
+                },
+            },
+            textPrimary: {
+                color: indigo[100],
+            },
+            textSecondary: {
+                color: orange[400],
             },
         },
     },

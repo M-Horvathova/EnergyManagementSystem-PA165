@@ -1,11 +1,11 @@
 package cz.fi.muni.pa165.service.facade;
 
 
-import cz.fi.muni.pa165.dto.*;
+import cz.fi.muni.pa165.dto.portalUser.*;
 import cz.fi.muni.pa165.entity.House;
 import cz.fi.muni.pa165.facade.PortalUserFacade;
 import cz.fi.muni.pa165.entity.PortalUser;
-import cz.fi.muni.pa165.service.PortalUserService;
+import cz.fi.muni.pa165.service.serviceInterface.PortalUserService;
 import cz.fi.muni.pa165.service.mappers.HouseToDTOMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

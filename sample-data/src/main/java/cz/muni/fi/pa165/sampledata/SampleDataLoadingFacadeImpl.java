@@ -1,8 +1,8 @@
 package cz.muni.fi.pa165.sampledata;
 
 import cz.fi.muni.pa165.dao.UserRoleDao;
-import cz.fi.muni.pa165.service.*;
 import cz.fi.muni.pa165.entity.*;
+import cz.fi.muni.pa165.service.serviceInterface.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

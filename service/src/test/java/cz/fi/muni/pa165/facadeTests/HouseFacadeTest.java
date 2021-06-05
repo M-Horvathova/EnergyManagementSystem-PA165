@@ -1,14 +1,18 @@
 package cz.fi.muni.pa165.facadeTests;
 
 import cz.fi.muni.pa165.dto.*;
+import cz.fi.muni.pa165.dto.house.HouseCreateDTO;
+import cz.fi.muni.pa165.dto.house.HouseDTO;
+import cz.fi.muni.pa165.dto.house.HouseEditDTO;
+import cz.fi.muni.pa165.dto.portalUser.PortalUserHouseDTO;
 import cz.fi.muni.pa165.entity.Address;
 import cz.fi.muni.pa165.entity.House;
 import cz.fi.muni.pa165.entity.PortalUser;
 import cz.fi.muni.pa165.facade.HouseFacade;
-import cz.fi.muni.pa165.service.*;
 import cz.fi.muni.pa165.service.config.MapStructMappingConfiguration;
 import cz.fi.muni.pa165.service.facade.HouseFacadeImpl;
 import cz.fi.muni.pa165.service.mappers.HouseToDTOMapper;
+import cz.fi.muni.pa165.service.serviceInterface.*;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.test.context.ContextConfiguration;

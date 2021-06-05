@@ -128,10 +128,14 @@ public class SmartMeter implements Serializable {
         if (!(o instanceof SmartMeter )) return false;
 
         SmartMeter sm = (SmartMeter) o;
-        return isRunning() == sm.isRunning() && Double.compare(sm.getPowerConsumptionSinceLastLog(), getPowerConsumptionSinceLastLog()) == 0
+        return isRunning() == sm.isRunning() &&
+                Double.compare(sm.getPowerConsumptionSinceLastLog(), getPowerConsumptionSinceLastLog()) == 0
                 && Double.compare(sm.getCumulativePowerConsumption(), getCumulativePowerConsumption()) == 0
-                && ((getHouse() == null && sm.getHouse() == null) || (getHouse() != null && getHouse().equals(sm.getHouse())))
-                && ((getSmartMeterDescription() == null && sm.getSmartMeterDescription() == null) || (getSmartMeterDescription() != null && getSmartMeterDescription().equals(sm.getSmartMeterDescription())));
+                && ((getHouse() == null && sm.getHouse() == null) ||
+                (getHouse() != null && getHouse().equals(sm.getHouse())))
+                && ((getSmartMeterDescription() == null && sm.getSmartMeterDescription() == null) ||
+                (getSmartMeterDescription() != null &&
+                        getSmartMeterDescription().equals(sm.getSmartMeterDescription())));
     }
 
     @Override

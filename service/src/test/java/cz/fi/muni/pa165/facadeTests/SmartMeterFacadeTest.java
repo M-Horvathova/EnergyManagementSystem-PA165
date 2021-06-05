@@ -1,6 +1,8 @@
 package cz.fi.muni.pa165.facadeTests;
 
-import cz.fi.muni.pa165.dto.*;
+import cz.fi.muni.pa165.dto.smartMeter.SmartMeterCreateDTO;
+import cz.fi.muni.pa165.dto.smartMeter.SmartMeterDTO;
+import cz.fi.muni.pa165.dto.smartMeter.SmartMeterEditDTO;
 import cz.fi.muni.pa165.entity.Address;
 import cz.fi.muni.pa165.entity.House;
 import cz.fi.muni.pa165.entity.MeterLog;
@@ -9,9 +11,9 @@ import cz.fi.muni.pa165.enums.DayTime;
 import cz.fi.muni.pa165.facade.SmartMeterFacade;
 import cz.fi.muni.pa165.service.config.MapStructMappingConfiguration;
 import cz.fi.muni.pa165.service.facade.SmartMeterFacadeImpl;
-import cz.fi.muni.pa165.service.HouseService;
-import cz.fi.muni.pa165.service.MeterLogService;
-import cz.fi.muni.pa165.service.SmartMeterService;
+import cz.fi.muni.pa165.service.serviceInterface.HouseService;
+import cz.fi.muni.pa165.service.serviceInterface.MeterLogService;
+import cz.fi.muni.pa165.service.serviceInterface.SmartMeterService;
 import cz.fi.muni.pa165.service.mappers.SmartMeterMapper;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;

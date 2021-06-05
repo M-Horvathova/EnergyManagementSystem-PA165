@@ -1,6 +1,6 @@
 package cz.fi.muni.pa165.restapi.controllers;
 
-import cz.fi.muni.pa165.dto.StatisticsDTO;
+import cz.fi.muni.pa165.dto.portalUser.AllUsersStatisticsDTO;
 import cz.fi.muni.pa165.facade.StatisticsFacade;
 import cz.fi.muni.pa165.restapi.exceptions.InvalidDateFormatException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,7 +38,7 @@ public class StatisticsController {
     @RequestMapping(path = "/{from}/{to}",
             method = RequestMethod.GET,
             produces = MediaType.APPLICATION_JSON_VALUE)
-    public final StatisticsDTO getStatistics(@PathVariable("from") String from, @PathVariable("to") String to) {
+    public final AllUsersStatisticsDTO getStatistics(@PathVariable("from") String from, @PathVariable("to") String to) {
         LocalDate dateFrom = null;
         LocalDate dateTo = null;
 

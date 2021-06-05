@@ -1,14 +1,11 @@
 package cz.fi.muni.pa165.facade;
 
-import cz.fi.muni.pa165.dto.HouseDTO;
-import cz.fi.muni.pa165.dto.SmartMeterCreateDTO;
-import cz.fi.muni.pa165.dto.SmartMeterDTO;
-import cz.fi.muni.pa165.dto.SmartMeterEditDTO;
-import cz.fi.muni.pa165.entity.SmartMeter;
+import cz.fi.muni.pa165.dto.smartMeter.SmartMeterCreateDTO;
+import cz.fi.muni.pa165.dto.smartMeter.SmartMeterDTO;
+import cz.fi.muni.pa165.dto.smartMeter.SmartMeterEditDTO;
 import cz.fi.muni.pa165.enums.DayTime;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.List;
 
 /**

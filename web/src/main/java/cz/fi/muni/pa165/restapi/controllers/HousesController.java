@@ -1,9 +1,9 @@
 package cz.fi.muni.pa165.restapi.controllers;
 
-import cz.fi.muni.pa165.dto.HouseCreateDTO;
-import cz.fi.muni.pa165.dto.HouseDTO;
-import cz.fi.muni.pa165.dto.HouseEditDTO;
-import cz.fi.muni.pa165.dto.RunningDTO;
+import cz.fi.muni.pa165.dto.house.HouseCreateDTO;
+import cz.fi.muni.pa165.dto.house.HouseDTO;
+import cz.fi.muni.pa165.dto.house.HouseEditDTO;
+import cz.fi.muni.pa165.dto.house.HouseRunningDTO;
 import cz.fi.muni.pa165.facade.HouseFacade;
 import cz.fi.muni.pa165.restapi.exceptions.ResourceAlreadyExistingException;
 import cz.fi.muni.pa165.restapi.exceptions.ResourceNotFoundException;
@@ -95,15 +95,15 @@ public class HousesController {
      * http://localhost:8080/pa165/rest/houses/running/1
      *
      * @param id ID of the house
-     * @param runningDTO RunningDTO with required field
+     * @param houseRunningDTO RunningDTO with required field
      * @return HouseDTO
      * @throws Exception
      */
     @RequestMapping(value = "/running/{id}", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE)
-    public final HouseDTO changeRunning(@PathVariable("id") long id, @RequestBody RunningDTO runningDTO) throws Exception {
+    public final HouseDTO changeRunning(@PathVariable("id") long id, @RequestBody HouseRunningDTO houseRunningDTO) throws Exception {
         try {
-            houseFacade.changeRunning(id, runningDTO.getRunning());
+            houseFacade.changeRunning(id, houseRunningDTO.getRunning());
             return houseFacade.getHouseWithId(id);
         } catch (Exception e) {
             throw new ResourceNotFoundException();

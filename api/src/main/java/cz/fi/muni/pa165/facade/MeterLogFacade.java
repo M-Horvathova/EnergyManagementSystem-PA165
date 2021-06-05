@@ -1,7 +1,7 @@
 package cz.fi.muni.pa165.facade;
 
-import cz.fi.muni.pa165.dto.MeterLogCreateDTO;
-import cz.fi.muni.pa165.dto.MeterLogDTO;
+import cz.fi.muni.pa165.dto.meterLog.MeterLogCreateDTO;
+import cz.fi.muni.pa165.dto.meterLog.MeterLogDTO;
 import java.util.List;
 
 /**

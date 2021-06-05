@@ -4,15 +4,11 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
 import cz.fi.muni.pa165.dao.AddressDao;
-import cz.fi.muni.pa165.dao.HouseDao;
-import cz.fi.muni.pa165.dao.SmartMeterDao;
 import cz.fi.muni.pa165.entity.*;
-import cz.fi.muni.pa165.service.AddressService;
-import cz.fi.muni.pa165.service.AddressServiceImpl;
-import cz.fi.muni.pa165.service.HouseService;
+import cz.fi.muni.pa165.service.serviceInterface.AddressService;
+import cz.fi.muni.pa165.service.serviceImpl.AddressServiceImpl;
 import cz.fi.muni.pa165.service.config.ServiceConfiguration;
 import org.hibernate.service.spi.ServiceException;
-import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.test.context.ContextConfiguration;
