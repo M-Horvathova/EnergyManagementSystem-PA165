@@ -1,7 +1,7 @@
 import { FunctionComponent, useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import SmartMeterHouseDTO from "../interfaces/SmartMeterHouseDTO";
-import { Button, Grid, TextField, Checkbox } from "@material-ui/core";
+import {Button, Grid, TextField, Checkbox, FormControlLabel} from "@material-ui/core";
 import { useTranslation } from "react-i18next";
 
 /*
@@ -36,7 +36,7 @@ const SmartMeterForm: FunctionComponent<SmartMeterFormProps> = ({ smartMeter, on
     return (
         <Grid item xs={12}>
             <TextField
-                size="small"
+                size="medium"
                 label={t("smartMeterForm.description")}
                 type="text"
                 fullWidth
@@ -45,11 +45,14 @@ const SmartMeterForm: FunctionComponent<SmartMeterFormProps> = ({ smartMeter, on
                 value={smartMeterDescription}
                 onChange={(e) => setSmartMeterDescription(e.target.value)}
             />
-            <Checkbox
-                checked={isRunning}
-                name={t("smartMeterForm.running")}
-                onChange={(e) => setIsRunning(e.target.checked)}
-            />
+            <FormControlLabel
+                control={<Checkbox
+                    checked={isRunning}
+                    name={t("smartMeterForm.running")}
+                    onChange={(e) => setIsRunning(e.target.checked)}
+                />}
+                label={t('smartMeterForm.checkLabel')} />
+            <br />
             <Button
                 className={classes.button}
                 variant="contained"
